@@ -1,0 +1,36 @@
+:revnumber: 0.1
+:author: Norberto Ortigoza
+:revdate: Oct 01, 2012
+
+= Programming RubyMotion
+
+include::ch00-Preface.asciidoc[]
+
+= Day 1
+
+include::ch01-iOSOverview.asciidoc[]
+
+include::ch02-FirstApplication.asciidoc[]
+
+include::ch03-ObjectiveCIntegration.asciidoc[]
+
+include::ch04-CIntregration.asciidoc[]
+
+include::ch05-CocoaOverview.asciidoc[]
+
+= Day 2
+
+include::ch06-Delegation.asciidoc[]
+
+include::ch07-MapKit.asciidoc[]
+
+include::ch08-UIViews.asciidoc[]
+
+include::ch09-Testing.asciidoc[]
+
+include::ch10-InterfaceBuilder.asciidoc[]
+
+= Day 3
+
+include::ch11-ViewControllers.asciidoc[]
+
