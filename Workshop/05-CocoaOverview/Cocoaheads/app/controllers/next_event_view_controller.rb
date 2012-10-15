@@ -3,7 +3,8 @@ class NextEventViewController < UIViewController
 
   def loadView
     self.view = UIView.alloc.init
-    self.view.backgroundColor = UIColor.whiteColor
+    self.view.backgroundColor = UIColor.colorWithPatternImage( UIImage.imageNamed( "handmadepaper" ))
+
     @next_event_name_label = labelWithNextEventName
     @days_left_label = labelWithDaysLeft
     self.view.addSubview( @next_event_name_label )
@@ -17,13 +18,16 @@ class NextEventViewController < UIViewController
     next_event_name_label = UILabel.alloc.initWithFrame( [[25, 25], [295, 40]] )
     #list of font names available in iOS http://iosfonts.com
     next_event_name_label.font = UIFont.fontWithName("Helvetica", size:22)
+    next_event_name_label.backgroundColor = UIColor.clearColor
     next_event_name_label.textAlignment = UITextAlignmentCenter
+
     next_event_name_label
   end
 
   def labelWithDaysLeft
     days_left_label = UILabel.alloc.initWithFrame( [[25, 200], [200, 40]] )    
     days_left_label.font = UIFont.fontWithName("Thonburi", size:20)    
+    days_left_label.backgroundColor = UIColor.clearColor
     days_left_label
   end  
 
