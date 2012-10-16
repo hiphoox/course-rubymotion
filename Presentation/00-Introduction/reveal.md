@@ -12,7 +12,7 @@
 * Class Begins -- 9:00 AM
 * Break        -- around 11:00 AM, 15 minutes
 * Lunch        -- 1:00 PM to 2:00 PM
-* Break        -- around 4:00 PM, 15 minutes
+* Break        -- around 5:00 PM, 15 minutes
 * Class Ends   -- 6:00 PM
 * Open lab     -- until 7 PM
 </slide>
@@ -29,6 +29,7 @@ Learn how to get the most out of Cocoa Frameworks and its architecture
 * Fundamental iOS Libraries
 * Cocoa Patterns
 * Testing
+
 </slide>
 
 <slide>
@@ -38,4 +39,5 @@ Learn how to get the most out of Cocoa Frameworks and its architecture
 2. Exercise
 3. Challenge (try them independently for best results)
 4. Review
+
 </slide>
