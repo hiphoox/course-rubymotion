@@ -6,8 +6,7 @@ class NextEventViewController < UIViewController
     self
   end  
 
-  def loadView
-    p 'Loading View'
+  def loadView    
     self.view = UIView.alloc.init
     self.view.backgroundColor = UIColor.colorWithPatternImage( UIImage.imageNamed( "handmadepaper" ))
     
@@ -21,7 +20,6 @@ class NextEventViewController < UIViewController
     self.view.addSubview( buttonForSignIn )
     self.view.addSubview( buttonForSignUp )
 
-    
   end
 
   def labelWithNextEventName
