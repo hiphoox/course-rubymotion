@@ -71,7 +71,7 @@ class EventDetailViewController < UIViewController
 
   def buttonForBooking
     button_for_booking = UIButton.buttonWithType( UIButtonTypeRoundedRect )
-    button_for_booking.frame = [[165, 350], [110, 40]]
+    button_for_booking.frame = [[180, 350], [110, 40]]
     button_for_booking.setTitle("Book Event", forState:UIControlStateNormal)
     button_for_booking.addTarget(self, action:'viewMap', forControlEvents:UIControlEventTouchUpInside)
     
@@ -79,13 +79,13 @@ class EventDetailViewController < UIViewController
   end  
 
   def viewMap
-    p 'viewMap'
+    event_map_view_controller = EventMapViewController.alloc.init
+    self.navigationController.pushViewController(event_map_view_controller, animated:true)
   end  
 
   def mapViewForEvent
-
     map_view_for_event = MKMapView.alloc.initWithFrame( [[25,130], [270, 80]] )
-    map_view_for_event.mapType = MKMapTypeSatellite    
+    map_view_for_event.mapType = MKMapTypeStandard    
     map_view_for_event
   end  
    
