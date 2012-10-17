@@ -18,7 +18,7 @@ class EventDetailViewController < UIViewController
     self.view.addSubview( @map_view_for_event )
     self.view.addSubview( buttonForMap )
     self.view.addSubview( buttonForBooking )
-    p 'loadview'
+    
   end  
     
   def labelForEventDate
@@ -80,6 +80,7 @@ class EventDetailViewController < UIViewController
 
   def viewMap
     event_map_view_controller = EventMapViewController.alloc.init
+    event_map_view_controller.event = @event
     self.navigationController.pushViewController(event_map_view_controller, animated:true)
   end  
 
@@ -97,6 +98,7 @@ class EventDetailViewController < UIViewController
     @event_address_label.text = "Main Street 107, Capital City"
     @first_talk_label.text = "Introduction to CocoaTouch John Doe"
     @second_talk_label.text = "Mastering CoreLocation Will Smith"
+    @event = Event.mock_event
     requestUserCurrenLocation
   end
 
