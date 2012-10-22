@@ -12,6 +12,9 @@ test/tmp
 test/version_tmp
 tmp
 
+rubymotion.sublime-project
+rubymotion.sublime-workspace
+
 .DS_Store
 
 # YARD artifacts

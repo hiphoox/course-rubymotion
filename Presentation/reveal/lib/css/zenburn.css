@@ -6,8 +6,9 @@ based on dark.css by Ivan Sagalaev
 */
 
 pre code {
-  display: block; padding: 0.5em;
-  background: #3F3F3F;
+  display: block; 
+  padding: 0.5em;
+  background: rgba(255, 255, 255, 0.06);
   color: #DCDCDC;
 }
 
