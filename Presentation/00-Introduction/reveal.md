@@ -21,7 +21,7 @@
 <slide>
 ## RubyMotion Course Goals
 
-Learn how to get the most out of Cocoa Frameworks and its architecture
+Learn how to get the most out of iOS and Cocoa Frameworks
 
 * Objective-C conventions
 * Using C libraries
@@ -38,7 +38,7 @@ Learn how to get the most out of Cocoa Frameworks and its architecture
 
 1. Lecture or Demonstration
 2. Exercise
-3. Challenge (try them independently for best results)
+3. Challenges
 4. Review
 
 </slide>
