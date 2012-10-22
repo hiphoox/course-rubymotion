@@ -11,10 +11,11 @@
 
 * Class Begins -- 9:00 AM
 * Break        -- around 11:00 AM, 15 minutes
-* Lunch        -- 1:00 PM to 2:00 PM
+* Lunch        -- 1:00 PM to 2:00 P,M
 * Break        -- around 5:00 PM, 15 minutes
 * Class Ends   -- 6:00 PM
 * Open lab     -- until 7 PM
+
 </slide>
 
 <slide>
