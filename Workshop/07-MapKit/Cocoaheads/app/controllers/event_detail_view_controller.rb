@@ -3,6 +3,17 @@ class EventDetailViewController < UIViewController
   def loadView
     self.view = UIView.alloc.init
     self.view.backgroundColor = UIColor.colorWithPatternImage( UIImage.imageNamed( "handmadepaper" ))
+    
+    
+  end  
+    
+    
+   
+  def viewDidLoad
+
+    super
+    @event = Event.mock_event
+
     @event_date_label = labelForEventDate
     @event_address_label = labelForEventAddress
     @first_talk_label = labelForFirstTalk
@@ -18,9 +29,16 @@ class EventDetailViewController < UIViewController
     self.view.addSubview( @map_view_for_event )
     self.view.addSubview( buttonForMap )
     self.view.addSubview( buttonForBooking )
+
+    self.title = @event.name
+    @event_date_label.text = @event.date_as_text
+    @event_address_label.text = @event.address
+    @first_talk_label.text = "#{@event.talks[0].title} #{@event.talks[0].speaker}"
+    @second_talk_label.text = "#{@event.talks[1].title} #{@event.talks[1].speaker}"
     
-  end  
-    
+    requestUserCurrenLocation
+  end
+
   def labelForEventDate
     event_date_label = UILabel.alloc.initWithFrame([ [25,10], [140, 100]])
     event_date_label.numberOfLines = 2
@@ -79,34 +97,28 @@ class EventDetailViewController < UIViewController
   end  
 
   def viewMap
-    event_map_view_controller = EventMapViewController.alloc.init
-    event_map_view_controller.event = @event
-    #TODO cambiar a addSubview
-    self.view.addSubview( event_map_view_controller.view )
+    @event_map_view_controller = EventMapViewController.alloc.init
+    @event_map_view_controller.event = @event
+    
+    self.view.addSubview( @event_map_view_controller.view )
   end  
 
   def mapViewForEvent
     map_view_for_event = MKMapView.alloc.initWithFrame( [[25,130], [270, 80]] )
     map_view_for_event.mapType = MKMapTypeStandard    
     map_view_for_event
-  end  
-   
-  def viewDidLoad
-
-    super
-    self.title = "November meeting"
-    @event_date_label.text = "Saturday 14th November 2012"
-    @event_address_label.text = "Main Street 107, Capital City"
-    @first_talk_label.text = "Introduction to CocoaTouch John Doe"
-    @second_talk_label.text = "Mastering CoreLocation Will Smith"
-    @event = Event.mock_event
-    requestUserCurrenLocation
   end
 
   def viewDidUnload
     super    
     @location_manager.stopUpdatingLocation
     @location_manager.delegate = nil
+    @event_date_label = nil
+    @event_address_label = nil
+    @first_talk_label = nil
+    @second_talk_label = nil
+    @location_label = nil
+    @map_view_for_event = nil
   end
 
   def shouldAutorotateToInterfaceOrientation(interfaceOrientation)
@@ -116,9 +128,13 @@ class EventDetailViewController < UIViewController
   def requestUserCurrenLocation
     if (CLLocationManager.locationServicesEnabled)
       @location_manager = CLLocationManager.alloc.init
-      #TODO meter desired accuracy
-      #nota de del CLLocationManagerDelegate
+
+      #Play with other possible values: KCLLocationAccuracyBest, KCLLocationAccuracyHundredMeters, etc.
+      @location_manager.desiredAccuracy = KCLLocationAccuracyKilometer
+      
+      #Set the current view controller as the delegate of the Location Manager, the location manager will notify of any changes in the location.
       @location_manager.delegate = self
+
       @location_manager.purpose = "To provide functionality based on user's current location" 
       @location_manager.startUpdatingLocation
     else
@@ -135,8 +151,7 @@ class EventDetailViewController < UIViewController
     alert_view.show
   end 
 
-  #location manager delegate methods 
-  #TODO falta finish finding location
+  #CLLocationManagerDelegate methods   
   def locationManager(manager, didUpdateToLocation:newLocation, fromLocation:oldLocation)    
     @location_label.text = "Latitude:#{newLocation.coordinate.latitude} Longitude:#{newLocation.coordinate.longitude}"   
   end
