@@ -81,7 +81,8 @@ class EventDetailViewController < UIViewController
   def viewMap
     event_map_view_controller = EventMapViewController.alloc.init
     event_map_view_controller.event = @event
-    self.navigationController.pushViewController(event_map_view_controller, animated:true)
+    #TODO cambiar a addSubview
+    self.view.addSubview( event_map_view_controller.view )
   end  
 
   def mapViewForEvent
@@ -105,6 +106,7 @@ class EventDetailViewController < UIViewController
   def viewDidUnload
     super    
     @location_manager.stopUpdatingLocation
+    @location_manager.delegate = nil
   end
 
   def shouldAutorotateToInterfaceOrientation(interfaceOrientation)
@@ -114,6 +116,8 @@ class EventDetailViewController < UIViewController
   def requestUserCurrenLocation
     if (CLLocationManager.locationServicesEnabled)
       @location_manager = CLLocationManager.alloc.init
+      #TODO meter desired accuracy
+      #nota de del CLLocationManagerDelegate
       @location_manager.delegate = self
       @location_manager.purpose = "To provide functionality based on user's current location" 
       @location_manager.startUpdatingLocation
@@ -131,7 +135,8 @@ class EventDetailViewController < UIViewController
     alert_view.show
   end 
 
-  #location manager delegate methods
+  #location manager delegate methods 
+  #TODO falta finish finding location
   def locationManager(manager, didUpdateToLocation:newLocation, fromLocation:oldLocation)    
     @location_label.text = "Latitude:#{newLocation.coordinate.latitude} Longitude:#{newLocation.coordinate.longitude}"   
   end

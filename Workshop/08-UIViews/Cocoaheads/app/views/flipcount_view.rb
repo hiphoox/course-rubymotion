@@ -6,8 +6,8 @@ class FlipCountView < UIView
     super
     self.backgroundColor = UIColor.whiteColor
     @days_left = 0
-    @container_view = viewWithMainContainerUsingRect( frame )
-    #self.addSubview( @container_view )
+    #TODO agregar imagen de fondo
+    #TODO pintar borde interior con CoreGraphics
     self
   end
 
@@ -26,15 +26,6 @@ class FlipCountView < UIView
     @days_left.to_s.drawAtPoint([20, 0 ], withFont:big_font)
   end  
 
-  def viewWithMainContainerUsingRect( rect )
-    p "viewWithMainContainerUsingRect #{rect}"
-    container_rect = [[10,10], [rect[1][0] - 10, rect[1][1] - 10]]
-    #container_rect.size.width = rect.size.width - 10
-    #container_rect.size.height = rect.size.height - 10
     
-    container_view = UIView.alloc.initWithFrame( container_rect )
-    container_view.backgroundColor = UIColor.lightGrayColor
-    container_view
-  end  
 
 end

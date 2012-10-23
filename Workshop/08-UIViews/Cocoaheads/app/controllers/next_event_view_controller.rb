@@ -3,12 +3,15 @@ class NextEventViewController < UIViewController
   def init
     p 'Initializing NextEventViewController'
     super
+    @days_left = 0
     self
   end  
 
   def loadView    
+    #TODO meter todo en un scrollview con delegate = self
+    
     self.view = UIView.alloc.init
-    self.view.backgroundColor = UIColor.colorWithPatternImage( UIImage.imageNamed( "handmadepaper" ))
+    self.view.backgroundColor = UIColor.colorWithPatternImage( UIImage.imageNamed( "handmadepaper" ) )
     
     self.view.addSubview( imageViewWithStars )
 
@@ -19,6 +22,7 @@ class NextEventViewController < UIViewController
     
     self.view.addSubview( buttonForSignIn )
     self.view.addSubview( buttonForSignUp )
+    self.view.addSubview( buttonToChangeDaysLeft )
 
   end
 
@@ -58,11 +62,25 @@ class NextEventViewController < UIViewController
 
   def buttonForSignUp
     sign_up_button = UIButton.buttonWithType(UIButtonTypeRoundedRect)    
-    sign_up_button.frame = [[15, 350], [295, 40]]    
+    sign_up_button.frame = [[15, 335], [295, 40]]    
     sign_up_button.setTitle("Don't have an account, sign-up", forState:UIControlStateNormal)
     sign_up_button.tintColor = UIColor.redColor
     
     sign_up_button
+  end  
+
+  def buttonToChangeDaysLeft
+    change_days_left_button = UIButton.buttonWithType(UIButtonTypeRoundedRect)    
+    change_days_left_button.frame = [[15, 390], [295, 40]]    
+    change_days_left_button.setTitle("Change days left", forState:UIControlStateNormal)    
+    change_days_left_button.addTarget(self, action:'change_days_left', forControlEvents:UIControlEventTouchUpInside)
+    change_days_left_button
+  end  
+
+  def change_days_left
+    @days_left = @days_left + 1 
+    @days_left_view.days_left = @days_left
+    @days_left_view.setNeedsDisplay
   end  
     
   def viewDidLoad    

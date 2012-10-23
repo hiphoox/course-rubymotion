@@ -1,7 +1,17 @@
-class EventAnnotation
+class EventAnnotation 
+
+  # attr_accessor :coordinate, :title, :subtitle 
+
+  def initWithCoordinate( coordinate, title:title, andSubTitle:subtitle)        
+    @coordinate = coordinate
+    @title = title
+    @subtitle = subtitle
+    
+    self
+  end
 
   def coordinate 
-    @coordinate 
+   @coordinate 
   end
   
   def title 
@@ -9,15 +19,7 @@ class EventAnnotation
   end
   
   def subtitle 
-    @subtitle 
-  end
-
-  def initWithCoordinate( coordinate, title:title, subTitle:subtitle)        
-    @coordinate = coordinate
-    @title = title
-    @subtitle = subtitle
-    
-    self
+   @subtitle 
   end
 
 end

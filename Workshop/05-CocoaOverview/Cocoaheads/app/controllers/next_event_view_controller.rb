@@ -1,5 +1,9 @@
 class NextEventViewController < UIViewController
   
+  DAYS_LEFT_TEXT = "20 Days Left"
+
+  EVENT_NAME_TEXT = "November meeting."
+
   def init
     p 'Initializing NextEventViewController'
     super
@@ -10,16 +14,27 @@ class NextEventViewController < UIViewController
     self.view = UIView.alloc.init
     self.view.backgroundColor = UIColor.colorWithPatternImage( UIImage.imageNamed( "handmadepaper" ))
     
+    
+
+  end
+
+   
+    
+  def viewDidLoad
+    p 'viewDidLoad'
+    super
+    
     self.view.addSubview( imageViewWithStars )
 
     @next_event_name_label = labelWithNextEventName
     @days_left_label = labelWithDaysLeft
     self.view.addSubview( @next_event_name_label )
-    self.view.addSubview( @days_left_label )
-    
+    self.view.addSubview( @days_left_label )    
     self.view.addSubview( buttonForSignIn )
     self.view.addSubview( buttonForSignUp )
-
+    
+    @days_left_label.text = DAYS_LEFT_TEXT
+    @next_event_name_label.text = EVENT_NAME_TEXT
   end
 
   def labelWithNextEventName
@@ -63,40 +78,15 @@ class NextEventViewController < UIViewController
     sign_up_button.setTitle("Don't have an account, sign-up", forState:UIControlStateNormal)
     sign_up_button.tintColor = UIColor.redColor
     sign_up_button
-  end  
-    
-  def viewDidLoad
-    p 'viewDidLoad'
-    super
-    @days_left_label.text = "20 Days Left"
-    @next_event_name_label.text = "November meeting."    
-  end
-
-  def viewWillAppear( animated )
-    p 'viewWillAppear'
-    super
-  end  
-
-  def viewDidAppear( animated )
-    p 'viewDidAppear'
-    super
-  end  
-
-
-  def viewWillDisappear( animated )
-    p 'viewWillDisappear'
-    super
-  end
-
-
-
+  end 
+  
   def viewDidUnload
     p 'viewDidUnload'
     super
-    # Release any retained subviews of the main view.
-  end
+    @next_event_name_label = nil
+    @days_left_label = nil
 
-  
+  end
 
   def shouldAutorotateToInterfaceOrientation(interfaceOrientation)
     #change this to enable rotation to landscape orientation    

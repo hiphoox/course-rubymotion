@@ -8,6 +8,8 @@ class EventMapViewController < UIViewController
     self.view.backgroundColor = UIColor.colorWithPatternImage( UIImage.imageNamed( "handmadepaper" ))
     @map_view_for_event = mapViewWithEventLocation
     self.view.addSubview( @map_view_for_event )
+    #TODO meter toggle button para cambiar tipo de mapa
+    #TODO meter textfield al annotation para usar un uitextfielddelegate atrapar el enter y cambiar el label
   end
     
   
@@ -27,7 +29,7 @@ class EventMapViewController < UIViewController
 
   def viewDidLoad
     super    
-    annotation = EventAnnotation.alloc.initWithCoordinate(@event.location, title:event.name, subTitle:event.address)
+    annotation = EventAnnotation.alloc.initWithCoordinate(@event.location, title:event.name, andSubTitle:event.address)
     @map_view_for_event.addAnnotation(annotation)    
     region = MKCoordinateRegionMake(@event.location, MKCoordinateSpanMake(0.7, 0.7)) 
     @map_view_for_event.setRegion(region)
