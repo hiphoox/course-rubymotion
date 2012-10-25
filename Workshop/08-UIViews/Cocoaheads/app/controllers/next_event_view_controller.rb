@@ -8,9 +8,15 @@ class NextEventViewController < UIViewController
   end  
 
   def loadView    
-    #TODO meter todo en un scrollview con delegate = self
-    
-    self.view = UIView.alloc.init
+
+
+    viewFrame = UIScreen.mainScreen.bounds
+    viewFrame.size.height = viewFrame.size.height - 44
+    scrollView = UIScrollView.alloc.initWithFrame( viewFrame )
+    contentViewSize = viewFrame.size
+    contentViewSize.height = 550
+    scrollView.contentSize = contentViewSize
+    self.view = scrollView
     self.view.backgroundColor = UIColor.colorWithPatternImage( UIImage.imageNamed( "handmadepaper" ) )
     
     self.view.addSubview( imageViewWithStars )
@@ -51,7 +57,7 @@ class NextEventViewController < UIViewController
 
   def buttonForSignIn
     sign_in_button = UIButton.buttonWithType(UIButtonTypeRoundedRect)
-    sign_in_button.frame = [[15, 280], [295, 40]]
+    sign_in_button.frame = [[15, 320], [295, 40]]
     sign_in_button.setTitle("I have an account, sign-in to book", forState:UIControlStateNormal)
     sign_in_button.setTitle("is Highlighted", forState:UIControlStateHighlighted)
 
@@ -62,7 +68,7 @@ class NextEventViewController < UIViewController
 
   def buttonForSignUp
     sign_up_button = UIButton.buttonWithType(UIButtonTypeRoundedRect)    
-    sign_up_button.frame = [[15, 335], [295, 40]]    
+    sign_up_button.frame = [[15, 400], [295, 40]]
     sign_up_button.setTitle("Don't have an account, sign-up", forState:UIControlStateNormal)
     sign_up_button.tintColor = UIColor.redColor
     
@@ -71,7 +77,7 @@ class NextEventViewController < UIViewController
 
   def buttonToChangeDaysLeft
     change_days_left_button = UIButton.buttonWithType(UIButtonTypeRoundedRect)    
-    change_days_left_button.frame = [[15, 390], [295, 40]]    
+    change_days_left_button.frame = [[15, 480], [295, 40]]
     change_days_left_button.setTitle("Change days left", forState:UIControlStateNormal)    
     change_days_left_button.addTarget(self, action:'change_days_left', forControlEvents:UIControlEventTouchUpInside)
     change_days_left_button
