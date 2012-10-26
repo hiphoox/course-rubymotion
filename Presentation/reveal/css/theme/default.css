@@ -36,9 +36,32 @@ body {
 	background-repeat: no-repeat;
 	background-position:center;
 	background-color: #070707;
-	background-size: 83%;
+	background-size: 87%;
 	
 }
+
+
+/*http://css-tricks.com/snippets/css/media-queries-for-standard-devices */
+/* iPads (portrait and landscape) ----------- */
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1024px) {
+/* Styles */
+  body {
+  	background-size: 120%;
+  }
+}
+
+/* iPhone (portrait and landscape) ----------- */
+@media only screen 
+and (min-device-width : 640px) 
+and (min-device-height : 960px) {
+/* Styles */
+  body {
+  	background-size: 220%;
+  }
+}
+
 
 
 /*********************************************
