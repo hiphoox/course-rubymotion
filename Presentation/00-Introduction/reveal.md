@@ -8,7 +8,7 @@
 </slide>
 
 <slide>
-# Trainners
+# Instructors
 
 * Laurent Sansonetti 
   - e-mail: <lrz@hipbyte.com> 

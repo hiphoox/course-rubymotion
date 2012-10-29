@@ -1,9 +1,9 @@
-# Objective-C Language
+# Cocoa Overview
 
 <slide>
-# Objective-C
+# Cocoa
 
-![](objectivec.png "Objective-C") 
+![](cocoa.png "Cocoa") 
 
 </slide>
 
@@ -643,6 +643,6 @@ Wouldn't it be neat if NSString had a <i>insert your wish here</i> method?
 <slide>
 # Objective-C
 
-![](objectivec.png "Objective-C") 
+![](objective-c.png "Objective-C") 
 
 </slide>

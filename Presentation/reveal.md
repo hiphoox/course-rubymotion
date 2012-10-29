@@ -9,9 +9,7 @@
 
 [First Application](./02-FirstApplication/reveal.html)
 
-[Objective-C](./03-ObjectiveCIntegration/reveal.html)
-
-[C language](./04-CIntegration/reveal.html)
+[Objective-C](./03-ObjectiveC/reveal.html)
 
 [Cocoa Overview](./05-CocoaOverview/reveal.html)
 

@@ -1,7 +1,7 @@
 # iOS First Application
 
 <slide>
-# The Application
+# First Application
 
 ![The Application](appicon.png "The Application") 
 
@@ -36,6 +36,13 @@
 </slide>
 
 <slide>
+## Rake options
+
+![Rake](rake.png "Rake") 
+
+</slide>
+
+<slide>
 ## Running the App
 
 ![Simulator](run.jpeg "Simulator") 
@@ -64,7 +71,7 @@
 </slide>
 
 <slide>
-# The Application
+# First Application
 
 ![The Application](appicon.png "The Application") 
 
