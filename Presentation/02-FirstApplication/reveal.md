@@ -3,7 +3,7 @@
 <slide>
 # The Application
 
-![App Icon](appicon.png "App Icon") 
+![The Application](appicon.png "The Application") 
 
 </slide>
 
@@ -17,49 +17,55 @@
 <slide>
 ## Motion command
 
-![OSX](Cheetah.jpeg "OSX Cheetah") 
+![Motion Commands](motion.jpeg "Motion commands") 
 
 </slide>
 
 <slide>
 ## Create a new project
 
-![NeXT](NeXT.jpeg "NeXT") 
+![New Project](create.jpeg "New Project") 
 
 </slide>
 
 <slide>
 ## Project Structure
 
-![iOS Stack image goes here](/photo.jpeg "iOS Layers") 
+![Project Structure](directories.jpeg "Project Structure") 
+
+</slide>
+
+<slide>
+## Running the App
+
+![Simulator](run.jpeg "Simulator") 
 
 </slide>
 
 <slide>
 ## MVC/MVP
 
-![States images goes here](mvp.jpeg "RubyMotion Stack") 
-
-</slide>
-
-<slide>
-## Simulator
-
-![Event image goes here](/photo.jpeg "Event System") 
-
-</slide>
-
-<slide>
-## Object Diagram
-
-![RunLoop image goes here](/photo.jpeg "Run loop") 
+![MVP](mvp.jpeg "MVP") 
 
 </slide>
 
 <slide>
 ## Making Connections
 
-![States images goes here](/photo.jpeg "Application States") 
+![Connections](connecting.jpeg "Connections") 
 
 </slide>
 
+<slide>
+## Object Diagram
+
+![Object Diagram](/photo.jpeg "Object Diagram") 
+
+</slide>
+
+<slide>
+# The Application
+
+![The Application](appicon.png "The Application") 
+
+</slide>

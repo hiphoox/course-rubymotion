@@ -55,3 +55,10 @@
 ![States images goes here](/images/photo.jpeg "RubyMotion Stack") 
 
 </slide>
+
+<slide>
+# iOS Architecture
+
+![iOS](iOS.jpeg "iOS") 
+
+</slide>

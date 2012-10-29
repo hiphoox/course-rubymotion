@@ -30,6 +30,7 @@ def get_title (content)
 end
 
 def convert_markdown (content)
+  content = content.gsub(/^<slidet>/, "<section data-state=\"text\" data-markdown>\n<script type=\"text/template\">\n" )
   content = content.gsub(/^<slide>/, "<section data-markdown>\n<script type=\"text/template\">\n" )
   content = content.gsub(/^<\/slide>/, "</script>\n</section> \n")
   content = content.sub(/^# .*\n/, "")
@@ -43,9 +44,10 @@ def create_reveal_content (template, title, body, path)
   template
 end
 
+reveal_dir = '/reveal.js'
 Dir.foreach(here) do |item|
   next if item == '..' or item == 'reveal'
-  if item == '.' then path = '.' else path = '..' end
+  if item == '.' then path = '.' + reveal_dir else path = '..' + reveal_dir end
 
   # do work on real items
   if File.directory? item and File.exist?(item + "/reveal.md")
@@ -53,7 +55,7 @@ Dir.foreach(here) do |item|
     title = get_title(markdown_source)
     body = convert_markdown(markdown_source)
 
-    template = File.read(here + "/reveal/template.html")
+    template = File.read(here + reveal_dir + "/template.html")
     reveal_content = create_reveal_content(template, title, body, path)
     File.open(item + "/reveal.html", 'w') { |file| file.write(reveal_content) }
   end
