@@ -1,16 +1,16 @@
-# iOS First Application
+# First Application
 
 <slide>
-# First Application
+# First App
 
 ![The Application](appicon.png "The Application") 
 
 </slide>
 
 <slide>
-## TimeZone
+## Time Zone Converter
 
-![TimeZone](TimeZone.jpeg "TimeZone") 
+![TimeZone](timezone.png "Time Zone") 
 
 </slide>
 
@@ -36,9 +36,23 @@
 </slide>
 
 <slide>
-## Rake options
+## Rake Options
 
 ![Rake](rake.png "Rake") 
+
+</slide>
+
+<slide>
+## Rake Configuration
+
+![Rake](rakeconf.png "Rake") 
+
+</slide>
+
+<slide>
+## Rake File
+
+![Rake](rakefile.png "Rake File") 
 
 </slide>
 
@@ -50,28 +64,36 @@
 </slide>
 
 <slide>
+## Debugging the App
+
+![](rakedebug.png "Debugger") 
+![](rakedebug2.png "Debugger") 
+
+</slide>
+
+<slide>
 ## MVC/MVP
 
-![MVP](mvp.jpeg "MVP") 
+![MVP](mvp.png "MVP") 
 
 </slide>
 
 <slide>
 ## Making Connections
 
-![Connections](connecting.jpeg "Connections") 
+![Connections](connecting.png "Connections") 
 
 </slide>
 
 <slide>
 ## Object Diagram
 
-![Object Diagram](/photo.jpeg "Object Diagram") 
+![Object Diagram](objectdiagram.png "Object Diagram") 
 
 </slide>
 
 <slide>
-# First Application
+# First App
 
 ![The Application](appicon.png "The Application") 
 
