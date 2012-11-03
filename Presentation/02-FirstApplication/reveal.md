@@ -59,6 +59,8 @@
 <slide>
 ## Running the App
 
+You can use: sessions and repl() methods to interact with objects
+
 ![Simulator](run.jpeg "Simulator") 
 
 </slide>
@@ -72,16 +74,11 @@
 </slide>
 
 <slide>
-## MVC/MVP
+## Deploying Application
 
-![MVP](mvp.png "MVP") 
+The rake task ***rake archive:distribution*** will create a binary ready for distribution
 
-</slide>
-
-<slide>
-## Making Connections
-
-![Connections](connecting.png "Connections") 
+![](deploying.png "Deploying") 
 
 </slide>
 
