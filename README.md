@@ -50,3 +50,27 @@ Schedule
 * 10 Teoria                                                   45 minutos
   + Ejercicio                                                 45 minutos
 
+
+quit
+exit
+repl()
+sessions
+String.ancestors
+methods
+class
+superclass
+rake clean and rake clean=1
+methods.grep(/class/)
+instance_variables
+UIApplication.sharedApplication.keyWindow.rootViewController.instance_eval{window}
+UIApplication.sharedApplication.keyWindow.rootViewController.view.subviews
+methods.includes?(:class)
+[].include? :[]
+[].methods.include? :[]
+[1].methods.include? :[]
+[1].methods.include?(:[])
+self.class.class_methods
+[1].methods.include?(:'objectAtIndex:')
+UIApplication.sharedApplication.keyWindow.resursiveDescription
+
+

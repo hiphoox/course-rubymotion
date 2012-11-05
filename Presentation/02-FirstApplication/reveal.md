@@ -1,16 +1,16 @@
-# iOS First Application
+# First Application
 
 <slide>
-# The Application
+# First App
 
 ![The Application](appicon.png "The Application") 
 
 </slide>
 
 <slide>
-## TimeZone
+## Time Zone Converter
 
-![TimeZone](TimeZone.jpeg "TimeZone") 
+![TimeZone](timezone.png "Time Zone") 
 
 </slide>
 
@@ -36,35 +36,61 @@
 </slide>
 
 <slide>
+## Rake Options
+
+![Rake](rake.png "Rake") 
+
+</slide>
+
+<slide>
+## Rake Configuration
+
+![Rake](rakeconf.png "Rake") 
+
+</slide>
+
+<slide>
+## Rake File
+
+![Rake](rakefile.png "Rake File") 
+
+</slide>
+
+<slide>
 ## Running the App
+
+You can use: sessions and repl() methods to interact with objects
 
 ![Simulator](run.jpeg "Simulator") 
 
 </slide>
 
 <slide>
-## MVC/MVP
+## Debugging the App
 
-![MVP](mvp.jpeg "MVP") 
+![](rakedebug.png "Debugger") 
+![](rakedebug2.png "Debugger") 
 
 </slide>
 
 <slide>
-## Making Connections
+## Deploying Application
 
-![Connections](connecting.jpeg "Connections") 
+The rake task ***rake archive:distribution*** will create a binary ready for distribution
+
+![](deploying.png "Deploying") 
 
 </slide>
 
 <slide>
 ## Object Diagram
 
-![Object Diagram](/photo.jpeg "Object Diagram") 
+![Object Diagram](objectdiagram.png "Object Diagram") 
 
 </slide>
 
 <slide>
-# The Application
+# First App
 
 ![The Application](appicon.png "The Application") 
 
