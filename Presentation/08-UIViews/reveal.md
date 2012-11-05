@@ -3,7 +3,7 @@
 <slide>
 ## UIViews
 
-![](uivoews.png "UI Views") 
+![](uiviews.png "UI Views") 
 
 </slide>
 
@@ -132,7 +132,7 @@ The UIScrollView provides support for displaying content that is larger than the
 <slide>
 ## UIViews
 
-![](uivoews.png "UI Views") 
+![](uiviews.png "UI Views") 
 
 </slide>
 
