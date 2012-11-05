@@ -12,7 +12,7 @@ include::ch01-iOSOverview.asciidoc[]
 
 include::ch02-FirstApplication.asciidoc[]
 
-include::ch03-ObjectiveCIntegration.asciidoc[]
+include::ch03-ObjectiveC.asciidoc[]
 
 include::ch04-CIntregration.asciidoc[]
 

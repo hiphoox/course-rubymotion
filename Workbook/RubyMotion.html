@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
 <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
-<meta name="generator" content="AsciiDoc 8.6.7" />
+<meta name="generator" content="AsciiDoc 8.6.8" />
 <title>Programming RubyMotion</title>
 <style type="text/css">
 /* Shared CSS for AsciiDoc xhtml11 and html5 backends */
@@ -87,10 +87,14 @@ ul, ol, li > p {
 ul > li     { color: #aaa; }
 ul > li > * { color: black; }
 
-pre {
+.monospaced, code, pre {
+  font-family: "Courier New", Courier, monospace;
+  font-size: inherit;
+  color: navy;
   padding: 0;
   margin: 0;
 }
+
 
 #author {
   color: #527bbd;
@@ -415,12 +419,6 @@ div.unbreakable { page-break-inside: avoid; }
  *
  * */
 
-tt {
-  font-family: "Courier New", Courier, monospace;
-  font-size: inherit;
-  color: navy;
-}
-
 div.tableblock {
   margin-top: 1.0em;
   margin-bottom: 1.5em;
@@ -453,12 +451,6 @@ div.tableblock > table[frame="vsides"] {
  * html5 specific
  *
  * */
-
-.monospaced {
-  font-family: "Courier New", Courier, monospace;
-  font-size: inherit;
-  color: navy;
-}
 
 table.tableblock {
   margin-top: 1.0em;
@@ -539,6 +531,74 @@ body.manpage div.sectionbody {
 @media print {
   body.manpage div#toc { display: none; }
 }
+/*
+  pygmentize filter
+*/
+.highlight .hll { background-color: #ffffcc }
+.highlight  { background: #f4f4f4; }
+.highlight .c { color: #008800; font-style: italic } /* Comment */
+.highlight .err { border: 1px solid #FF0000 } /* Error */
+.highlight .k { color: #AA22FF; font-weight: bold } /* Keyword */
+.highlight .o { color: #666666 } /* Operator */
+.highlight .cm { color: #008800; font-style: italic } /* Comment.Multiline */
+.highlight .cp { color: #008800 } /* Comment.Preproc */
+.highlight .c1 { color: #008800; font-style: italic } /* Comment.Single */
+.highlight .cs { color: #008800; font-weight: bold } /* Comment.Special */
+.highlight .gd { color: #A00000 } /* Generic.Deleted */
+.highlight .ge { font-style: italic } /* Generic.Emph */
+.highlight .gr { color: #FF0000 } /* Generic.Error */
+.highlight .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.highlight .gi { color: #00A000 } /* Generic.Inserted */
+.highlight .go { color: #808080 } /* Generic.Output */
+.highlight .gp { color: #000080; font-weight: bold } /* Generic.Prompt */
+.highlight .gs { font-weight: bold } /* Generic.Strong */
+.highlight .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.highlight .gt { color: #0040D0 } /* Generic.Traceback */
+.highlight .kc { color: #AA22FF; font-weight: bold } /* Keyword.Constant */
+.highlight .kd { color: #AA22FF; font-weight: bold } /* Keyword.Declaration */
+.highlight .kn { color: #AA22FF; font-weight: bold } /* Keyword.Namespace */
+.highlight .kp { color: #AA22FF } /* Keyword.Pseudo */
+.highlight .kr { color: #AA22FF; font-weight: bold } /* Keyword.Reserved */
+.highlight .kt { color: #00BB00; font-weight: bold } /* Keyword.Type */
+.highlight .m { color: #666666 } /* Literal.Number */
+.highlight .s { color: #BB4444 } /* Literal.String */
+.highlight .na { color: #BB4444 } /* Name.Attribute */
+.highlight .nb { color: #AA22FF } /* Name.Builtin */
+.highlight .nc { color: #0000FF } /* Name.Class */
+.highlight .no { color: #880000 } /* Name.Constant */
+.highlight .nd { color: #AA22FF } /* Name.Decorator */
+.highlight .ni { color: #999999; font-weight: bold } /* Name.Entity */
+.highlight .ne { color: #D2413A; font-weight: bold } /* Name.Exception */
+.highlight .nf { color: #00A000 } /* Name.Function */
+.highlight .nl { color: #A0A000 } /* Name.Label */
+.highlight .nn { color: #0000FF; font-weight: bold } /* Name.Namespace */
+.highlight .nt { color: #008000; font-weight: bold } /* Name.Tag */
+.highlight .nv { color: #B8860B } /* Name.Variable */
+.highlight .ow { color: #AA22FF; font-weight: bold } /* Operator.Word */
+.highlight .w { color: #bbbbbb } /* Text.Whitespace */
+.highlight .mf { color: #666666 } /* Literal.Number.Float */
+.highlight .mh { color: #666666 } /* Literal.Number.Hex */
+.highlight .mi { color: #666666 } /* Literal.Number.Integer */
+.highlight .mo { color: #666666 } /* Literal.Number.Oct */
+.highlight .sb { color: #BB4444 } /* Literal.String.Backtick */
+.highlight .sc { color: #BB4444 } /* Literal.String.Char */
+.highlight .sd { color: #BB4444; font-style: italic } /* Literal.String.Doc */
+.highlight .s2 { color: #BB4444 } /* Literal.String.Double */
+.highlight .se { color: #BB6622; font-weight: bold } /* Literal.String.Escape */
+.highlight .sh { color: #BB4444 } /* Literal.String.Heredoc */
+.highlight .si { color: #BB6688; font-weight: bold } /* Literal.String.Interpol */
+.highlight .sx { color: #008000 } /* Literal.String.Other */
+.highlight .sr { color: #BB6688 } /* Literal.String.Regex */
+.highlight .s1 { color: #BB4444 } /* Literal.String.Single */
+.highlight .ss { color: #B8860B } /* Literal.String.Symbol */
+.highlight .bp { color: #AA22FF } /* Name.Builtin.Pseudo */
+.highlight .vc { color: #B8860B } /* Name.Variable.Class */
+.highlight .vg { color: #B8860B } /* Name.Variable.Global */
+.highlight .vi { color: #B8860B } /* Name.Variable.Instance */
+.highlight .il { color: #666666 } /* Literal.Number.Integer.Long */
+
+
+
 </style>
 <script type="text/javascript">
 /*<![CDATA[*/
@@ -735,7 +795,7 @@ asciidoc.install();
 /*]]>*/
 </script>
 </head>
-<body class="book">
+<body class="article">
 <div id="header">
 <h1>Programming RubyMotion</h1>
 <span id="author">Norberto Ortigoza</span><br />
@@ -744,34 +804,1264 @@ asciidoc.install();
 </div>
 <div id="content">
 <h1 id="_day_1">Day 1</h1>
-<div class="sect1">
-<h2 id="_ios_overview">iOS Overview</h2>
-<div class="sectionbody">
-<div class="paragraph"><p>We are going to create a little program</p></div>
+<h1 id="_time_zone_converter">Time Zone Converter</h1>
+<div class="paragraph"><p>Now that you have created your first your rubymotion app let’s create a “time zone converter”, put the following command in your terminal:</p></div>
 <div class="listingblock">
-<div class="content"><!-- Generator: GNU source-highlight 3.1.7
-by Lorenzo Bettini
-http://www.lorenzobettini.it
-http://www.gnu.org/software/src-highlite -->
-<pre><tt>puts <span style="color: #993399">3</span> <span style="color: #990000">+</span> <span style="color: #993399">7</span>
-<span style="font-style: italic"><span style="color: #9A1900"># Another sample</span></span>
-puts <span style="color: #993399">4</span> <span style="color: #990000">+</span> <span style="color: #993399">8</span></tt></pre></div></div>
+<div class="content"><div class="highlight"><pre><span class="nv">$ </span>motion create TimeZoneConverter
+</pre></div></div></div>
+<div class="paragraph"><p>And then take a look inside</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="nv">$ </span><span class="nb">cd </span>TimeZoneConverter
+
+<span class="nv">$ </span>ls
+</pre></div></div></div>
+<div class="paragraph"><p>You will see the following directories created</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>Rakefile app resources spec</code></pre>
+</div></div>
+<div class="paragraph"><p>Now feel free to execute the following command:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="nv">$ </span>rake
+</pre></div></div></div>
+<div class="paragraph"><p>If everything goes well, you will see an ugly black window.</p></div>
+<div class="imageblock">
+<div class="content">
+<img src="resources/ch01-iOSOverview/image1.png" alt="Empty Application" />
+</div>
+<div class="title">Figure 1. Empty Application</div>
+</div>
+<div class="sect1">
+<h2 id="_view_controller">View Controller</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>A view controller class provides a quite utile mechanism to manage views in iOS applications; it could coordinate efforts with the model and other view controllers in order to build an entire application.</p></div>
+<div class="sect2">
+<h3 id="_adding_a_view_controller">Adding a View Controller</h3>
+<div class="paragraph"><p>Open your file <strong>app_delegate.rb</strong> in app folder. And add the code between starts in it:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">class</span> <span class="nc">AppDelegate</span>
+
+ <span class="k">def</span> <span class="nf">application</span><span class="p">(</span><span class="n">application</span><span class="p">,</span> <span class="n">didFinishLaunchingWithOptions</span><span class="ss">:launchOptions</span><span class="p">)</span>
+    <span class="o">****************************************************************</span>
+    <span class="vi">@window</span> <span class="o">=</span> <span class="no">UIWindow</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithFrame</span><span class="p">(</span><span class="no">UIScreen</span><span class="o">.</span><span class="n">mainScreen</span><span class="o">.</span><span class="n">bounds</span><span class="p">)</span>
+    <span class="vi">@window</span><span class="o">.</span><span class="n">rootViewController</span> <span class="o">=</span> <span class="no">RootViewController</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">init</span>
+    <span class="vi">@window</span><span class="o">.</span><span class="n">makeKeyAndVisible</span>
+    <span class="o">****************************************************************</span>
+    <span class="kp">true</span>
+  <span class="k">end</span>
+
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>Now create a new file named <strong>root_view_controller.rb</strong> in app folder and add the following code:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">class</span> <span class="nc">RootViewController</span> <span class="o">&lt;</span> <span class="no">UIViewController</span>
+
+  <span class="k">def</span> <span class="nf">viewDidLoad</span>
+    <span class="n">view</span><span class="o">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">scrollViewTexturedBackgroundColor</span>
+  <span class="k">end</span>
+
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>Save your file and run the rake command:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="nv">$ </span>rake
+</pre></div></div></div>
+<div class="paragraph"><p>You should see a gray styled view, congratulations you have added your first View Controller, it wasn&#8217;t really that hard, was it?</p></div>
+<div class="imageblock">
+<div class="content">
+<img src="resources/ch01-iOSOverview/image2.png" alt="View Controller Added" />
+</div>
+<div class="title">Figure 2. View Controller Added</div>
+</div>
+<div class="paragraph"><p>It’s time to create our human interface controls, create a new file named <strong>root_view_uitilities.rb</strong> and add the following code:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">location_label</span><span class="p">(</span><span class="n">xPosition</span><span class="p">,</span><span class="n">yPosition</span><span class="p">)</span>
+
+  <span class="n">label</span> <span class="o">=</span> <span class="no">UILabel</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithFrame</span><span class="p">(</span><span class="no">CGRectMake</span><span class="p">(</span><span class="n">xPosition</span><span class="p">,</span><span class="n">yPosition</span><span class="p">,</span><span class="mi">200</span><span class="p">,</span><span class="mi">50</span><span class="p">))</span>
+  <span class="n">label</span><span class="o">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">clearColor</span><span class="p">;</span>
+  <span class="n">label</span><span class="o">.</span><span class="n">font</span> <span class="o">=</span> <span class="no">UIFont</span><span class="o">.</span><span class="n">fontWithName</span><span class="p">(</span><span class="s2">&quot;HelveticaNeue-CondensedBold&quot;</span><span class="p">,</span><span class="n">size</span><span class="p">:</span><span class="mi">18</span><span class="p">)</span>
+  <span class="n">label</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;Time Zone&quot;</span>
+  <span class="n">label</span>
+<span class="k">end</span>
+
+<span class="k">def</span> <span class="nf">time_label</span><span class="p">(</span><span class="n">xPosition</span><span class="p">,</span><span class="n">yPosition</span><span class="p">)</span>
+
+  <span class="n">label</span> <span class="o">=</span> <span class="no">UILabel</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithFrame</span><span class="p">(</span><span class="no">CGRectMake</span><span class="p">(</span><span class="n">xPosition</span><span class="p">,</span><span class="n">yPosition</span><span class="p">,</span><span class="mi">200</span><span class="p">,</span><span class="mi">50</span><span class="p">))</span>
+  <span class="n">label</span><span class="o">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">clearColor</span><span class="p">;</span>
+  <span class="n">label</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;Time&quot;</span>
+  <span class="n">label</span><span class="o">.</span><span class="n">textColor</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">whiteColor</span><span class="p">;</span>
+  <span class="n">label</span>
+<span class="k">end</span>
+
+<span class="k">def</span> <span class="nf">select_time_zone_Button</span> <span class="p">(</span><span class="n">xPosition</span><span class="p">,</span><span class="n">yPosition</span><span class="p">)</span>
+
+  <span class="n">button</span> <span class="o">=</span> <span class="no">UIButton</span><span class="o">.</span><span class="n">buttonWithType</span><span class="p">(</span><span class="no">UIButtonTypeRoundedRect</span><span class="p">)</span>
+  <span class="n">button</span><span class="o">.</span><span class="n">frame</span> <span class="o">=</span> <span class="no">CGRectMake</span><span class="p">(</span><span class="n">xPosition</span><span class="p">,</span><span class="n">yPosition</span><span class="p">,</span><span class="mi">90</span><span class="p">,</span><span class="mi">90</span><span class="p">)</span>
+  <span class="n">button</span><span class="o">.</span><span class="n">setTitle</span><span class="p">(</span><span class="s2">&quot;Select&quot;</span><span class="p">,</span><span class="n">forState</span><span class="ss">:UIControlStateNormal</span><span class="p">)</span>
+  <span class="n">button</span>
+<span class="k">end</span>
+
+<span class="k">def</span> <span class="nf">zone_picker</span> <span class="p">(</span><span class="n">xPosition</span><span class="p">,</span><span class="n">yPosition</span><span class="p">)</span>
+
+  <span class="n">picker</span> <span class="o">=</span>  <span class="no">UIPickerView</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithFrame</span><span class="p">(</span><span class="no">CGRectMake</span><span class="p">(</span><span class="n">xPosition</span><span class="p">,</span><span class="n">yPosition</span><span class="p">,</span> <span class="mi">320</span><span class="p">,</span> <span class="mi">250</span><span class="p">))</span>
+  <span class="n">picker</span><span class="o">.</span><span class="n">hidden</span> <span class="o">=</span> <span class="kp">true</span>
+  <span class="n">picker</span><span class="o">.</span><span class="n">showsSelectionIndicator</span> <span class="o">=</span> <span class="kp">true</span>
+  <span class="n">picker</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>Save your file and compile the project to see if everything goes well, and then open the file <strong>root_view_controller.rb</strong> We are going to add our controls, add the code between the starts in it:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">class</span> <span class="nc">RootViewController</span> <span class="o">&lt;</span> <span class="no">UIViewController</span>
+
+<span class="o">****************************************************************</span>
+  <span class="k">def</span> <span class="nf">set_default_time_zone</span>
+
+    <span class="vi">@defaultTimeZoneLabel</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span>  <span class="no">NSTimeZone</span><span class="o">.</span><span class="n">localTimeZone</span><span class="o">.</span><span class="n">name</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">set_default_time</span>
+
+    <span class="n">defaultTimeZone</span> <span class="o">=</span> <span class="no">NSTimeZone</span><span class="o">.</span><span class="n">timeZoneWithName</span><span class="p">(</span><span class="vi">@defaultTimeZoneLabel</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+    <span class="n">formatter</span> <span class="o">=</span> <span class="no">NSDateFormatter</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">init</span>
+    <span class="n">formatter</span><span class="o">.</span><span class="n">setDateFormat</span><span class="p">(</span><span class="s1">&#39;HH:mm&#39;</span><span class="p">)</span>
+    <span class="n">formatter</span><span class="o">.</span><span class="n">setTimeZone</span><span class="p">(</span><span class="n">defaultTimeZone</span><span class="p">)</span>
+    <span class="n">dateFormat</span> <span class="o">=</span> <span class="n">formatter</span><span class="o">.</span><span class="n">stringFromDate</span><span class="p">(</span><span class="no">NSDate</span><span class="o">.</span><span class="n">date</span><span class="p">)</span>
+    <span class="vi">@defaultTimeLabel</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;UTC &quot;</span><span class="o">+</span><span class="p">(</span><span class="no">NSTimeZone</span><span class="o">.</span><span class="n">localTimeZone</span><span class="o">.</span><span class="n">secondsFromGMT</span><span class="o">/</span><span class="mi">3600</span><span class="p">)</span><span class="o">.</span><span class="n">to_s</span> <span class="o">+</span> <span class="s2">&quot;  &quot;</span><span class="o">+</span><span class="n">dateFormat</span>
+  <span class="k">end</span>
+<span class="o">****************************************************************</span>
+
+  <span class="k">def</span> <span class="nf">viewDidLoad</span>
+<span class="o">****************************************************************</span>
+    <span class="vi">@defaultTimeZoneLabel</span> <span class="o">=</span> <span class="n">location_label</span><span class="p">(</span><span class="mi">25</span><span class="p">,</span><span class="mi">120</span><span class="p">)</span>
+    <span class="vi">@defaultTimeLabel</span> <span class="o">=</span> <span class="n">time_label</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span><span class="mi">150</span><span class="p">)</span>
+
+    <span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="vi">@defaultTimeZoneLabel</span><span class="p">)</span>
+    <span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="vi">@defaultTimeLabel</span><span class="p">)</span>
+
+    <span class="n">set_default_time_zone</span>
+    <span class="n">set_default_time</span>
+<span class="o">****************************************************************</span>
+    <span class="n">view</span><span class="o">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">scrollViewTexturedBackgroundColor</span>
+  <span class="k">end</span>
+
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>Run your program and you should see two new labels added to the screen, the first one indicates the current timezone name, and the second one the current time.</p></div>
+<div class="imageblock">
+<div class="content">
+<img src="resources/ch01-iOSOverview/image3.png" alt="Controls Added" />
+</div>
+<div class="title">Figure 3. Controls Added</div>
+</div>
+<div class="paragraph"><p>It’s time to add a control that let us select from different time zones, open the <strong>root_view_controller.rb</strong> and add the code the following code to it:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">class</span> <span class="nc">RootViewController</span> <span class="o">&lt;</span> <span class="no">UIViewController</span>
+
+  <span class="k">def</span> <span class="nf">set_default_time_zone</span>
+
+    <span class="vi">@defaultTimeZoneLabel</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span>  <span class="no">NSTimeZone</span><span class="o">.</span><span class="n">localTimeZone</span><span class="o">.</span><span class="n">name</span>
+  <span class="k">end</span>
+
+
+  <span class="k">def</span> <span class="nf">set_default_time</span>
+
+    <span class="n">defaultTimeZone</span> <span class="o">=</span> <span class="no">NSTimeZone</span><span class="o">.</span><span class="n">timeZoneWithName</span><span class="p">(</span><span class="vi">@defaultTimeZoneLabel</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+    <span class="n">formatter</span> <span class="o">=</span> <span class="no">NSDateFormatter</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">init</span>
+    <span class="n">formatter</span><span class="o">.</span><span class="n">setDateFormat</span><span class="p">(</span><span class="s1">&#39;HH:mm&#39;</span><span class="p">)</span>
+    <span class="n">formatter</span><span class="o">.</span><span class="n">setTimeZone</span><span class="p">(</span><span class="n">defaultTimeZone</span><span class="p">)</span>
+    <span class="n">dateFormat</span> <span class="o">=</span> <span class="n">formatter</span><span class="o">.</span><span class="n">stringFromDate</span><span class="p">(</span><span class="no">NSDate</span><span class="o">.</span><span class="n">date</span><span class="p">)</span>
+    <span class="vi">@defaultTimeLabel</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;UTC &quot;</span><span class="o">+</span><span class="p">(</span><span class="no">NSTimeZone</span><span class="o">.</span><span class="n">localTimeZone</span><span class="o">.</span><span class="n">secondsFromGMT</span><span class="o">/</span><span class="mi">3600</span><span class="p">)</span><span class="o">.</span><span class="n">to_s</span> <span class="o">+</span> <span class="s2">&quot;  &quot;</span><span class="o">+</span><span class="n">dateFormat</span>
+  <span class="k">end</span>
+
+ <span class="o">****************************************************************</span>
+  <span class="k">def</span> <span class="nf">present_local_zone_picker</span><span class="p">(</span><span class="n">sender</span><span class="p">)</span>
+
+    <span class="n">button</span> <span class="o">=</span> <span class="n">sender</span>
+    <span class="vi">@zonePicker</span><span class="o">.</span><span class="n">frame</span> <span class="o">=</span> <span class="no">CGRectMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">244</span><span class="p">,</span> <span class="mi">320</span><span class="p">,</span> <span class="mi">216</span><span class="p">)</span>
+    <span class="vi">@currentZoneLabel</span> <span class="o">=</span> <span class="vi">@defaultTimeZoneLabel</span>
+
+    <span class="k">if</span> <span class="vi">@zonePicker</span><span class="o">.</span><span class="n">isHidden</span>
+      <span class="vi">@zonePicker</span><span class="o">.</span><span class="n">hidden</span> <span class="o">=</span> <span class="kp">false</span>
+      <span class="n">button</span><span class="o">.</span><span class="n">setTitle</span><span class="p">(</span><span class="s2">&quot;Choose&quot;</span><span class="p">,</span><span class="n">forState</span><span class="ss">:UIControlStateNormal</span><span class="p">)</span>
+    <span class="k">else</span>
+      <span class="vi">@zonePicker</span><span class="o">.</span><span class="n">hidden</span> <span class="o">=</span> <span class="kp">true</span>
+      <span class="n">button</span><span class="o">.</span><span class="n">setTitle</span><span class="p">(</span><span class="s2">&quot;Select&quot;</span><span class="p">,</span><span class="n">forState</span><span class="ss">:UIControlStateNormal</span><span class="p">)</span>
+      <span class="n">set_default_time</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+
+
+<span class="c1"># UIPicker View Controller DataSource</span>
+
+  <span class="k">def</span> <span class="nf">numberOfComponentsInPickerView</span><span class="p">(</span><span class="n">pickerView</span><span class="p">)</span>
+
+    <span class="mi">1</span>
+  <span class="k">end</span>
+
+
+  <span class="k">def</span> <span class="nf">pickerView</span><span class="p">(</span><span class="n">pickerView</span><span class="p">,</span><span class="n">numberOfRowsInComponent</span><span class="ss">:component</span><span class="p">)</span>
+
+    <span class="no">NSTimeZone</span><span class="o">.</span><span class="n">knownTimeZoneNames</span><span class="o">.</span><span class="n">count</span>
+  <span class="k">end</span>
+
+
+<span class="c1"># UIPicker View Controller Delegate</span>
+
+  <span class="k">def</span> <span class="nf">pickerView</span><span class="p">(</span><span class="n">pickerView</span><span class="p">,</span> <span class="n">titleForRow</span><span class="ss">:row</span><span class="p">,</span><span class="n">forComponent</span><span class="ss">:component</span><span class="p">)</span>
+
+    <span class="no">NSTimeZone</span><span class="o">.</span><span class="n">knownTimeZoneNames</span><span class="o">[</span><span class="n">row</span><span class="o">]</span>
+  <span class="k">end</span>
+
+
+  <span class="k">def</span> <span class="nf">pickerView</span><span class="p">(</span><span class="n">pickerView</span><span class="p">,</span> <span class="n">didSelectRow</span><span class="ss">:row</span><span class="p">,</span> <span class="n">inComponent</span><span class="ss">:component</span><span class="p">)</span>
+
+    <span class="vi">@currentZoneLabel</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="no">NSTimeZone</span><span class="o">.</span><span class="n">knownTimeZoneNames</span><span class="o">[</span><span class="n">row</span><span class="o">]</span>
+  <span class="k">end</span>
+
+
+<span class="o">****************************************************************</span>
+  <span class="k">def</span> <span class="nf">viewDidLoad</span>
+
+    <span class="vi">@defaultTimeZoneLabel</span> <span class="o">=</span> <span class="n">location_label</span><span class="p">(</span><span class="mi">25</span><span class="p">,</span><span class="mi">120</span><span class="p">)</span>
+    <span class="vi">@defaultTimeLabel</span> <span class="o">=</span> <span class="n">time_label</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span><span class="mi">150</span><span class="p">)</span>
+
+<span class="o">****************************************************************</span>
+
+    <span class="n">chooseLocalButton</span> <span class="o">=</span> <span class="n">select_time_zone_Button</span><span class="p">(</span><span class="mi">220</span><span class="p">,</span><span class="mi">115</span><span class="p">)</span>
+    <span class="n">chooseLocalButton</span><span class="o">.</span><span class="n">addTarget</span><span class="p">(</span><span class="nb">self</span><span class="p">,</span>
+                                  <span class="n">action</span><span class="p">:</span> <span class="ss">:&#39;present_local_zone_picker:&#39;</span><span class="p">,</span>
+                                  <span class="n">forControlEvents</span><span class="ss">:UIControlEventTouchUpInside</span><span class="p">)</span>
+
+    <span class="vi">@zonePicker</span> <span class="o">=</span> <span class="n">zone_picker</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">244</span><span class="p">)</span>
+    <span class="vi">@zonePicker</span><span class="o">.</span><span class="n">dataSource</span> <span class="o">=</span> <span class="nb">self</span>
+    <span class="vi">@zonePicker</span><span class="o">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="nb">self</span>
+
+<span class="o">****************************************************************</span>
+
+    <span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="vi">@defaultTimeZoneLabel</span><span class="p">)</span>
+    <span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="vi">@defaultTimeLabel</span><span class="p">)</span>
+
+<span class="o">****************************************************************</span>
+
+    <span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="n">chooseLocalButton</span><span class="p">)</span>
+    <span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="vi">@zonePicker</span><span class="p">)</span>
+
+<span class="o">****************************************************************</span>
+    <span class="n">set_default_time_zone</span>
+    <span class="n">set_default_time</span>
+    <span class="n">view</span><span class="o">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">scrollViewTexturedBackgroundColor</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>Next compile your application; you should see a white big button, don’t hesitate and try it.</p></div>
+<div class="imageblock">
+<div class="content">
+<img src="resources/ch01-iOSOverview/image4.png" alt="UIPicker Added" />
+</div>
+<div class="title">Figure 4. UIPicker Added</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="resources/ch01-iOSOverview/image5.png" alt="UIPicker Selected" />
+</div>
+<div class="title">Figure 5. UIPicker Added</div>
+</div>
+<div class="paragraph"><p>Go ahead and look for a region that you may like to be and see the local time on this area.</p></div>
+<div class="paragraph"><p>You ‘ll never wonder again what time is it on other side of the planet, but you may think that its not good enough to know the time in one region, two its always better than one. Lets add a second set of controls.</p></div>
+<div class="paragraph"><p>First at all open your <strong>root_view_uitilities.rb</strong> file and add the following code in the loadView method.</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">viewDidLoad</span>
+<span class="o">****************************************************************</span>
+
+  <span class="n">chooseLocalButton</span><span class="o">.</span><span class="n">addTarget</span><span class="p">(</span><span class="nb">self</span><span class="p">,</span> <span class="n">action</span><span class="o">::</span><span class="s1">&#39;present_local_zone_picker:&#39;</span><span class="p">,</span>
+                                  <span class="n">forControlEvents</span><span class="ss">:UIControlEventTouchUpInside</span><span class="p">)</span>
+
+  <span class="vi">@converTimeZoneLabel</span> <span class="o">=</span>  <span class="n">location_label</span><span class="p">(</span><span class="mi">25</span><span class="p">,</span><span class="mi">290</span><span class="p">)</span>
+  <span class="vi">@convertTimeLabel</span> <span class="o">=</span> <span class="n">time_label</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span><span class="mi">320</span><span class="p">)</span>
+  <span class="n">chooseconvertButton</span> <span class="o">=</span> <span class="n">select_time_zone_Button</span><span class="p">(</span><span class="mi">220</span><span class="p">,</span><span class="mi">300</span><span class="p">)</span>
+
+  <span class="n">chooseconvertButton</span><span class="o">.</span><span class="n">addTarget</span><span class="p">(</span><span class="nb">self</span><span class="p">,</span> <span class="n">action</span><span class="p">:</span> <span class="ss">:&#39;present_convert_zone_picker:&#39;</span><span class="p">,</span>
+                                                                <span class="n">forControlEvents</span><span class="ss">:UIControlEventTouchUpInside</span><span class="p">)</span>
+
+  <span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="vi">@converTimeZoneLabel</span><span class="p">)</span>
+  <span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="vi">@convertTimeLabel</span><span class="p">)</span>
+  <span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="n">chooseconvertButton</span><span class="p">)</span>
+
+<span class="o">****************************************************************</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>Don’t forget to add the following method in the same file:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">present_convert_zone_picker</span><span class="p">(</span><span class="n">sender</span><span class="p">)</span>
+
+  <span class="n">button</span> <span class="o">=</span> <span class="n">sender</span>
+  <span class="vi">@zonePicker</span><span class="o">.</span><span class="n">frame</span> <span class="o">=</span> <span class="no">CGRectMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span> <span class="mi">320</span><span class="p">,</span> <span class="mi">216</span><span class="p">)</span>
+  <span class="vi">@currentZoneLabel</span> <span class="o">=</span> <span class="vi">@converTimeZoneLabel</span>
+
+  <span class="k">if</span> <span class="vi">@zonePicker</span><span class="o">.</span><span class="n">isHidden</span>
+
+    <span class="vi">@zonePicker</span><span class="o">.</span><span class="n">hidden</span> <span class="o">=</span> <span class="kp">false</span>
+    <span class="n">button</span><span class="o">.</span><span class="n">setTitle</span><span class="p">(</span><span class="s2">&quot;Choose&quot;</span><span class="p">,</span><span class="n">forState</span><span class="ss">:UIControlStateNormal</span><span class="p">)</span>
+
+  <span class="k">else</span>
+
+    <span class="vi">@zonePicker</span><span class="o">.</span><span class="n">hidden</span> <span class="o">=</span> <span class="kp">true</span>
+    <span class="n">button</span><span class="o">.</span><span class="n">setTitle</span><span class="p">(</span><span class="s2">&quot;Select&quot;</span><span class="p">,</span><span class="n">forState</span><span class="ss">:UIControlStateNormal</span><span class="p">)</span>
+    <span class="n">set_Convert_Time</span>
+
+  <span class="k">end</span>
+
+<span class="k">end</span>
+</pre></div></div></div>
+</div>
+<div class="sect2">
+<h3 id="_styling_the_app">Styling the App</h3>
+<div class="paragraph"><p>I think that the style of our application does not reflect the adventure spirit that should be; maybe with some little improvements we can change that.</p></div>
+<div class="paragraph"><p>Run the application with the rake command</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="nv">$ </span>rake
+</pre></div></div></div>
+<div class="paragraph"><p>Now you should see REPL in your console:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre>Create ./build/iPhoneSimulator-6.0-Development/TimeZoneConverter.dSYM
+Simulate ./build/iPhoneSimulator-6.0-Development/TimeZoneConverter.app
+<span class="o">(</span>main<span class="o">)</span>&gt;
+</pre></div></div></div>
+<div class="paragraph"><p>Now hold ‘command’ key and hover mouse on simulator screen. You can see a red-bordered box appears among the application elements, select the first Time Zone area, the interactive console should display the instance corresponding to that label</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre>Build ./build/iPhoneSimulator-6.0-Development
+Simulate ./build/iPhoneSimulator-6.0-Development/TimeZoneConverter.app
+<span class="o">(</span><span class="c">#&lt;UILabel:0x956a650&gt;)&gt;</span>
+</pre></div></div></div>
+<div class="paragraph"><p>Now its time to add something fresh to our application as we see it running, yes you read right type the following scrip in you REPL:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="nb">self</span><span class="o">.</span><span class="n">font</span> <span class="o">=</span> <span class="no">UIFont</span><span class="o">.</span><span class="n">fontWithName</span><span class="p">(</span><span class="s2">&quot;Noteworthy-Bold&quot;</span><span class="p">,</span><span class="n">size</span><span class="p">:</span><span class="mi">18</span><span class="p">)</span>
+</pre></div></div></div>
+<div class="imageblock">
+<div class="content">
+<img src="resources/ch01-iOSOverview/image6.png" alt="UIPicker Added" />
+</div>
+<div class="title">Figure 6. UIPicker Added</div>
+</div>
+<div class="paragraph"><p>and hit enter, and Voila !! the font has changed, but you may not liked, so try with different fonts and sizes here there are some of them:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+Georgia-Italic
+</p>
+</li>
+<li>
+<p>
+MarkerFelt-Thin
+</p>
+</li>
+<li>
+<p>
+HelveticaNeue-Medium
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Since the creation of the apple store the are many app to choose from, the app store it’s not the wild wild west that used to be, so we are going to give some personality to our app</p></div>
+<div class="paragraph"><p>First, copy the assets from the chapter one directory, and put them into the Resources directory, and the in your <strong>root_view_controller.rb</strong> change the following line in your <strong>viewDidLoad</strong> method:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="o">[</span><span class="no">UIColor</span> <span class="n">colorWithPatternImage</span><span class="p">:</span><span class="o">[</span><span class="no">UIImage</span> <span class="n">imageNamed</span><span class="p">:</span><span class="err">@</span><span class="s2">&quot;image.jpg&quot;</span><span class="o">]]</span><span class="p">;</span>
+</pre></div></div></div>
+<div class="paragraph"><p>for this one:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="n">view</span><span class="o">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">colorWithPatternImage</span><span class="p">(</span><span class="no">UIImage</span><span class="o">.</span><span class="n">imageNamed</span><span class="p">(</span><span class="s2">&quot;bgApp.png&quot;</span><span class="p">))</span>
+</pre></div></div></div>
+<div class="imageblock">
+<div class="content">
+<img src="resources/ch01-iOSOverview/image7.png" alt="Stylish App" />
+</div>
+<div class="title">Figure 7. Stylish App</div>
+</div>
+<div class="paragraph"><p>We should add some personality to our buttons, open your file <strong>root_view_uitilities.rb</strong> and replace the following method <strong>select_time_zone_Button</strong>:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">select_time_zone_Button</span> <span class="p">(</span><span class="n">xPosition</span><span class="p">,</span><span class="n">yPosition</span><span class="p">)</span>
+
+  <span class="n">button</span> <span class="o">=</span> <span class="no">UIButton</span><span class="o">.</span><span class="n">buttonWithType</span><span class="p">(</span><span class="no">UIButtonTypeCustom</span><span class="p">)</span>
+  <span class="n">button</span><span class="o">.</span><span class="n">frame</span> <span class="o">=</span> <span class="no">CGRectMake</span><span class="p">(</span><span class="n">xPosition</span><span class="p">,</span><span class="n">yPosition</span><span class="p">,</span><span class="mi">85</span><span class="p">,</span><span class="mi">73</span><span class="p">)</span>
+  <span class="n">button</span><span class="o">.</span><span class="n">setBackgroundImage</span> <span class="p">(</span><span class="no">UIImage</span><span class="o">.</span><span class="n">imageNamed</span><span class="p">(</span><span class="s2">&quot;btnSelect.png&quot;</span><span class="p">),</span><span class="n">forState</span><span class="ss">:UIControlStateNormal</span><span class="p">)</span>
+  <span class="n">button</span><span class="o">.</span><span class="n">setTitle</span><span class="p">(</span><span class="s2">&quot;Select&quot;</span><span class="p">,</span><span class="n">forState</span><span class="ss">:UIControlStateNormal</span><span class="p">)</span>
+  <span class="n">button</span>
+<span class="k">end</span>
+</pre></div></div></div>
+</div>
+<div class="sect2">
+<h3 id="_challenge_adding_a_title">Challenge - Adding a title</h3>
+<div class="paragraph"><p>Adding title to the application, try adding a new method in your file <strong>select_time_zone_Button</strong> that return an UILabel and put it as title for the application.</p></div>
+</div>
+<div class="sect2">
+<h3 id="_challenge_hours_between_zones">Challenge - Hours Between Zones</h3>
+<div class="paragraph"><p>Add a new label between time zones that indicates the diference between time zones</p></div>
+</div>
+</div>
+</div>
+<h1 id="_estimator">Estimator</h1>
+<div class="paragraph"><p>In this exercise we will create an iOS app that exemplify the way many companies in the world estimate their projects, the "Estimator"</p></div>
+<div class="sect1">
+<h2 id="_create_project">Create Project</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>As a first step we will need to create a project, open your terminal application and run the following command:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="nv">$ </span>motion create estimator
+</pre></div></div></div>
+<div class="paragraph"><p>If we look at the new folder "Estimator", we will find a couple of new folders: "app", "resources", "spec".</p></div>
+<div class="paragraph"><p>Next, lets copy our application images from <strong>(define deploy route)</strong> into the resources folder</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_first_run">First Run</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>Just to make sure that everything is fine, we can test our new created project by executing the following line</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="nv">$ </span><span class="nb">cd </span>estimator
+
+<span class="nv">$ </span>rake
+</pre></div></div></div>
+<div class="paragraph"><p>This command will compile the project and run it on the simulator, like the following image:</p></div>
+<div class="imageblock">
+<div class="content">
+<img src="resources/ch03-ObjectiveC/FirstRun.png" alt="First Run" />
+</div>
+<div class="title">Figure 8. First Run</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_project_view_controller">Project View Controller</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>Let&#8217;s start coding our project, first we need to create a new file that will contain our Project View Controller Class</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="nv">$ </span><span class="nb">cd </span>app
+
+<span class="nv">$ </span>mkdir controllers
+
+<span class="nv">$ </span><span class="nb">cd </span>controllers
+
+<span class="nv">$ </span>touch project_view_controller.rb
+</pre></div></div></div>
+<div class="paragraph"><p>Let&#8217;s open it, and add the following lines:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="nv">$ </span>open project_view_controller.rb
+</pre></div></div></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">class</span> <span class="nc">ProjectViewController</span> <span class="o">&lt;</span> <span class="no">UIViewController</span>
+
+  <span class="kp">private</span>
+
+  <span class="k">def</span> <span class="nf">loadView</span>
+
+    <span class="nb">self</span><span class="o">.</span><span class="n">view</span> <span class="o">=</span> <span class="no">UIView</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">init</span>
+    <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">redColor</span>
+
+  <span class="k">end</span>
+
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>Next we need to open the "AppDelegate" of the app, and load our controller into the UIWindow. This is done by inserting the following:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="nv">$ </span><span class="nb">cd</span> ..
+
+<span class="nv">$ </span>open app_delegate.rb
+</pre></div></div></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">application</span><span class="p">(</span><span class="n">application</span><span class="p">,</span> <span class="n">didFinishLaunchingWithOptions</span><span class="ss">:launchOptions</span><span class="p">)</span>
+
+  <span class="c1">#Create an instance of Project View Controller</span>
+  <span class="n">project_view_controller</span> <span class="o">=</span> <span class="no">ProjectViewController</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">init</span>
+
+  <span class="vi">@window</span> <span class="o">=</span> <span class="no">UIWindow</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithFrame</span><span class="p">(</span><span class="no">UIScreen</span><span class="o">.</span><span class="n">mainScreen</span><span class="o">.</span><span class="n">bounds</span><span class="p">)</span>
+
+  <span class="c1">#Every window has a root view controller from which it will present its view</span>
+  <span class="vi">@window</span><span class="o">.</span><span class="n">rootViewController</span> <span class="o">=</span> <span class="n">project_view_controller</span>
+  <span class="vi">@window</span><span class="o">.</span><span class="n">makeKeyAndVisible</span>
+
+  <span class="kp">true</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>This part will load a new instance of our Project View Controller and insert its view into the UIWindow. Please note that the UIWindow receives a controller as rootViewController, instead of a view.</p></div>
+<div class="paragraph"><p>If we run the project it should look like the following image:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="nv">$ </span>rake
+</pre></div></div></div>
+<div class="imageblock">
+<div class="content">
+<img src="resources/ch03-ObjectiveC/ProjectViewController.png" alt="Project View Controller" />
+</div>
+<div class="title">Figure 9. Project View Controller</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_project_view">Project View</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>Next we need to add some controls for the user to select the number of screens of the project, complexity, methodology, etc. For this is required to add the following method to the project_view_controller.rb file:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">layout_view</span>
+
+  <span class="c1"># Initialize a new view for the controller</span>
+  <span class="nb">self</span><span class="o">.</span><span class="n">view</span> <span class="o">=</span> <span class="no">UIView</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">init</span>
+  <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">colorWithRed</span><span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">902</span><span class="p">,</span> <span class="n">green</span><span class="p">:</span> <span class="mi">0</span><span class="o">.</span><span class="mi">902</span><span class="p">,</span> <span class="n">blue</span><span class="p">:</span> <span class="mi">0</span><span class="o">.</span><span class="mi">902</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span> <span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span>
+
+  <span class="c1"># The following is an initialization and add of controls into the view</span>
+
+
+  <span class="c1"># First create an instance of UIImageView, this control will present an Image into the view</span>
+  <span class="c1"># for this case a black header</span>
+  <span class="vi">@header_image_view</span> <span class="o">=</span> <span class="no">UIImageView</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithFrame</span><span class="p">(</span><span class="no">CGRectMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">320</span><span class="p">,</span> <span class="mi">60</span><span class="p">))</span>
+  <span class="vi">@header_image_view</span><span class="o">.</span><span class="n">image</span> <span class="o">=</span> <span class="no">UIImage</span><span class="o">.</span><span class="n">imageNamed</span><span class="p">(</span><span class="s2">&quot;bgHeader.png&quot;</span><span class="p">)</span>
+
+  <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="vi">@header_image_view</span><span class="p">)</span>
+
+
+  <span class="c1"># Next we create an instance of UILabel, tellling it the position on the screen that</span>
+  <span class="c1"># we want it to be drawn. For this we use a c struct called CGFrame</span>
+  <span class="vi">@title_label</span> <span class="o">=</span> <span class="no">UILabel</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithFrame</span><span class="p">(</span><span class="no">CGRectMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">320</span><span class="p">,</span> <span class="mi">50</span><span class="p">))</span>
+  <span class="vi">@title_label</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;Project Estimator&quot;</span>
+  <span class="vi">@title_label</span><span class="o">.</span><span class="n">color</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">colorWithRed</span><span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">702</span><span class="p">,</span> <span class="n">green</span><span class="p">:</span> <span class="mi">0</span><span class="o">.</span><span class="mi">702</span><span class="p">,</span> <span class="n">blue</span><span class="p">:</span> <span class="mi">0</span><span class="o">.</span><span class="mi">702</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span> <span class="mi">1</span><span class="o">.</span><span class="mo">000</span><span class="p">)</span>
+  <span class="vi">@title_label</span><span class="o">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">clearColor</span>
+  <span class="vi">@title_label</span><span class="o">.</span><span class="n">textAlignment</span> <span class="o">=</span> <span class="no">UITextAlignmentCenter</span>
+
+  <span class="c1"># To specify a custom Font we need to tell the proper name of it and the size that we want</span>
+  <span class="vi">@title_label</span><span class="o">.</span><span class="n">font</span> <span class="o">=</span> <span class="no">UIFont</span><span class="o">.</span><span class="n">fontWithName</span><span class="p">(</span><span class="s2">&quot;AvenirNext-Bold&quot;</span><span class="p">,</span> <span class="n">size</span><span class="p">:</span> <span class="mi">25</span><span class="p">)</span>
+
+  <span class="c1"># Then we add it to the view like this way</span>
+  <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="vi">@title_label</span><span class="p">)</span>
+
+
+  <span class="vi">@number_of_screens_text_field</span> <span class="o">=</span> <span class="no">UITextField</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithFrame</span><span class="p">(</span><span class="no">CGRectMake</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">75</span><span class="p">,</span> <span class="mi">300</span><span class="p">,</span> <span class="mi">45</span><span class="p">))</span>
+  <span class="vi">@number_of_screens_text_field</span><span class="o">.</span><span class="n">borderStyle</span> <span class="o">=</span> <span class="no">UITextBorderStyleRoundedRect</span>
+  <span class="vi">@number_of_screens_text_field</span><span class="o">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="nb">self</span>
+  <span class="vi">@number_of_screens_text_field</span><span class="o">.</span><span class="n">keyboardType</span> <span class="o">=</span> <span class="no">UIKeyboardTypeNumbersAndPunctuation</span>
+  <span class="vi">@number_of_screens_text_field</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+  <span class="vi">@number_of_screens_text_field</span><span class="o">.</span><span class="n">background</span> <span class="o">=</span> <span class="no">UIImage</span><span class="o">.</span><span class="n">imageNamed</span><span class="p">(</span><span class="s2">&quot;bgTextField.png&quot;</span><span class="p">)</span>
+  <span class="vi">@number_of_screens_text_field</span><span class="o">.</span><span class="n">borderStyle</span> <span class="o">=</span> <span class="no">UITextBorderStyleNone</span>
+  <span class="vi">@number_of_screens_text_field</span><span class="o">.</span><span class="n">placeholder</span> <span class="o">=</span> <span class="s2">&quot;Number of Screens&quot;</span>
+  <span class="vi">@number_of_screens_text_field</span><span class="o">.</span><span class="n">textColor</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">colorWithRed</span><span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">451</span><span class="p">,</span> <span class="n">green</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mi">451</span><span class="p">,</span> <span class="n">blue</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mi">451</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span>
+  <span class="vi">@number_of_screens_text_field</span><span class="o">.</span><span class="n">textAlignment</span> <span class="o">=</span> <span class="no">UITextAlignmentCenter</span>
+  <span class="vi">@number_of_screens_text_field</span><span class="o">.</span><span class="n">font</span> <span class="o">=</span> <span class="no">UIFont</span><span class="o">.</span><span class="n">fontWithName</span><span class="p">(</span><span class="s2">&quot;AvenirNextCondensed-DemiBold&quot;</span><span class="p">,</span> <span class="n">size</span><span class="p">:</span><span class="mi">25</span><span class="p">)</span>
+  <span class="vi">@number_of_screens_text_field</span><span class="o">.</span><span class="n">contentVerticalAlignment</span> <span class="o">=</span> <span class="no">UIControlContentVerticalAlignmentCenter</span>
+
+  <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="vi">@number_of_screens_text_field</span><span class="p">)</span>
+
+
+  <span class="vi">@complexity_label</span> <span class="o">=</span> <span class="no">UILabel</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithFrame</span><span class="p">(</span><span class="no">CGRectMake</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">140</span><span class="p">,</span> <span class="mi">300</span><span class="p">,</span> <span class="mi">30</span><span class="p">))</span>
+  <span class="vi">@complexity_label</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;Complexity&quot;</span>
+  <span class="vi">@complexity_label</span><span class="o">.</span><span class="n">color</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">colorWithRed</span><span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">400</span><span class="p">,</span> <span class="n">green</span><span class="p">:</span> <span class="mi">0</span><span class="o">.</span><span class="mi">400</span><span class="p">,</span> <span class="n">blue</span><span class="p">:</span> <span class="mi">0</span><span class="o">.</span><span class="mi">400</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span> <span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span>
+  <span class="vi">@complexity_label</span><span class="o">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">clearColor</span>
+  <span class="vi">@complexity_label</span><span class="o">.</span><span class="n">font</span> <span class="o">=</span> <span class="no">UIFont</span><span class="o">.</span><span class="n">fontWithName</span><span class="p">(</span><span class="s2">&quot;AvenirNext-DemiBold&quot;</span><span class="p">,</span> <span class="n">size</span><span class="p">:</span> <span class="mi">20</span><span class="p">)</span>
+  <span class="vi">@complexity_label</span><span class="o">.</span><span class="n">textAlignment</span> <span class="o">=</span> <span class="no">UITextAlignmentCenter</span>
+
+  <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="vi">@complexity_label</span><span class="p">)</span>
+
+
+  <span class="c1"># For the UISegmentedControl to work, we need to pass him the possible values</span>
+  <span class="c1"># in this case a NSArray do the trick</span>
+  <span class="vi">@complexity_values</span> <span class="o">=</span> <span class="no">NSMutableArray</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">init</span>
+  <span class="vi">@complexity_values</span><span class="o">.</span><span class="n">addObject</span><span class="p">(</span><span class="s2">&quot;Low&quot;</span><span class="p">)</span>
+  <span class="vi">@complexity_values</span><span class="o">.</span><span class="n">addObject</span><span class="p">(</span><span class="s2">&quot;High&quot;</span><span class="p">)</span>
+
+  <span class="c1"># We create an instance of a UISegmentedControl, setting the allowed values for it</span>
+  <span class="vi">@complexity_segmented_control</span> <span class="o">=</span> <span class="no">UISegmentedControl</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithItems</span><span class="p">(</span><span class="vi">@complexity_values</span><span class="p">)</span>
+  <span class="vi">@complexity_segmented_control</span><span class="o">.</span><span class="n">frame</span> <span class="o">=</span> <span class="no">CGRectMake</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">170</span><span class="p">,</span> <span class="mi">300</span><span class="p">,</span> <span class="mi">30</span><span class="p">)</span>
+
+
+  <span class="c1"># Its not required to set a selected index, but for this example we select the first segment</span>
+  <span class="vi">@complexity_segmented_control</span><span class="o">.</span><span class="n">selectedSegmentIndex</span> <span class="o">=</span> <span class="mi">0</span>
+
+  <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="vi">@complexity_segmented_control</span><span class="p">)</span>
+
+
+  <span class="vi">@outsourced_label</span> <span class="o">=</span> <span class="no">UILabel</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithFrame</span><span class="p">(</span><span class="no">CGRectMake</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">210</span><span class="p">,</span> <span class="mi">300</span><span class="p">,</span> <span class="mi">30</span><span class="p">))</span>
+  <span class="vi">@outsourced_label</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;Outsourced&quot;</span>
+  <span class="vi">@outsourced_label</span><span class="o">.</span><span class="n">color</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">colorWithRed</span><span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">400</span><span class="p">,</span> <span class="n">green</span><span class="p">:</span> <span class="mi">0</span><span class="o">.</span><span class="mi">400</span><span class="p">,</span> <span class="n">blue</span><span class="p">:</span> <span class="mi">0</span><span class="o">.</span><span class="mi">400</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span> <span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span>
+  <span class="vi">@outsourced_label</span><span class="o">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">clearColor</span>
+  <span class="vi">@outsourced_label</span><span class="o">.</span><span class="n">font</span> <span class="o">=</span> <span class="no">UIFont</span><span class="o">.</span><span class="n">fontWithName</span><span class="p">(</span><span class="s2">&quot;AvenirNext-DemiBold&quot;</span><span class="p">,</span> <span class="n">size</span><span class="p">:</span> <span class="mi">20</span><span class="p">)</span>
+  <span class="vi">@outsourced_label</span><span class="o">.</span><span class="n">textAlignment</span> <span class="o">=</span> <span class="no">UITextAlignmentCenter</span>
+
+  <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="vi">@outsourced_label</span><span class="p">)</span>
+
+
+  <span class="vi">@outsourced_values</span> <span class="o">=</span> <span class="no">NSMutableArray</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">init</span>
+  <span class="vi">@outsourced_values</span><span class="o">.</span><span class="n">addObject</span><span class="p">(</span><span class="s2">&quot;No&quot;</span><span class="p">)</span>
+  <span class="vi">@outsourced_values</span><span class="o">.</span><span class="n">addObject</span><span class="p">(</span><span class="s2">&quot;Yes&quot;</span><span class="p">)</span>
+
+  <span class="vi">@outsourced_segmented_control</span> <span class="o">=</span> <span class="no">UISegmentedControl</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithItems</span><span class="p">(</span><span class="vi">@outsourced_values</span><span class="p">)</span>
+  <span class="vi">@outsourced_segmented_control</span><span class="o">.</span><span class="n">frame</span> <span class="o">=</span> <span class="no">CGRectMake</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">240</span><span class="p">,</span> <span class="mi">300</span><span class="p">,</span> <span class="mi">30</span><span class="p">)</span>
+  <span class="vi">@outsourced_segmented_control</span><span class="o">.</span><span class="n">selectedSegmentIndex</span> <span class="o">=</span> <span class="mi">0</span>
+
+  <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="vi">@outsourced_segmented_control</span><span class="p">)</span>
+
+
+  <span class="vi">@methodology_label</span> <span class="o">=</span> <span class="no">UILabel</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithFrame</span><span class="p">(</span><span class="no">CGRectMake</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">290</span><span class="p">,</span> <span class="mi">300</span><span class="p">,</span> <span class="mi">30</span><span class="p">))</span>
+  <span class="vi">@methodology_label</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;Methodology&quot;</span>
+  <span class="vi">@methodology_label</span><span class="o">.</span><span class="n">color</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">colorWithRed</span><span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">400</span><span class="p">,</span> <span class="n">green</span><span class="p">:</span> <span class="mi">0</span><span class="o">.</span><span class="mi">400</span><span class="p">,</span> <span class="n">blue</span><span class="p">:</span> <span class="mi">0</span><span class="o">.</span><span class="mi">400</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span> <span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span>
+  <span class="vi">@methodology_label</span><span class="o">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">clearColor</span>
+  <span class="vi">@methodology_label</span><span class="o">.</span><span class="n">font</span> <span class="o">=</span> <span class="no">UIFont</span><span class="o">.</span><span class="n">fontWithName</span><span class="p">(</span><span class="s2">&quot;AvenirNext-DemiBold&quot;</span><span class="p">,</span> <span class="n">size</span><span class="p">:</span> <span class="mi">20</span><span class="p">)</span>
+  <span class="vi">@methodology_label</span><span class="o">.</span><span class="n">textAlignment</span> <span class="o">=</span> <span class="no">UITextAlignmentCenter</span>
+
+  <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="vi">@methodology_label</span><span class="p">)</span>
+
+
+  <span class="vi">@methodology_values</span> <span class="o">=</span> <span class="no">NSMutableArray</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">init</span>
+  <span class="vi">@methodology_values</span><span class="o">.</span><span class="n">addObject</span><span class="p">(</span><span class="s2">&quot;Waterfall&quot;</span><span class="p">)</span>
+  <span class="vi">@methodology_values</span><span class="o">.</span><span class="n">addObject</span><span class="p">(</span><span class="s2">&quot;Agile&quot;</span><span class="p">)</span>
+
+  <span class="vi">@methodology_segmented_control</span> <span class="o">=</span> <span class="no">UISegmentedControl</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithItems</span><span class="p">(</span><span class="vi">@methodology_values</span><span class="p">)</span>
+  <span class="vi">@methodology_segmented_control</span><span class="o">.</span><span class="n">frame</span> <span class="o">=</span> <span class="no">CGRectMake</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">320</span><span class="p">,</span> <span class="mi">300</span><span class="p">,</span> <span class="mi">30</span><span class="p">)</span>
+  <span class="vi">@methodology_segmented_control</span><span class="o">.</span><span class="n">selectedSegmentIndex</span> <span class="o">=</span> <span class="mi">0</span>
+
+  <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="vi">@methodology_segmented_control</span><span class="p">)</span>
+
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>Also for this to work, we need to change the loadView method to look as the following:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">loadView</span>
+
+  <span class="n">layout_view</span>
+
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>Let&#8217;s run the application:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="nv">$ </span>rake
+</pre></div></div></div>
+<div class="imageblock">
+<div class="content">
+<img src="resources/ch03-ObjectiveC/ProjectView.png" alt="Project View" />
+</div>
+<div class="title">Figure 10. Project View</div>
+</div>
+<div class="paragraph"><p>The segmented controls does not look that pretty right?, lets customize their apperance adding the following method to the project_view_controller.rb file:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="c1"># Method to customize the appearance of the UISegmentedControl</span>
+<span class="k">def</span> <span class="nf">customize_segmented_control</span>
+
+  <span class="c1"># Lets load the images from their respective files</span>
+  <span class="n">segmented_control_normal_background</span> <span class="o">=</span> <span class="no">UIImage</span><span class="o">.</span><span class="n">imageNamed</span><span class="p">(</span><span class="s2">&quot;bgSegmentedControlNormal.png&quot;</span><span class="p">)</span>
+  <span class="n">segmented_control_selected_background</span> <span class="o">=</span> <span class="no">UIImage</span><span class="o">.</span><span class="n">imageNamed</span><span class="p">(</span><span class="s2">&quot;bgSegmentedControlSelected.png&quot;</span><span class="p">)</span>
+  <span class="n">segmented_control_separator</span> <span class="o">=</span> <span class="no">UIImage</span><span class="o">.</span><span class="n">imageNamed</span><span class="p">(</span><span class="s2">&quot;bgSegmentedControlSeparator.png&quot;</span><span class="p">)</span>
+
+
+  <span class="c1"># Apply the image for the background when the segment is not selected</span>
+  <span class="no">UISegmentedControl</span><span class="o">.</span><span class="n">appearance</span><span class="o">.</span><span class="n">setBackgroundImage</span><span class="p">(</span><span class="n">segmented_control_normal_background</span><span class="p">,</span>
+                                                   <span class="n">forState</span><span class="ss">:UIControlStateNormal</span><span class="p">,</span>
+                                                   <span class="n">barMetrics</span><span class="p">:</span> <span class="no">UIBarMetricsDefault</span><span class="p">)</span>
+
+  <span class="c1"># Apply the image for the background when the segment is selected</span>
+  <span class="no">UISegmentedControl</span><span class="o">.</span><span class="n">appearance</span><span class="o">.</span><span class="n">setBackgroundImage</span><span class="p">(</span><span class="n">segmented_control_selected_background</span><span class="p">,</span>
+                                                   <span class="n">forState</span><span class="ss">:UIControlStateSelected</span><span class="p">,</span>
+                                                   <span class="n">barMetrics</span><span class="p">:</span> <span class="no">UIBarMetricsDefault</span><span class="p">)</span>
+
+
+  <span class="c1"># Apply the image for the divider of the control</span>
+  <span class="no">UISegmentedControl</span><span class="o">.</span><span class="n">appearance</span><span class="o">.</span><span class="n">setDividerImage</span><span class="p">(</span><span class="n">segmented_control_separator</span><span class="p">,</span>
+                                                <span class="n">forLeftSegmentState</span><span class="p">:</span> <span class="no">UIControlStateNormal</span><span class="p">,</span>
+                                                <span class="n">rightSegmentState</span><span class="ss">:UIControlStateSelected</span><span class="p">,</span>
+                                                <span class="n">barMetrics</span><span class="ss">:UIBarMetricsDefault</span><span class="p">)</span>
+
+
+
+  <span class="c1"># Also we need to change the font of the titles, the first step is to load the font into the memory</span>
+  <span class="n">segmented_control_title_font</span> <span class="o">=</span> <span class="no">UIFont</span><span class="o">.</span><span class="n">fontWithName</span><span class="p">(</span><span class="s2">&quot;AvenirNextCondensed-Bold&quot;</span><span class="p">,</span> <span class="n">size</span><span class="p">:</span><span class="mi">20</span><span class="p">)</span>
+
+
+  <span class="c1"># To apply certain visual attributes to Apple&#39;s default controls, we need to use a iOS 5 technology</span>
+  <span class="c1"># called Skins. To work with screens we must create a dictionary with the key of the property we want</span>
+  <span class="c1"># to change and the proper value</span>
+  <span class="n">normal_title_text_attributes</span> <span class="o">=</span> <span class="no">NSMutableDictionary</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">init</span>
+  <span class="n">normal_title_text_attributes</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="n">segmented_control_title_font</span><span class="p">,</span> <span class="n">forKey</span><span class="ss">:UITextAttributeFont</span><span class="p">)</span>
+
+  <span class="n">normal_title_text_color</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">colorWithRed</span><span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">545</span><span class="p">,</span> <span class="n">green</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mi">749</span><span class="p">,</span> <span class="n">blue</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mi">349</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span>
+  <span class="n">normal_title_text_attributes</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="n">normal_title_text_color</span><span class="p">,</span> <span class="n">forKey</span><span class="p">:</span> <span class="no">UITextAttributeTextColor</span><span class="p">)</span>
+
+  <span class="n">normal_title_text_attributes</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="no">UIColor</span><span class="o">.</span><span class="n">clearColor</span><span class="p">,</span> <span class="n">forKey</span><span class="p">:</span> <span class="no">UITextAttributeTextShadowColor</span><span class="p">)</span>
+
+  <span class="c1"># Using Skins you can change the visual properties of all the same kind of controls at the same time,</span>
+  <span class="c1"># no matter if they were created on another class or in another excecution time. To archive this</span>
+  <span class="c1"># only send the messages to the class</span>
+  <span class="c1">#</span>
+  <span class="c1"># On the other side if you want only to modify one particular control, the following like will work</span>
+  <span class="c1"># on the instance instead of the class</span>
+  <span class="no">UISegmentedControl</span><span class="o">.</span><span class="n">appearance</span><span class="o">.</span><span class="n">setTitleTextAttributes</span><span class="p">(</span><span class="n">normal_title_text_attributes</span><span class="p">,</span> <span class="n">forState</span><span class="ss">:UIControlStateNormal</span><span class="p">)</span>
+
+
+
+  <span class="n">selected_title_text_attributes</span> <span class="o">=</span> <span class="no">NSMutableDictionary</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">init</span>
+  <span class="n">selected_title_text_attributes</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="n">segmented_control_title_font</span><span class="p">,</span> <span class="n">forKey</span><span class="ss">:UITextAttributeFont</span><span class="p">)</span>
+
+  <span class="n">selected_title_text_color</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">colorWithRed</span><span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">200</span><span class="p">,</span> <span class="n">green</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mi">200</span><span class="p">,</span> <span class="n">blue</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mi">200</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span>
+  <span class="n">selected_title_text_attributes</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="n">selected_title_text_color</span><span class="p">,</span> <span class="n">forKey</span><span class="ss">:UITextAttributeTextColor</span><span class="p">)</span>
+
+  <span class="no">UISegmentedControl</span><span class="o">.</span><span class="n">appearance</span><span class="o">.</span><span class="n">setTitleTextAttributes</span><span class="p">(</span><span class="n">selected_title_text_attributes</span><span class="p">,</span> <span class="n">forState</span><span class="ss">:UIControlStateSelected</span><span class="p">)</span>
+
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>And also we will need to change our loadView method again, lo look like this:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">loadView</span>
+
+  <span class="n">customize_segmented_control</span>
+  <span class="n">layout_view</span>
+
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>This time, if we run the application you should see the following in your simulator:</p></div>
+<div class="imageblock">
+<div class="content">
+<img src="resources/ch03-ObjectiveC/ProjectViewWithCustomSegmentedControls.png" alt="Project View with Custom Segmented Controls" />
+</div>
+<div class="title">Figure 11. Project View with Custom Segmented Controls</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_project_model">Project Model</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>First create a JSON file to contain all the estimated historical data (Fake one ;):</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="nv">$ </span>cd..
+
+<span class="nv">$ </span><span class="nb">cd </span>resources
+
+<span class="nv">$ </span>touch historical_data.json
+</pre></div></div></div>
+<div class="paragraph"><p>Then add the following line to the file:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="nv">$ </span>open historical_data.json
+</pre></div></div></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="p">{</span>
+  <span class="nt">&quot;Complexity&quot;</span><span class="p">:</span>
+  <span class="p">{</span>
+    <span class="nt">&quot;Low&quot;</span><span class="p">:</span>
+    <span class="p">{</span>
+      <span class="nt">&quot;TotalEffort&quot;</span><span class="p">:</span> <span class="mi">80</span><span class="p">,</span>
+      <span class="nt">&quot;Variation&quot;</span><span class="p">:</span> <span class="mi">5</span>
+    <span class="p">},</span>
+
+    <span class="nt">&quot;High&quot;</span><span class="p">:</span>
+    <span class="p">{</span>
+      <span class="nt">&quot;TotalEffort&quot;</span><span class="p">:</span> <span class="mi">400</span><span class="p">,</span>
+      <span class="nt">&quot;Variation&quot;</span><span class="p">:</span> <span class="mi">20</span>
+    <span class="p">}</span>
+  <span class="p">},</span>
+
+  <span class="nt">&quot;Outsourced&quot;</span><span class="p">:</span>
+  <span class="p">{</span>
+    <span class="nt">&quot;No&quot;</span><span class="p">:</span>
+    <span class="p">{</span>
+      <span class="nt">&quot;TotalEffort&quot;</span><span class="p">:</span> <span class="mi">80</span><span class="p">,</span>
+      <span class="nt">&quot;Variation&quot;</span><span class="p">:</span> <span class="mi">5</span>
+    <span class="p">},</span>
+
+    <span class="nt">&quot;Yes&quot;</span><span class="p">:</span>
+    <span class="p">{</span>
+      <span class="nt">&quot;TotalEffort&quot;</span><span class="p">:</span> <span class="mi">400</span><span class="p">,</span>
+      <span class="nt">&quot;Variation&quot;</span><span class="p">:</span> <span class="mi">7</span>
+    <span class="p">}</span>
+  <span class="p">},</span>
+
+  <span class="nt">&quot;Methodology&quot;</span><span class="p">:</span>
+  <span class="p">{</span>
+    <span class="nt">&quot;Waterfall&quot;</span><span class="p">:</span>
+    <span class="p">{</span>
+      <span class="nt">&quot;TotalEffort&quot;</span><span class="p">:</span> <span class="mi">400</span><span class="p">,</span>
+      <span class="nt">&quot;Variation&quot;</span><span class="p">:</span> <span class="mi">15</span>
+    <span class="p">},</span>
+
+    <span class="nt">&quot;Agile&quot;</span><span class="p">:</span>
+    <span class="p">{</span>
+      <span class="nt">&quot;TotalEffort&quot;</span><span class="p">:</span> <span class="mi">80</span><span class="p">,</span>
+      <span class="nt">&quot;Variation&quot;</span><span class="p">:</span> <span class="mi">3</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div></div></div>
+<div class="paragraph"><p>Now we need a object that make the estimation calculus, this object will be called "Project", let&#8217;s create the file that will contain it:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="nv">$ </span><span class="nb">cd</span> ..
+
+<span class="nv">$ </span>mkdir models
+
+<span class="nv">$ </span><span class="nb">cd </span>models
+
+<span class="nv">$ </span>touch project.rb
+</pre></div></div></div>
+<div class="paragraph"><p>Add the next lines to it:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Project</span>
+
+  <span class="c1">#Constants representing Keys in the JSON</span>
+  <span class="no">COMPLEXITY_DATA_KEY</span> <span class="o">=</span> <span class="s1">&#39;Complexity&#39;</span>
+  <span class="no">OUTSOURCED_DATA_KEY</span> <span class="o">=</span> <span class="s1">&#39;Outsourced&#39;</span>
+  <span class="no">METHODOLOGY_DATA_KEY</span> <span class="o">=</span> <span class="s1">&#39;Methodology&#39;</span>
+  <span class="no">TOTAL_EFFORT_DATA_KEY</span> <span class="o">=</span> <span class="s1">&#39;TotalEffort&#39;</span>
+  <span class="no">VARIATION_DATA_KEY</span> <span class="o">=</span> <span class="s1">&#39;Variation&#39;</span>
+
+  <span class="kp">attr_accessor</span> <span class="ss">:number_of_screens</span>
+  <span class="kp">attr_accessor</span> <span class="ss">:complexity</span>
+  <span class="kp">attr_accessor</span> <span class="ss">:outsourced</span>
+  <span class="kp">attr_accessor</span> <span class="ss">:methodology</span>
+
+  <span class="kp">attr_reader</span> <span class="ss">:total_effort</span>
+  <span class="kp">attr_reader</span> <span class="ss">:variation</span>
+  <span class="kp">attr_reader</span> <span class="ss">:delivery_year</span>
+
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>Great!, Now we need to add the logic to read our JSON File, insert the following method in the class:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">load_historical_estimates</span>
+
+  <span class="c1"># Get the path of our JSON File inside the bundle</span>
+  <span class="n">historical_data_file</span>  <span class="o">=</span> <span class="no">NSBundle</span><span class="o">.</span><span class="n">mainBundle</span><span class="o">.</span><span class="n">pathForResource</span><span class="p">(</span><span class="s1">&#39;historical_data&#39;</span><span class="p">,</span> <span class="n">ofType</span><span class="ss">:&#39;json&#39;</span><span class="p">)</span>
+
+  <span class="c1"># For us to load the file, we need to pass a pointer. So if something goes wrong we can print</span>
+  <span class="c1"># the error</span>
+  <span class="n">error_pointer</span> <span class="o">=</span> <span class="no">Pointer</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">:object</span><span class="p">)</span>
+
+  <span class="c1"># Lets load the file into a NSData</span>
+  <span class="n">historical_data</span> <span class="o">=</span> <span class="no">NSData</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithContentsOfFile</span><span class="p">(</span><span class="n">historical_data_file</span><span class="p">,</span>                                                                   <span class="n">options</span><span class="ss">:NSDataReadingUncached</span><span class="p">,</span>
+                                                <span class="n">error</span><span class="ss">:error_pointer</span><span class="p">)</span>
+
+  <span class="k">unless</span> <span class="n">historical_data</span>
+
+    <span class="k">if</span> <span class="n">error_pointer</span><span class="o">[</span><span class="mi">0</span><span class="o">].</span><span class="n">code</span> <span class="o">==</span> <span class="no">NSFileReadNoSuchFileError</span>
+
+      <span class="vg">$stderr</span><span class="o">.</span><span class="n">puts</span> <span class="s2">&quot;Error: Missing File Error&quot;</span>
+
+    <span class="k">else</span>
+
+      <span class="vg">$stderr</span><span class="o">.</span><span class="n">puts</span> <span class="s2">&quot;Error: </span><span class="si">#{</span><span class="n">error_pointer</span><span class="o">[</span><span class="mi">0</span><span class="o">].</span><span class="n">description</span><span class="si">}</span><span class="s2">&quot;</span>
+
+    <span class="k">end</span>
+
+    <span class="k">return</span> <span class="kp">nil</span>
+
+  <span class="k">end</span>
+
+
+  <span class="c1"># Serialize the NSData into something we can work with, in this case a Hash</span>
+  <span class="n">historical_estimates</span> <span class="o">=</span> <span class="no">NSJSONSerialization</span><span class="o">.</span><span class="n">JSONObjectWithData</span><span class="p">(</span><span class="n">historical_data</span><span class="p">,</span>
+                                                                  <span class="n">options</span><span class="p">:</span> <span class="no">NSDataReadingUncached</span><span class="p">,</span>
+                                                                  <span class="n">error</span><span class="p">:</span> <span class="n">error_pointer</span><span class="p">)</span>
+
+  <span class="k">unless</span> <span class="n">historical_estimates</span>
+
+    <span class="vg">$stderr</span><span class="o">.</span><span class="n">puts</span> <span class="s2">&quot;Error: </span><span class="si">#{</span><span class="n">error_pointer</span><span class="o">[</span><span class="mi">0</span><span class="o">].</span><span class="n">description</span><span class="si">}</span><span class="s2">&quot;</span>
+
+    <span class="k">return</span> <span class="kp">nil</span>
+  <span class="k">end</span>
+
+
+  <span class="n">historical_estimates</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>Now we have read our JSON file, the next thing is to extract the historical data into something we can use to make the calculus. This following methods should be added to the class:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">obtain_historical_complexity</span>
+
+  <span class="vi">@complexity_total_effort</span> <span class="o">=</span> <span class="kp">nil</span>
+  <span class="vi">@complexity_variation</span> <span class="o">=</span> <span class="kp">nil</span>
+
+  <span class="n">historical_complexity</span> <span class="o">=</span> <span class="vi">@historical_estimates</span><span class="o">[</span><span class="no">COMPLEXITY_DATA_KEY</span><span class="o">]</span>
+
+  <span class="c1"># We use the user selection as a Key</span>
+  <span class="k">unless</span> <span class="n">historical_complexity</span><span class="o">[</span><span class="vi">@complexity</span><span class="o">].</span><span class="n">nil?</span>
+
+    <span class="n">selected_historical_complexity</span> <span class="o">=</span> <span class="n">historical_complexity</span><span class="o">[</span><span class="vi">@complexity</span><span class="o">]</span>
+
+    <span class="vi">@complexity_total_effort</span> <span class="o">=</span> <span class="n">selected_historical_complexity</span><span class="o">[</span><span class="no">TOTAL_EFFORT_DATA_KEY</span><span class="o">]</span>
+    <span class="vi">@complexity_variation</span> <span class="o">=</span> <span class="n">selected_historical_complexity</span><span class="o">[</span><span class="no">VARIATION_DATA_KEY</span><span class="o">]</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+
+<span class="k">def</span> <span class="nf">obtain_historical_outsourced</span>
+
+  <span class="vi">@outsourced_total_effort</span> <span class="o">=</span> <span class="kp">nil</span>
+  <span class="vi">@outsourced_variation</span> <span class="o">=</span> <span class="kp">nil</span>
+
+  <span class="n">historical_outsourced</span> <span class="o">=</span> <span class="vi">@historical_estimates</span><span class="o">[</span><span class="no">OUTSOURCED_DATA_KEY</span><span class="o">]</span>
+
+  <span class="c1"># We use the user selection as a Key</span>
+  <span class="k">unless</span> <span class="n">historical_outsourced</span><span class="o">[</span><span class="vi">@outsourced</span><span class="o">].</span><span class="n">nil?</span>
+
+    <span class="n">selected_historical_outsourced</span> <span class="o">=</span> <span class="n">historical_outsourced</span><span class="o">[</span><span class="vi">@outsourced</span><span class="o">]</span>
+
+    <span class="vi">@outsourced_total_effort</span> <span class="o">=</span> <span class="n">selected_historical_outsourced</span><span class="o">[</span><span class="no">TOTAL_EFFORT_DATA_KEY</span><span class="o">]</span>
+    <span class="vi">@outsourced_variation</span> <span class="o">=</span> <span class="n">selected_historical_outsourced</span><span class="o">[</span><span class="no">VARIATION_DATA_KEY</span><span class="o">]</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+
+<span class="k">def</span> <span class="nf">obtain_historical_methodology</span>
+
+  <span class="vi">@methodology_total_effort</span> <span class="o">=</span> <span class="kp">nil</span>
+  <span class="vi">@methodology_variation</span> <span class="o">=</span> <span class="kp">nil</span>
+
+  <span class="n">historical_methodology</span> <span class="o">=</span> <span class="vi">@historical_estimates</span><span class="o">[</span><span class="no">METHODOLOGY_DATA_KEY</span><span class="o">]</span>
+
+  <span class="c1"># We use the user selection as a Key</span>
+  <span class="k">unless</span> <span class="n">historical_methodology</span><span class="o">[</span><span class="vi">@methodology</span><span class="o">].</span><span class="n">nil?</span>
+
+    <span class="n">selected_historical_methodology</span> <span class="o">=</span> <span class="n">historical_methodology</span><span class="o">[</span><span class="vi">@methodology</span><span class="o">]</span>
+
+    <span class="vi">@methodology_total_effort</span> <span class="o">=</span> <span class="n">selected_historical_methodology</span><span class="o">[</span><span class="no">TOTAL_EFFORT_DATA_KEY</span><span class="o">]</span>
+    <span class="vi">@methodology_variation</span> <span class="o">=</span> <span class="n">selected_historical_methodology</span><span class="o">[</span><span class="no">VARIATION_DATA_KEY</span><span class="o">]</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>Almost there! Lets add the algorithm to make the calculus, inserting the following methods:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">calculate_total_effort</span>
+
+  <span class="c1"># We add all the possible total effort that the user selected</span>
+  <span class="n">total_effort_data</span> <span class="o">=</span> <span class="vi">@complexity_total_effort</span> <span class="o">+</span> <span class="vi">@outsourced_total_effort</span> <span class="o">+</span> <span class="vi">@methodology_total_effort</span>
+
+  <span class="c1"># Generate a random with the minimum value of a half of the total effort</span>
+  <span class="n">total_effort</span> <span class="o">=</span> <span class="nb">rand</span><span class="p">(</span><span class="n">total_effort_data</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">total_effort_data</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+
+  <span class="c1"># Calculate the effort plus the number of screens as percentage</span>
+  <span class="n">total_effort</span> <span class="o">*</span> <span class="p">((</span><span class="vi">@number_of_screens</span> <span class="o">/</span> <span class="mi">100</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+<span class="k">end</span>
+
+
+<span class="k">def</span> <span class="nf">calculate_variation</span>
+
+  <span class="c1"># We add all the possible variation that the user selected</span>
+  <span class="n">variation_data</span> <span class="o">=</span> <span class="vi">@complexity_variation</span> <span class="o">+</span> <span class="vi">@outsourced_variation</span> <span class="o">+</span> <span class="vi">@methodology_variation</span>
+
+  <span class="nb">rand</span><span class="p">(</span><span class="n">variation_data</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">variation_data</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+<span class="k">end</span>
+
+
+<span class="k">def</span> <span class="nf">calculate_delivery_year</span>
+
+  <span class="c1"># Calculate the total effort plus the posible variation</span>
+  <span class="n">total_effort_with_variation</span> <span class="o">=</span> <span class="vi">@total_effort</span> <span class="o">*</span> <span class="p">(</span><span class="vi">@variation</span> <span class="o">/</span> <span class="mi">100</span><span class="p">)</span>
+
+  <span class="c1"># Transform the hours into working weeks</span>
+  <span class="n">total_effort_days</span> <span class="o">=</span> <span class="n">total_effort_with_variation</span> <span class="o">/</span> <span class="mi">8</span>
+  <span class="n">total_effort_weeks</span> <span class="o">=</span> <span class="n">total_effort_days</span> <span class="o">/</span> <span class="mi">5</span>
+
+
+  <span class="c1"># In the following part we add the calculated weeks to the current date</span>
+  <span class="n">weekComponent</span> <span class="o">=</span> <span class="no">NSDateComponents</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">init</span>
+  <span class="n">weekComponent</span><span class="o">.</span><span class="n">week</span> <span class="o">=</span> <span class="n">total_effort_weeks</span>
+
+  <span class="n">calendar</span> <span class="o">=</span> <span class="no">NSCalendar</span><span class="o">.</span><span class="n">currentCalendar</span>
+
+  <span class="n">delivery_date</span> <span class="o">=</span> <span class="n">calendar</span><span class="o">.</span><span class="n">dateByAddingComponents</span><span class="p">(</span><span class="n">weekComponent</span><span class="p">,</span>
+                                                     <span class="n">toDate</span><span class="p">:</span> <span class="no">NSDate</span><span class="o">.</span><span class="n">date</span><span class="p">,</span>
+                                                     <span class="n">options</span><span class="p">:</span> <span class="mi">0</span><span class="p">)</span>
+
+
+  <span class="c1"># Of the resulting date we only need the year, in the following section is extracted</span>
+  <span class="n">yearComponent</span> <span class="o">=</span> <span class="n">calendar</span><span class="o">.</span><span class="n">components</span><span class="p">(</span><span class="no">NSYearCalendarUnit</span><span class="p">,</span> <span class="n">fromDate</span><span class="p">:</span> <span class="n">delivery_date</span><span class="p">)</span>
+
+  <span class="n">yearComponent</span><span class="o">.</span><span class="n">year</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>Last part! A method that will execute the calculus, this method will be called by the Project View Controller:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">estimate</span>
+
+  <span class="vi">@historical_estimates</span> <span class="o">=</span> <span class="n">load_historical_estimates</span>
+
+
+  <span class="n">obtain_historical_complexity</span>
+  <span class="n">obtain_historical_outsourced</span>
+  <span class="n">obtain_historical_methodology</span>
+
+
+  <span class="vi">@total_effort</span> <span class="o">=</span>  <span class="n">calculate_total_effort</span>
+  <span class="vi">@variation</span> <span class="o">=</span> <span class="n">calculate_variation</span>
+  <span class="vi">@delivery_year</span> <span class="o">=</span> <span class="n">calculate_delivery_year</span>
+
+<span class="k">end</span>
+</pre></div></div></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_project_view_controller_and_project_model">Project View Controller and Project Model</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>We need to add a button to execute the estimation process, insert this lines on the button of the <em>layout_view</em> method, in the project_view_controller.rb file:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="nv">$ </span><span class="nb">cd</span> ..
+
+<span class="nv">$ </span><span class="nb">cd </span>controllers
+
+<span class="nv">$ </span>open project_view_controller.rb
+</pre></div></div></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre> <span class="c1"># This control initialization is radically different from the other ones, this is because</span>
+<span class="c1"># UIButton provides different types and styles of buttons. The default one is Rounded Rect</span>
+<span class="vi">@estimate_button</span> <span class="o">=</span> <span class="no">UIButton</span><span class="o">.</span><span class="n">buttonWithType</span><span class="p">(</span><span class="no">UIButtonTypeRoundedRect</span><span class="p">)</span>
+<span class="vi">@estimate_button</span><span class="o">.</span><span class="n">frame</span> <span class="o">=</span> <span class="no">CGRectMake</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">400</span><span class="p">,</span> <span class="mi">300</span><span class="p">,</span> <span class="mi">40</span><span class="p">)</span>
+
+<span class="c1"># Sometimes when we work with controls we can change the title or image based on different states of</span>
+<span class="c1"># it. (Normal, Selected, Highlighted)</span>
+<span class="vi">@estimate_button</span><span class="o">.</span><span class="n">setBackgroundImage</span><span class="p">(</span><span class="no">UIImage</span><span class="o">.</span><span class="n">imageNamed</span><span class="p">(</span><span class="s2">&quot;btnEstimate.png&quot;</span><span class="p">),</span> <span class="n">forState</span><span class="ss">:UIControlStateNormal</span><span class="p">)</span>
+<span class="c1">#@estimate_button.setTitle(&quot;Estimate this project&quot;, forState: UIControlStateNormal)</span>
+
+<span class="c1"># Lets tell the button who is going to call and where, when the user touch it</span>
+<span class="vi">@estimate_button</span><span class="o">.</span><span class="n">addTarget</span><span class="p">(</span><span class="nb">self</span><span class="p">,</span>
+                           <span class="n">action</span><span class="p">:</span> <span class="s2">&quot;estimate_project:&quot;</span><span class="p">,</span>
+                           <span class="n">forControlEvents</span><span class="p">:</span> <span class="no">UIControlEventTouchUpInside</span><span class="p">)</span>
+
+<span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="vi">@estimate_button</span><span class="p">)</span>
+</pre></div></div></div>
+<div class="admonitionblock">
+<table><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">The method is called estimate_project:, with the two dots</td>
+</tr></table>
+</div>
+<div class="paragraph"><p>Please pay special attention to the <em>addTarget</em> method, this is used to tell the button who and in which method it should call when the user touches it. In this case we are telling it to call the Project View Controller in the method "estimate_project:", lets add the following:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">estimate_project</span><span class="p">(</span><span class="n">sender</span><span class="p">)</span>
+
+  <span class="c1"># Create a new instance of Project</span>
+  <span class="n">project</span> <span class="o">=</span> <span class="no">Project</span><span class="o">.</span><span class="n">new</span>
+
+  <span class="n">project</span><span class="o">.</span><span class="n">number_of_screens</span> <span class="o">=</span> <span class="vi">@number_of_screens_text_field</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">intValue</span>
+
+
+  <span class="c1"># We need the selected index to extract the string value from the segmented allowed</span>
+  <span class="c1"># values array</span>
+  <span class="n">selected_complexity_index</span> <span class="o">=</span> <span class="vi">@complexity_segmented_control</span><span class="o">.</span><span class="n">selectedSegmentIndex</span>
+  <span class="n">project</span><span class="o">.</span><span class="n">complexity</span> <span class="o">=</span> <span class="vi">@complexity_values</span><span class="o">.</span><span class="n">objectAtIndex</span><span class="p">(</span><span class="n">selected_complexity_index</span><span class="p">)</span>
+
+
+  <span class="n">selected_outsourced_index</span> <span class="o">=</span> <span class="vi">@outsourced_segmented_control</span><span class="o">.</span><span class="n">selectedSegmentIndex</span>
+  <span class="n">project</span><span class="o">.</span><span class="n">outsourced</span> <span class="o">=</span> <span class="vi">@outsourced_values</span><span class="o">.</span><span class="n">objectAtIndex</span><span class="p">(</span><span class="n">selected_outsourced_index</span><span class="p">)</span>
+
+
+  <span class="n">selected_methodology_index</span> <span class="o">=</span> <span class="vi">@methodology_segmented_control</span><span class="o">.</span><span class="n">selectedSegmentIndex</span>
+  <span class="n">project</span><span class="o">.</span><span class="n">methodology</span> <span class="o">=</span> <span class="vi">@methodology_values</span><span class="o">.</span><span class="n">objectAtIndex</span><span class="p">(</span><span class="n">selected_methodology_index</span><span class="p">)</span>
+
+
+  <span class="n">project</span><span class="o">.</span><span class="n">estimate</span>
+
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>In this method we implement the creation of a new Project instance, setting the user input and finally we ask it to calculate the estimation</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_estimation_view_controller">Estimation View Controller</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>Now we need to add some place to show our calculated values, for this we need to create a new view controller called "Estimation View Controller":</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="nv">$ </span>touch estimation_view_controller.rb
+</pre></div></div></div>
+<div class="paragraph"><p>Add the following lines to the "estimation_view_controller.rb":</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">class</span> <span class="nc">EstimationViewController</span> <span class="o">&lt;</span> <span class="no">UIViewController</span>
+
+  <span class="k">def</span> <span class="nf">loadView</span>
+
+    <span class="n">layout_view</span>
+
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">layout_view</span>
+
+    <span class="nb">self</span><span class="o">.</span><span class="n">view</span> <span class="o">=</span> <span class="no">UIView</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">init</span>
+    <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">colorWithRed</span><span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">298</span><span class="p">,</span> <span class="n">green</span><span class="p">:</span> <span class="mi">0</span><span class="o">.</span><span class="mi">298</span><span class="p">,</span> <span class="n">blue</span><span class="p">:</span> <span class="mi">0</span><span class="o">.</span><span class="mi">298</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span> <span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="vi">@header_image_view</span> <span class="o">=</span> <span class="no">UIImageView</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithFrame</span><span class="p">(</span><span class="no">CGRectMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">320</span><span class="p">,</span> <span class="mi">60</span><span class="p">))</span>
+    <span class="vi">@header_image_view</span><span class="o">.</span><span class="n">image</span> <span class="o">=</span> <span class="no">UIImage</span><span class="o">.</span><span class="n">imageNamed</span><span class="p">(</span><span class="s2">&quot;bgHeader.png&quot;</span><span class="p">)</span>
+
+    <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="vi">@header_image_view</span><span class="p">)</span>
+
+
+    <span class="vi">@title_label</span> <span class="o">=</span> <span class="no">UILabel</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithFrame</span><span class="p">(</span><span class="no">CGRectMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">320</span><span class="p">,</span> <span class="mi">50</span><span class="p">))</span>
+    <span class="vi">@title_label</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;Estimation&quot;</span>
+    <span class="vi">@title_label</span><span class="o">.</span><span class="n">color</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">colorWithRed</span><span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">702</span><span class="p">,</span> <span class="n">green</span><span class="p">:</span> <span class="mi">0</span><span class="o">.</span><span class="mi">702</span><span class="p">,</span> <span class="n">blue</span><span class="p">:</span> <span class="mi">0</span><span class="o">.</span><span class="mi">702</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span> <span class="mi">1</span><span class="o">.</span><span class="mo">000</span><span class="p">)</span>
+    <span class="vi">@title_label</span><span class="o">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">clearColor</span>
+    <span class="vi">@title_label</span><span class="o">.</span><span class="n">textAlignment</span> <span class="o">=</span> <span class="no">UITextAlignmentCenter</span>
+    <span class="vi">@title_label</span><span class="o">.</span><span class="n">font</span> <span class="o">=</span> <span class="no">UIFont</span><span class="o">.</span><span class="n">fontWithName</span><span class="p">(</span><span class="s2">&quot;AvenirNext-Bold&quot;</span><span class="p">,</span> <span class="n">size</span><span class="p">:</span> <span class="mi">25</span><span class="p">)</span>
+
+    <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="vi">@title_label</span><span class="p">)</span>
+
+
+    <span class="vi">@total_effort_title_label</span> <span class="o">=</span> <span class="no">UILabel</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithFrame</span><span class="p">(</span><span class="no">CGRectMake</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">60</span><span class="p">,</span> <span class="mi">280</span><span class="p">,</span> <span class="mi">30</span><span class="p">))</span>
+    <span class="vi">@total_effort_title_label</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;Total effort&quot;</span>
+    <span class="vi">@total_effort_title_label</span><span class="o">.</span><span class="n">color</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">colorWithRed</span><span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">702</span><span class="p">,</span> <span class="n">green</span><span class="p">:</span> <span class="mi">0</span><span class="o">.</span><span class="mi">702</span><span class="p">,</span> <span class="n">blue</span><span class="p">:</span> <span class="mi">0</span><span class="o">.</span><span class="mi">702</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span> <span class="mi">1</span><span class="o">.</span><span class="mo">000</span><span class="p">)</span>
+    <span class="vi">@total_effort_title_label</span><span class="o">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">clearColor</span>
+    <span class="vi">@total_effort_title_label</span><span class="o">.</span><span class="n">font</span> <span class="o">=</span> <span class="no">UIFont</span><span class="o">.</span><span class="n">fontWithName</span><span class="p">(</span><span class="s2">&quot;AvenirNextCondensed-DemiBold&quot;</span><span class="p">,</span> <span class="n">size</span><span class="p">:</span> <span class="mi">35</span><span class="p">)</span>
+
+    <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="vi">@total_effort_title_label</span><span class="p">)</span>
+
+
+    <span class="vi">@total_effort_value_label</span> <span class="o">=</span> <span class="no">UILabel</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithFrame</span><span class="p">(</span><span class="no">CGRectMake</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">220</span><span class="p">,</span> <span class="mi">180</span><span class="p">))</span>
+    <span class="vi">@total_effort_value_label</span><span class="o">.</span><span class="n">color</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">whiteColor</span>
+    <span class="vi">@total_effort_value_label</span><span class="o">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">clearColor</span>
+    <span class="vi">@total_effort_value_label</span><span class="o">.</span><span class="n">textAlignment</span> <span class="o">=</span> <span class="no">UITextAlignmentCenter</span>
+    <span class="vi">@total_effort_value_label</span><span class="o">.</span><span class="n">font</span> <span class="o">=</span> <span class="no">UIFont</span><span class="o">.</span><span class="n">fontWithName</span><span class="p">(</span><span class="s2">&quot;AvenirNextCondensed-Bold&quot;</span><span class="p">,</span> <span class="n">size</span><span class="p">:</span> <span class="mi">120</span><span class="p">)</span>
+    <span class="vi">@total_effort_value_label</span><span class="o">.</span><span class="n">minimumFontSize</span> <span class="o">=</span> <span class="mi">50</span>
+    <span class="vi">@total_effort_value_label</span><span class="o">.</span><span class="n">adjustsFontSizeToFitWidth</span> <span class="o">=</span> <span class="kp">true</span>
+
+    <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="vi">@total_effort_value_label</span><span class="p">)</span>
+
+
+    <span class="vi">@total_effort_unit_label</span> <span class="o">=</span> <span class="no">UILabel</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithFrame</span><span class="p">(</span><span class="no">CGRectMake</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="mi">160</span><span class="p">,</span> <span class="mi">130</span><span class="p">,</span> <span class="mi">70</span><span class="p">))</span>
+    <span class="vi">@total_effort_unit_label</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;HRS&quot;</span>
+    <span class="vi">@total_effort_unit_label</span><span class="o">.</span><span class="n">color</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">colorWithRed</span><span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">671</span><span class="p">,</span> <span class="n">green</span><span class="p">:</span> <span class="mi">1</span><span class="o">.</span><span class="mo">000</span><span class="p">,</span> <span class="n">blue</span><span class="p">:</span> <span class="mi">0</span><span class="o">.</span><span class="mi">353</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span> <span class="mi">1</span><span class="o">.</span><span class="mo">000</span><span class="p">)</span>
+    <span class="vi">@total_effort_unit_label</span><span class="o">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">clearColor</span>
+    <span class="vi">@total_effort_unit_label</span><span class="o">.</span><span class="n">font</span> <span class="o">=</span> <span class="no">UIFont</span><span class="o">.</span><span class="n">fontWithName</span><span class="p">(</span><span class="s2">&quot;AvenirNextCondensed-Bold&quot;</span><span class="p">,</span> <span class="n">size</span><span class="p">:</span> <span class="mi">72</span><span class="p">)</span>
+
+    <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="vi">@total_effort_unit_label</span><span class="p">)</span>
+
+
+    <span class="vi">@variation_title_label</span> <span class="o">=</span> <span class="no">UILabel</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithFrame</span><span class="p">(</span><span class="no">CGRectMake</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">250</span><span class="p">,</span> <span class="mi">280</span><span class="p">,</span> <span class="mi">30</span><span class="p">))</span>
+    <span class="vi">@variation_title_label</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;Variation&quot;</span>
+    <span class="vi">@variation_title_label</span><span class="o">.</span><span class="n">color</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">colorWithRed</span><span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">702</span><span class="p">,</span> <span class="n">green</span><span class="p">:</span> <span class="mi">0</span><span class="o">.</span><span class="mi">702</span><span class="p">,</span> <span class="n">blue</span><span class="p">:</span> <span class="mi">0</span><span class="o">.</span><span class="mi">702</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span> <span class="mi">1</span><span class="o">.</span><span class="mo">000</span><span class="p">)</span>
+    <span class="vi">@variation_title_label</span><span class="o">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">clearColor</span>
+    <span class="vi">@variation_title_label</span><span class="o">.</span><span class="n">font</span> <span class="o">=</span> <span class="no">UIFont</span><span class="o">.</span><span class="n">fontWithName</span><span class="p">(</span><span class="s2">&quot;AvenirNextCondensed-Bold&quot;</span><span class="p">,</span> <span class="n">size</span><span class="p">:</span> <span class="mi">30</span><span class="p">)</span>
+
+    <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="vi">@variation_title_label</span><span class="p">)</span>
+
+
+    <span class="vi">@variation_value_label</span> <span class="o">=</span> <span class="no">UILabel</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithFrame</span><span class="p">(</span><span class="no">CGRectMake</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">265</span><span class="p">,</span> <span class="mi">220</span><span class="p">,</span> <span class="mi">85</span><span class="p">))</span>
+    <span class="vi">@variation_value_label</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;52&quot;</span>
+    <span class="vi">@variation_value_label</span><span class="o">.</span><span class="n">color</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">whiteColor</span>
+    <span class="vi">@variation_value_label</span><span class="o">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">clearColor</span>
+    <span class="vi">@variation_value_label</span><span class="o">.</span><span class="n">textAlignment</span> <span class="o">=</span> <span class="no">UITextAlignmentCenter</span>
+    <span class="vi">@variation_value_label</span><span class="o">.</span><span class="n">font</span> <span class="o">=</span> <span class="no">UIFont</span><span class="o">.</span><span class="n">fontWithName</span><span class="p">(</span><span class="s2">&quot;AvenirNextCondensed-Bold&quot;</span><span class="p">,</span> <span class="n">size</span><span class="p">:</span> <span class="mi">80</span><span class="p">)</span>
+
+    <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="vi">@variation_value_label</span><span class="p">)</span>
+
+
+    <span class="vi">@variation_unit_label</span> <span class="o">=</span> <span class="no">UILabel</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithFrame</span><span class="p">(</span><span class="no">CGRectMake</span><span class="p">(</span><span class="mi">190</span><span class="p">,</span> <span class="mi">310</span><span class="p">,</span> <span class="mi">120</span><span class="p">,</span> <span class="mi">50</span><span class="p">))</span>
+    <span class="vi">@variation_unit_label</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;%&quot;</span>
+    <span class="vi">@variation_unit_label</span><span class="o">.</span><span class="n">color</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">colorWithRed</span><span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">671</span><span class="p">,</span> <span class="n">green</span><span class="p">:</span> <span class="mi">1</span><span class="o">.</span><span class="mo">000</span><span class="p">,</span> <span class="n">blue</span><span class="p">:</span> <span class="mi">0</span><span class="o">.</span><span class="mi">353</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span> <span class="mi">1</span><span class="o">.</span><span class="mo">000</span><span class="p">)</span>
+    <span class="vi">@variation_unit_label</span><span class="o">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">clearColor</span>
+    <span class="vi">@variation_unit_label</span><span class="o">.</span><span class="n">font</span> <span class="o">=</span> <span class="no">UIFont</span><span class="o">.</span><span class="n">fontWithName</span><span class="p">(</span><span class="s2">&quot;AvenirNextCondensed-Bold&quot;</span><span class="p">,</span> <span class="n">size</span><span class="p">:</span> <span class="mi">50</span><span class="p">)</span>
+
+    <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="vi">@variation_unit_label</span><span class="p">)</span>
+
+
+    <span class="vi">@delivery_year_title_label</span> <span class="o">=</span> <span class="no">UILabel</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithFrame</span><span class="p">(</span><span class="no">CGRectMake</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">370</span><span class="p">,</span> <span class="mi">280</span><span class="p">,</span> <span class="mi">40</span><span class="p">))</span>
+    <span class="vi">@delivery_year_title_label</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;Delivery year&quot;</span>
+    <span class="vi">@delivery_year_title_label</span><span class="o">.</span><span class="n">color</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">colorWithRed</span><span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">702</span><span class="p">,</span> <span class="n">green</span><span class="p">:</span> <span class="mi">0</span><span class="o">.</span><span class="mi">702</span><span class="p">,</span> <span class="n">blue</span><span class="p">:</span> <span class="mi">0</span><span class="o">.</span><span class="mi">702</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span> <span class="mi">1</span><span class="o">.</span><span class="mo">000</span><span class="p">)</span>
+    <span class="vi">@delivery_year_title_label</span><span class="o">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">clearColor</span>
+    <span class="vi">@delivery_year_title_label</span><span class="o">.</span><span class="n">font</span> <span class="o">=</span> <span class="no">UIFont</span><span class="o">.</span><span class="n">fontWithName</span><span class="p">(</span><span class="s2">&quot;AvenirNextCondensed-Bold&quot;</span><span class="p">,</span> <span class="n">size</span><span class="p">:</span> <span class="mi">30</span><span class="p">)</span>
+
+    <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="vi">@delivery_year_title_label</span><span class="p">)</span>
+
+
+    <span class="vi">@delivery_year_value_label</span> <span class="o">=</span> <span class="no">UILabel</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithFrame</span><span class="p">(</span><span class="no">CGRectMake</span><span class="p">(</span><span class="mi">150</span><span class="p">,</span> <span class="mi">400</span><span class="p">,</span> <span class="mi">150</span><span class="p">,</span> <span class="mi">50</span><span class="p">))</span>
+    <span class="vi">@delivery_year_value_label</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;2040&quot;</span>
+    <span class="vi">@delivery_year_value_label</span><span class="o">.</span><span class="n">color</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">whiteColor</span>
+    <span class="vi">@delivery_year_value_label</span><span class="o">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">clearColor</span>
+    <span class="vi">@delivery_year_value_label</span><span class="o">.</span><span class="n">textAlignment</span> <span class="o">=</span> <span class="no">UITextAlignmentRight</span>
+    <span class="vi">@delivery_year_value_label</span><span class="o">.</span><span class="n">font</span> <span class="o">=</span> <span class="no">UIFont</span><span class="o">.</span><span class="n">fontWithName</span><span class="p">(</span><span class="s2">&quot;AvenirNextCondensed-Bold&quot;</span><span class="p">,</span> <span class="n">size</span><span class="p">:</span> <span class="mi">50</span><span class="p">)</span>
+
+    <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="vi">@delivery_year_value_label</span><span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>We just implement the logic for our new view controller, also we add some labels to draw on the screen the values generated by the Project estimation</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_estimation_view_controller_and_project_model">Estimation View Controller and Project Model</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>The last part of our implementation is to add a way to bind the values of the Project Model into our labels, the following method does the trick (Insert it on the estimation_view_controller.rb):</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="c1"># Method to bind the values in the Project Object into proper UILabels</span>
+<span class="k">def</span> <span class="nf">bind_project</span><span class="p">(</span><span class="n">project</span><span class="p">)</span>
+
+  <span class="c1">#Using an NSString we set the text into the label, when we are using %@ we tell the object</span>
+  <span class="c1">#to print it description as a string</span>
+  <span class="vi">@total_effort_value_label</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="no">NSString</span><span class="o">.</span><span class="n">stringWithFormat</span><span class="p">(</span><span class="s2">&quot;%@&quot;</span><span class="p">,</span> <span class="n">project</span><span class="o">.</span><span class="n">total_effort</span><span class="p">)</span>
+
+  <span class="vi">@variation_value_label</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="no">NSString</span><span class="o">.</span><span class="n">stringWithFormat</span><span class="p">(</span><span class="s2">&quot;%@&quot;</span><span class="p">,</span> <span class="n">project</span><span class="o">.</span><span class="n">variation</span><span class="p">)</span>
+
+  <span class="vi">@delivery_year_value_label</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="no">NSString</span><span class="o">.</span><span class="n">stringWithFormat</span><span class="p">(</span><span class="s2">&quot;%@&quot;</span><span class="p">,</span> <span class="n">project</span><span class="o">.</span><span class="n">delivery_year</span><span class="p">)</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="admonitionblock">
+<table><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">Please take note that in this specific case we are using Objective-C strings (NSStrings) instead of ruby strings</td>
+</tr></table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_project_view_controller_and_estimation_view_controller">Project View Controller and Estimation View Controller</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>Final task! We need to show our new controller, the way to do this is to perform a transition from the Project View Controller to the Estimation View Controller</p></div>
+<div class="paragraph"><p>Insert the following lines into the estimate_project(sender) method on the class project_view_controller.rb:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="c1"># Now we need a new instance of the Estimation View Controller for show the</span>
+<span class="c1"># results of the Project estimation</span>
+<span class="vi">@estimation_view_controller</span> <span class="o">=</span> <span class="no">EstimationViewController</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">init</span>
+
+<span class="vi">@estimation_view_controller</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">frame</span> <span class="o">=</span> <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">frame</span>
+
+<span class="c1"># Lets tell it to bind our project instance</span>
+<span class="vi">@estimation_view_controller</span><span class="o">.</span><span class="n">bind_project</span><span class="p">(</span><span class="n">project</span><span class="p">)</span>
+
+
+<span class="c1"># To show the Estimation View Controller view, we can use a transition.</span>
+<span class="c1"># From our current view, to the Estimation View Controller&#39;s view</span>
+<span class="no">UIView</span><span class="o">.</span><span class="n">transitionFromView</span><span class="p">(</span><span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="p">,</span>
+                          <span class="n">toView</span><span class="p">:</span> <span class="vi">@estimation_view_controller</span><span class="o">.</span><span class="n">view</span><span class="p">,</span>
+                          <span class="n">duration</span><span class="p">:</span> <span class="mi">0</span><span class="o">.</span><span class="mi">3</span><span class="p">,</span>
+                          <span class="n">options</span><span class="p">:</span> <span class="no">UIViewAnimationOptionTransitionFlipFromLeft</span><span class="p">,</span>
+                          <span class="n">completion</span><span class="p">:</span> <span class="kp">nil</span><span class="p">)</span>
+</pre></div></div></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_run_and_enjoy">Run and Enjoy</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>Lets run our estimator app!</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="nv">$ </span>rake
+</pre></div></div></div>
+<div class="imageblock">
+<div class="content">
+<img src="resources/ch03-ObjectiveC/FinishedProjectViewController.png" alt="Finished Project View Controller" />
+</div>
+<div class="title">Figure 12. Finished Project View Controller</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="resources/ch03-ObjectiveC/FinishedEstimationViewController.png" alt="Finished Estimation View Controller" />
+</div>
+<div class="title">Figure 13. Finished Estimation View Controller</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_challenges">Challenges</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>1.- The UISegmentedControlls in the project_view_controller.rb are bound to a static array, move that logic to the Project Model. So it can provide the allowed values for the estimation.</p></div>
+<div class="paragraph"><p>2.- Now that the allowed values are in the Project Model, lets make it dynamic by retrieving them from the JSON File.</p></div>
 </div>
 </div>
 <h1 id="_day_2">Day 2</h1>
-<div class="paragraph"><p>include::ch06-Delegation.asciidoc[]</p></div>
-<div class="paragraph"><p>include::ch07-MapKit.asciidoc[]</p></div>
-<div class="paragraph"><p>include::ch08-UIViews.asciidoc[]</p></div>
-<div class="paragraph"><p>include::ch09-Testing.asciidoc[]</p></div>
-<div class="paragraph"><p>include::ch10-InterfaceBuilder.asciidoc[]</p></div>
 <h1 id="_day_3">Day 3</h1>
-<div class="paragraph"><p>include::ch11-ViewControllers.asciidoc[]</p></div>
 </div>
 <div id="footnotes"><hr /></div>
 <div id="footer">
 <div id="footer-text">
 Version 0.1<br />
-Last updated 2012-10-11 20:19:46 CDT
+Last updated 2012-10-30 12:40:44 CST
 </div>
 </div>
 </body>
