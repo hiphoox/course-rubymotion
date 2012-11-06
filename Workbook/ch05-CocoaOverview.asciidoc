@@ -1,0 +1,437 @@
+Chapter 05 - Cocoa Overview
+==========================
+
+The Cocoaheads app
+------------------
+Cocoaheads is a community of OSX/iOS programmers. There are many Cocoaheads communities around the world and they meet periodically (normally on a monthly basis) to discuss the latest topics for Apple-related technologies. 
+
+We want to build an iPhone app for this community. The app should cover the next functionality:
+
+- Show the complete schedule for the next Cocoaheads meetings.
+- Show the information about the next meeting. This information could include the map to the venue, the list of the talks, etc.
+- Registration and login of users.
+- Allow users to register for the next meeting.
+
+We are going to build this app for several chapters, one step a time. In this chapter we are going to focus in creating the first screen: the Next Event screen that shows the information related to the next meeting:
+
+image:Resources/ch05-CocoaOverview/ch05_01_app.png[Chapter 5 app]
+
+Creating the app
+~~~~~~~~~~~~~~
+
+Let's start by creating the Cocoaheads rubymotion app. You have already know how to create RubyMotion apps from previous chapters, in the command line type:
+
+[source, sh]
+----------------------
+$ motion create Cocoaheads
+---------------------
+
+As we have seen, this command creates an empty application with the following folder structure:
+
+
+image:Resources/ch05-CocoaOverview//ch05_02_folder_structure.png[Folder structure]
+
+We'll be using a structure based on Rails for this Course. Thus, you need to create a folrder named "controllers" inside the "app" folder. Inside "controllers". create an empty file called "next_event_view_controller.rb".
+
+image:Resources/ch05-CocoaOverview//ch05_03_folder_controllers.png[Controllers folder]
+
+As we have seen in previous chapters, the vanilla app created by the motion command only creates an empty app. We need to add a Window to it. Thus, open the app_delegate.rb class and inside the method
+
+copy this code:
+
+[source, ruby]
+--------------------------------------------------------------------------
+def application(application, didFinishLaunchingWithOptions:launchOptions)
+
+  next_event_view_controller = NextEventViewController.alloc.init
+  @window = UIWindow.alloc.initWithFrame(UIScreen.mainScreen.bounds)
+  @window.rootViewController = next_event_view_controller
+  @window.makeKeyAndVisible
+  true
+end
+------------------------------------------------------------------------
+
+Remember that this method is called once iOS has finished creating your app. In that moment, the *UIAppDelegate* is notified using this method so you can initiliaze the app.
+
+This is what we are doing inside the method:
+
+- Create a *UIWindow*.
+- Assigning a *UIViewController* as the *rootViewController* of the window.
+
+Notice that we are creating the *UIWindow* with the same Frame as *UIScreen.mainScreen*. *UIScreen* is a convenient class to access the size of a screen device. So basically we are setting the size of the app's window to be the full screen.
+
+
+Creating the View Controller
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Now, we are going  create our View Controller. Open the *next_event_view_controller.rb* file and create a child of UIViewController:
+
+
+[source, ruby]
+-----------------------------------------------
+class NextEventViewController < UIViewController
+  
+  def init
+
+    p 'Initializing NextEventViewController'
+    super
+    self
+  end  
+
+  def loadView   
+ 
+    p 'loading view'
+    self.view = UIView.alloc.init    
+  end
+
+end  
+----------------------------------------------
+
+In Cocoa, there is no *initialize* metod. There is the *init* method with the responsbility of creating the instance of the class. It is mandatory that you call *super* and then, return *self*. 
+
+The other method we are creating is *loadView*. The responsibility of this method is to actually create the view of this Controller. So we are basically creating a view that covers all the screen and switching its background color to white. *UIColor* is the  class we use in Cocoa to handle colors, it has some convenient class methods with predefined colors (such as *whiteColor*) but it also allows you to create custom colors. 
+
+Use the command
+
+[source, sh]
+------
+$ rake
+------
+
+to test the application, you will see a white screen. And in the console you will notice that first the init method was invoked and then the loadView.
+
+image:Resources/ch05-CocoaOverview/ch05_04_console.png[Console output]
+
+
+Using UIImageView
+~~~~~~~~~~~~~~~~~
+
+
+Now it's time to begin to stylish our app. We are going to add an header and a background image with a nice gradient. 
+
+Open the zip file called ch05CocoaOverview_resources.zip, inside you'll find the Design assets for this workshop. Copy them into the *resources* folder of our app.
+
+Now inside our View Controller, add these lines:
+
+
+[source, ruby]
+------------------------------------------
+def viewDidLoad       
+
+  self.view.addSubview( imageViewWithHeader )
+  self.view.addSubview( imageViewWithBackground )    
+  self.view.addSubview( imageViewWithTitleBackground )    
+end
+
+
+def imageViewWithHeader
+
+  header_imageview = UIImageView.alloc.initWithImage( UIImage.imageNamed('bgTitleBar') )
+  header_imageview    
+end  
+
+
+def imageViewWithBackground
+
+  background_imageview = UIImageView.alloc.initWithImage( UIImage.imageNamed('bgApp') )
+  background_imageview.frame = CGRectMake(0, 64, 320, 396)
+  background_imageview    
+end
+
+
+def imageViewWithTitleBackground
+
+  title_background_imageview = UIImageView.alloc.initWithImage( UIImage.imageNamed('bgEventTitle') )
+  title_background_imageview.frame = [[0, 103], [320, 103]]
+  title_background_imageview    
+end 
+-----------------------------------  
+
+The method *viewDidLoad* is called once the view of the Controller is loaded into memory. It's safe, then, to initialize the view inside this method.
+
+Basically, we are adding two images using the *addSubview* method of *UIView*. In the *imageViewWithHeader* method, we are creating the first image: the header image. In CocoaTouch we have the *UIImageView* class to add images to our apps. We are using its initializer method called *initWithImage* that receives a *UIImage*. *UIImage* is the image itself, and *UIImageView* is only a convenient *UIView* that simplifies the process of painting an image on screen. 
+
+*UIImage* can be created with its class method *imageNamed* that receives an *NSString* with the name of the image file.
+
+In the *imageViewWithBackground* method we are creating the *UIImageView* with the background image. Notice that we are changing the frame of this image. The frame is a property of type *CGRect* that the class *UIView* uses to specify the location of the view inside its superview and its size. 
+
+We are using the *CGRectMake* function to create our frame. The first two arguments define the location coordinates of the object from the top left corner of the superview. For the background we are specifying an X coordinate of 0, thus the object will be at the left-most location of the screen; and a Y coordinate of 64, thus the object will be placed below the header image. The second  and third argument specifies its size.
+
+RubyMotion has another way to create a *CGRect*. Try to change the *CGRectMake* line to this:
+
+[source, ruby]
+------------------------
+background_imageview.frame = [[0, 64], [320, 396]]
+------------------------
+
+RubyMotion allow us to use an array of two arrays to define *CGRect*s. The first array specifies the location of the object and the second its size.
+
+When you run the app you will something like this:
+
+image:Resources/ch05-CocoaOverview/ch05_05_uiimage.png[Console output]
+
+Creating labels
+~~~~~~~~~~~~~
+
+The next step is to create the labels with the Event information. Add this two methods to your View Controller:
+
+
+[source, ruby]
+----------------------------------------------
+def labelWithNextEventName
+
+  next_event_name_label = UILabel.alloc.initWithFrame( [[25, 130], [275, 40]] )
+  
+  next_event_name_label.font = UIFont.fontWithName("AmericanTypewriter-CondensedBold", size:30)
+  next_event_name_label.textColor = UIColor.whiteColor
+  next_event_name_label.textAlignment = UITextAlignmentCenter    
+  next_event_name_label.backgroundColor = UIColor.clearColor
+  next_event_name_label.shadowColor = UIColor.darkGrayColor
+  next_event_name_label.shadowOffset = [-1,-1]
+  next_event_name_label
+
+end
+
+
+def labelWithDaysLeft
+
+  days_left_label = UILabel.alloc.initWithFrame( [[25, 220], [275, 40]] )    
+  days_left_label.font = UIFont.fontWithName("HelveticaNeue-Light", size:20)
+  days_left_label.textColor = UIColor.whiteColor
+  days_left_label.textAlignment = UITextAlignmentCenter
+  days_left_label.backgroundColor = UIColor.clearColor
+  days_left_label.shadowColor = UIColor.darkGrayColor
+  days_left_label.shadowOffset = [-1,-1]
+  days_left_label
+end
+------------------------------------------------  
+
+
+ The object used in CocoaTouch to disply lines of text is *UILabel*. We are creating two *UILabel* using the initializer method *initWithFrame* to specify their size and location. 
+
+ Then, we are changing its font and size. An *UILabel* has a property named *font* that allow us to do that. To create a Font, we are using the *UIFont* class and its method *fontWithName:size*. As you can see, you specify the font using a NSString with the Font Family name. If you want to see the available Fonts in CocoaTouch, try to print the array returned by *UIFont.familyNames*.
+
+ Next, we are changing the color of the label using the *textColor* property and the text alignment. By default a *UILabel* has a white background color, we are changing this to clearColor. This is a special color to specify transparencies. So, basically we are defining that the background of this *UILabel* should be transparent.
+
+ Finally, we are adding a shadow to the label. With *shadowColor* you specify its color and with *shadowOffset* its location. This offset is the number of points that the shadow will be offset from the label. It is a *CGSize* object so you can specify it with the *CGSizeMake* function, but we prefer to use the more convenient RubyMotion way of using an array of two elements, one for width and the other one for weight. With *[-1, -1]* we are defining that the shadow will be 1 point offset to the left and 1 point offset up from the label.
+
+ We have the methods to create our labels, is time to add them to our view. Inside the viewDidLoad method add this lines:
+
+[source, ruby]
+------------------------------------
+def viewDidLoad       
+
+  self.view.addSubview( imageViewWithHeader )
+  self.view.addSubview( imageViewWithBackground )    
+  self.view.addSubview( imageViewWithTitleBackground )    
+
+  @next_event_name_label = labelWithNextEventName
+  @days_left_label = labelWithDaysLeft
+
+  self.view.addSubview( @next_event_name_label )
+  self.view.addSubview( @days_left_label )   
+
+  @days_left_label.text = DAYS_LEFT_TEXT
+  @next_event_name_label.text = EVENT_NAME_TEXT 
+end
+-----------------------
+
+
+
+And create this other method:
+
+
+[source, ruby]
+-----------------------
+def viewDidUnload    
+  
+  super
+  @next_event_name_label = nil
+  @days_left_label = nil
+end
+-----------------
+
+We are adding the labels to instance variables. This is recommended if you need to access them later to change its properties. In this case we are changing the text of the labels to some constants. Finally add this two constants to your View Controller:
+
+
+[source, ruby]
+-----------------------
+class NextEventViewController < UIViewController
+
+  DAYS_LEFT_TEXT = "(20 Days Left)"
+  EVENT_NAME_TEXT = "November meeting."
+-----------------
+
+
+When you keep *UIView*s in instance variables, it is recommended to set this variables to *nil* inside the *viewDidUnload* method. Prior to iOS 6, this method was invoked when the device was running out of memory. Then, we are freeing the memory allocated for the UILabels for low memory scenarios.
+
+Run your app and you should see that the labels appeared with the data for the next Cocoaheads event:
+
+image:Resources/ch05-CocoaOverview/ch05_06_uilabel.png[Labels]
+
+
+Adding buttons
+~~~~~~~~~~~~~~
+
+Finally, we are going to add two buttons to our app: for sign-up and for sign-in. 
+
+Add these methods to the View Controller:
+
+[source, ruby]
+--------------------------
+def buttonForSignIn
+
+  sign_in_button = UIButton.buttonWithType(UIButtonTypeRoundedRect)
+  sign_in_button.frame = [[15, 280], [295, 40]]
+  sign_in_button.setTitle("I have an account, sign-in to book", forState:UIControlStateNormal)
+  sign_in_button.setTitle("is Highlighted", forState:UIControlStateHighlighted)
+  sign_in_button.titleLabel.font = UIFont.fontWithName("HelveticaNeue-Light", size:18) 
+  sign_in_button.addTarget(self, action:'sign_in:', forControlEvents:UIControlEventTouchUpInside)
+  
+  sign_in_button
+end  
+
+
+def buttonForSignUp
+
+  sign_up_button = UIButton.buttonWithType(UIButtonTypeRoundedRect)    
+  sign_up_button.frame = [[15, 350], [295, 40]]    
+  sign_up_button.setTitle("Don't have an account, sign-up", forState:UIControlStateNormal)
+  sign_up_button.titleLabel.font = UIFont.fontWithName("HelveticaNeue-Light", size:18) 
+  sign_up_button.addTarget(self, action:'sign_up', forControlEvents:UIControlEventTouchUpInside)
+  sign_up_button
+end
+
+
+def sign_in( button )
+
+  p "sign in button pressed #{button}"
+end
+
+
+def sign_up
+
+  p "sign-up button pressed"
+end
+------------------------
+
+
+And don't forget to add the buttons to the view in the "viewDidLoad" method:
+
+[source, ruby]
+-----------------------
+def viewDidLoad   
+    
+  self.view.addSubview( imageViewWithHeader )
+  self.view.addSubview( imageViewWithBackground )    
+  self.view.addSubview( imageViewWithTitleBackground )    
+
+  @next_event_name_label = labelWithNextEventName
+  @days_left_label = labelWithDaysLeft
+
+  self.view.addSubview( @next_event_name_label )
+  self.view.addSubview( @days_left_label )   
+
+  @days_left_label.text = DAYS_LEFT_TEXT
+  @next_event_name_label.text = EVENT_NAME_TEXT 
+
+  self.view.addSubview( buttonForSignIn )
+  self.view.addSubview( buttonForSignUp )
+end
+------------------------  
+
+Let's review what's going on in those methods. First, we are creating a *UIButton* with the line.
+
+*UIButton.buttonWithType(UIButtonTypeRoundedRect)*
+
+As you may expect, there are other types of UIButtons that you can specify, such as:
+
+- *UIButtonTypeRoundedRect*. Standard white button with rounded corners.
+- *UIButtonTypeCustom*. Defines a button with no style, very useful when you have your own set of images to use as a button.
+- *UIButtonTypeDetailDisclosure*. The standard button that appear in tables: a small blue circle with an arrow on it.
+- *UIButtonTypeInfoLight*. A small gray circle with an "i" on it.
+- *UIButtonTypeInfoDark*. A small dark gray circle with an "i" on it.
+- *UIButtonTypeContactAdd*. A small blue circle with the plus sign on it.
+
+You can try these types in the app.
+
+The second thing you have to notice is how to add text to the button (this only works if the type is Round Rect or Custom):
+
+
+[source, ruby]
+---------------------------------
+sign_in_button.setTitle("I have an account, sign-in to book", forState:UIControlStateNormal)
+------------------------------
+
+We do that with the method *setTitle:forState*. The first argument is a *NSString* with the text, the second one specifies in which state should the text appear. A *UIButton* has the following states:
+
+- *UIControlStateNormal*. The default state of the button.
+- *UIControlStateHighlighted*. When the button is pressed.
+- *UIControlStateDisabled*. When the button is disabled (its enabled property is set to false).
+
+As you can see, for the Sign-In button we are specifying a title for the highlight state, when you run the app and press that button you will se that the title changes to the one for the highlighted state.
+
+We are also changing the default font of the button:
+
+*sign_in_button.titleLabel.font = UIFont.fontWithName("HelveticaNeue-Light", size:18)*
+
+Finally we are connecting the UIButton to our View Controller:
+
+
+[source, ruby]
+--------------------------
+sign_in_button.addTarget(self, 
+		         action:'sign_in:',
+                         forControlEvents:UIControlEventTouchUpInside)
+-------------------------
+
+The method *addTarget:action:forControlEvents* is the standard way to communicate a *UIControl* with a *UIViewController*. This method specifies which object and which method inside that object should be notified when an specific Event happens in such *UIControl*.
+
+In this case we are saying that *self* (the current *UIViewController* instance) should be notified through the *sign_in:* method when the *UIButton* is pressed and released (*UIControlEventTouchUpInside*). The action is actually a *selector* in CocoaTouch: a *NSString* with the name of the method. This name will be resolved into a concrete method in Runtime. In this example, this method will be called:
+
+[source, ruby]
+------------------------
+def sign_in( button )
+
+  p "sign in button pressed #{button}"
+end
+-----------------------  
+
+As you can see, the name of the method has a ":", because it has one argument. Using this target-selector approach to communicate, the UIControl that triggers the communication can be passed as an argument. In this example, it is the UIButton.
+
+In the other button, the sign-up one, we are not passing any argument:
+
+[source, ruby]
+-------------------------------
+sign_up_button.addTarget(self,
+                         action:'sign_up',
+                         forControlEvents:UIControlEventTouchUpInside)
+-------------------------              
+
+Then, the selector method must be declared with no arguments:
+
+
+[source, ruby]
+----------------------
+def sign_up
+
+  p "sign-up button pressed"
+end
+---------------
+
+Run the app and try the buttons. If both of them are appearing and invoke the specified methods, you have finished this workshop.
+
+image:Resources/ch05-CocoaOverview/ch05_07_uibuttons.png[UIButtons]
+
+
+
+Challenge
+~~~~~~~
+
+We included two standard buttons in our app, but our designer have made a really cool button. You can see it in the resources dir, is the image named *btnBrown.png*. 
+
+Change the sign-up button to show this image. Tips: you will need to change the type of the button to a Custom one and need to use the *setBackgroundImage:forState* method.
+
+image:Resources/ch05-CocoaOverview/ch05_08_challenge.png[Challenge]
+
+

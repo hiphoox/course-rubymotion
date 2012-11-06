@@ -1,0 +1,305 @@
+Chapter 07 - MapKit
+===================
+
+In this chapter we are going to review some concepts about delegation in CocoaTouch and how to use maps.
+
+Preparing the app
+-----------------
+
+Open the file *ch07_mapkit_resources.zip* and unzip it. Inside there is our Cocoaheads app. Run it with the *rake* command. You will see the main screen with the details of an event:
+
+image:Resources/ch07-MapKit/ch07_01_app.png[Chapter 7 app]
+
+When you tap on the *View Map* button a view that will contain the map appears:
+
+image:Resources/ch07-MapKit/ch07_02_map.png[Chapter 7 empty map view]
+
+Now open the Rakefile and examine the configuration. In this lab we are going to use the Location functionalities of CocoaTouch and the Maps. In order to do this we have to import some frameworks:
+
+[source, ruby]
+-------------------------
+app.frameworks = ['CoreLocation', 'MapKit']
+----------------------
+
+CoreLocation is the framework that allows you to access the geo location and heading of the device. MapKit, in the other hand, provides an interface to embed maps into your applications as well as other advance functionality such as adding custom annotations, reverse-geocoding lookups, etc.
+
+Adding A Location Manager
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+The first thing we are going to add to our View Controller is a *CLLocationManager* to determine the device location and show how the delegation pattern works in CocoaTouch.
+
+In order to do this, open the *event_detail_view_controller.rb* file and locate the method named *requestUserCurrenLocation* Add the following lines:
+
+
+[source, ruby]
+---------------------------------------------------
+if (CLLocationManager.locationServicesEnabled)
+ 
+ @location_manager = CLLocationManager.alloc.init
+
+  #Play with other possible values: KCLLocationAccuracyBest, KCLLocationAccuracyHundredMeters, etc.
+  @location_manager.desiredAccuracy = KCLLocationAccuracyKilometer
+  
+  #Set the current view controller as the delegate of the Location Manager, the location manager will notify of any changes in the location.
+  @location_manager.delegate = self
+
+  @location_manager.purpose = "To provide functionality based on user's current location" 
+  @location_manager.startUpdatingLocation
+
+else
+
+  showAlertWithTitle('Location Error', 'Please enable the Location Services for this app in Settings.')  
+end    
+---------------------------------------------------    
+
+First, we are checking if the user allow the device to use the location services. If not, we are showing an UIAlertView. Review the showAlertWithTitle method to learn how to present alerts in CocoaTouch.
+
+Then, we create our CLLocationManager. The first thing we set, is the *desiredAccuracy*:
+
+[source, ruby]
+------------------------------
+@location_manager.desiredAccuracy = KCLLocationAccuracyKilometer
+------------------------
+
+*CLLocationManager* supports a wide range of accuracies. This property specifies which method will be used to determine the current device location. By instance, an accuracy set to *KCLLocationAccuracyBest* will prompt iOS to use the GPS to determine the location and thus will spent more battery. Wheter an accuracy set to KCLLocationAccuracyKilometer will be more conservative in the use of the device's resourcers.
+
+Remember that an iOS device can use up to 3 ways to determine its location:
+
+- GPS. For devices with that functionality such and iPhones or iPads with GSM/LTE.
+- Cell towers triangulation. For devices with GSM/LTE.
+- WiFi hotspots.
+
+The accuracy goes from best to worse in that order. You should choose carefully the desired accuracy according to your app functionality. An *KCLLocationAccuracyBest* accuracy is best suited to navigation apps or running apps where you need the best possible value for the current location. In the other hand, an app such as the Cocoaheads apps can work with an accuracy of *KCLLocationAccuracyKilometer*. We only need to know if the user is close to the meeting venue.
+
+Next, we set the View Controller as a delegate to the location manager:
+
+[source, ruby]
+---------------------------
+@location_manager.delegate = self
+-------------------------
+
+Thus, the *CLLocationManager* instance will notifiy us when a change in the device's location occurs. 
+
+With the line 
+
+[source, ruby]
+-------------------------------------
+@location_manager.purpose = "To provide functionality based on user's current location"
+-------------------------------
+
+We define the message that the device will show to the user when it ask permission to access the location data. 
+
+And, finally with *@location_manager.startUpdatingLocation* we start the tracking for the device's location.
+
+But, how are we going to be notified when the CLLocationManager determines the device's current location? We need to implement some methods from the *CLLocationManagerDelegate* protocol. Write this methods in the View Controller:
+
+
+[source, ruby]
+--------------------------------------------------------
+#CLLocationManagerDelegate methods   
+
+def locationManager(manager, didUpdateToLocation:newLocation, fromLocation:oldLocation)    
+
+  @location_label.text = "Latitude:#{newLocation.coordinate.latitude} Longitude:#{newLocation.coordinate.longitude}"   
+end
+
+def locationManager(manager, didFailWithError:error)
+
+  showAlertWithTitle( "Error", andMessage:error.description )
+end
+------------------------------------------------------
+
+CLLocationManager will invoke the method *locationManager:didUpdateToLocation:fromLocation* of its delegate when it can determine a change in the device's location. In this case we are updating in a UILabel the coordinates of the device. The object for both newLocation and oldLocation arguments is *CLLocation*. This class gives you access to values such as latitude, longitude and some other variables like altitude and speed.
+
+If an error occurs, the second method *locationManager:didFailWithError* will be called.
+
+Run the example, and try changing the simulator location in the Debug menu using the Location option. There are some predifined locations and you can specify a custom one by entering its latitude and longitude:
+
+image:Resources/ch07-MapKit/ch07_03_location.png[Chapter 7 location]
+
+Creating a small Map
+~~~~~~~~~~~~~~~~~~~
+
+The next step is to add a small map just below the label where our location is being drawn. In CocoaTouch we use the *MKMapView* class to render maps. Locate the method named *mapViewForEvent* in the *event_detail_view_controller.rb* file. Copy this code:
+
+
+[source, ruby]
+------------------------------------------------------
+def mapViewForEvent
+
+  map_view_for_event = MKMapView.alloc.initWithFrame( [[25,210], [270, 80]] )
+  map_view_for_event.mapType = MKMapTypeStandard    
+  map_view_for_event
+end
+------------------------------------------------------
+
+
+As you can see, there is nothing special about creating a *MKMapView* You just used the old *initWithFrame*. The second line, though, is more interesting. In that we specify the type of map we want to render. *MKMapView* supports three types of maps:
+
+- MKMapTypeStandard. Displays a street map that shows the position of all roads and some road names.
+- MKMapTypeSatellite. Displays satellite imagery of the area.
+- MKMapTypeHybrid. Displays a satellite image of the area with road and road name information layered on top.
+
+Finally, add the map view to the main view in the *viewDidLoad* method:
+
+[source, ruby]
+----------------------
+self.view.addSubview( mapViewForEvent )
+------------------
+
+Run your app, you should see a small map view in the middle
+
+image:Resources/ch07-MapKit/ch07_04_smallmap.png[Chapter 7 small map]
+
+Creating a map with annotations
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+When you tap on the *View Map* button, currently is showing an empty view. We are going to fix this. Open the *event_map_view_controller.rb* file and locate the method called *mapViewWithEventLocation* That method should return a mapview with its type set to MKMapTypeStandard, just as the *mapViewForEvent* we implemented in the previous controller.
+
+
+[source, ruby]
+-------------------------
+def mapViewWithEventLocation
+
+  map_view_for_event = MKMapView.alloc.initWithFrame( self.view.bounds )
+  map_view_for_event.mapType = MKMapTypeStandard    
+  map_view_for_event
+end  
+-----------------------
+
+
+Once you have done that, add the view to the main view in the *viewDidLoad* adding the following line before inserting any other view:
+
+
+[source, ruby]
+-----------------------
+def viewDidLoad
+
+  super       
+  @map_view_for_event = mapViewWithEventLocation       
+  self.view.addSubview( @map_view_for_event )
+  self.view.addSubview( segmentedControlWithMapOptions )
+  self.view.addSubview( buttonToCloseScreen )       
+end
+-----------------------
+
+Run your example, you should see something like this:
+
+image:Resources/ch07-MapKit/ch07_05_bigmap.png[Chapter 7 big map]
+
+
+The next step is to show a Pin in the location of the next meeting and to center the map near that spot. First, we are going to center the map around the event location. You can see that this View Controller has an instance variable named *event* of type *Event*. This class has a location attribute, with the latitude and longitude of the venue. We are going to use that property to extract the location around the map will be centered.
+
+*MapKit* uses a special structure called *MKCoordinateRegion* that has a *CLLocationCoordinate2D* - a structure which latitude and longitude values - and a *MKCoordinateSpan*, that represents the amount of map to display in the vertical and horizontal space. You can see this Span as the zoom that the map will have. 
+
+Let's create a method that returns our *MKCoordinateRegion*:
+
+[source, ruby]
+------------------------------
+def regionForEventLocation
+
+  region = MKCoordinateRegionMake(@event.location, MKCoordinateSpanMake(0.7, 0.7)) 
+  region
+end  
+-----------------------------
+
+We are using the function MKCoordinateRegionMake, that takes 2 arguments: the *CLLocationCoordinate2D* that we retrieve from the *@event* variable and a *MKCoordinateSpan* that we are creating using another function: *MKCoordinateSpanMake* with the vertical and horizontal values.
+
+Now, add this region to the *@map_view_for_event* in the *viewDidLoad* method:
+
+
+[source, ruby]
+--------------------
+@map_view_for_event.setRegion(regionForEventLocation)
+--------------------
+
+Run the app and you should see that the maps is centered and zoomed in around San José, California (the event has as its location the Apple HQ in Cupertino.):
+
+image:Resources/ch07-MapKit/ch07_06_mapregion.png[Chapter 7 map region]
+
+
+Finally, we are going to add a Pin -Annotations in MapKit terms. in the venue location. To add an Annotation in Objective-C you must create a class that explicitly implements the MKAnnotation protocol. In RubyMotion you only need to create a class with the same methods defined in the protocol. These methods are:
+
+- coordinate. Returns a CLLocationCoordinate
+- title. NSString with the main title of the Annotation.
+- subtitle. Optional, returns an NSString with the subtitle of the annotation.
+
+Create a new file inside the *models* folder named *event_annotation.rb*. Copy this code inside:
+
+
+[source, ruby]
+------------------------------------------
+class EventAnnotation 
+  
+  def initWithCoordinate( coordinate, title:title, andSubTitle:subtitle)  
+      
+    @coordinate = coordinate
+    @title = title
+    @subtitle = subtitle
+    
+    self
+  end
+
+
+  def coordinate 
+
+    @coordinate 
+  end
+  
+
+  def title 
+
+    @title
+  end
+  
+
+  def subtitle 
+
+    @subtitle 
+  end
+
+end
+---------------------------------------
+
+We are only defining an initializer method that receives the coordinate, the title and the subtitle and the methods defined in the *MKAnnotation* protocol. Now we are ready to add our annotation to the Map.
+
+Add this method that creates an instance of our custom annotation:
+
+
+[source, ruby]
+---------------
+def annotationForEvent
+
+  EventAnnotation.alloc.initWithCoordinate(@event.location, title:event.name, andSubTitle:event.address)
+end
+--------------
+
+In the *viewDidLoad* method, add the annotation to the map:
+
+[source, ruby]
+--------------------
+@map_view_for_event.addAnnotation(annotation)
+-------------------
+
+Run the example and you should see a red pin in the event's location, if you tap on it you will see the title and subtitle displayed inside a callout:
+
+image:Resources/ch07-MapKit/ch07_07_annotation.png[Chapter 7 map annotation]
+
+If you see the annotation displayed correctly, you have finished this lab.
+
+
+Challenge
+~~~~~~~~
+
+As you can see in the app, we are displaying a toggle buttons to change the type of the map. If you are curious about how do you create such controls, review the *segmentedControlWithMapOptions* method. This control is called *UISegmentedControl* and you only need to specify the options that will have in order to create it. We are also defining a target-selector that will be notified when the user taps in a button. The selector is the method:
+
+
+[source, ruby]
+----------------
+def switch_map_type(segmented_control)
+----------------
+
+Your challenge is to implement the logic to change the map type. A tip that will help you: with *segmented_control.selectedSegmentIndex* you can access the current button selected index. Using this you'll be able to determine which map type you should set to the *@map_view_for_event.type* variable.
+
+
+image:Resources/ch07-MapKit/ch07_08_challenge.png[Chapter 7 map challenge]

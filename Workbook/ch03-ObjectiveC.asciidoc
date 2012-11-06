@@ -1,9 +1,12 @@
-Estimator
-=========
+Chapter 03 - Objective C
+==========================
+
+Estimator App
+-------------
 In this exercise we will create an iOS app that exemplify the way many companies in the world estimate their projects, the "Estimator"
 
 Create Project
---------------
+~~~~~~~~~~~~~~
 
 As a first step we will need to create a project, open your terminal application and run the following command:
 
@@ -18,7 +21,7 @@ Next, lets copy our application images from *(define deploy route)* into the res
 
 
 First Run
----------
+~~~~~~~~~
 
 Just to make sure that everything is fine, we can test our new created project by executing the following line
 
@@ -36,7 +39,7 @@ image::resources/ch03-ObjectiveC/FirstRun.png[First Run]
 
 
 Project View Controller
------------------------
+~~~~~~~~~~~~~~~~~~~~~~~
 
 Let's start coding our project, first we need to create a new file that will contain our Project View Controller Class
 
@@ -115,7 +118,7 @@ image::resources/ch03-ObjectiveC/ProjectViewController.png[Project View Controll
 
 
 Project View
-------------
+~~~~~~~~~~~~~~
 
 Next we need to add some controls for the user to select the number of screens of the project, complexity, methodology, etc. For this is required to add the following method to the project_view_controller.rb file:
 
@@ -353,7 +356,7 @@ image::resources/ch03-ObjectiveC/ProjectViewWithCustomSegmentedControls.png[Proj
 
 
 Project Model
--------------
+~~~~~~~~~~~~~
 
 First create a JSON file to contain all the estimated historical data (Fake one ;):
 
@@ -650,7 +653,7 @@ end
 ------------
 
 Project View Controller and Project Model
------------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 We need to add a button to execute the estimation process, insert this lines on the button of the __layout_view__ method, in the project_view_controller.rb file:
 
@@ -720,7 +723,7 @@ In this method we implement the creation of a new Project instance, setting the 
 
 
 Estimation View Controller
---------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Now we need to add some place to show our calculated values, for this we need to create a new view controller called "Estimation View Controller":
 
@@ -845,7 +848,7 @@ We just implement the logic for our new view controller, also we add some labels
 
 
 Estimation View Controller and Project Model
---------------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The last part of our implementation is to add a way to bind the values of the Project Model into our labels, the following method does the trick (Insert it on the estimation_view_controller.rb):
 
@@ -869,7 +872,7 @@ end
 IMPORTANT: Please take note that in this specific case we are using Objective-C strings (NSStrings) instead of ruby strings
 
 Project View Controller and Estimation View Controller
-------------------------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Final task! We need to show our new controller, the way to do this is to perform a transition from the Project View Controller to the Estimation View Controller
 
@@ -897,7 +900,7 @@ UIView.transitionFromView(self.view,
 ---------------------
 
 Run and Enjoy
--------------
+~~~~~~~~~~~~~
 
 Lets run our estimator app!
 
@@ -914,7 +917,7 @@ image::resources/ch03-ObjectiveC/FinishedEstimationViewController.png[Finished E
 
 
 Challenges
-----------
+~~~~~~~~~~
 
 1.- The UISegmentedControlls in the project_view_controller.rb are bound to a static array, move that logic to the Project Model. So it can provide the allowed values for the estimation.
 

@@ -1198,11 +1198,13 @@ HelveticaNeue-Medium
 </div>
 </div>
 </div>
-<h1 id="_estimator">Estimator</h1>
-<div class="paragraph"><p>In this exercise we will create an iOS app that exemplify the way many companies in the world estimate their projects, the "Estimator"</p></div>
+<h1 id="_chapter_03_objective_c">Chapter 03 - Objective C</h1>
 <div class="sect1">
-<h2 id="_create_project">Create Project</h2>
+<h2 id="_estimator_app">Estimator App</h2>
 <div class="sectionbody">
+<div class="paragraph"><p>In this exercise we will create an iOS app that exemplify the way many companies in the world estimate their projects, the "Estimator"</p></div>
+<div class="sect2">
+<h3 id="_create_project">Create Project</h3>
 <div class="paragraph"><p>As a first step we will need to create a project, open your terminal application and run the following command:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="nv">$ </span>motion create estimator
@@ -1210,10 +1212,8 @@ HelveticaNeue-Medium
 <div class="paragraph"><p>If we look at the new folder "Estimator", we will find a couple of new folders: "app", "resources", "spec".</p></div>
 <div class="paragraph"><p>Next, lets copy our application images from <strong>(define deploy route)</strong> into the resources folder</p></div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_first_run">First Run</h2>
-<div class="sectionbody">
+<div class="sect2">
+<h3 id="_first_run">First Run</h3>
 <div class="paragraph"><p>Just to make sure that everything is fine, we can test our new created project by executing the following line</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="nv">$ </span><span class="nb">cd </span>estimator
@@ -1228,10 +1228,8 @@ HelveticaNeue-Medium
 <div class="title">Figure 8. First Run</div>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_project_view_controller">Project View Controller</h2>
-<div class="sectionbody">
+<div class="sect2">
+<h3 id="_project_view_controller">Project View Controller</h3>
 <div class="paragraph"><p>Let&#8217;s start coding our project, first we need to create a new file that will contain our Project View Controller Class</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="nv">$ </span><span class="nb">cd </span>app
@@ -1293,10 +1291,8 @@ HelveticaNeue-Medium
 <div class="title">Figure 9. Project View Controller</div>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_project_view">Project View</h2>
-<div class="sectionbody">
+<div class="sect2">
+<h3 id="_project_view">Project View</h3>
 <div class="paragraph"><p>Next we need to add some controls for the user to select the number of screens of the project, complexity, methodology, etc. For this is required to add the following method to the project_view_controller.rb file:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">layout_view</span>
@@ -1517,10 +1513,8 @@ HelveticaNeue-Medium
 <div class="title">Figure 11. Project View with Custom Segmented Controls</div>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_project_model">Project Model</h2>
-<div class="sectionbody">
+<div class="sect2">
+<h3 id="_project_model">Project Model</h3>
 <div class="paragraph"><p>First create a JSON file to contain all the estimated historical data (Fake one ;):</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="nv">$ </span>cd..
@@ -1786,10 +1780,8 @@ HelveticaNeue-Medium
 <span class="k">end</span>
 </pre></div></div></div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_project_view_controller_and_project_model">Project View Controller and Project Model</h2>
-<div class="sectionbody">
+<div class="sect2">
+<h3 id="_project_view_controller_and_project_model">Project View Controller and Project Model</h3>
 <div class="paragraph"><p>We need to add a button to execute the estimation process, insert this lines on the button of the <em>layout_view</em> method, in the project_view_controller.rb file:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="nv">$ </span><span class="nb">cd</span> ..
@@ -1854,10 +1846,8 @@ HelveticaNeue-Medium
 </pre></div></div></div>
 <div class="paragraph"><p>In this method we implement the creation of a new Project instance, setting the user input and finally we ask it to calculate the estimation</p></div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_estimation_view_controller">Estimation View Controller</h2>
-<div class="sectionbody">
+<div class="sect2">
+<h3 id="_estimation_view_controller">Estimation View Controller</h3>
 <div class="paragraph"><p>Now we need to add some place to show our calculated values, for this we need to create a new view controller called "Estimation View Controller":</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="nv">$ </span>touch estimation_view_controller.rb
@@ -1972,10 +1962,8 @@ HelveticaNeue-Medium
 </pre></div></div></div>
 <div class="paragraph"><p>We just implement the logic for our new view controller, also we add some labels to draw on the screen the values generated by the Project estimation</p></div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_estimation_view_controller_and_project_model">Estimation View Controller and Project Model</h2>
-<div class="sectionbody">
+<div class="sect2">
+<h3 id="_estimation_view_controller_and_project_model">Estimation View Controller and Project Model</h3>
 <div class="paragraph"><p>The last part of our implementation is to add a way to bind the values of the Project Model into our labels, the following method does the trick (Insert it on the estimation_view_controller.rb):</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="c1"># Method to bind the values in the Project Object into proper UILabels</span>
@@ -1999,10 +1987,8 @@ HelveticaNeue-Medium
 </tr></table>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_project_view_controller_and_estimation_view_controller">Project View Controller and Estimation View Controller</h2>
-<div class="sectionbody">
+<div class="sect2">
+<h3 id="_project_view_controller_and_estimation_view_controller">Project View Controller and Estimation View Controller</h3>
 <div class="paragraph"><p>Final task! We need to show our new controller, the way to do this is to perform a transition from the Project View Controller to the Estimation View Controller</p></div>
 <div class="paragraph"><p>Insert the following lines into the estimate_project(sender) method on the class project_view_controller.rb:</p></div>
 <div class="listingblock">
@@ -2025,10 +2011,8 @@ HelveticaNeue-Medium
                           <span class="n">completion</span><span class="p">:</span> <span class="kp">nil</span><span class="p">)</span>
 </pre></div></div></div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_run_and_enjoy">Run and Enjoy</h2>
-<div class="sectionbody">
+<div class="sect2">
+<h3 id="_run_and_enjoy">Run and Enjoy</h3>
 <div class="paragraph"><p>Lets run our estimator app!</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="nv">$ </span>rake
@@ -2046,15 +2030,689 @@ HelveticaNeue-Medium
 <div class="title">Figure 13. Finished Estimation View Controller</div>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_challenges">Challenges</h2>
-<div class="sectionbody">
+<div class="sect2">
+<h3 id="_challenges">Challenges</h3>
 <div class="paragraph"><p>1.- The UISegmentedControlls in the project_view_controller.rb are bound to a static array, move that logic to the Project Model. So it can provide the allowed values for the estimation.</p></div>
 <div class="paragraph"><p>2.- Now that the allowed values are in the Project Model, lets make it dynamic by retrieving them from the JSON File.</p></div>
 </div>
 </div>
+</div>
+<h1 id="_chapter_05_cocoa_overview">Chapter 05 - Cocoa Overview</h1>
+<div class="sect1">
+<h2 id="_the_cocoaheads_app">The Cocoaheads app</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>Cocoaheads is a community of OSX/iOS programmers. There are many Cocoaheads communities around the world and they meet periodically (normally on a monthly basis) to discuss the latest topics for Apple-related technologies.</p></div>
+<div class="paragraph"><p>We want to build an iPhone app for this community. The app should cover the next functionality:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+Show the complete schedule for the next Cocoaheads meetings.
+</p>
+</li>
+<li>
+<p>
+Show the information about the next meeting. This information could include the map to the venue, the list of the talks, etc.
+</p>
+</li>
+<li>
+<p>
+Registration and login of users.
+</p>
+</li>
+<li>
+<p>
+Allow users to register for the next meeting.
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>We are going to build this app for several chapters, one step a time. In this chapter we are going to focus in creating the first screen: the Next Event screen that shows the information related to the next meeting:</p></div>
+<div class="paragraph"><p><span class="image">
+<img src="Resources/ch05-CocoaOverview/ch05_01_app.png" alt="Chapter 5 app" />
+</span></p></div>
+<div class="sect2">
+<h3 id="_creating_the_app">Creating the app</h3>
+<div class="paragraph"><p>Let&#8217;s start by creating the Cocoaheads rubymotion app. You have already know how to create RubyMotion apps from previous chapters, in the command line type:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="nv">$ </span>motion create Cocoaheads
+</pre></div></div></div>
+<div class="paragraph"><p>As we have seen, this command creates an empty application with the following folder structure:</p></div>
+<div class="paragraph"><p><span class="image">
+<img src="Resources/ch05-CocoaOverview//ch05_02_folder_structure.png" alt="Folder structure" />
+</span></p></div>
+<div class="paragraph"><p>We&#8217;ll be using a structure based on Rails for this Course. Thus, you need to create a folrder named "controllers" inside the "app" folder. Inside "controllers". create an empty file called "next_event_view_controller.rb".</p></div>
+<div class="paragraph"><p><span class="image">
+<img src="Resources/ch05-CocoaOverview//ch05_03_folder_controllers.png" alt="Controllers folder" />
+</span></p></div>
+<div class="paragraph"><p>As we have seen in previous chapters, the vanilla app created by the motion command only creates an empty app. We need to add a Window to it. Thus, open the app_delegate.rb class and inside the method</p></div>
+<div class="paragraph"><p>copy this code:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">application</span><span class="p">(</span><span class="n">application</span><span class="p">,</span> <span class="n">didFinishLaunchingWithOptions</span><span class="ss">:launchOptions</span><span class="p">)</span>
+
+  <span class="n">next_event_view_controller</span> <span class="o">=</span> <span class="no">NextEventViewController</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">init</span>
+  <span class="vi">@window</span> <span class="o">=</span> <span class="no">UIWindow</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithFrame</span><span class="p">(</span><span class="no">UIScreen</span><span class="o">.</span><span class="n">mainScreen</span><span class="o">.</span><span class="n">bounds</span><span class="p">)</span>
+  <span class="vi">@window</span><span class="o">.</span><span class="n">rootViewController</span> <span class="o">=</span> <span class="n">next_event_view_controller</span>
+  <span class="vi">@window</span><span class="o">.</span><span class="n">makeKeyAndVisible</span>
+  <span class="kp">true</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>Remember that this method is called once iOS has finished creating your app. In that moment, the <strong>UIAppDelegate</strong> is notified using this method so you can initiliaze the app.</p></div>
+<div class="paragraph"><p>This is what we are doing inside the method:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+Create a <strong>UIWindow</strong>.
+</p>
+</li>
+<li>
+<p>
+Assigning a <strong>UIViewController</strong> as the <strong>rootViewController</strong> of the window.
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Notice that we are creating the <strong>UIWindow</strong> with the same Frame as <strong>UIScreen.mainScreen</strong>. <strong>UIScreen</strong> is a convenient class to access the size of a screen device. So basically we are setting the size of the app&#8217;s window to be the full screen.</p></div>
+</div>
+<div class="sect2">
+<h3 id="_creating_the_view_controller">Creating the View Controller</h3>
+<div class="paragraph"><p>Now, we are going  create our View Controller. Open the <strong>next_event_view_controller.rb</strong> file and create a child of UIViewController:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">class</span> <span class="nc">NextEventViewController</span> <span class="o">&lt;</span> <span class="no">UIViewController</span>
+
+  <span class="k">def</span> <span class="nf">init</span>
+
+    <span class="nb">p</span> <span class="s1">&#39;Initializing NextEventViewController&#39;</span>
+    <span class="k">super</span>
+    <span class="nb">self</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">loadView</span>
+
+    <span class="nb">p</span> <span class="s1">&#39;loading view&#39;</span>
+    <span class="nb">self</span><span class="o">.</span><span class="n">view</span> <span class="o">=</span> <span class="no">UIView</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">init</span>
+  <span class="k">end</span>
+
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>In Cocoa, there is no <strong>initialize</strong> metod. There is the <strong>init</strong> method with the responsbility of creating the instance of the class. It is mandatory that you call <strong>super</strong> and then, return <strong>self</strong>.</p></div>
+<div class="paragraph"><p>The other method we are creating is <strong>loadView</strong>. The responsibility of this method is to actually create the view of this Controller. So we are basically creating a view that covers all the screen and switching its background color to white. <strong>UIColor</strong> is the  class we use in Cocoa to handle colors, it has some convenient class methods with predefined colors (such as <strong>whiteColor</strong>) but it also allows you to create custom colors.</p></div>
+<div class="paragraph"><p>Use the command</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="nv">$ </span>rake
+</pre></div></div></div>
+<div class="paragraph"><p>to test the application, you will see a white screen. And in the console you will notice that first the init method was invoked and then the loadView.</p></div>
+<div class="paragraph"><p><span class="image">
+<img src="Resources/ch05-CocoaOverview/ch05_04_console.png" alt="Console output" />
+</span></p></div>
+</div>
+<div class="sect2">
+<h3 id="_using_uiimageview">Using UIImageView</h3>
+<div class="paragraph"><p>Now it&#8217;s time to begin to stylish our app. We are going to add an header and a background image with a nice gradient.</p></div>
+<div class="paragraph"><p>Open the zip file called ch05CocoaOverview_resources.zip, inside you&#8217;ll find the Design assets for this workshop. Copy them into the <strong>resources</strong> folder of our app.</p></div>
+<div class="paragraph"><p>Now inside our View Controller, add these lines:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">viewDidLoad</span>
+
+  <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span> <span class="n">imageViewWithHeader</span> <span class="p">)</span>
+  <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span> <span class="n">imageViewWithBackground</span> <span class="p">)</span>
+  <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span> <span class="n">imageViewWithTitleBackground</span> <span class="p">)</span>
+<span class="k">end</span>
+
+
+<span class="k">def</span> <span class="nf">imageViewWithHeader</span>
+
+  <span class="n">header_imageview</span> <span class="o">=</span> <span class="no">UIImageView</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithImage</span><span class="p">(</span> <span class="no">UIImage</span><span class="o">.</span><span class="n">imageNamed</span><span class="p">(</span><span class="s1">&#39;bgTitleBar&#39;</span><span class="p">)</span> <span class="p">)</span>
+  <span class="n">header_imageview</span>
+<span class="k">end</span>
+
+
+<span class="k">def</span> <span class="nf">imageViewWithBackground</span>
+
+  <span class="n">background_imageview</span> <span class="o">=</span> <span class="no">UIImageView</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithImage</span><span class="p">(</span> <span class="no">UIImage</span><span class="o">.</span><span class="n">imageNamed</span><span class="p">(</span><span class="s1">&#39;bgApp&#39;</span><span class="p">)</span> <span class="p">)</span>
+  <span class="n">background_imageview</span><span class="o">.</span><span class="n">frame</span> <span class="o">=</span> <span class="no">CGRectMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">320</span><span class="p">,</span> <span class="mi">396</span><span class="p">)</span>
+  <span class="n">background_imageview</span>
+<span class="k">end</span>
+
+
+<span class="k">def</span> <span class="nf">imageViewWithTitleBackground</span>
+
+  <span class="n">title_background_imageview</span> <span class="o">=</span> <span class="no">UIImageView</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithImage</span><span class="p">(</span> <span class="no">UIImage</span><span class="o">.</span><span class="n">imageNamed</span><span class="p">(</span><span class="s1">&#39;bgEventTitle&#39;</span><span class="p">)</span> <span class="p">)</span>
+  <span class="n">title_background_imageview</span><span class="o">.</span><span class="n">frame</span> <span class="o">=</span> <span class="o">[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">103</span><span class="o">]</span><span class="p">,</span> <span class="o">[</span><span class="mi">320</span><span class="p">,</span> <span class="mi">103</span><span class="o">]]</span>
+  <span class="n">title_background_imageview</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>The method <strong>viewDidLoad</strong> is called once the view of the Controller is loaded into memory. It&#8217;s safe, then, to initialize the view inside this method.</p></div>
+<div class="paragraph"><p>Basically, we are adding two images using the <strong>addSubview</strong> method of <strong>UIView</strong>. In the <strong>imageViewWithHeader</strong> method, we are creating the first image: the header image. In CocoaTouch we have the <strong>UIImageView</strong> class to add images to our apps. We are using its initializer method called <strong>initWithImage</strong> that receives a <strong>UIImage</strong>. <strong>UIImage</strong> is the image itself, and <strong>UIImageView</strong> is only a convenient <strong>UIView</strong> that simplifies the process of painting an image on screen.</p></div>
+<div class="paragraph"><p><strong>UIImage</strong> can be created with its class method <strong>imageNamed</strong> that receives an <strong>NSString</strong> with the name of the image file.</p></div>
+<div class="paragraph"><p>In the <strong>imageViewWithBackground</strong> method we are creating the <strong>UIImageView</strong> with the background image. Notice that we are changing the frame of this image. The frame is a property of type <strong>CGRect</strong> that the class <strong>UIView</strong> uses to specify the location of the view inside its superview and its size.</p></div>
+<div class="paragraph"><p>We are using the <strong>CGRectMake</strong> function to create our frame. The first two arguments define the location coordinates of the object from the top left corner of the superview. For the background we are specifying an X coordinate of 0, thus the object will be at the left-most location of the screen; and a Y coordinate of 64, thus the object will be placed below the header image. The second  and third argument specifies its size.</p></div>
+<div class="paragraph"><p>RubyMotion has another way to create a <strong>CGRect</strong>. Try to change the <strong>CGRectMake</strong> line to this:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="n">background_imageview</span><span class="o">.</span><span class="n">frame</span> <span class="o">=</span> <span class="o">[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">64</span><span class="o">]</span><span class="p">,</span> <span class="o">[</span><span class="mi">320</span><span class="p">,</span> <span class="mi">396</span><span class="o">]]</span>
+</pre></div></div></div>
+<div class="paragraph"><p>RubyMotion allow us to use an array of two arrays to define *CGRect*s. The first array specifies the location of the object and the second its size.</p></div>
+<div class="paragraph"><p>When you run the app you will something like this:</p></div>
+<div class="paragraph"><p><span class="image">
+<img src="Resources/ch05-CocoaOverview/ch05_05_uiimage.png" alt="Console output" />
+</span></p></div>
+</div>
+<div class="sect2">
+<h3 id="_creating_labels">Creating labels</h3>
+<div class="paragraph"><p>The next step is to create the labels with the Event information. Add this two methods to your View Controller:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">labelWithNextEventName</span>
+
+  <span class="n">next_event_name_label</span> <span class="o">=</span> <span class="no">UILabel</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithFrame</span><span class="p">(</span> <span class="o">[[</span><span class="mi">25</span><span class="p">,</span> <span class="mi">130</span><span class="o">]</span><span class="p">,</span> <span class="o">[</span><span class="mi">275</span><span class="p">,</span> <span class="mi">40</span><span class="o">]]</span> <span class="p">)</span>
+
+  <span class="n">next_event_name_label</span><span class="o">.</span><span class="n">font</span> <span class="o">=</span> <span class="no">UIFont</span><span class="o">.</span><span class="n">fontWithName</span><span class="p">(</span><span class="s2">&quot;AmericanTypewriter-CondensedBold&quot;</span><span class="p">,</span> <span class="n">size</span><span class="p">:</span><span class="mi">30</span><span class="p">)</span>
+  <span class="n">next_event_name_label</span><span class="o">.</span><span class="n">textColor</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">whiteColor</span>
+  <span class="n">next_event_name_label</span><span class="o">.</span><span class="n">textAlignment</span> <span class="o">=</span> <span class="no">UITextAlignmentCenter</span>
+  <span class="n">next_event_name_label</span><span class="o">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">clearColor</span>
+  <span class="n">next_event_name_label</span><span class="o">.</span><span class="n">shadowColor</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">darkGrayColor</span>
+  <span class="n">next_event_name_label</span><span class="o">.</span><span class="n">shadowOffset</span> <span class="o">=</span> <span class="o">[-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="o">]</span>
+  <span class="n">next_event_name_label</span>
+
+<span class="k">end</span>
+
+
+<span class="k">def</span> <span class="nf">labelWithDaysLeft</span>
+
+  <span class="n">days_left_label</span> <span class="o">=</span> <span class="no">UILabel</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithFrame</span><span class="p">(</span> <span class="o">[[</span><span class="mi">25</span><span class="p">,</span> <span class="mi">220</span><span class="o">]</span><span class="p">,</span> <span class="o">[</span><span class="mi">275</span><span class="p">,</span> <span class="mi">40</span><span class="o">]]</span> <span class="p">)</span>
+  <span class="n">days_left_label</span><span class="o">.</span><span class="n">font</span> <span class="o">=</span> <span class="no">UIFont</span><span class="o">.</span><span class="n">fontWithName</span><span class="p">(</span><span class="s2">&quot;HelveticaNeue-Light&quot;</span><span class="p">,</span> <span class="n">size</span><span class="p">:</span><span class="mi">20</span><span class="p">)</span>
+  <span class="n">days_left_label</span><span class="o">.</span><span class="n">textColor</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">whiteColor</span>
+  <span class="n">days_left_label</span><span class="o">.</span><span class="n">textAlignment</span> <span class="o">=</span> <span class="no">UITextAlignmentCenter</span>
+  <span class="n">days_left_label</span><span class="o">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">clearColor</span>
+  <span class="n">days_left_label</span><span class="o">.</span><span class="n">shadowColor</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">darkGrayColor</span>
+  <span class="n">days_left_label</span><span class="o">.</span><span class="n">shadowOffset</span> <span class="o">=</span> <span class="o">[-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="o">]</span>
+  <span class="n">days_left_label</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="literalblock">
+<div class="content">
+<pre><code>The object used in CocoaTouch to disply lines of text is *UILabel*. We are creating two *UILabel* using the initializer method *initWithFrame* to specify their size and location.</code></pre>
+</div></div>
+<div class="literalblock">
+<div class="content">
+<pre><code>Then, we are changing its font and size. An *UILabel* has a property named *font* that allow us to do that. To create a Font, we are using the *UIFont* class and its method *fontWithName:size*. As you can see, you specify the font using a NSString with the Font Family name. If you want to see the available Fonts in CocoaTouch, try to print the array returned by *UIFont.familyNames*.</code></pre>
+</div></div>
+<div class="literalblock">
+<div class="content">
+<pre><code>Next, we are changing the color of the label using the *textColor* property and the text alignment. By default a *UILabel* has a white background color, we are changing this to clearColor. This is a special color to specify transparencies. So, basically we are defining that the background of this *UILabel* should be transparent.</code></pre>
+</div></div>
+<div class="literalblock">
+<div class="content">
+<pre><code>Finally, we are adding a shadow to the label. With *shadowColor* you specify its color and with *shadowOffset* its location. This offset is the number of points that the shadow will be offset from the label. It is a *CGSize* object so you can specify it with the *CGSizeMake* function, but we prefer to use the more convenient RubyMotion way of using an array of two elements, one for width and the other one for weight. With *[-1, -1]* we are defining that the shadow will be 1 point offset to the left and 1 point offset up from the label.</code></pre>
+</div></div>
+<div class="literalblock">
+<div class="content">
+<pre><code>We have the methods to create our labels, is time to add them to our view. Inside the viewDidLoad method add this lines:</code></pre>
+</div></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">viewDidLoad</span>
+
+  <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span> <span class="n">imageViewWithHeader</span> <span class="p">)</span>
+  <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span> <span class="n">imageViewWithBackground</span> <span class="p">)</span>
+  <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span> <span class="n">imageViewWithTitleBackground</span> <span class="p">)</span>
+
+  <span class="vi">@next_event_name_label</span> <span class="o">=</span> <span class="n">labelWithNextEventName</span>
+  <span class="vi">@days_left_label</span> <span class="o">=</span> <span class="n">labelWithDaysLeft</span>
+
+  <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span> <span class="vi">@next_event_name_label</span> <span class="p">)</span>
+  <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span> <span class="vi">@days_left_label</span> <span class="p">)</span>
+
+  <span class="vi">@days_left_label</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="no">DAYS_LEFT_TEXT</span>
+  <span class="vi">@next_event_name_label</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="no">EVENT_NAME_TEXT</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>And create this other method:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">viewDidUnload</span>
+
+  <span class="k">super</span>
+  <span class="vi">@next_event_name_label</span> <span class="o">=</span> <span class="kp">nil</span>
+  <span class="vi">@days_left_label</span> <span class="o">=</span> <span class="kp">nil</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>We are adding the labels to instance variables. This is recommended if you need to access them later to change its properties. In this case we are changing the text of the labels to some constants. Finally add this two constants to your View Controller:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">class</span> <span class="nc">NextEventViewController</span> <span class="o">&lt;</span> <span class="no">UIViewController</span>
+
+  <span class="no">DAYS_LEFT_TEXT</span> <span class="o">=</span> <span class="s2">&quot;(20 Days Left)&quot;</span>
+  <span class="no">EVENT_NAME_TEXT</span> <span class="o">=</span> <span class="s2">&quot;November meeting.&quot;</span>
+</pre></div></div></div>
+<div class="paragraph"><p>When you keep <strong>UIView*s in instance variables, it is recommended to set this variables to *nil</strong> inside the <strong>viewDidUnload</strong> method. Prior to iOS 6, this method was invoked when the device was running out of memory. Then, we are freeing the memory allocated for the UILabels for low memory scenarios.</p></div>
+<div class="paragraph"><p>Run your app and you should see that the labels appeared with the data for the next Cocoaheads event:</p></div>
+<div class="paragraph"><p><span class="image">
+<img src="Resources/ch05-CocoaOverview/ch05_06_uilabel.png" alt="Labels" />
+</span></p></div>
+</div>
+<div class="sect2">
+<h3 id="_adding_buttons">Adding buttons</h3>
+<div class="paragraph"><p>Finally, we are going to add two buttons to our app: for sign-up and for sign-in.</p></div>
+<div class="paragraph"><p>Add these methods to the View Controller:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">buttonForSignIn</span>
+
+  <span class="n">sign_in_button</span> <span class="o">=</span> <span class="no">UIButton</span><span class="o">.</span><span class="n">buttonWithType</span><span class="p">(</span><span class="no">UIButtonTypeRoundedRect</span><span class="p">)</span>
+  <span class="n">sign_in_button</span><span class="o">.</span><span class="n">frame</span> <span class="o">=</span> <span class="o">[[</span><span class="mi">15</span><span class="p">,</span> <span class="mi">280</span><span class="o">]</span><span class="p">,</span> <span class="o">[</span><span class="mi">295</span><span class="p">,</span> <span class="mi">40</span><span class="o">]]</span>
+  <span class="n">sign_in_button</span><span class="o">.</span><span class="n">setTitle</span><span class="p">(</span><span class="s2">&quot;I have an account, sign-in to book&quot;</span><span class="p">,</span> <span class="n">forState</span><span class="ss">:UIControlStateNormal</span><span class="p">)</span>
+  <span class="n">sign_in_button</span><span class="o">.</span><span class="n">setTitle</span><span class="p">(</span><span class="s2">&quot;is Highlighted&quot;</span><span class="p">,</span> <span class="n">forState</span><span class="ss">:UIControlStateHighlighted</span><span class="p">)</span>
+  <span class="n">sign_in_button</span><span class="o">.</span><span class="n">titleLabel</span><span class="o">.</span><span class="n">font</span> <span class="o">=</span> <span class="no">UIFont</span><span class="o">.</span><span class="n">fontWithName</span><span class="p">(</span><span class="s2">&quot;HelveticaNeue-Light&quot;</span><span class="p">,</span> <span class="n">size</span><span class="p">:</span><span class="mi">18</span><span class="p">)</span>
+  <span class="n">sign_in_button</span><span class="o">.</span><span class="n">addTarget</span><span class="p">(</span><span class="nb">self</span><span class="p">,</span> <span class="n">action</span><span class="ss">:&#39;sign_in:&#39;</span><span class="p">,</span> <span class="n">forControlEvents</span><span class="ss">:UIControlEventTouchUpInside</span><span class="p">)</span>
+
+  <span class="n">sign_in_button</span>
+<span class="k">end</span>
+
+
+<span class="k">def</span> <span class="nf">buttonForSignUp</span>
+
+  <span class="n">sign_up_button</span> <span class="o">=</span> <span class="no">UIButton</span><span class="o">.</span><span class="n">buttonWithType</span><span class="p">(</span><span class="no">UIButtonTypeRoundedRect</span><span class="p">)</span>
+  <span class="n">sign_up_button</span><span class="o">.</span><span class="n">frame</span> <span class="o">=</span> <span class="o">[[</span><span class="mi">15</span><span class="p">,</span> <span class="mi">350</span><span class="o">]</span><span class="p">,</span> <span class="o">[</span><span class="mi">295</span><span class="p">,</span> <span class="mi">40</span><span class="o">]]</span>
+  <span class="n">sign_up_button</span><span class="o">.</span><span class="n">setTitle</span><span class="p">(</span><span class="s2">&quot;Don&#39;t have an account, sign-up&quot;</span><span class="p">,</span> <span class="n">forState</span><span class="ss">:UIControlStateNormal</span><span class="p">)</span>
+  <span class="n">sign_up_button</span><span class="o">.</span><span class="n">titleLabel</span><span class="o">.</span><span class="n">font</span> <span class="o">=</span> <span class="no">UIFont</span><span class="o">.</span><span class="n">fontWithName</span><span class="p">(</span><span class="s2">&quot;HelveticaNeue-Light&quot;</span><span class="p">,</span> <span class="n">size</span><span class="p">:</span><span class="mi">18</span><span class="p">)</span>
+  <span class="n">sign_up_button</span><span class="o">.</span><span class="n">addTarget</span><span class="p">(</span><span class="nb">self</span><span class="p">,</span> <span class="n">action</span><span class="ss">:&#39;sign_up&#39;</span><span class="p">,</span> <span class="n">forControlEvents</span><span class="ss">:UIControlEventTouchUpInside</span><span class="p">)</span>
+  <span class="n">sign_up_button</span>
+<span class="k">end</span>
+
+
+<span class="k">def</span> <span class="nf">sign_in</span><span class="p">(</span> <span class="n">button</span> <span class="p">)</span>
+
+  <span class="nb">p</span> <span class="s2">&quot;sign in button pressed </span><span class="si">#{</span><span class="n">button</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="k">end</span>
+
+
+<span class="k">def</span> <span class="nf">sign_up</span>
+
+  <span class="nb">p</span> <span class="s2">&quot;sign-up button pressed&quot;</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>And don&#8217;t forget to add the buttons to the view in the "viewDidLoad" method:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">viewDidLoad</span>
+
+  <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span> <span class="n">imageViewWithHeader</span> <span class="p">)</span>
+  <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span> <span class="n">imageViewWithBackground</span> <span class="p">)</span>
+  <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span> <span class="n">imageViewWithTitleBackground</span> <span class="p">)</span>
+
+  <span class="vi">@next_event_name_label</span> <span class="o">=</span> <span class="n">labelWithNextEventName</span>
+  <span class="vi">@days_left_label</span> <span class="o">=</span> <span class="n">labelWithDaysLeft</span>
+
+  <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span> <span class="vi">@next_event_name_label</span> <span class="p">)</span>
+  <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span> <span class="vi">@days_left_label</span> <span class="p">)</span>
+
+  <span class="vi">@days_left_label</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="no">DAYS_LEFT_TEXT</span>
+  <span class="vi">@next_event_name_label</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="no">EVENT_NAME_TEXT</span>
+
+  <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span> <span class="n">buttonForSignIn</span> <span class="p">)</span>
+  <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span> <span class="n">buttonForSignUp</span> <span class="p">)</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>Let&#8217;s review what&#8217;s going on in those methods. First, we are creating a <strong>UIButton</strong> with the line.</p></div>
+<div class="paragraph"><p><strong>UIButton.buttonWithType(UIButtonTypeRoundedRect)</strong></p></div>
+<div class="paragraph"><p>As you may expect, there are other types of UIButtons that you can specify, such as:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<strong>UIButtonTypeRoundedRect</strong>. Standard white button with rounded corners.
+</p>
+</li>
+<li>
+<p>
+<strong>UIButtonTypeCustom</strong>. Defines a button with no style, very useful when you have your own set of images to use as a button.
+</p>
+</li>
+<li>
+<p>
+<strong>UIButtonTypeDetailDisclosure</strong>. The standard button that appear in tables: a small blue circle with an arrow on it.
+</p>
+</li>
+<li>
+<p>
+<strong>UIButtonTypeInfoLight</strong>. A small gray circle with an "i" on it.
+</p>
+</li>
+<li>
+<p>
+<strong>UIButtonTypeInfoDark</strong>. A small dark gray circle with an "i" on it.
+</p>
+</li>
+<li>
+<p>
+<strong>UIButtonTypeContactAdd</strong>. A small blue circle with the plus sign on it.
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>You can try these types in the app.</p></div>
+<div class="paragraph"><p>The second thing you have to notice is how to add text to the button (this only works if the type is Round Rect or Custom):</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="n">sign_in_button</span><span class="o">.</span><span class="n">setTitle</span><span class="p">(</span><span class="s2">&quot;I have an account, sign-in to book&quot;</span><span class="p">,</span> <span class="n">forState</span><span class="ss">:UIControlStateNormal</span><span class="p">)</span>
+</pre></div></div></div>
+<div class="paragraph"><p>We do that with the method <strong>setTitle:forState</strong>. The first argument is a <strong>NSString</strong> with the text, the second one specifies in which state should the text appear. A <strong>UIButton</strong> has the following states:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<strong>UIControlStateNormal</strong>. The default state of the button.
+</p>
+</li>
+<li>
+<p>
+<strong>UIControlStateHighlighted</strong>. When the button is pressed.
+</p>
+</li>
+<li>
+<p>
+<strong>UIControlStateDisabled</strong>. When the button is disabled (its enabled property is set to false).
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>As you can see, for the Sign-In button we are specifying a title for the highlight state, when you run the app and press that button you will se that the title changes to the one for the highlighted state.</p></div>
+<div class="paragraph"><p>We are also changing the default font of the button:</p></div>
+<div class="paragraph"><p><strong>sign_in_button.titleLabel.font = UIFont.fontWithName("HelveticaNeue-Light", size:18)</strong></p></div>
+<div class="paragraph"><p>Finally we are connecting the UIButton to our View Controller:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="n">sign_in_button</span><span class="o">.</span><span class="n">addTarget</span><span class="p">(</span><span class="nb">self</span><span class="p">,</span>
+                         <span class="n">action</span><span class="ss">:&#39;sign_in:&#39;</span><span class="p">,</span>
+                         <span class="n">forControlEvents</span><span class="ss">:UIControlEventTouchUpInside</span><span class="p">)</span>
+</pre></div></div></div>
+<div class="paragraph"><p>The method <strong>addTarget:action:forControlEvents</strong> is the standard way to communicate a <strong>UIControl</strong> with a <strong>UIViewController</strong>. This method specifies which object and which method inside that object should be notified when an specific Event happens in such <strong>UIControl</strong>.</p></div>
+<div class="paragraph"><p>In this case we are saying that <strong>self</strong> (the current <strong>UIViewController</strong> instance) should be notified through the <strong>sign_in:</strong> method when the <strong>UIButton</strong> is pressed and released (<strong>UIControlEventTouchUpInside</strong>). The action is actually a <strong>selector</strong> in CocoaTouch: a <strong>NSString</strong> with the name of the method. This name will be resolved into a concrete method in Runtime. In this example, this method will be called:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">sign_in</span><span class="p">(</span> <span class="n">button</span> <span class="p">)</span>
+
+  <span class="nb">p</span> <span class="s2">&quot;sign in button pressed </span><span class="si">#{</span><span class="n">button</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>As you can see, the name of the method has a ":", because it has one argument. Using this target-selector approach to communicate, the UIControl that triggers the communication can be passed as an argument. In this example, it is the UIButton.</p></div>
+<div class="paragraph"><p>In the other button, the sign-up one, we are not passing any argument:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="n">sign_up_button</span><span class="o">.</span><span class="n">addTarget</span><span class="p">(</span><span class="nb">self</span><span class="p">,</span>
+                         <span class="n">action</span><span class="ss">:&#39;sign_up&#39;</span><span class="p">,</span>
+                         <span class="n">forControlEvents</span><span class="ss">:UIControlEventTouchUpInside</span><span class="p">)</span>
+</pre></div></div></div>
+<div class="paragraph"><p>Then, the selector method must be declared with no arguments:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">sign_up</span>
+
+  <span class="nb">p</span> <span class="s2">&quot;sign-up button pressed&quot;</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>Run the app and try the buttons. If both of them are appearing and invoke the specified methods, you have finished this workshop.</p></div>
+<div class="paragraph"><p><span class="image">
+<img src="Resources/ch05-CocoaOverview/ch05_07_uibuttons.png" alt="UIButtons" />
+</span></p></div>
+</div>
+<div class="sect2">
+<h3 id="_challenge">Challenge</h3>
+<div class="paragraph"><p>We included two standard buttons in our app, but our designer have made a really cool button. You can see it in the resources dir, is the image named <strong>btnBrown.png</strong>.</p></div>
+<div class="paragraph"><p>Change the sign-up button to show this image. Tips: you will need to change the type of the button to a Custom one and need to use the <strong>setBackgroundImage:forState</strong> method.</p></div>
+<div class="paragraph"><p><span class="image">
+<img src="Resources/ch05-CocoaOverview/ch05_08_challenge.png" alt="Challenge" />
+</span></p></div>
+</div>
+</div>
+</div>
 <h1 id="_day_2">Day 2</h1>
+<h1 id="_chapter_07_mapkit">Chapter 07 - MapKit</h1>
+<div class="paragraph"><p>In this chapter we are going to review some concepts about delegation in CocoaTouch and how to use maps.</p></div>
+<div class="sect1">
+<h2 id="_preparing_the_app">Preparing the app</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>Open the file <strong>ch07_mapkit_resources.zip</strong> and unzip it. Inside there is our Cocoaheads app. Run it with the <strong>rake</strong> command. You will see the main screen with the details of an event:</p></div>
+<div class="paragraph"><p><span class="image">
+<img src="Resources/ch07-MapKit/ch07_01_app.png" alt="Chapter 7 app" />
+</span></p></div>
+<div class="paragraph"><p>When you tap on the <strong>View Map</strong> button a view that will contain the map appears:</p></div>
+<div class="paragraph"><p><span class="image">
+<img src="Resources/ch07-MapKit/ch07_02_map.png" alt="Chapter 7 empty map view" />
+</span></p></div>
+<div class="paragraph"><p>Now open the Rakefile and examine the configuration. In this lab we are going to use the Location functionalities of CocoaTouch and the Maps. In order to do this we have to import some frameworks:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="n">app</span><span class="o">.</span><span class="n">frameworks</span> <span class="o">=</span> <span class="o">[</span><span class="s1">&#39;CoreLocation&#39;</span><span class="p">,</span> <span class="s1">&#39;MapKit&#39;</span><span class="o">]</span>
+</pre></div></div></div>
+<div class="paragraph"><p>CoreLocation is the framework that allows you to access the geo location and heading of the device. MapKit, in the other hand, provides an interface to embed maps into your applications as well as other advance functionality such as adding custom annotations, reverse-geocoding lookups, etc.</p></div>
+<div class="sect2">
+<h3 id="_adding_a_location_manager">Adding A Location Manager</h3>
+<div class="paragraph"><p>The first thing we are going to add to our View Controller is a <strong>CLLocationManager</strong> to determine the device location and show how the delegation pattern works in CocoaTouch.</p></div>
+<div class="paragraph"><p>In order to do this, open the <strong>event_detail_view_controller.rb</strong> file and locate the method named <strong>requestUserCurrenLocation</strong> Add the following lines:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">if</span> <span class="p">(</span><span class="no">CLLocationManager</span><span class="o">.</span><span class="n">locationServicesEnabled</span><span class="p">)</span>
+
+ <span class="vi">@location_manager</span> <span class="o">=</span> <span class="no">CLLocationManager</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">init</span>
+
+  <span class="c1">#Play with other possible values: KCLLocationAccuracyBest, KCLLocationAccuracyHundredMeters, etc.</span>
+  <span class="vi">@location_manager</span><span class="o">.</span><span class="n">desiredAccuracy</span> <span class="o">=</span> <span class="no">KCLLocationAccuracyKilometer</span>
+
+  <span class="c1">#Set the current view controller as the delegate of the Location Manager, the location manager will notify of any changes in the location.</span>
+  <span class="vi">@location_manager</span><span class="o">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="nb">self</span>
+
+  <span class="vi">@location_manager</span><span class="o">.</span><span class="n">purpose</span> <span class="o">=</span> <span class="s2">&quot;To provide functionality based on user&#39;s current location&quot;</span>
+  <span class="vi">@location_manager</span><span class="o">.</span><span class="n">startUpdatingLocation</span>
+
+<span class="k">else</span>
+
+  <span class="n">showAlertWithTitle</span><span class="p">(</span><span class="s1">&#39;Location Error&#39;</span><span class="p">,</span> <span class="s1">&#39;Please enable the Location Services for this app in Settings.&#39;</span><span class="p">)</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>First, we are checking if the user allow the device to use the location services. If not, we are showing an UIAlertView. Review the showAlertWithTitle method to learn how to present alerts in CocoaTouch.</p></div>
+<div class="paragraph"><p>Then, we create our CLLocationManager. The first thing we set, is the <strong>desiredAccuracy</strong>:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="vi">@location_manager</span><span class="o">.</span><span class="n">desiredAccuracy</span> <span class="o">=</span> <span class="no">KCLLocationAccuracyKilometer</span>
+</pre></div></div></div>
+<div class="paragraph"><p><strong>CLLocationManager</strong> supports a wide range of accuracies. This property specifies which method will be used to determine the current device location. By instance, an accuracy set to <strong>KCLLocationAccuracyBest</strong> will prompt iOS to use the GPS to determine the location and thus will spent more battery. Wheter an accuracy set to KCLLocationAccuracyKilometer will be more conservative in the use of the device&#8217;s resourcers.</p></div>
+<div class="paragraph"><p>Remember that an iOS device can use up to 3 ways to determine its location:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+GPS. For devices with that functionality such and iPhones or iPads with GSM/LTE.
+</p>
+</li>
+<li>
+<p>
+Cell towers triangulation. For devices with GSM/LTE.
+</p>
+</li>
+<li>
+<p>
+WiFi hotspots.
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>The accuracy goes from best to worse in that order. You should choose carefully the desired accuracy according to your app functionality. An <strong>KCLLocationAccuracyBest</strong> accuracy is best suited to navigation apps or running apps where you need the best possible value for the current location. In the other hand, an app such as the Cocoaheads apps can work with an accuracy of <strong>KCLLocationAccuracyKilometer</strong>. We only need to know if the user is close to the meeting venue.</p></div>
+<div class="paragraph"><p>Next, we set the View Controller as a delegate to the location manager:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="vi">@location_manager</span><span class="o">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="nb">self</span>
+</pre></div></div></div>
+<div class="paragraph"><p>Thus, the <strong>CLLocationManager</strong> instance will notifiy us when a change in the device&#8217;s location occurs.</p></div>
+<div class="paragraph"><p>With the line</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="vi">@location_manager</span><span class="o">.</span><span class="n">purpose</span> <span class="o">=</span> <span class="s2">&quot;To provide functionality based on user&#39;s current location&quot;</span>
+</pre></div></div></div>
+<div class="paragraph"><p>We define the message that the device will show to the user when it ask permission to access the location data.</p></div>
+<div class="paragraph"><p>And, finally with <strong>@location_manager.startUpdatingLocation</strong> we start the tracking for the device&#8217;s location.</p></div>
+<div class="paragraph"><p>But, how are we going to be notified when the CLLocationManager determines the device&#8217;s current location? We need to implement some methods from the <strong>CLLocationManagerDelegate</strong> protocol. Write this methods in the View Controller:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="c1">#CLLocationManagerDelegate methods</span>
+
+<span class="k">def</span> <span class="nf">locationManager</span><span class="p">(</span><span class="n">manager</span><span class="p">,</span> <span class="n">didUpdateToLocation</span><span class="ss">:newLocation</span><span class="p">,</span> <span class="n">fromLocation</span><span class="ss">:oldLocation</span><span class="p">)</span>
+
+  <span class="vi">@location_label</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;Latitude:</span><span class="si">#{</span><span class="n">newLocation</span><span class="o">.</span><span class="n">coordinate</span><span class="o">.</span><span class="n">latitude</span><span class="si">}</span><span class="s2"> Longitude:</span><span class="si">#{</span><span class="n">newLocation</span><span class="o">.</span><span class="n">coordinate</span><span class="o">.</span><span class="n">longitude</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="k">end</span>
+
+<span class="k">def</span> <span class="nf">locationManager</span><span class="p">(</span><span class="n">manager</span><span class="p">,</span> <span class="n">didFailWithError</span><span class="ss">:error</span><span class="p">)</span>
+
+  <span class="n">showAlertWithTitle</span><span class="p">(</span> <span class="s2">&quot;Error&quot;</span><span class="p">,</span> <span class="n">andMessage</span><span class="ss">:error</span><span class="o">.</span><span class="n">description</span> <span class="p">)</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>CLLocationManager will invoke the method <strong>locationManager:didUpdateToLocation:fromLocation</strong> of its delegate when it can determine a change in the device&#8217;s location. In this case we are updating in a UILabel the coordinates of the device. The object for both newLocation and oldLocation arguments is <strong>CLLocation</strong>. This class gives you access to values such as latitude, longitude and some other variables like altitude and speed.</p></div>
+<div class="paragraph"><p>If an error occurs, the second method <strong>locationManager:didFailWithError</strong> will be called.</p></div>
+<div class="paragraph"><p>Run the example, and try changing the simulator location in the Debug menu using the Location option. There are some predifined locations and you can specify a custom one by entering its latitude and longitude:</p></div>
+<div class="paragraph"><p><span class="image">
+<img src="Resources/ch07-MapKit/ch07_03_location.png" alt="Chapter 7 location" />
+</span></p></div>
+</div>
+<div class="sect2">
+<h3 id="_creating_a_small_map">Creating a small Map</h3>
+<div class="paragraph"><p>The next step is to add a small map just below the label where our location is being drawn. In CocoaTouch we use the <strong>MKMapView</strong> class to render maps. Locate the method named <strong>mapViewForEvent</strong> in the <strong>event_detail_view_controller.rb</strong> file. Copy this code:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">mapViewForEvent</span>
+
+  <span class="n">map_view_for_event</span> <span class="o">=</span> <span class="no">MKMapView</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithFrame</span><span class="p">(</span> <span class="o">[[</span><span class="mi">25</span><span class="p">,</span><span class="mi">210</span><span class="o">]</span><span class="p">,</span> <span class="o">[</span><span class="mi">270</span><span class="p">,</span> <span class="mi">80</span><span class="o">]]</span> <span class="p">)</span>
+  <span class="n">map_view_for_event</span><span class="o">.</span><span class="n">mapType</span> <span class="o">=</span> <span class="no">MKMapTypeStandard</span>
+  <span class="n">map_view_for_event</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>As you can see, there is nothing special about creating a <strong>MKMapView</strong> You just used the old <strong>initWithFrame</strong>. The second line, though, is more interesting. In that we specify the type of map we want to render. <strong>MKMapView</strong> supports three types of maps:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+MKMapTypeStandard. Displays a street map that shows the position of all roads and some road names.
+</p>
+</li>
+<li>
+<p>
+MKMapTypeSatellite. Displays satellite imagery of the area.
+</p>
+</li>
+<li>
+<p>
+MKMapTypeHybrid. Displays a satellite image of the area with road and road name information layered on top.
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Finally, add the map view to the main view in the <strong>viewDidLoad</strong> method:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span> <span class="n">mapViewForEvent</span> <span class="p">)</span>
+</pre></div></div></div>
+<div class="paragraph"><p>Run your app, you should see a small map view in the middle</p></div>
+<div class="paragraph"><p><span class="image">
+<img src="Resources/ch07-MapKit/ch07_04_smallmap.png" alt="Chapter 7 small map" />
+</span></p></div>
+</div>
+<div class="sect2">
+<h3 id="_creating_a_map_with_annotations">Creating a map with annotations</h3>
+<div class="paragraph"><p>When you tap on the <strong>View Map</strong> button, currently is showing an empty view. We are going to fix this. Open the <strong>event_map_view_controller.rb</strong> file and locate the method called <strong>mapViewWithEventLocation</strong> That method should return a mapview with its type set to MKMapTypeStandard, just as the <strong>mapViewForEvent</strong> we implemented in the previous controller.</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">mapViewWithEventLocation</span>
+
+  <span class="n">map_view_for_event</span> <span class="o">=</span> <span class="no">MKMapView</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithFrame</span><span class="p">(</span> <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">bounds</span> <span class="p">)</span>
+  <span class="n">map_view_for_event</span><span class="o">.</span><span class="n">mapType</span> <span class="o">=</span> <span class="no">MKMapTypeStandard</span>
+  <span class="n">map_view_for_event</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>Once you have done that, add the view to the main view in the <strong>viewDidLoad</strong> adding the following line before inserting any other view:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">viewDidLoad</span>
+
+  <span class="k">super</span>
+  <span class="vi">@map_view_for_event</span> <span class="o">=</span> <span class="n">mapViewWithEventLocation</span>
+  <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span> <span class="vi">@map_view_for_event</span> <span class="p">)</span>
+  <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span> <span class="n">segmentedControlWithMapOptions</span> <span class="p">)</span>
+  <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span> <span class="n">buttonToCloseScreen</span> <span class="p">)</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>Run your example, you should see something like this:</p></div>
+<div class="paragraph"><p><span class="image">
+<img src="Resources/ch07-MapKit/ch07_05_bigmap.png" alt="Chapter 7 big map" />
+</span></p></div>
+<div class="paragraph"><p>The next step is to show a Pin in the location of the next meeting and to center the map near that spot. First, we are going to center the map around the event location. You can see that this View Controller has an instance variable named <strong>event</strong> of type <strong>Event</strong>. This class has a location attribute, with the latitude and longitude of the venue. We are going to use that property to extract the location around the map will be centered.</p></div>
+<div class="paragraph"><p><strong>MapKit</strong> uses a special structure called <strong>MKCoordinateRegion</strong> that has a <strong>CLLocationCoordinate2D</strong> - a structure which latitude and longitude values - and a <strong>MKCoordinateSpan</strong>, that represents the amount of map to display in the vertical and horizontal space. You can see this Span as the zoom that the map will have.</p></div>
+<div class="paragraph"><p>Let&#8217;s create a method that returns our <strong>MKCoordinateRegion</strong>:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">regionForEventLocation</span>
+
+  <span class="n">region</span> <span class="o">=</span> <span class="no">MKCoordinateRegionMake</span><span class="p">(</span><span class="vi">@event</span><span class="o">.</span><span class="n">location</span><span class="p">,</span> <span class="no">MKCoordinateSpanMake</span><span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">7</span><span class="p">,</span> <span class="mi">0</span><span class="o">.</span><span class="mi">7</span><span class="p">))</span>
+  <span class="n">region</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>We are using the function MKCoordinateRegionMake, that takes 2 arguments: the <strong>CLLocationCoordinate2D</strong> that we retrieve from the <strong>@event</strong> variable and a <strong>MKCoordinateSpan</strong> that we are creating using another function: <strong>MKCoordinateSpanMake</strong> with the vertical and horizontal values.</p></div>
+<div class="paragraph"><p>Now, add this region to the <strong>@map_view_for_event</strong> in the <strong>viewDidLoad</strong> method:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="vi">@map_view_for_event</span><span class="o">.</span><span class="n">setRegion</span><span class="p">(</span><span class="n">regionForEventLocation</span><span class="p">)</span>
+</pre></div></div></div>
+<div class="paragraph"><p>Run the app and you should see that the maps is centered and zoomed in around San José, California (the event has as its location the Apple HQ in Cupertino.):</p></div>
+<div class="paragraph"><p><span class="image">
+<img src="Resources/ch07-MapKit/ch07_06_mapregion.png" alt="Chapter 7 map region" />
+</span></p></div>
+<div class="paragraph"><p>Finally, we are going to add a Pin -Annotations in MapKit terms. in the venue location. To add an Annotation in Objective-C you must create a class that explicitly implements the MKAnnotation protocol. In RubyMotion you only need to create a class with the same methods defined in the protocol. These methods are:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+coordinate. Returns a CLLocationCoordinate
+</p>
+</li>
+<li>
+<p>
+title. NSString with the main title of the Annotation.
+</p>
+</li>
+<li>
+<p>
+subtitle. Optional, returns an NSString with the subtitle of the annotation.
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Create a new file inside the <strong>models</strong> folder named <strong>event_annotation.rb</strong>. Copy this code inside:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">class</span> <span class="nc">EventAnnotation</span>
+
+  <span class="k">def</span> <span class="nf">initWithCoordinate</span><span class="p">(</span> <span class="n">coordinate</span><span class="p">,</span> <span class="n">title</span><span class="ss">:title</span><span class="p">,</span> <span class="n">andSubTitle</span><span class="ss">:subtitle</span><span class="p">)</span>
+
+    <span class="vi">@coordinate</span> <span class="o">=</span> <span class="n">coordinate</span>
+    <span class="vi">@title</span> <span class="o">=</span> <span class="n">title</span>
+    <span class="vi">@subtitle</span> <span class="o">=</span> <span class="n">subtitle</span>
+
+    <span class="nb">self</span>
+  <span class="k">end</span>
+
+
+  <span class="k">def</span> <span class="nf">coordinate</span>
+
+    <span class="vi">@coordinate</span>
+  <span class="k">end</span>
+
+
+  <span class="k">def</span> <span class="nf">title</span>
+
+    <span class="vi">@title</span>
+  <span class="k">end</span>
+
+
+  <span class="k">def</span> <span class="nf">subtitle</span>
+
+    <span class="vi">@subtitle</span>
+  <span class="k">end</span>
+
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>We are only defining an initializer method that receives the coordinate, the title and the subtitle and the methods defined in the <strong>MKAnnotation</strong> protocol. Now we are ready to add our annotation to the Map.</p></div>
+<div class="paragraph"><p>Add this method that creates an instance of our custom annotation:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">annotationForEvent</span>
+
+  <span class="no">EventAnnotation</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithCoordinate</span><span class="p">(</span><span class="vi">@event</span><span class="o">.</span><span class="n">location</span><span class="p">,</span> <span class="n">title</span><span class="ss">:event</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">andSubTitle</span><span class="ss">:event</span><span class="o">.</span><span class="n">address</span><span class="p">)</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>In the <strong>viewDidLoad</strong> method, add the annotation to the map:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="vi">@map_view_for_event</span><span class="o">.</span><span class="n">addAnnotation</span><span class="p">(</span><span class="n">annotation</span><span class="p">)</span>
+</pre></div></div></div>
+<div class="paragraph"><p>Run the example and you should see a red pin in the event&#8217;s location, if you tap on it you will see the title and subtitle displayed inside a callout:</p></div>
+<div class="paragraph"><p><span class="image">
+<img src="Resources/ch07-MapKit/ch07_07_annotation.png" alt="Chapter 7 map annotation" />
+</span></p></div>
+<div class="paragraph"><p>If you see the annotation displayed correctly, you have finished this lab.</p></div>
+</div>
+<div class="sect2">
+<h3 id="_challenge_2">Challenge</h3>
+<div class="paragraph"><p>As you can see in the app, we are displaying a toggle buttons to change the type of the map. If you are curious about how do you create such controls, review the <strong>segmentedControlWithMapOptions</strong> method. This control is called <strong>UISegmentedControl</strong> and you only need to specify the options that will have in order to create it. We are also defining a target-selector that will be notified when the user taps in a button. The selector is the method:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">switch_map_type</span><span class="p">(</span><span class="n">segmented_control</span><span class="p">)</span>
+</pre></div></div></div>
+<div class="paragraph"><p>Your challenge is to implement the logic to change the map type. A tip that will help you: with <strong>segmented_control.selectedSegmentIndex</strong> you can access the current button selected index. Using this you&#8217;ll be able to determine which map type you should set to the <strong>@map_view_for_event.type</strong> variable.</p></div>
+<div class="paragraph"><p><span class="image">
+<img src="Resources/ch07-MapKit/ch07_08_challenge.png" alt="Chapter 7 map challenge" />
+</span></p></div>
+</div>
+</div>
+</div>
 <h1 id="_day_3">Day 3</h1>
 </div>
 <div id="footnotes"><hr /></div>
