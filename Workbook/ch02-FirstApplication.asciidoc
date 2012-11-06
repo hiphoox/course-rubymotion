@@ -4,7 +4,7 @@ Chapter 02 - First Application
 Time Zone Converter App
 -----------------------
 
-It is time to create your first your rubymotion app let’s create a “time zone converter”, put the following command in your terminal:
+It is time to create a new Ruby Motion app called “time zone converter”, put the following command in your terminal:
 
 [source, sh]
 --------------------------------------
