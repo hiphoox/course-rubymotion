@@ -1,5 +1,5 @@
-Chapter 01 - iOS Overview
-=========================
+Chapter 02 - First Application
+==============================
 
 Time Zone Converter App
 -----------------------
@@ -36,7 +36,7 @@ $ rake
 If everything goes well, you will see an ugly black window.
 
 .Empty Application
-image::resources/ch01-iOSOverview/image1.png[Empty Application]
+image::resources/ch02-FirstApplication/image1.png[Empty Application]
 
 
 
@@ -90,7 +90,7 @@ $ rake
 You should see a gray styled view, congratulations you have added your first View Controller, it wasn't really that hard, was it?
 
 .View Controller Added
-image::resources/ch01-iOSOverview/image2.png[View Controller Added]
+image::resources/ch02-FirstApplication/image2.png[View Controller Added]
 
 It’s time to create our human interface controls, create a new file named *root_view_uitilities.rb* and add the following code:	
 
@@ -175,7 +175,7 @@ end
 Run your program and you should see two new labels added to the screen, the first one indicates the current timezone name, and the second one the current time.
 
 .Controls Added
-image::resources/ch01-iOSOverview/image3.png[Controls Added]
+image::resources/ch02-FirstApplication/image3.png[Controls Added]
 
 It’s time to add a control that let us select from different time zones, open the *root_view_controller.rb* and add the code the following code to it:
 
@@ -283,9 +283,9 @@ end
 Next compile your application; you should see a white big button, don’t hesitate and try it.
 
 .UIPicker Added
-image::resources/ch01-iOSOverview/image4.png[UIPicker Added]
+image::resources/ch02-FirstApplication/image4.png[UIPicker Added]
 .UIPicker Added
-image::resources/ch01-iOSOverview/image5.png[UIPicker Selected]
+image::resources/ch02-FirstApplication/image5.png[UIPicker Selected]
 
 Go ahead and look for a region that you may like to be and see the local time on this area. 
 
@@ -380,7 +380,7 @@ self.font = UIFont.fontWithName("Noteworthy-Bold",size:18)
 --------------
  
 .UIPicker Added
-image::resources/ch01-iOSOverview/image6.png[UIPicker Added]
+image::resources/ch02-FirstApplication/image6.png[UIPicker Added]
 
 and hit enter, and Voila !! the font has changed, but you may not liked, so try with different fonts and sizes here there are some of them:
 
@@ -405,7 +405,7 @@ view.backgroundColor = UIColor.colorWithPatternImage(UIImage.imageNamed("bgApp.p
 --------------
 
 .Stylish App
-image::resources/ch01-iOSOverview/image7.png[Stylish App]
+image::resources/ch02-FirstApplication/image7.png[Stylish App]
 
 We should add some personality to our buttons, open your file *root_view_uitilities.rb* and replace the following method *select_time_zone_Button*: 
 
