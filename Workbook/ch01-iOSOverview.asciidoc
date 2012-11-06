@@ -1,5 +1,8 @@
-Time Zone Converter
-=================
+Chapter 01 - iOS Overview
+=========================
+
+Time Zone Converter App
+-----------------------
 
 Now that you have created your first your rubymotion app let’s create a “time zone converter”, put the following command in your terminal:
 
@@ -38,7 +41,7 @@ image::resources/ch01-iOSOverview/image1.png[Empty Application]
 
 
 View Controller
----------------
+~~~~~~~~~~~~~~~
 
 A view controller class provides a quite utile mechanism to manage views in iOS applications; it could coordinate efforts with the model and other view controllers in order to build an entire application.
 
