@@ -2787,6 +2787,179 @@ subtitle. Optional, returns an NSString with the subtitle of the annotation.
 </div>
 </div>
 </div>
+<h1 id="_chapter_08_uiviews">Chapter 08 - UIViews</h1>
+<div class="paragraph"><p>Our designer has came up with a better design for our first screen, the one we develop during Chapter 5. He thought that we could present the days left until the next meeting with a custom view representing a flip calendar rather than using a simple text label:</p></div>
+<div class="paragraph"><p><span class="image">
+<img src="Resources/ch08-UIViews/ch08_01_app.png" alt="Chapter 8 final app" />
+</span></p></div>
+<div class="paragraph"><p>So we have deleted the old label with the days left, open the file <strong>ch08-uiviews.zip</strong> and unzip the RubyMotion project. Run it, you should see our old view without the days left information:</p></div>
+<div class="paragraph"><p><span class="image">
+<img src="Resources/ch08-UIViews/ch08_02_starting_app.png" alt="Chapter 8 starting app" />
+</span></p></div>
+<div class="sect2">
+<h3 id="_creating_a_custom_uiview">Creating a custom UIView</h3>
+<div class="paragraph"><p>When you face the challenge of creating a custom component such as this flip calendar, is often required to create a custom UIView. Custom UIViews gives you complete control over the look and logic of a UIView.</p></div>
+<div class="paragraph"><p>To implement them, you must begin creating a class that inherits from UIView. Create a new file named <strong>flipcount_view.rb</strong> . Inside this file, declare a new class:+</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">class</span> <span class="nc">FlipCountView</span> <span class="o">&lt;</span> <span class="no">UIView</span>
+
+  <span class="kp">attr_accessor</span> <span class="ss">:days_left</span>
+
+  <span class="k">def</span> <span class="nf">initWithFrame</span><span class="p">(</span> <span class="n">frame</span> <span class="p">)</span>
+
+    <span class="k">super</span>
+    <span class="nb">self</span><span class="o">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">whiteColor</span>
+    <span class="nb">self</span>
+  <span class="k">end</span>
+
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>Until now, we have only declared the class and one public attribute called <strong>days_left</strong>. We are also overwriting the <strong>initWithFrame:</strong> initializer. Remember that this method is used to create UIViews. We are just setting the background color of the UIView to white. Let&#8217;s test it. In the <strong>next_event_view_controller.rb</strong> file create this method:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">viewWithDaysLeft</span>
+  <span class="n">days_left_view</span> <span class="o">=</span> <span class="no">FlipCountView</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithFrame</span><span class="p">(</span> <span class="o">[[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">120</span><span class="o">]</span><span class="p">,</span> <span class="o">[</span><span class="mi">68</span><span class="p">,</span> <span class="mi">74</span><span class="o">]]</span> <span class="p">)</span>
+  <span class="n">days_left_view</span><span class="o">.</span><span class="n">days_left</span> <span class="o">=</span> <span class="vi">@days_left</span>
+  <span class="n">days_left_view</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>We are creating a FlipCountView with a frame that places it to the left of the event&#8217;s name label. Now add it to your view in the <strong>viewDidLoad</strong> method:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre> <span class="k">def</span> <span class="nf">viewDidLoad</span>
+
+  <span class="k">super</span>
+
+  <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span> <span class="n">imageViewWithHeader</span> <span class="p">)</span>
+  <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span> <span class="n">imageViewWithBackground</span> <span class="p">)</span>
+  <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span> <span class="n">imageViewWithTitleBackground</span> <span class="p">)</span>
+  <span class="vi">@next_event_name_label</span> <span class="o">=</span> <span class="n">labelWithNextEventName</span>
+
+  <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span> <span class="vi">@next_event_name_label</span> <span class="p">)</span>
+
+  <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span> <span class="n">buttonForSignIn</span> <span class="p">)</span>
+  <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span> <span class="n">buttonForSignUp</span> <span class="p">)</span>
+  <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span> <span class="n">buttonToChangeDaysLeft</span> <span class="p">)</span>
+
+  <span class="vi">@days_left_view</span> <span class="o">=</span> <span class="n">viewWithDaysLeft</span>
+  <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span> <span class="vi">@days_left_view</span> <span class="p">)</span>
+
+
+  <span class="vi">@next_event_name_label</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="no">EVENT_NAME_TEXT</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>Remember that always that you add a UIView to an instance variable, you must set it to <strong>nil</strong> in the <strong>viewDidUnload</strong> method:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">viewDidUnload</span>
+
+  <span class="k">super</span>
+  <span class="vi">@next_event_name_label</span> <span class="o">=</span> <span class="kp">nil</span>
+  <span class="vi">@days_left_view</span> <span class="o">=</span> <span class="kp">nil</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>Now test the application. You will see a white rectangle:</p></div>
+<div class="paragraph"><p><span class="image">
+<img src="Resources/ch08-UIViews/ch08_03_rectangle.png" alt="Chapter 8 rectangle" />
+</span></p></div>
+</div>
+<div class="sect2">
+<h3 id="_drawing_text">Drawing text</h3>
+<div class="paragraph"><p>Now, we have to add the text for the <strong>@days_left</strong> attribute. We have seen that we can use a <strong>UILabel</strong> to render text on the screen. However, we are going to see a different low-level approach: to draw the text inside the view.</p></div>
+<div class="paragraph"><p>Every <strong>UIView</strong> knows how to draw itself in the screen. If you want to implement your custom drawing logic, you should override the method <strong>drawRect:</strong> It is very important that you handle this method very carefully. This method is called directly by iOS every time that the screen needs to be rendered: the first time it is displayed or when part of the view is invalidated. So it is not recommended to do some heavy computations inside the method, that will reduce the performance of your app.</p></div>
+<div class="paragraph"><p>Lets implement the <strong>drawRect:</strong> method that draws the days left:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">drawRect</span><span class="p">(</span><span class="n">rect</span><span class="p">)</span>
+
+  <span class="n">drawDaysLeftInRect</span> <span class="n">rect</span>
+<span class="k">end</span>
+
+
+<span class="k">def</span> <span class="nf">drawDaysLeftInRect</span><span class="p">(</span><span class="n">rect</span><span class="p">)</span>
+
+  <span class="n">big_font</span> <span class="o">=</span> <span class="no">UIFont</span><span class="o">.</span><span class="n">fontWithName</span><span class="p">(</span><span class="s2">&quot;HelveticaNeue-Bold&quot;</span><span class="p">,</span> <span class="n">size</span><span class="p">:</span><span class="mi">48</span><span class="p">)</span>
+  <span class="vi">@days_left</span><span class="o">.</span><span class="n">to_s</span><span class="o">.</span><span class="n">drawAtPoint</span><span class="p">(</span><span class="o">[</span><span class="mi">20</span><span class="p">,</span> <span class="mi">0</span> <span class="o">]</span><span class="p">,</span> <span class="n">withFont</span><span class="ss">:big_font</span><span class="p">)</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>Inside the <strong>drawDaysLeftInRect:</strong> method we are creating a UIFont and then we are rendering directly the days_left. This attribute is an <strong>Integer</strong>, thus we need to converting to <strong>String</strong> with <strong>to_s</strong>. In RubyMotion traditional <strong>String</strong> class of Ruby inherits from <strong>NSMutableString</strong> that is why we could use the method <strong>drawAtPoint</strong>. This method is actually rendering the String inside the view at the given point using the font passed as an argument.</p></div>
+<div class="paragraph"><p>Run the example and you should see the "0" rendered inside the custom view:</p></div>
+<div class="paragraph"><p><span class="image">
+<img src="Resources/ch08-UIViews/ch08_04_zero.png" alt="Chapter 8 drawn label" />
+</span></p></div>
+<div class="paragraph"><p>Now we are going to render the legend  "days left" at the bottom. In order to this we are going to calculate the Y coordinate using the <strong>rect</strong> of the view:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">drawDaysLeftLegendInRect</span><span class="p">(</span> <span class="n">rect</span> <span class="p">)</span>
+
+  <span class="n">small_font</span> <span class="o">=</span> <span class="no">UIFont</span><span class="o">.</span><span class="n">fontWithName</span><span class="p">(</span><span class="s2">&quot;HelveticaNeue&quot;</span><span class="p">,</span> <span class="n">size</span><span class="p">:</span><span class="mi">12</span><span class="p">)</span>
+  <span class="s2">&quot;days left&quot;</span><span class="o">.</span><span class="n">drawAtPoint</span><span class="p">(</span><span class="o">[</span><span class="mi">11</span><span class="p">,</span> <span class="n">rect</span><span class="o">.</span><span class="n">size</span><span class="o">.</span><span class="n">height</span> <span class="o">-</span> <span class="mi">24</span> <span class="o">]</span><span class="p">,</span> <span class="n">withFont</span><span class="ss">:small_font</span><span class="p">)</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>Remember to call this method from the <strong>drawRect:</strong> one:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">drawRect</span><span class="p">(</span><span class="n">rect</span><span class="p">)</span>
+
+  <span class="n">drawDaysLeftInRect</span> <span class="n">rect</span>
+  <span class="n">drawDaysLeftLegendInRect</span> <span class="n">rect</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>Run the example and you sould see the legend rendered at the bottom:</p></div>
+<div class="paragraph"><p><span class="image">
+<img src="Resources/ch08-UIViews/ch08_05_legend.png" alt="Chapter 8 drawn legend" />
+</span></p></div>
+</div>
+<div class="sect2">
+<h3 id="_drawing_images">Drawing images</h3>
+<div class="paragraph"><p>Our designer has created a background image to use in our view. The image is called <strong>flipDateImage.png</strong> We have seen that we could insert a UIImageView into our view to render images. But, this time we are going to use a low-level approach: we are going to render the image directly in our <strong>drawRect:</strong> method.</p></div>
+<div class="paragraph"><p>Create this method:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">drawBackgroundImageInRect</span><span class="p">(</span><span class="n">rect</span><span class="p">)</span>
+
+  <span class="n">backgroundImage</span> <span class="o">=</span> <span class="no">UIImage</span><span class="o">.</span><span class="n">imageNamed</span><span class="p">(</span> <span class="s2">&quot;flipDateImage&quot;</span> <span class="p">)</span>
+  <span class="n">backgroundImage</span><span class="o">.</span><span class="n">drawInRect</span><span class="p">(</span> <span class="n">rect</span> <span class="p">)</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>As you can see, a UIImage also knows how to render itself using the <strong>drawInRect:</strong> method. In this case, we want the image to be drawn in the full view, that is why we are passing the whole <strong>rect</strong> as a parameter.</p></div>
+<div class="paragraph"><p>Now, invoke this method from inside the <strong>drawRect:</strong> method. You should render the image before drawing the texts, otherwise the image will be drawn covering the texts:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">drawRect</span><span class="p">(</span><span class="n">rect</span><span class="p">)</span>
+
+  <span class="n">drawBackgroundImageInRect</span> <span class="n">rect</span>
+  <span class="n">drawDaysLeftLegendInRect</span> <span class="n">rect</span>
+  <span class="n">drawDaysLeftInRect</span> <span class="n">rect</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>Finally, let&#8217;s change the view color to <strong>clearColor</strong> so the image will be the only thing acting as a background.</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">initWithFrame</span><span class="p">(</span><span class="n">frame</span><span class="p">)</span>
+
+  <span class="k">super</span>
+  <span class="nb">self</span><span class="o">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">clearColor</span>
+  <span class="nb">self</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>Run your app and you should see the image rendered in the background of the app:</p></div>
+<div class="paragraph"><p><span class="image">
+<img src="Resources/ch08-UIViews/ch08_06_image.png" alt="Chapter 8 drawn image" />
+</span></p></div>
+</div>
+<div class="sect2">
+<h3 id="_invalidating_a_view">Invalidating a view</h3>
+<div class="paragraph"><p>As you can see, we have a <strong>UIButton</strong> with the title "Increase days left". We want to use it to test our custom view by changing the days left attribute. Locate the method named <strong>change_days_left</strong> and implement the logic to increase the <strong>@days_left</strong> property and update it in our custom view instance:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">change_days_left</span>
+
+  <span class="vi">@days_left</span> <span class="o">=</span> <span class="vi">@days_left</span> <span class="o">+</span> <span class="mi">1</span>
+  <span class="vi">@days_left_view</span><span class="o">.</span><span class="n">days_left</span> <span class="o">=</span> <span class="vi">@days_left</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>As you can see, we are increasing the value of the variable by 1, and then we are updating that value in our custom view instance. It seem right, isn&#8217;t it? Run the example and tap the "Increase days left" button.</p></div>
+<div class="paragraph"><p>Nothing happens. Why? because our custom <strong>UIView</strong> only renders the days left in its <strong>drawRect:</strong> method. This method is called by CocoaTouch when the view is first rendered (in this case is when we add it to our main view) and when the view is invalidated so it has to be rendered again. In this case, neither of those scenarios is presented. So the view is never updated with the new value. You may feel tempted to just call the <strong>drawRect:</strong> method directly, but that is something you should never do. CocoaTouch is responsible of calling that method in the appropiate moment. Instead of that, we need to invalidate the view and CocoaTouch will call the <strong>drawRect:</strong> method in the next drawing cycle. So just add this line at the end of the method:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="vi">@days_left_view</span><span class="o">.</span><span class="n">setNeedsDisplay</span>
+</pre></div></div></div>
+<div class="paragraph"><p><strong>setNeedsDisplay</strong> is the method of <strong>UIView</strong> to mark that it needs to be redrawn. CocoaTouch will call the <strong>drawRect:</strong> and that method will draw the days left with the updated value:</p></div>
+<div class="paragraph"><p><span class="image">
+<img src="Resources/ch08-UIViews/ch08_07_needdisplay.png" alt="Chapter 8 need display" />
+</span></p></div>
+<div class="paragraph"><p>If you see the view being updated when you tap on the button, you have finish this lab.</p></div>
+</div>
 <h1 id="_day_3">Day 3</h1>
 </div>
 <div id="footnotes"><hr /></div>

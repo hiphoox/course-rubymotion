@@ -1,0 +1,227 @@
+Chapter 08 - UIViews
+===================
+
+Our designer has came up with a better design for our first screen, the one we develop during Chapter 5. He thought that we could present the days left until the next meeting with a custom view representing a flip calendar rather than using a simple text label:
+
+image:Resources/ch08-UIViews/ch08_01_app.png[Chapter 8 final app]
+
+So we have deleted the old label with the days left, open the file *ch08-uiviews.zip* and unzip the RubyMotion project. Run it, you should see our old view without the days left information:
+
+image:Resources/ch08-UIViews/ch08_02_starting_app.png[Chapter 8 starting app]
+
+Creating a custom UIView
+~~~~~~~~~~~~~~~~~~~~~~
+
+
+When you face the challenge of creating a custom component such as this flip calendar, is often required to create a custom UIView. Custom UIViews gives you complete control over the look and logic of a UIView. 
+
+To implement them, you must begin creating a class that inherits from UIView. Create a new file named *flipcount_view.rb* . Inside this file, declare a new class:+
+
+[source, ruby]
+------------------
+class FlipCountView < UIView
+  
+  attr_accessor :days_left
+
+  def initWithFrame( frame )
+
+    super
+    self.backgroundColor = UIColor.whiteColor
+    self
+  end
+    
+end  
+----------------
+
+Until now, we have only declared the class and one public attribute called *days_left*. We are also overwriting the *initWithFrame:* initializer. Remember that this method is used to create UIViews. We are just setting the background color of the UIView to white. Let's test it. In the *next_event_view_controller.rb* file create this method:
+
+
+[source, ruby]
+--------------------
+def viewWithDaysLeft
+  days_left_view = FlipCountView.alloc.initWithFrame( [[10, 120], [68, 74]] )    
+  days_left_view.days_left = @days_left
+  days_left_view
+end  
+------------------
+
+We are creating a FlipCountView with a frame that places it to the left of the event's name label. Now add it to your view in the *viewDidLoad* method:
+
+
+[source, ruby]
+---------------------------
+ def viewDidLoad    
+  
+  super
+  
+  self.view.addSubview( imageViewWithHeader )
+  self.view.addSubview( imageViewWithBackground )
+  self.view.addSubview( imageViewWithTitleBackground )
+  @next_event_name_label = labelWithNextEventName
+  
+  self.view.addSubview( @next_event_name_label )
+  
+  self.view.addSubview( buttonForSignIn )
+  self.view.addSubview( buttonForSignUp )
+  self.view.addSubview( buttonToChangeDaysLeft )
+
+  @days_left_view = viewWithDaysLeft
+  self.view.addSubview( @days_left_view )
+  
+  
+  @next_event_name_label.text = EVENT_NAME_TEXT
+end
+---------------------
+
+Remember that always that you add a UIView to an instance variable, you must set it to *nil* in the *viewDidUnload* method:
+
+[source, ruby]
+---------------------------
+def viewDidUnload
+
+  super
+  @next_event_name_label = nil
+  @days_left_view = nil
+end
+-------------------------
+
+Now test the application. You will see a white rectangle:
+
+image:Resources/ch08-UIViews/ch08_03_rectangle.png[Chapter 8 rectangle]
+
+
+Drawing text
+~~~~~~~~~~~
+
+Now, we have to add the text for the *@days_left* attribute. We have seen that we can use a *UILabel* to render text on the screen. However, we are going to see a different low-level approach: to draw the text inside the view.
+
+Every *UIView* knows how to draw itself in the screen. If you want to implement your custom drawing logic, you should override the method *drawRect:* It is very important that you handle this method very carefully. This method is called directly by iOS every time that the screen needs to be rendered: the first time it is displayed or when part of the view is invalidated. So it is not recommended to do some heavy computations inside the method, that will reduce the performance of your app.
+
+Lets implement the *drawRect:* method that draws the days left:
+
+[source, ruby]
+----------------------------------
+def drawRect(rect)     
+
+  drawDaysLeftInRect rect
+end
+
+
+def drawDaysLeftInRect(rect)
+
+  big_font = UIFont.fontWithName("HelveticaNeue-Bold", size:48)
+  @days_left.to_s.drawAtPoint([20, 0 ], withFont:big_font)
+end  
+-------------------------------
+
+Inside the *drawDaysLeftInRect:* method we are creating a UIFont and then we are rendering directly the days_left. This attribute is an *Integer*, thus we need to converting to *String* with *to_s*. In RubyMotion traditional *String* class of Ruby inherits from *NSMutableString* that is why we could use the method *drawAtPoint*. This method is actually rendering the String inside the view at the given point using the font passed as an argument.
+
+Run the example and you should see the "0" rendered inside the custom view:
+
+image:Resources/ch08-UIViews/ch08_04_zero.png[Chapter 8 drawn label]
+
+
+Now we are going to render the legend  "days left" at the bottom. In order to this we are going to calculate the Y coordinate using the *rect* of the view:
+
+[source, ruby]
+------------------------
+def drawDaysLeftLegendInRect( rect )
+
+  small_font = UIFont.fontWithName("HelveticaNeue", size:12)
+  "days left".drawAtPoint([11, rect.size.height - 24 ], withFont:small_font)
+end	 
+---------------------
+
+Remember to call this method from the *drawRect:* one:
+
+[source, ruby]
+-------------------
+def drawRect(rect)      
+ 
+  drawDaysLeftInRect rect
+  drawDaysLeftLegendInRect rect
+end
+----------------
+
+Run the example and you sould see the legend rendered at the bottom:
+
+image:Resources/ch08-UIViews/ch08_05_legend.png[Chapter 8 drawn legend]
+
+
+Drawing images
+~~~~~~~~~~~~~
+
+Our designer has created a background image to use in our view. The image is called *flipDateImage.png* We have seen that we could insert a UIImageView into our view to render images. But, this time we are going to use a low-level approach: we are going to render the image directly in our *drawRect:* method.
+
+Create this method:
+
+[source, ruby]
+------------------
+def drawBackgroundImageInRect(rect)
+
+  backgroundImage = UIImage.imageNamed( "flipDateImage" )
+  backgroundImage.drawInRect( rect )
+end
+------------------
+
+As you can see, a UIImage also knows how to render itself using the *drawInRect:* method. In this case, we want the image to be drawn in the full view, that is why we are passing the whole *rect* as a parameter.
+
+Now, invoke this method from inside the *drawRect:* method. You should render the image before drawing the texts, otherwise the image will be drawn covering the texts:
+
+[source, ruby]
+---------------
+def drawRect(rect)
+
+  drawBackgroundImageInRect rect
+  drawDaysLeftLegendInRect rect
+  drawDaysLeftInRect rect
+end
+-------------
+
+Finally, let's change the view color to *clearColor* so the image will be the only thing acting as a background.
+
+[source, ruby]
+--------------------
+def initWithFrame(frame)
+
+  super
+  self.backgroundColor = UIColor.clearColor
+  self
+end
+------------------
+
+Run your app and you should see the image rendered in the background of the app:
+
+
+image:Resources/ch08-UIViews/ch08_06_image.png[Chapter 8 drawn image]
+
+
+Invalidating a view
+~~~~~~~~~~~~~~~~~
+
+As you can see, we have a *UIButton* with the title "Increase days left". We want to use it to test our custom view by changing the days left attribute. Locate the method named *change_days_left* and implement the logic to increase the *@days_left* property and update it in our custom view instance:
+
+[source, ruby]
+-----------------
+def change_days_left
+
+  @days_left = @days_left + 1 
+  @days_left_view.days_left = @days_left
+end  
+--------------
+
+As you can see, we are increasing the value of the variable by 1, and then we are updating that value in our custom view instance. It seem right, isn't it? Run the example and tap the "Increase days left" button. 
+
+Nothing happens. Why? because our custom *UIView* only renders the days left in its *drawRect:* method. This method is called by CocoaTouch when the view is first rendered (in this case is when we add it to our main view) and when the view is invalidated so it has to be rendered again. In this case, neither of those scenarios is presented. So the view is never updated with the new value. You may feel tempted to just call the *drawRect:* method directly, but that is something you should never do. CocoaTouch is responsible of calling that method in the appropiate moment. Instead of that, we need to invalidate the view and CocoaTouch will call the *drawRect:* method in the next drawing cycle. So just add this line at the end of the method:
+
+[source, ruby]
+---------------
+@days_left_view.setNeedsDisplay
+--------------
+
+*setNeedsDisplay* is the method of *UIView* to mark that it needs to be redrawn. CocoaTouch will call the *drawRect:* and that method will draw the days left with the updated value:
+
+image:Resources/ch08-UIViews/ch08_07_needdisplay.png[Chapter 8 need display]
+
+
+If you see the view being updated when you tap on the button, you have finish this lab.
