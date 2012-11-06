@@ -177,6 +177,110 @@ Run your program and you should see two new labels added to the screen, the firs
 .Controls Added
 image::resources/ch02-FirstApplication/image3.png[Controls Added]
 
+Let stop one moment right here, to see the properties of the "UILabel" that we just added, without exit hold ‘command’ key and hover mouse on simulator screen. You can see a red-bordered box appears among the application elements, select the first Time Zone area, the interactive console should display the instance corresponding to that label.
+
+
+---------------------------------------------------------------------------------
+(#<UILabel:0x9447e60>)> 
+---------------------------------------------------------------------------------
+
+And then explore the text property of the UILabel
+
+---------------------------------------------------------------------------------
+(#<UILabel:0x9447e60>)> self.text
+---------------------------------------------------------------------------------
+
+
+It should return a string
+
+---------------------------------------------------------------------------------
+=> "America/Mexico_City"
+---------------------------------------------------------------------------------
+
+Let's say that we are extreme curious and we want to know the class of the "text" property from UILabel
+
+---------------------------------------------------------------------------------
+(#<UILabel:0x9447e60>)> self.text.class
+=> String
+---------------------------------------------------------------------------------
+
+As we may expect its a String, but now what if we want to know the superclass of the "text" property from UILabel
+
+---------------------------------------------------------------------------------
+(#<UILabel:0x9447e60>)> self.text.superclass
+=> NSMutableString
+---------------------------------------------------------------------------------
+
+Now what if we look for the "String" ancestors, type the following:
+
+---------------------------------------------------------------------------------
+(#<UILabel:0x9447e60>)> String.ancestors
+---------------------------------------------------------------------------------
+
+What are those classes that appears? Yes you are right those are from the Cocoa Framework
+
+---------------------------------------------------------------------------------
+=> [String, NSMutableString, NSString, Comparable, NSObject, Kernel]
+---------------------------------------------------------------------------------
+
+We also can see the available methods, type the following in your terminal
+
+---------------------------------------------------------------------------------
+(#<UILabel:0x9447e60>)> methods
+---------------------------------------------------------------------------------
+
+Well, you can see many of them, but yes we can use grep, to find something more specific
+
+---------------------------------------------------------------------------------
+(#<UILabel:0x9447e60>)> methods.grep(/class/)
+---------------------------------------------------------------------------------
+
+If you want to return to the main session, you can enter the following command:
+
+---------------------------------------------------------------------------------
+(#<UILabel:0x9591580>)> quit
+---------------------------------------------------------------------------------
+
+Type self, so you can be sure that you are in the main session:
+
+---------------------------------------------------------------------------------
+(main)> self            
+=> main
+(main)> 
+---------------------------------------------------------------------------------
+
+So far we have discovered some interesting things, also we can find the instance variables of our RootViewController
+
+---------------------------------------------------------------------------------
+(main)> RootViewController.instance_variables
+=> [:__classpath__]
+---------------------------------------------------------------------------------
+
+And of course we can find out all the elements of the application
+
+---------------------------------------------------------------------------------
+(main)> UIApplication.sharedApplication.keyWindow.rootViewController.view.subviews
+=> [#<UILabel:0x95448e0>, #<UILabel:0x9544c30>, #<UIButton:0x9545110>, #<UILabel:0x9537eb0>
+---------------------------------------------------------------------------------
+
+and then recursive elements:
+
+---------------------------------------------------------------------------------
+(main)> UIApplication.sharedApplication.keyWindow.recursiveDescription
+---------------------------------------------------------------------------------
+
+You can use include of the arrays to ask if a method exists
+
+---------------------------------------------------------------------------------
+[].methods.include? :[]
+---------------------------------------------------------------------------------
+
+And also to ask for and Objetive-C Method
+
+---------------------------------------------------------------------------------
+[].methods.include?(:'objectAtIndex:')
+---------------------------------------------------------------------------------
+
 It’s time to add a control that let us select from different time zones, open the *root_view_controller.rb* and add the code the following code to it:
 
 [source, ruby]
