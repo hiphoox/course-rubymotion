@@ -808,7 +808,7 @@ asciidoc.install();
 <div class="sect1">
 <h2 id="_time_zone_converter_app">Time Zone Converter App</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>Now that you have created your first your rubymotion app let’s create a “time zone converter”, put the following command in your terminal:</p></div>
+<div class="paragraph"><p>It is time to create your first your rubymotion app let’s create a “time zone converter”, put the following command in your terminal:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="nv">$ </span>motion create TimeZoneConverter
 </pre></div></div></div>
@@ -2228,26 +2228,11 @@ Assigning a <strong>UIViewController</strong> as the <strong>rootViewController<
   <span class="n">days_left_label</span>
 <span class="k">end</span>
 </pre></div></div></div>
-<div class="literalblock">
-<div class="content">
-<pre><code>The object used in CocoaTouch to disply lines of text is *UILabel*. We are creating two *UILabel* using the initializer method *initWithFrame* to specify their size and location.</code></pre>
-</div></div>
-<div class="literalblock">
-<div class="content">
-<pre><code>Then, we are changing its font and size. An *UILabel* has a property named *font* that allow us to do that. To create a Font, we are using the *UIFont* class and its method *fontWithName:size*. As you can see, you specify the font using a NSString with the Font Family name. If you want to see the available Fonts in CocoaTouch, try to print the array returned by *UIFont.familyNames*.</code></pre>
-</div></div>
-<div class="literalblock">
-<div class="content">
-<pre><code>Next, we are changing the color of the label using the *textColor* property and the text alignment. By default a *UILabel* has a white background color, we are changing this to clearColor. This is a special color to specify transparencies. So, basically we are defining that the background of this *UILabel* should be transparent.</code></pre>
-</div></div>
-<div class="literalblock">
-<div class="content">
-<pre><code>Finally, we are adding a shadow to the label. With *shadowColor* you specify its color and with *shadowOffset* its location. This offset is the number of points that the shadow will be offset from the label. It is a *CGSize* object so you can specify it with the *CGSizeMake* function, but we prefer to use the more convenient RubyMotion way of using an array of two elements, one for width and the other one for weight. With *[-1, -1]* we are defining that the shadow will be 1 point offset to the left and 1 point offset up from the label.</code></pre>
-</div></div>
-<div class="literalblock">
-<div class="content">
-<pre><code>We have the methods to create our labels, is time to add them to our view. Inside the viewDidLoad method add this lines:</code></pre>
-</div></div>
+<div class="paragraph"><p>The object used in CocoaTouch to disply lines of text is <strong>UILabel</strong>. We are creating two <strong>UILabel</strong> using the initializer method <strong>initWithFrame</strong> to specify their size and location.</p></div>
+<div class="paragraph"><p>Then, we are changing its font and size. An <strong>UILabel</strong> has a property named <strong>font</strong> that allow us to do that. To create a Font, we are using the <strong>UIFont</strong> class and its method <strong>fontWithName:size</strong>. As you can see, you specify the font using a NSString with the Font Family name. If you want to see the available Fonts in CocoaTouch, try to print the array returned by <strong>UIFont.familyNames</strong>.</p></div>
+<div class="paragraph"><p>Next, we are changing the color of the label using the <strong>textColor</strong> property and the text alignment. By default a <strong>UILabel</strong> has a white background color, we are changing this to clearColor. This is a special color to specify transparencies. So, basically we are defining that the background of this <strong>UILabel</strong> should be transparent.</p></div>
+<div class="paragraph"><p>Finally, we are adding a shadow to the label. With <strong>shadowColor</strong> you specify its color and with <strong>shadowOffset</strong> its location. This offset is the number of points that the shadow will be offset from the label. It is a <strong>CGSize</strong> object so you can specify it with the <strong>CGSizeMake</strong> function, but we prefer to use the more convenient RubyMotion way of using an array of two elements, one for width and the other one for weight. With <strong>[-1, -1]</strong> we are defining that the shadow will be 1 point offset to the left and 1 point offset up from the label.</p></div>
+<div class="paragraph"><p>We have the methods to create our labels, is time to add them to our view. Inside the viewDidLoad method add this lines:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">viewDidLoad</span>
 
