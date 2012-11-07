@@ -3,7 +3,7 @@
 <slide>
 # iOS Architecture
 
-![iOS](iOS.jpeg "iOS") 
+![iOS](ios.png "iOS") 
 
 </slide>
 
@@ -59,6 +59,9 @@
 <slide>
 # iOS Architecture
 
-![iOS](iOS.jpeg "iOS") 
+![iOS](ios.png "iOS") 
+
+[Chapters](../reveal.html) | 
+[First Application](../02-FirstApplication/reveal.html)
 
 </slide>

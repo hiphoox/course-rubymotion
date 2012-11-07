@@ -3,7 +3,7 @@
 <slide>
 ## UIViewControllers
 
-![](testing.png "ViewControllers") 
+![](viewcontrollers.png "ViewControllers") 
 
 </slide>
 
@@ -19,9 +19,10 @@ A view controller manages a set of views that make up a portion of your app’s 
 </slide>
     
 <slide>
-## Bacon
+## view property
 
-RubyMotion uses a version of Bacon called MacBacon, a small clone of the popular RSpec framework
+Every view controller has a ***view*** property. This property has a reference to the main view that will be displayed.
+
 
 
 </slide>
@@ -56,7 +57,10 @@ RubyMotion uses a version of Bacon called MacBacon, a small clone of the popular
 <slide>
 ## ViewControllers
 
-![](testing.png "ViewControllers") 
+![](viewcontrollers.png "ViewControllers") 
+
+[Chapters](../reveal.html) | 
+[DataSources](../12-DataSources/reveal.html)
 
 </slide>
 

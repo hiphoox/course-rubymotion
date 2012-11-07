@@ -28,7 +28,7 @@ UIViews are responsible for:
 <slide>
 ## UIView Hierarchy
 
-![](uiviewhierarchy.png "UI Views") 
+![](hierarchy.png "UI Views") 
 
 </slide>
 
@@ -52,7 +52,7 @@ You can create them from InterfaceBuilder or:
 <slide>
 ## UIView's Drawing Cycle
 
-![](uiviewdrawing.png "UIView Drawing") 
+![](drawingcycle.png "UIView Drawing") 
 
 </slide>
 
@@ -118,14 +118,14 @@ The UIScrollView provides support for displaying content that is larger than the
 <slide>
 ## UIScrollView
 
-![](uiscrollview.png "UIScrollView") 
+![](svhierarchy.png "UIScrollView") 
 
 </slide>
 
 <slide>
-## Object Diagram
+## Clipping with UIScrollView
 
-![](objectdiagam.png "Object Diagram") 
+![](svwindow.png "") 
 
 </slide>
 
@@ -133,6 +133,9 @@ The UIScrollView provides support for displaying content that is larger than the
 ## UIViews
 
 ![](uiviews.png "UI Views") 
+
+[Chapters](../reveal.html) | 
+[Testing](../09-Testing/reveal.html)
 
 </slide>
 

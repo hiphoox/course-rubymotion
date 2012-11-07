@@ -74,11 +74,9 @@ You can use: sessions and repl() methods to interact with objects
 </slide>
 
 <slide>
-## Deploying Application
+## Deploying an Application
 
-The rake task ***rake archive:distribution*** will create a binary ready for distribution
-
-![](deploying.png "Deploying") 
+The rake task ***archive:distribution*** will create a binary ready for distribution
 
 </slide>
 
@@ -93,5 +91,8 @@ The rake task ***rake archive:distribution*** will create a binary ready for dis
 # First App
 
 ![The Application](appicon.png "The Application") 
+
+[Chapters](../reveal.html) | 
+[Objective C](../03-ObjectiveC/reveal.html)
 
 </slide>
