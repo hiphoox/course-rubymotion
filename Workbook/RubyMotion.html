@@ -2961,12 +2961,194 @@ subtitle. Optional, returns an NSString with the subtitle of the annotation.
 <div class="paragraph"><p>If you see the view being updated when you tap on the button, you have finish this lab.</p></div>
 </div>
 <h1 id="_day_3">Day 3</h1>
+<h1 id="_day_4">Day 4</h1>
+<h1 id="_chapter_20_calayers">Chapter 20 - CALayers</h1>
+<div class="paragraph"><p>In this chapter we will use a Cocoa Touch Framework called Core Animation. This framework is has two main purposes: Composition and Animation, taking this as base we will look into the Composition part first.</p></div>
+<div class="sect1">
+<h2 id="_composition">Composition</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>Speaking in terms of Visual Arts, the term <strong>Composition</strong> is the placement or arrangement of visual elements to integrate a work of art. The Visual Artists (Most of them Graphical Designers) execute this technique in Photographs, Paints, or Designs.</p></div>
+<div class="paragraph"><p>Until this part of the course we just have seen an object used to draw something in the screen: The <strong>UIView</strong>. Speaking in terms of memory and performance the UIView is a heavyweight champion, what this means is that it takes a lot of resources to animate it or display multiple of them on the screen. (You can try it! Load more than 50 UIViews with different colors on any project).</p></div>
+<div class="paragraph"><p>Because of this if we want to create a complex composition we need a more light object, and it is called "CALayer". If the UIViews are a 1 Dollar in terms of memory and performance, the CALayer is 15 Cents.</p></div>
+<div class="paragraph"><p>So the next question will be, why we are still using UIViews? The correct answer is that the CALayers have less features like the support for gestures, easy custom drawing using Core Graphics (You can do it on the CALayer but is more complex to implement), auto resizing masks. Besides what you will see in terms of implementation in the following exercises.</p></div>
+<div class="paragraph"><p>Said this its a great time to start coding:</p></div>
+<div class="sect2">
+<h3 id="_initial_project">Initial Project</h3>
+<div class="paragraph"><p>As we have seen through the course, the way to create a new Project is the following:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="nv">$ </span>motion create Layers
+</pre></div></div></div>
+<div class="paragraph"><p>For us to use the Core Animation Framework first we need to add it to the app, open the <strong>Rake File</strong>:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="nv">$ </span><span class="nb">cd </span>Layers
+
+<span class="nv">$ </span>open Rakefile
+</pre></div></div></div>
+<div class="paragraph"><p>To add a new framework to the app, you need to add the last line in the method:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="no">Motion</span><span class="o">::</span><span class="no">Project</span><span class="o">::</span><span class="no">App</span><span class="o">.</span><span class="n">setup</span> <span class="k">do</span> <span class="o">|</span><span class="n">app</span><span class="o">|</span>
+
+  <span class="c1"># Use `rake config&#39; to see complete project settings.</span>
+  <span class="n">app</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;Layers&#39;</span>
+
+  <span class="n">app</span><span class="o">.</span><span class="n">frameworks</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot;QuartzCore&quot;</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>Next we need to add a View Controller where we will implement a CALayer, lets call it <strong>Layer View Controller</strong>:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="nv">$ </span><span class="nb">cd </span>app
+
+<span class="nv">$ </span>mkdir controllers
+
+<span class="nv">$ </span><span class="nb">cd </span>controllers
+
+<span class="nv">$ </span>touch layer_view_controller.rb
+
+<span class="nv">$ </span>open layer_view_controller.rb
+</pre></div></div></div>
+<div class="paragraph"><p>Add the following code to our new file:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">class</span> <span class="nc">LayerViewController</span> <span class="o">&lt;</span> <span class="no">UIViewController</span>
+
+  <span class="k">def</span> <span class="nf">loadView</span>
+
+    <span class="c1"># Lets create a view for our view controller</span>
+    <span class="nb">self</span><span class="o">.</span><span class="n">view</span> <span class="o">=</span> <span class="no">UIView</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">init</span>
+    <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">colorWithRed</span><span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">255</span><span class="p">,</span> <span class="n">green</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mi">686</span><span class="p">,</span> <span class="n">blue</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mi">988</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="c1"># When we create a new instance of a CALayer, the designated initializer</span>
+    <span class="c1"># is the following one</span>
+    <span class="n">redLayer</span> <span class="o">=</span> <span class="no">CALayer</span><span class="o">.</span><span class="n">layer</span>
+    <span class="n">redLayer</span><span class="o">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">redColor</span><span class="o">.</span><span class="n">CGColor</span>
+
+    <span class="c1"># A difference from a UIView is that the CALayer uses the frame only</span>
+    <span class="c1"># to determine its size, the position is set in the position property</span>
+    <span class="c1"># this is required because the Layers has it position in the center of it</span>
+    <span class="c1"># instead of top left corner, like the UIView.</span>
+    <span class="n">redLayer</span><span class="o">.</span><span class="n">frame</span> <span class="o">=</span> <span class="no">CGRectMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+    <span class="n">redLayer</span><span class="o">.</span><span class="n">position</span> <span class="o">=</span> <span class="no">CGPointMake</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
+
+    <span class="c1"># The view has a property called layer, every UIView has a layer inside</span>
+    <span class="c1"># it. So we can add our layer as a sublayer of that one.</span>
+    <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">layer</span><span class="o">.</span><span class="n">addSublayer</span><span class="p">(</span><span class="n">redLayer</span><span class="p">)</span>
+  <span class="k">end</span>
+
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="admonitionblock">
+<table><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">Please take a moment to understand the changes related to the coordinate system on the CALayer (Hint: Frame &amp; Position)</td>
+</tr></table>
+</div>
+<div class="paragraph"><p>Lets continue opening the Application Delegate and adding the following:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="nv">$ </span><span class="nb">cd</span> ..
+
+<span class="nv">$ </span><span class="nb">cd</span> ..
+
+<span class="nv">$ </span>open app_delegate.rb
+</pre></div></div></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">application</span><span class="p">(</span><span class="n">application</span><span class="p">,</span> <span class="n">didFinishLaunchingWithOptions</span><span class="ss">:launchOptions</span><span class="p">)</span>
+
+  <span class="c1">#Create an instance of Layer View Controller</span>
+  <span class="n">layer_view_controller</span> <span class="o">=</span> <span class="no">LayerViewController</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">init</span>
+
+  <span class="vi">@window</span> <span class="o">=</span> <span class="no">UIWindow</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithFrame</span><span class="p">(</span><span class="no">UIScreen</span><span class="o">.</span><span class="n">mainScreen</span><span class="o">.</span><span class="n">bounds</span><span class="p">)</span>
+
+  <span class="c1">#Every window has a root view controller from which it will present its view</span>
+  <span class="vi">@window</span><span class="o">.</span><span class="n">rootViewController</span> <span class="o">=</span> <span class="n">layer_view_controller</span>
+  <span class="vi">@window</span><span class="o">.</span><span class="n">makeKeyAndVisible</span>
+  <span class="kp">true</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>If we run the App you must see the following:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="nv">$ </span>rake
+</pre></div></div></div>
+<div class="imageblock">
+<div class="content">
+<img src="resources/ch20-CALayers/ch20_REPL1.png" alt="Initial Run" />
+</div>
+<div class="title">Figure 14. Initial Run</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_changing_layers">Changing Layers</h3>
+<div class="paragraph"><p>Lets use a little of REPL to illustrate some points:</p></div>
+<div class="paragraph"><p>First select the blue view using CMD + click on it, later run this on your console:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="o">(</span><span class="c">#&lt;UIView:0x000000)&gt; layer = self.layer.sublayers.objectAtIndex(0)</span>
+<span class="o">=</span>&gt; <span class="c">#&lt;CALayer:0x000000&gt;</span>
+</pre></div></div></div>
+<div class="admonitionblock">
+<table><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">Take note that you can not select Layers using the CMD + click</td>
+</tr></table>
+</div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="o">(</span><span class="c">#&lt;UIView:0x000000)&gt; layer.backgroundColor = UIColor.colorWithRed(0.957, green:0.824, blue:0.184, alpha:1.0).CGColor</span>
+</pre></div></div></div>
+<div class="imageblock">
+<div class="content">
+<img src="resources/ch20-CALayers/ch20_REPL2.png" alt="Yellow Square" />
+</div>
+<div class="title">Figure 15. Yellow Square</div>
+</div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="o">(</span><span class="c">#&lt;UIView:0x000000)&gt; layer.position = CGPointMake(100, 100)</span>
+</pre></div></div></div>
+<div class="imageblock">
+<div class="content">
+<img src="resources/ch20-CALayers/ch20_REPL3.png" alt="Yellow Square in a Different Position" />
+</div>
+<div class="title">Figure 16. Yellow Square in a Different Position</div>
+</div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="o">(</span><span class="c">#&lt;UIView:0x000000)&gt; layer.cornerRadius = 20</span>
+</pre></div></div></div>
+<div class="imageblock">
+<div class="content">
+<img src="resources/ch20-CALayers/ch20_REPL4.png" alt="Yellow Square with Rounded Corners" />
+</div>
+<div class="title">Figure 17. Yellow Square with Rounded Corners</div>
+</div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="o">(</span><span class="c">#&lt;UIView:0x000000)&gt; layer.borderWidth = 10</span>
+<span class="o">(</span><span class="c">#&lt;UIView:0x000000)&gt; layer.borderColor = UIColor.colorWithRed(0.988, green:0.604, blue:0.153, alpha:1.0).CGColor</span>
+</pre></div></div></div>
+<div class="imageblock">
+<div class="content">
+<img src="resources/ch20-CALayers/ch20_REPL5.png" alt="Yellow Square with Border" />
+</div>
+<div class="title">Figure 18. Yellow Square with Border</div>
+</div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="o">(</span><span class="c">#&lt;UIView:0x000000)&gt; layer.shadowRadius = 5.0</span>
+<span class="o">(</span><span class="c">#&lt;UIView:0x000000)&gt; layer.shadowColor = UIColor.blackColor.CGColor</span>
+<span class="o">(</span><span class="c">#&lt;UIView:0x000000)&gt; layer.shadowOpacity = 0.65</span>
+</pre></div></div></div>
+<div class="imageblock">
+<div class="content">
+<img src="resources/ch20-CALayers/ch20_REPL6.png" alt="Yellow Square with Shadow" />
+</div>
+<div class="title">Figure 19. Yellow Square with Shadow</div>
+</div>
+</div>
+</div>
+</div>
 </div>
 <div id="footnotes"><hr /></div>
 <div id="footer">
 <div id="footer-text">
 Version 0.1<br />
-Last updated 2012-10-30 12:40:44 CST
+Last updated 2012-11-06 16:41:47 CST
 </div>
 </div>
 </body>

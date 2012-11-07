@@ -1,0 +1,194 @@
+Chapter 20 - CALayers
+=====================
+
+In this chapter we will use a Cocoa Touch Framework called Core Animation. This framework is has two main purposes: Composition and Animation, taking this as base we will look into the Composition part first.
+
+Composition
+-----------
+Speaking in terms of Visual Arts, the term *Composition* is the placement or arrangement of visual elements to integrate a work of art. The Visual Artists (Most of them Graphical Designers) execute this technique in Photographs, Paints, or Designs.
+
+Until this part of the course we just have seen an object used to draw something in the screen: The *UIView*. Speaking in terms of memory and performance the UIView is a heavyweight champion, what this means is that it takes a lot of resources to animate it or display multiple of them on the screen. (You can try it! Load more than 50 UIViews with different colors on any project).
+
+Because of this if we want to create a complex composition we need a more light object, and it is called "CALayer". If the UIViews are a 1 Dollar in terms of memory and performance, the CALayer is 15 Cents.
+
+So the next question will be, why we are still using UIViews? The correct answer is that the CALayers have less features like the support for gestures, easy custom drawing using Core Graphics (You can do it on the CALayer but is more complex to implement), auto resizing masks. Besides what you will see in terms of implementation in the following exercises.
+
+Said this its a great time to start coding:
+
+
+Initial Project
+~~~~~~~~~~~~~~~
+
+As we have seen through the course, the way to create a new Project is the following:
+
+[source, sh]
+------------
+$ motion create Layers
+------------
+
+For us to use the Core Animation Framework first we need to add it to the app, open the *Rake File*:
+
+[source, sh]
+------------
+$ cd Layers
+
+$ open Rakefile
+------------
+
+To add a new framework to the app, you need to add the last line in the method:
+
+[source, ruby]
+--------------
+Motion::Project::App.setup do |app|
+
+  # Use `rake config' to see complete project settings.
+  app.name = 'Layers'
+
+  app.frameworks << "QuartzCore"
+end
+--------------
+
+
+Next we need to add a View Controller where we will implement a CALayer, lets call it *Layer View Controller*:
+
+[source, sh]
+------------
+$ cd app
+
+$ mkdir controllers
+
+$ cd controllers
+
+$ touch layer_view_controller.rb
+
+$ open layer_view_controller.rb
+------------
+
+Add the following code to our new file:
+
+[source, ruby]
+-----------------
+class LayerViewController < UIViewController
+
+  def loadView
+
+    # Lets create a view for our view controller
+    self.view = UIView.alloc.init
+    self.view.backgroundColor = UIColor.colorWithRed(0.255, green:0.686, blue:0.988, alpha:1.0)
+
+    # When we create a new instance of a CALayer, the designated initializer 
+    # is the following one
+    redLayer = CALayer.layer
+    redLayer.backgroundColor = UIColor.redColor.CGColor
+
+    # A difference from a UIView is that the CALayer uses the frame only
+    # to determine its size, the position is set in the position property
+    # this is required because the Layers has it position in the center of it
+    # instead of top left corner, like the UIView.
+    redLayer.frame = CGRectMake(0, 0, 100, 100)
+    redLayer.position = CGPointMake(50, 50)
+
+    # The view has a property called layer, every UIView has a layer inside
+    # it. So we can add our layer as a sublayer of that one.
+    self.view.layer.addSublayer(redLayer)
+  end
+
+end
+------------------------
+
+IMPORTANT: Please take a moment to understand the changes related to the coordinate system on the CALayer (Hint: Frame & Position)
+
+Lets continue opening the Application Delegate and adding the following:
+
+[source, sh]
+------------
+$ cd ..
+
+$ cd ..
+
+$ open app_delegate.rb
+------------
+
+[source, ruby]
+--------------
+def application(application, didFinishLaunchingWithOptions:launchOptions)
+ 
+  #Create an instance of Layer View Controller
+  layer_view_controller = LayerViewController.alloc.init
+
+  @window = UIWindow.alloc.initWithFrame(UIScreen.mainScreen.bounds)
+
+  #Every window has a root view controller from which it will present its view
+  @window.rootViewController = layer_view_controller
+  @window.makeKeyAndVisible
+  true
+end
+--------------
+
+If we run the App you must see the following:
+
+[source, sh]
+------------
+$ rake
+------------
+
+.Initial Run
+image::resources/ch20-CALayers/ch20_REPL1.png[Initial Run]
+
+
+Changing Layers
+~~~~~~~~~~~~~~~
+Lets use a little of REPL to illustrate some points:
+
+First select the blue view using CMD + click on it, later run this on your console:
+
+[source, sh]
+------------
+(#<UIView:0x000000)> layer = self.layer.sublayers.objectAtIndex(0) 
+=> #<CALayer:0x000000>
+------------
+
+IMPORTANT: Take note that you can not select Layers using the CMD + click
+
+[source, sh]
+------------
+(#<UIView:0x000000)> layer.backgroundColor = UIColor.colorWithRed(0.957, green:0.824, blue:0.184, alpha:1.0).CGColor
+------------
+
+.Yellow Square
+image::resources/ch20-CALayers/ch20_REPL2.png[Yellow Square]
+
+[source, sh]
+------------
+(#<UIView:0x000000)> layer.position = CGPointMake(100, 100)
+------------
+
+.Yellow Square in a Different Position
+image::resources/ch20-CALayers/ch20_REPL3.png[Yellow Square in a Different Position]
+
+[source, sh]
+------------
+(#<UIView:0x000000)> layer.cornerRadius = 20
+------------
+
+.Yellow Square with Rounded Corners
+image::resources/ch20-CALayers/ch20_REPL4.png[Yellow Square with Rounded Corners]
+
+[source, sh]
+------------
+(#<UIView:0x000000)> layer.borderWidth = 10
+(#<UIView:0x000000)> layer.borderColor = UIColor.colorWithRed(0.988, green:0.604, blue:0.153, alpha:1.0).CGColor
+------------
+
+.Yellow Square with Border
+image::resources/ch20-CALayers/ch20_REPL5.png[Yellow Square with Border]
+
+[source, sh]
+------------
+(#<UIView:0x000000)> layer.shadowRadius = 5.0
+(#<UIView:0x000000)> layer.shadowColor = UIColor.blackColor.CGColor
+(#<UIView:0x000000)> layer.shadowOpacity = 0.65
+------------
+
+.Yellow Square with Shadow
+image::resources/ch20-CALayers/ch20_REPL6.png[Yellow Square with Shadow]
