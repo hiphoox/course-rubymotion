@@ -15,11 +15,38 @@
 
 [Cocoa Overview](./05-CocoaOverview/reveal.html)
 
+</slide>
+
+<slide>
+## Day 2
+
 [Delegation](./06-Delegation/reveal.html)
 
 [Mapkit](./07-MapKit/reveal.html)
 
 [UIViews](./08-UIViews/reveal.html)
 
+[Testing](./09-Testing/reveal.html)
+
+[Interface Builder](./10-InterfaceBuilder/reveal.html)
+
+[Views Controllers](./11-ViewControllers/reveal.html)
+
 </slide>
 
+<slide>
+## Day 3
+
+[DataSources](./12-DataSources/reveal.html)
+
+[CustomCells](./13-CustomCells/reveal.html)
+
+[SharingData](./14-SharingData/reveal.html)
+
+[Notifications](./15-Notifications/reveal.html)
+
+[CollectionViews](./16-CollectionViews/reveal.html)
+
+[Camera](./17-Camera/reveal.html)
+
+</slide>

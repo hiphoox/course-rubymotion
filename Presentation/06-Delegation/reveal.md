@@ -3,7 +3,7 @@
 <slide>
 # CoreLocation
 
-![](corelocation.jpeg "Core Location") 
+![](corelocation.png "Core Location") 
 
 </slide>
 
@@ -81,20 +81,16 @@ Main classes:
 <slide>
 ## Final Configuration
 
-![](connections.pdf "Connections") 
-
-</slide>
-
-<slide>
-## Object Diagram
-
-![](objectdiagram.png "Exercise") 
+![](connections.png "Connections") 
 
 </slide>
 
 <slide>
 # CoreLocation
 
-![](corelocation.jpeg "Core Location") 
+![](corelocation.png "Core Location") 
+
+[Chapters](../reveal.html) | 
+[MapKit](../07-MapKit/reveal.html)
 
 </slide>

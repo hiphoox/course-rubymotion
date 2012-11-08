@@ -223,15 +223,11 @@ Sometimes you will need to overwrite the Objective-C initializers from Ruby
 </slide>
 
 <slide>
-# Object Diagram
-
-![](objectdiagram.png "Exercise") 
-
-</slide>
-
-<slide>
-# Objective-C
+# Cocoa Introduction
 
 ![](cocoa.png "Objective-C") 
+
+[Chapters](../reveal.html) | 
+[CoreLocation](../06-Delegation/reveal.html)
 
 </slide>

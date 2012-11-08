@@ -410,4 +410,7 @@ You can access this methods from ***RubyMotion***
 
 ![](objectivec.png "Objective-C") 
 
+[Chapters](../reveal.html) | 
+[C Language](../04-CLanguage/reveal.html)
+
 </slide>

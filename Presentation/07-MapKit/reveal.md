@@ -3,7 +3,7 @@
 <slide>
 ## MapKit
 
-![](mapkit.jpeg "MapKit") 
+![](mapkit.png "MapKit") 
 
 </slide>
 
@@ -48,9 +48,23 @@ MKAnnotation is a protocol.
 ## Creating an MKAnnotation-conforming class
 
     class Venue
-       attr_accessor coordinate
-       attr_accessor title
-       attr_accessor subtitle
+       def coordinate
+       end
+
+       def coordinate=(new_coordinate)
+       end
+
+       def title
+       end
+
+       def title=(new_title)
+       end
+
+       def subtitle
+       end
+
+       def subtitle=(new_subtitle)
+       end
     end 
 
 That's it!
@@ -67,15 +81,11 @@ That's it!
 </slide>
 
 <slide>
-## Object Diagram
-
-![](objectdiagram.png "Exercise") 
-
-</slide>
-
-<slide>
 # MapKit
 
-![](mapkit.jpeg "MapKit") 
+![](mapkit.png "MapKit") 
+
+[Chapters](../reveal.html) | 
+[UIViews](../08-UIViews/reveal.html)
 
 </slide>

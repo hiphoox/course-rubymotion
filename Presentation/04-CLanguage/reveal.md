@@ -3,7 +3,7 @@
 <slide>
 ## C Language
 
-![](clanguage.jpeg "C Language") 
+![](clanguage.png "C Language") 
 
 </slide>
 
@@ -142,7 +142,10 @@ The Proc object must have the same number of arguments as the C function pointer
 <slide>
 ## C Language
 
-![](clanguage.jpeg "C Language") 
+![](clanguage.png "C Language") 
+
+[Chapters](../reveal.html) | 
+[Cocoa Overview](../05-CocoaOverview/reveal.html)
 
 </slide>
 
