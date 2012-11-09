@@ -10,7 +10,7 @@
 
 /* Default font. */
 body {
-  font-family: Georgia,serif;
+  font-family: Helvetica,sans-serif;
 }
 
 /* Title font. */
@@ -20,7 +20,7 @@ thead, p.table.header,
 #toctitle,
 #author, #revnumber, #revdate, #revremark,
 #footer {
-  font-family: Arial,Helvetica,sans-serif;
+  font-family: Helvetica,sans-serif;
 }
 
 body {
@@ -28,7 +28,7 @@ body {
 }
 
 a {
-  color: blue;
+  color: #880009;
   text-decoration: underline;
 }
 a:visited {
@@ -37,23 +37,23 @@ a:visited {
 
 em {
   font-style: italic;
-  color: navy;
+  color: #880009;
 }
 
 strong {
   font-weight: bold;
-  color: #083194;
+  color: #880009;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  color: #527bbd;
+  color: #880009;
   margin-top: 1.2em;
   margin-bottom: 0.5em;
   line-height: 1.3;
 }
 
-h1, h2, h3 {
-  border-bottom: 2px solid silver;
+h1 {
+  border-bottom: 1px solid #dddddd;
 }
 h2 {
   padding-top: 0.5em;
@@ -79,13 +79,14 @@ hr {
 p {
   margin-top: 0.5em;
   margin-bottom: 0.5em;
+  color: #666666;
 }
 
 ul, ol, li > p {
   margin-top: 0;
 }
-ul > li     { color: #aaa; }
-ul > li > * { color: black; }
+ul > li     { color: #4f4f4f; }
+ul > li > * { color: #666666; }
 
 .monospaced, code, pre {
   font-family: "Courier New", Courier, monospace;
@@ -97,13 +98,14 @@ ul > li > * { color: black; }
 
 
 #author {
-  color: #527bbd;
+  color: #880009;
   font-weight: bold;
   font-size: 1.1em;
 }
 #email {
 }
 #revnumber, #revdate, #revremark {
+  color: #666666;
 }
 
 #footer {
@@ -115,6 +117,7 @@ ul > li > * { color: black; }
 #footer-text {
   float: left;
   padding-bottom: 0.5em;
+  color: #666666;
 }
 #footer-badges {
   float: right;
@@ -139,12 +142,12 @@ div.admonitionblock {
 }
 
 div.content { /* Block element content. */
-  padding: 0;
+  padding:: 0;
 }
 
 /* Block element titles. */
 div.title, caption.title {
-  color: #527bbd;
+  color: #4f4f4f;
   font-weight: bold;
   text-align: left;
   margin-top: 1.0em;
@@ -172,10 +175,12 @@ div.sidebarblock > div.content {
 }
 
 div.listingblock > div.content {
-  border: 1px solid #dddddd;
-  border-left: 5px solid #f0f0f0;
-  background: #f8f8f8;
+  border: 1.5px solid #dddddd;
+  background: #f4f4f4;
   padding: 0.5em;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
 }
 
 div.quoteblock, div.verseblock {
@@ -183,7 +188,7 @@ div.quoteblock, div.verseblock {
   margin-left: 1.0em;
   margin-right: 10%;
   border-left: 5px solid #f0f0f0;
-  color: #888;
+  color: #f2f2f2;
 }
 
 div.quoteblock > div.attribution {
@@ -209,7 +214,7 @@ div.admonitionblock .icon {
   font-size: 1.1em;
   font-weight: bold;
   text-decoration: underline;
-  color: #527bbd;
+  color: #666666;
   padding-right: 0.5em;
 }
 div.admonitionblock td.content {
@@ -245,6 +250,7 @@ ul, ol {
 }
 ol.arabic {
   list-style-type: decimal;
+  color: #4f4f4f;
 }
 ol.loweralpha {
   list-style-type: lower-alpha;
@@ -518,7 +524,7 @@ th.tableblock.valign-bottom, td.tableblock.valign-bottom {
 body.manpage h1 {
   padding-top: 0.5em;
   padding-bottom: 0.5em;
-  border-top: 2px solid silver;
+  border-top: 2px solid red;
   border-bottom: 2px solid silver;
 }
 body.manpage h2 {
@@ -531,6 +537,7 @@ body.manpage div.sectionbody {
 @media print {
   body.manpage div#toc { display: none; }
 }
+
 /*
   pygmentize filter
 */
@@ -3018,19 +3025,19 @@ subtitle. Optional, returns an NSString with the subtitle of the annotation.
 
     <span class="c1"># When we create a new instance of a CALayer, the designated initializer</span>
     <span class="c1"># is the following one</span>
-    <span class="n">redLayer</span> <span class="o">=</span> <span class="no">CALayer</span><span class="o">.</span><span class="n">layer</span>
-    <span class="n">redLayer</span><span class="o">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">redColor</span><span class="o">.</span><span class="n">CGColor</span>
+    <span class="n">red_layer</span> <span class="o">=</span> <span class="no">CALayer</span><span class="o">.</span><span class="n">layer</span>
+    <span class="n">red_layer</span><span class="o">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">redColor</span><span class="o">.</span><span class="n">CGColor</span>
 
     <span class="c1"># A difference from a UIView is that the CALayer uses the frame only</span>
     <span class="c1"># to determine its size, the position is set in the position property</span>
     <span class="c1"># this is required because the Layers has it position in the center of it</span>
     <span class="c1"># instead of top left corner, like the UIView.</span>
-    <span class="n">redLayer</span><span class="o">.</span><span class="n">frame</span> <span class="o">=</span> <span class="no">CGRectMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
-    <span class="n">redLayer</span><span class="o">.</span><span class="n">position</span> <span class="o">=</span> <span class="no">CGPointMake</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
+    <span class="n">red_layer</span><span class="o">.</span><span class="n">frame</span> <span class="o">=</span> <span class="no">CGRectMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+    <span class="n">red_layer</span><span class="o">.</span><span class="n">position</span> <span class="o">=</span> <span class="no">CGPointMake</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
 
     <span class="c1"># The view has a property called layer, every UIView has a layer inside</span>
     <span class="c1"># it. So we can add our layer as a sublayer of that one.</span>
-    <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">layer</span><span class="o">.</span><span class="n">addSublayer</span><span class="p">(</span><span class="n">redLayer</span><span class="p">)</span>
+    <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">layer</span><span class="o">.</span><span class="n">addSublayer</span><span class="p">(</span><span class="n">red_layer</span><span class="p">)</span>
   <span class="k">end</span>
 
 <span class="k">end</span>
@@ -3078,7 +3085,7 @@ subtitle. Optional, returns an NSString with the subtitle of the annotation.
 </div>
 <div class="sect2">
 <h3 id="_changing_layers">Changing Layers</h3>
-<div class="paragraph"><p>Lets use a little of REPL to illustrate some points:</p></div>
+<div class="paragraph"><p>Lets use a little of REPL to illustrate some points, please look at your terminal at the same time with the simulator, and execute the following:</p></div>
 <div class="paragraph"><p>First select the blue view using CMD + click on it, later run this on your console:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="o">(</span><span class="c">#&lt;UIView:0x000000)&gt; layer = self.layer.sublayers.objectAtIndex(0)</span>
@@ -3140,6 +3147,305 @@ subtitle. Optional, returns an NSString with the subtitle of the annotation.
 </div>
 <div class="title">Figure 19. Yellow Square with Shadow</div>
 </div>
+<div class="paragraph"><p>They are two things important in this part, the first is that you can manipulate the appearance in more ways using a CALayer than a UIView like the Rounded Corners, Shadows, etc. Also if you look closely you must see that when you change some properties of the layer it animates it self, we will look into more deeply later on.</p></div>
+</div>
+<div class="sect2">
+<h3 id="_putting_the_things_together">Putting the things together</h3>
+<div class="paragraph"><p>Now that we have see the CALayers in action, is time to do somethings more complicated. Open your LayerViewController and add the following:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="nv">$ </span>open layer_view_controller.rb
+</pre></div></div></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">loadView</span>
+
+  <span class="c1"># Lets create a view for our view controller</span>
+  <span class="nb">self</span><span class="o">.</span><span class="n">view</span> <span class="o">=</span> <span class="no">UIView</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithFrame</span><span class="p">(</span><span class="no">UIScreen</span><span class="o">.</span><span class="n">mainScreen</span><span class="o">.</span><span class="n">bounds</span><span class="p">)</span>
+
+  <span class="n">layout_background_layer</span><span class="p">()</span>
+<span class="k">end</span>
+
+
+<span class="k">def</span> <span class="nf">layout_background_layer</span>
+
+  <span class="c1"># We need a new type of layer used to create Gradients</span>
+  <span class="n">background_layer</span> <span class="o">=</span> <span class="no">CAGradientLayer</span><span class="o">.</span><span class="n">layer</span>
+  <span class="n">background_layer</span><span class="o">.</span><span class="n">frame</span> <span class="o">=</span> <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">bounds</span>
+
+  <span class="c1"># Initialize the colors of the gradient, it can have any number of colors</span>
+  <span class="c1"># in this case we will use only three</span>
+  <span class="n">top_background_color</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">colorWithRed</span><span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">131</span><span class="p">,</span> <span class="n">green</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mi">387</span><span class="p">,</span> <span class="n">blue</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mi">618</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">CGColor</span>
+  <span class="n">middle_background_color</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">colorWithRed</span><span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">255</span><span class="p">,</span> <span class="n">green</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mi">686</span><span class="p">,</span> <span class="n">blue</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mi">984</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">CGColor</span>
+  <span class="n">bottom_background_color</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">colorWithRed</span><span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">367</span><span class="p">,</span> <span class="n">green</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mi">692</span><span class="p">,</span> <span class="n">blue</span><span class="p">:</span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">CGColor</span>
+
+  <span class="c1"># Set the colors in the layer using an array</span>
+  <span class="n">background_layer</span><span class="o">.</span><span class="n">colors</span> <span class="o">=</span> <span class="no">NSArray</span><span class="o">.</span><span class="n">arrayWithObjects</span><span class="p">(</span><span class="n">top_background_color</span><span class="p">,</span>
+                                                    <span class="n">middle_background_color</span><span class="p">,</span>
+                                                    <span class="n">bottom_background_color</span><span class="p">,</span>
+                                                    <span class="kp">nil</span><span class="p">)</span>
+
+  <span class="c1"># Set the colors locations into the array, this means where it will start painting</span>
+  <span class="c1"># the color, if you look closely we are telling the layer to paint the top color in</span>
+  <span class="c1"># 0.0 which is the top, the middle in 0.5 and 0.0 for the bottom color</span>
+  <span class="n">background_layer</span><span class="o">.</span><span class="n">locations</span> <span class="o">=</span> <span class="no">NSArray</span><span class="o">.</span><span class="n">arrayWithObjects</span><span class="p">(</span><span class="no">NSNumber</span><span class="o">.</span><span class="n">numberWithFloat</span><span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="p">),</span>
+                                                       <span class="no">NSNumber</span><span class="o">.</span><span class="n">numberWithFloat</span><span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">5</span><span class="p">),</span>
+                                                       <span class="no">NSNumber</span><span class="o">.</span><span class="n">numberWithFloat</span><span class="p">(</span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="p">),</span>
+                                                       <span class="kp">nil</span><span class="p">)</span>
+
+  <span class="c1"># We want this layer to be the background of our app</span>
+  <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">layer</span><span class="o">.</span><span class="n">insertSublayer</span><span class="p">(</span><span class="n">background_layer</span><span class="p">,</span> <span class="n">atIndex</span><span class="p">:</span><span class="mi">0</span><span class="p">)</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="imageblock">
+<div class="content">
+<img src="resources/ch20-CALayers/ch20_GradientBackground.png" alt="Background with Gradient" />
+</div>
+<div class="title">Figure 20. Background with Gradient</div>
+</div>
+<div class="paragraph"><p>Easy right? We create a nice background for our app using a gradient. Lets continue adding some grass into the composition:</p></div>
+<div class="paragraph"><p>Please copy the <strong>Determine deployment target</strong> into our app resources folder, after that add the following method to our <strong>LayerViewController</strong> class</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">loadView</span>
+
+  <span class="c1"># Lets create a view for our view controller</span>
+  <span class="nb">self</span><span class="o">.</span><span class="n">view</span> <span class="o">=</span> <span class="no">UIView</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithFrame</span><span class="p">(</span><span class="no">UIScreen</span><span class="o">.</span><span class="n">mainScreen</span><span class="o">.</span><span class="n">bounds</span><span class="p">)</span>
+
+  <span class="n">layout_background_layer</span>
+  <span class="n">layout_grass_layer</span>
+<span class="k">end</span>
+
+<span class="k">def</span> <span class="nf">layout_grass_layer</span>
+
+  <span class="c1">#Lets instance a new layer for containing our grass image</span>
+  <span class="n">grass_layer</span> <span class="o">=</span> <span class="no">CALayer</span><span class="o">.</span><span class="n">layer</span>
+  <span class="n">grass_layer</span><span class="o">.</span><span class="n">frame</span> <span class="o">=</span> <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">bounds</span>
+
+  <span class="c1">#Load the image into memory</span>
+  <span class="n">grassImage</span> <span class="o">=</span> <span class="no">UIImage</span><span class="o">.</span><span class="n">imageNamed</span><span class="p">(</span><span class="s2">&quot;bgGrass.png&quot;</span><span class="p">)</span>
+
+  <span class="c1"># Set the image as content of the layer</span>
+  <span class="n">grass_layer</span><span class="o">.</span><span class="n">contents</span> <span class="o">=</span> <span class="n">grassImage</span><span class="o">.</span><span class="n">CGImage</span>
+
+  <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">layer</span><span class="o">.</span><span class="n">addSublayer</span><span class="p">(</span><span class="n">grass_layer</span><span class="p">)</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="imageblock">
+<div class="content">
+<img src="resources/ch20-CALayers/ch20_GrassLayer.png" alt="Grass Layer" />
+</div>
+<div class="title">Figure 21. Grass Layer</div>
+</div>
+<div class="paragraph"><p>Great! Now you see that we are compositing two layers together and learn that you can also include an Image as a content. But how about drawing custom figures? Add the following to the <strong>LayerViewController</strong> class:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">loadView</span>
+
+  <span class="c1"># Lets create a view for our view controller</span>
+  <span class="nb">self</span><span class="o">.</span><span class="n">view</span> <span class="o">=</span> <span class="no">UIView</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithFrame</span><span class="p">(</span><span class="no">UIScreen</span><span class="o">.</span><span class="n">mainScreen</span><span class="o">.</span><span class="n">bounds</span><span class="p">)</span>
+
+  <span class="n">layout_background_layer</span>
+  <span class="n">layout_sun_layer</span>
+  <span class="n">layout_grass_layer</span>
+<span class="k">end</span>
+
+
+<span class="k">def</span> <span class="nf">layout_sun_layer</span>
+
+  <span class="c1"># Create a new type of layer, in this case CAShapeLayer</span>
+  <span class="vi">@sun_layer</span> <span class="o">=</span> <span class="no">CAShapeLayer</span><span class="o">.</span><span class="n">layer</span>
+  <span class="vi">@sun_layer</span><span class="o">.</span><span class="n">frame</span> <span class="o">=</span> <span class="no">CGRectMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">150</span><span class="p">,</span> <span class="mi">150</span><span class="p">)</span>
+  <span class="vi">@sun_layer</span><span class="o">.</span><span class="n">position</span> <span class="o">=</span> <span class="no">CGPointMake</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
+
+  <span class="c1"># Set some color for the figure fill and the stroke</span>
+  <span class="vi">@sun_layer</span><span class="o">.</span><span class="n">fillColor</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">colorWithRed</span><span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">957</span><span class="p">,</span> <span class="n">green</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mi">824</span><span class="p">,</span> <span class="n">blue</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mi">184</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">CGColor</span>
+  <span class="vi">@sun_layer</span><span class="o">.</span><span class="n">strokeColor</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">colorWithRed</span><span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">988</span><span class="p">,</span> <span class="n">green</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mi">604</span><span class="p">,</span> <span class="n">blue</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mi">153</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">CGColor</span>
+
+  <span class="c1"># We need to set a line width of 10 for this particular figure</span>
+  <span class="vi">@sun_layer</span><span class="o">.</span><span class="n">lineWidth</span> <span class="o">=</span> <span class="mi">10</span>
+
+
+  <span class="c1"># The following part is the path that composes the figure</span>
+  <span class="c1"># point by point into the layer</span>
+  <span class="n">sun_path</span> <span class="o">=</span> <span class="no">UIBezierPath</span><span class="o">.</span><span class="n">bezierPath</span>
+
+  <span class="n">sun_path</span><span class="o">.</span><span class="n">moveToPoint</span><span class="p">(</span><span class="no">CGPointMake</span><span class="p">(</span><span class="mi">91</span><span class="o">.</span><span class="mi">15</span><span class="p">,</span> <span class="mi">48</span><span class="o">.</span><span class="mi">53</span><span class="p">))</span>
+  <span class="n">sun_path</span><span class="o">.</span><span class="n">addLineToPoint</span><span class="p">(</span><span class="no">CGPointMake</span><span class="p">(</span><span class="mi">91</span><span class="o">.</span><span class="mi">15</span><span class="p">,</span> <span class="mi">48</span><span class="o">.</span><span class="mi">53</span><span class="p">))</span>
+  <span class="n">sun_path</span><span class="o">.</span><span class="n">addLineToPoint</span><span class="p">(</span><span class="no">CGPointMake</span><span class="p">(</span><span class="mi">106</span><span class="o">.</span><span class="mo">00</span><span class="p">,</span> <span class="mi">41</span><span class="o">.</span><span class="mi">88</span><span class="p">))</span>
+  <span class="n">sun_path</span><span class="o">.</span><span class="n">addLineToPoint</span><span class="p">(</span><span class="no">CGPointMake</span><span class="p">(</span><span class="mi">114</span><span class="o">.</span><span class="mi">90</span><span class="p">,</span> <span class="mi">55</span><span class="o">.</span><span class="mi">50</span><span class="p">))</span>
+  <span class="n">sun_path</span><span class="o">.</span><span class="n">addLineToPoint</span><span class="p">(</span><span class="no">CGPointMake</span><span class="p">(</span><span class="mi">130</span><span class="o">.</span><span class="mi">99</span><span class="p">,</span> <span class="mi">57</span><span class="o">.</span><span class="mi">94</span><span class="p">))</span>
+  <span class="n">sun_path</span><span class="o">.</span><span class="n">addLineToPoint</span><span class="p">(</span><span class="no">CGPointMake</span><span class="p">(</span><span class="mi">131</span><span class="o">.</span><span class="mi">11</span><span class="p">,</span> <span class="mi">74</span><span class="o">.</span><span class="mi">21</span><span class="p">))</span>
+  <span class="n">sun_path</span><span class="o">.</span><span class="n">addLineToPoint</span><span class="p">(</span><span class="no">CGPointMake</span><span class="p">(</span><span class="mi">143</span><span class="o">.</span><span class="mi">33</span><span class="p">,</span> <span class="mi">84</span><span class="o">.</span><span class="mi">95</span><span class="p">))</span>
+  <span class="n">sun_path</span><span class="o">.</span><span class="n">addLineToPoint</span><span class="p">(</span><span class="no">CGPointMake</span><span class="p">(</span><span class="mi">134</span><span class="o">.</span><span class="mi">63</span><span class="p">,</span> <span class="mi">98</span><span class="o">.</span><span class="mi">71</span><span class="p">))</span>
+  <span class="n">sun_path</span><span class="o">.</span><span class="n">addLineToPoint</span><span class="p">(</span><span class="no">CGPointMake</span><span class="p">(</span><span class="mi">139</span><span class="o">.</span><span class="mi">10</span><span class="p">,</span> <span class="mi">114</span><span class="o">.</span><span class="mi">35</span><span class="p">))</span>
+  <span class="n">sun_path</span><span class="o">.</span><span class="n">addLineToPoint</span><span class="p">(</span><span class="no">CGPointMake</span><span class="p">(</span><span class="mi">124</span><span class="o">.</span><span class="mi">35</span><span class="p">,</span> <span class="mi">121</span><span class="o">.</span><span class="mi">22</span><span class="p">))</span>
+  <span class="n">sun_path</span><span class="o">.</span><span class="n">addLineToPoint</span><span class="p">(</span><span class="no">CGPointMake</span><span class="p">(</span><span class="mi">119</span><span class="o">.</span><span class="mi">65</span><span class="p">,</span> <span class="mi">136</span><span class="o">.</span><span class="mi">80</span><span class="p">))</span>
+  <span class="n">sun_path</span><span class="o">.</span><span class="n">addLineToPoint</span><span class="p">(</span><span class="no">CGPointMake</span><span class="p">(</span><span class="mi">103</span><span class="o">.</span><span class="mi">53</span><span class="p">,</span> <span class="mi">134</span><span class="o">.</span><span class="mi">60</span><span class="p">))</span>
+  <span class="n">sun_path</span><span class="o">.</span><span class="n">addLineToPoint</span><span class="p">(</span><span class="no">CGPointMake</span><span class="p">(</span><span class="mi">91</span><span class="o">.</span><span class="mi">15</span><span class="p">,</span> <span class="mi">145</span><span class="o">.</span><span class="mi">17</span><span class="p">))</span>
+  <span class="n">sun_path</span><span class="o">.</span><span class="n">addLineToPoint</span><span class="p">(</span><span class="no">CGPointMake</span><span class="p">(</span><span class="mi">78</span><span class="o">.</span><span class="mi">78</span><span class="p">,</span> <span class="mi">134</span><span class="o">.</span><span class="mi">60</span><span class="p">))</span>
+  <span class="n">sun_path</span><span class="o">.</span><span class="n">addLineToPoint</span><span class="p">(</span><span class="no">CGPointMake</span><span class="p">(</span><span class="mi">62</span><span class="o">.</span><span class="mi">66</span><span class="p">,</span> <span class="mi">136</span><span class="o">.</span><span class="mi">80</span><span class="p">))</span>
+  <span class="n">sun_path</span><span class="o">.</span><span class="n">addLineToPoint</span><span class="p">(</span><span class="no">CGPointMake</span><span class="p">(</span><span class="mi">57</span><span class="o">.</span><span class="mi">96</span><span class="p">,</span> <span class="mi">121</span><span class="o">.</span><span class="mi">22</span><span class="p">))</span>
+  <span class="n">sun_path</span><span class="o">.</span><span class="n">addLineToPoint</span><span class="p">(</span><span class="no">CGPointMake</span><span class="p">(</span><span class="mi">43</span><span class="o">.</span><span class="mi">21</span><span class="p">,</span> <span class="mi">114</span><span class="o">.</span><span class="mi">35</span><span class="p">))</span>
+  <span class="n">sun_path</span><span class="o">.</span><span class="n">addLineToPoint</span><span class="p">(</span><span class="no">CGPointMake</span><span class="p">(</span><span class="mi">47</span><span class="o">.</span><span class="mi">68</span><span class="p">,</span> <span class="mi">98</span><span class="o">.</span><span class="mi">71</span><span class="p">))</span>
+  <span class="n">sun_path</span><span class="o">.</span><span class="n">addLineToPoint</span><span class="p">(</span><span class="no">CGPointMake</span><span class="p">(</span><span class="mi">38</span><span class="o">.</span><span class="mi">98</span><span class="p">,</span> <span class="mi">84</span><span class="o">.</span><span class="mi">95</span><span class="p">))</span>
+  <span class="n">sun_path</span><span class="o">.</span><span class="n">addLineToPoint</span><span class="p">(</span><span class="no">CGPointMake</span><span class="p">(</span><span class="mi">51</span><span class="o">.</span><span class="mi">20</span><span class="p">,</span> <span class="mi">74</span><span class="o">.</span><span class="mi">21</span><span class="p">))</span>
+  <span class="n">sun_path</span><span class="o">.</span><span class="n">addLineToPoint</span><span class="p">(</span><span class="no">CGPointMake</span><span class="p">(</span><span class="mi">51</span><span class="o">.</span><span class="mi">32</span><span class="p">,</span> <span class="mi">57</span><span class="o">.</span><span class="mi">94</span><span class="p">))</span>
+  <span class="n">sun_path</span><span class="o">.</span><span class="n">addLineToPoint</span><span class="p">(</span><span class="no">CGPointMake</span><span class="p">(</span><span class="mi">67</span><span class="o">.</span><span class="mi">41</span><span class="p">,</span> <span class="mi">55</span><span class="o">.</span><span class="mi">50</span><span class="p">))</span>
+  <span class="n">sun_path</span><span class="o">.</span><span class="n">addLineToPoint</span><span class="p">(</span><span class="no">CGPointMake</span><span class="p">(</span><span class="mi">76</span><span class="o">.</span><span class="mi">31</span><span class="p">,</span> <span class="mi">41</span><span class="o">.</span><span class="mi">88</span><span class="p">))</span>
+
+  <span class="n">sun_path</span><span class="o">.</span><span class="n">closePath</span>
+
+  <span class="c1"># Set the path into the layer</span>
+  <span class="vi">@sun_layer</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="n">sun_path</span><span class="o">.</span><span class="n">CGPath</span><span class="p">;</span>
+
+  <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">layer</span><span class="o">.</span><span class="n">addSublayer</span><span class="p">(</span><span class="vi">@sun_layer</span><span class="p">)</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="imageblock">
+<div class="content">
+<img src="resources/ch20-CALayers/ch20_SunLayer.png" alt="Sun Layer" />
+</div>
+<div class="title">Figure 22. Sun Layer</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_implicit_animations">Implicit Animations</h3>
+<div class="paragraph"><p>When you change some properties of a CALayer at run time, what happens is that the properties are modified in an animated way. This properties that trigger animations are called <strong>Animatable Properties</strong>, and some of them are the following:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+anchorPoint
+</p>
+</li>
+<li>
+<p>
+backgroundColor
+</p>
+</li>
+<li>
+<p>
+borderColor
+</p>
+</li>
+<li>
+<p>
+borderWidth
+</p>
+</li>
+<li>
+<p>
+bounds
+</p>
+</li>
+<li>
+<p>
+cornerRadius
+</p>
+</li>
+<li>
+<p>
+mask
+</p>
+</li>
+<li>
+<p>
+opacity
+</p>
+</li>
+<li>
+<p>
+position
+</p>
+</li>
+<li>
+<p>
+shadowColor
+</p>
+</li>
+<li>
+<p>
+shadowOffset
+</p>
+</li>
+<li>
+<p>
+shadowOpacity
+</p>
+</li>
+<li>
+<p>
+shadowRadius
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>For this to happen a process works inside of Core Animation called <strong>Interpolation</strong>, the best way to explain it is using a example:</p></div>
+<div class="paragraph"><p>Lets say that you implemented a layer, but its needed when the user touches the screen to disappear the layer. Do this is pretty straight forward, just set the opacity property to 0.0. Inside Core Animation the next will happen:</p></div>
+<div class="olist arabic"><ol class="arabic">
+<li>
+<p>
+Because we are using a implicit animation, the default time for the whole animation is 0.3
+</p>
+</li>
+<li>
+<p>
+Core Animation calculates the value at every millisecond that takes to execute the animation. Starting at second 0 with 1.0, 0.1 with 0.65, 0.2 with 0.45, 0.3 with 0.0. This process of determining the values of a property (or properties) at every given time of the animation is called <strong>Interpolation</strong>
+</p>
+</li>
+<li>
+<p>
+Then the resulting matrix property values and times is executed, giving the effect that the layer is being animated.
+</p>
+</li>
+</ol></div>
+<div class="paragraph"><p>If you think it its similar that the old cartoon animation process. Having the mouse drawn frame by frame and flipping them it quickly does the same trick.</p></div>
+<div class="paragraph"><p>Enough of theory, lets do this in a practical way. Insert the following to the <strong>LayerViewController</strong> class:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">loadView</span>
+
+  <span class="c1"># Lets create a view for our view controller</span>
+  <span class="nb">self</span><span class="o">.</span><span class="n">view</span> <span class="o">=</span> <span class="no">UIView</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithFrame</span><span class="p">(</span><span class="no">UIScreen</span><span class="o">.</span><span class="n">mainScreen</span><span class="o">.</span><span class="n">bounds</span><span class="p">)</span>
+
+  <span class="n">layout_background_layer</span>
+  <span class="n">layout_sun_layer</span>
+  <span class="n">layout_grass_layer</span>
+
+  <span class="c1"># Instantiate a gesture recognizer to handle the user touch</span>
+  <span class="n">tap_gesture_recognizer</span> <span class="o">=</span> <span class="no">UITapGestureRecognizer</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithTarget</span><span class="p">(</span><span class="nb">self</span><span class="p">,</span>
+                                                                       <span class="n">action</span><span class="ss">:&#39;view_tap:&#39;</span><span class="p">)</span>
+
+  <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">addGestureRecognizer</span><span class="p">(</span><span class="n">tap_gesture_recognizer</span><span class="p">)</span>
+<span class="k">end</span>
+
+
+<span class="k">def</span> <span class="nf">view_tap</span><span class="p">(</span><span class="n">tap_gesture_recognizer</span><span class="p">)</span>
+
+  <span class="c1">#Get the position of the touch according to the view</span>
+  <span class="n">tap_point_in_view</span> <span class="o">=</span> <span class="n">tap_gesture_recognizer</span><span class="o">.</span><span class="n">locationInView</span><span class="p">(</span><span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="p">)</span>
+
+  <span class="c1">#Apply the position to our Sun Layer</span>
+  <span class="vi">@sun_layer</span><span class="o">.</span><span class="n">position</span> <span class="o">=</span> <span class="n">tap_point_in_view</span>
+
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>Now when you touch the screen the sun layer will animate to that particular position. Try another appearance changes or look again in the REPL part of the exercise.</p></div>
+<div class="imageblock">
+<div class="content">
+<img src="resources/ch20-CALayers/ch20_AnimatedLayer.png" alt="Sun Layer" />
+</div>
+<div class="title">Figure 23. Animated Layer</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_challenges_2">Challenges</h3>
+<div class="olist arabic"><ol class="arabic">
+<li>
+<p>
+At the same time the sun layer is moving to a new position, rotate it like it was spinning. (HINT: CGTransformationMatrix)
+</p>
+</li>
+<li>
+<p>
+Change the background of the application when the sun layer is on top, and on bottom. Like if it was sunrise, dawn and night
+</p>
+</li>
+</ol></div>
 </div>
 </div>
 </div>
