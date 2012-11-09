@@ -19,38 +19,106 @@ A view controller manages a set of views that make up a portion of your app’s 
 </slide>
     
 <slide>
-## view property
+## UIViewController
 
-Every view controller has a ***view*** property. This property has a reference to the main view that will be displayed.
-
-
+![](viewcontroller.png "ViewController") 
 
 </slide>
 
 <slide>
-## Spec Files
+## view Property
+
+Every view controller has a ***view*** property.
+
+![](viewproperty.png "ViewController") 
 
 </slide>
 
 <slide>
-## Context
+## Setting the View
+
+    class MyViewController < UIViewController 
+      def loadView
+          self.setView(UIView.alloc.initWithFrame(screenSize))
+      end
+    end
 
 </slide>
 
 <slide>
-## Device Events
+## Object Hierarchy
+
+![](objecthierarchy.png "Object Hierarchy") 
 
 </slide>
 
 <slide>
-## Finding Views
+## UITabBarController
 
+![](tabbarcontroller.png "TabBarController") 
 
 </slide>
 
 <slide>
-## UIAutomation
+## Details
 
+![](tabbardetails.png "Details") 
+
+</slide>
+
+<slide>
+## Creating a UITabBarController
+
+    // When the application is starting...
+    def application(app, didFinishLaunchingWithOptions: opts) 
+        tabBarController = UITabBarController.alloc.init
+        
+        vc1 = ContactsController.alloc.init
+        vc2 = KeypadViewController.alloc.init
+        
+        viewControllers = NSArray.arrayWithObjects(vc1, vc2, nil)
+        tabBarController.setViewControllers(viewControllers)
+     
+        window.setRootViewController(tabBarController)
+        window.makeKeyAndVisible
+
+        true
+    end
+
+</slide>
+
+<slide>
+## UITabBarItem
+
+![](tabbaritem.png "TabBarItem") 
+
+</slide>
+
+<slide>
+## Configuring UITabBarItem
+
+    def initWithNibName(nibName, bundle:bundleName)
+        self = super.initWithNibName(nibName, bundle:bund)
+        if (self) {
+            tbi = self.tabBarItem
+            tbi.setTitle("Keypad")
+            
+            i = UIImage.imageNamed("Keypad.png")
+            tbi.setImage(i)
+        }
+       self
+    end
+
+</slide>
+
+<slide>
+## Appearing and Disappearing
+
+    // Other important callbacks
+    viewWillAppear(animated)
+    viewDidAppear(animated)
+    viewWillDisappear(animated)
+    viewDidDisappear(animated)  
 
 </slide>
 
