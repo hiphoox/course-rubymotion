@@ -304,8 +304,8 @@ def layout_sun_layer
 
   # Create a new type of layer, in this case CAShapeLayer
   @sun_layer = CAShapeLayer.layer
-  @sun_layer.frame = CGRectMake(0, 0, 150, 150)
-  @sun_layer.position = CGPointMake(50, 50)
+  @sun_layer.frame = CGRectMake(0, 0, 180, 180)
+  @sun_layer.position = CGPointMake(90, 90)
 
   # Set some color for the figure fill and the stroke
   @sun_layer.fillColor = UIColor.colorWithRed(0.957, green:0.824, blue:0.184, alpha:1.0).CGColor

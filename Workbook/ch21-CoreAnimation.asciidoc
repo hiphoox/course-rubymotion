@@ -1,0 +1,303 @@
+Chapter 21 - Core Animation
+===========================
+
+In this chapter we will continue learning Core Animation implementing more complex animations and transitions. 
+
+Lets begin! When you need more control on the animation, lets say move the layer along a path, control the duration or some easing, its required that you implement a explicit animation.
+
+.Easing
+[NOTE]
+===============================
+Easing means to control the acceleration or deceleration of the objects in the animation. This is used to simulate real life forces like friction or gravity.
+===============================
+
+
+Next we will look into the most basic type of explicit animations, CABasicAnimation
+
+CABasicAnimation
+----------------
+Its a single key-frame animation, this means that you can only set the initial and final step of such application. An proper example will illustrate this better:
+
+You need to move a layer from point A to point B. The initial step is A and the final is B, this is case of a single key-frame, but if you need to move from point A passing through point C, then point D and finally B this is a multi key-frame, which will cover it later.
+
+In this perspective this kind of explicit animations are a lot like the implicit ones, the difference is that you can have more control on it like:
+
+* Setting some delay on the animation
+* Know when the animation finished
+* Animation duration
+* Combine multiple animations at once
+* Reverse the animation on finish
+* Repeat the animation indefinitely
+
+The first thing we can do is change the sun move animation which is implicit to a explicit one, for this lets open our **Layer** project, and edit the **view_tap** method to look like the following:
+
+[source, ruby]
+--------------
+def view_tap(tap_gesture_recognizer)
+
+  #Get the position of the touch according to the view
+  tap_point_in_view = tap_gesture_recognizer.locationInView(self.view)
+
+
+  # When we create an instance of a CABasicAnimation, its needed
+  # to set which property we want to animate. In this case the property
+  # is position, but it can be backgroundColor, cornerRadius or any other
+  animation = CABasicAnimation.animationWithKeyPath('position')
+
+  # Set the animation duration  
+  animation.duration = 1
+
+  # We need to set the initial value of the animation and the final one, 
+  animation.fromValue = NSValue.valueWithCGPoint(@sun_layer.position)
+  animation.toValue = NSValue.valueWithCGPoint(tap_point_in_view)
+
+  
+  # Add the animation to the layer that we want to animate, and set a 
+  # name for it, in this case position_animation. The name is used 
+  # if later we need to access the animation again in another part of the code
+  @sun_layer.addAnimation(animation, forKey:'position_animation')
+  
+end
+--------------
+
+**Image**
+
+Uh? What happen? The sun move to the position we touch, but at the end of the animation it return to its initial value. This happens because the animation is independent of the layer that is running into, it will move the layer to the touch position but at the end if you don't change the layer property it will return to the initial state.
+
+Try the following:
+
+[source, ruby]
+--------------
+def view_tap(tap_gesture_recognizer)
+
+  #Get the position of the touch according to the view
+  tap_point_in_view = tap_gesture_recognizer.locationInView(self.view)
+
+
+  # When we create an instance of a CABasicAnimation, its needed
+  # to set which property we want to animate. In this case the property
+  # is position, but it can be backgroundColor, cornerRadius or any other
+  animation = CABasicAnimation.animationWithKeyPath('position')
+
+  # Set the animation duration  
+  animation.duration = 1
+
+  # We need to set the initial value of the animation and the final one
+  animation.fromValue = NSValue.valueWithCGPoint(@sun_layer.position)
+  animation.toValue = NSValue.valueWithCGPoint(tap_point_in_view)
+
+
+  # Change the layer property that we want to be animated, the position of
+  # this line is important. It must be before the addAnimation message.
+  @sun_layer.position = tap_point_in_view
+
+  # Add the animation to the layer that we want to animate, and set a 
+  # name for it, in this case position_animation. The name is used 
+  # if later we need to access the animation again in another part of the code
+  @sun_layer.addAnimation(animation, forKey:'position_animation')
+end
+--------------
+
+**Image**
+
+Now it works as expected! The animation is pretty slow because we set to it 1 second, try changing it for more fun. 
+
+.Interpolation
+[NOTE]
+===============================
+Did you notice that close the distance of the animation is more slow? This is because it has to cover less distance in the same duration.
+===============================
+
+
+Lets try something new, reverse the animation once is finished. This is accomplished with the following code:
+
+[source, ruby]
+--------------
+def view_tap(tap_gesture_recognizer)
+
+  #Get the position of the touch according to the view
+  tap_point_in_view = tap_gesture_recognizer.locationInView(self.view)
+
+
+  # When we create an instance of a CABasicAnimation, its needed
+  # to set which property we want to animate. In this case the property
+  # is position, but it can be backgroundColor, cornerRadius or any other
+  animation = CABasicAnimation.animationWithKeyPath('position')
+
+  # Set the animation duration  
+  animation.duration = 1
+
+  # We need to set the initial value of the animation and the final one
+  animation.fromValue = NSValue.valueWithCGPoint(@sun_layer.position)
+  animation.toValue = NSValue.valueWithCGPoint(tap_point_in_view)
+
+  # Tell the animation that we need to reverse at finish
+  animation.autoreverses = true
+
+  # Add the animation to the layer that we want to animate, and set a 
+  # name for it, in this case position_animation. The name is used 
+  # if later we need to access the animation again in another part of the code
+  @sun_layer.addAnimation(animation, forKey:'position_animation')
+end
+--------------
+
+**Image**
+
+If we want to make that cycle of moving and returning happen 100 times?
+
+[source, ruby]
+--------------
+def view_tap(tap_gesture_recognizer)
+
+  #Get the position of the touch according to the view
+  tap_point_in_view = tap_gesture_recognizer.locationInView(self.view)
+
+
+  # When we create an instance of a CABasicAnimation, its needed
+  # to set which property we want to animate. In this case the property
+  # is position, but it can be backgroundColor, cornerRadius or any other
+  animation = CABasicAnimation.animationWithKeyPath('position')
+
+  # Set the animation duration  
+  animation.duration = 1
+
+  # We need to set the initial value of the animation and the final one
+  animation.fromValue = NSValue.valueWithCGPoint(@sun_layer.position)
+  animation.toValue = NSValue.valueWithCGPoint(tap_point_in_view)
+
+  # Tell the animation that we need to reverse at finish
+  animation.autoreverses = true
+
+  # Set the repeat count to 100
+  animation.repeatCount = 100
+
+  # Add the animation to the layer that we want to animate, and set a 
+  # name for it, in this case position_animation. The name is used 
+  # if later we need to access the animation again in another part of the code
+  @sun_layer.addAnimation(animation, forKey:'position_animation')
+end
+--------------
+
+**Image**
+
+What about combining two animations: a spinning one with the moving one
+
+[source, ruby]
+--------------
+def view_tap(tap_gesture_recognizer)
+
+  #Get the position of the touch according to the view
+  tap_point_in_view = tap_gesture_recognizer.locationInView(self.view)
+
+
+  # When we create an instance of a CABasicAnimation, its needed
+  # to set which property we want to animate. In this case the property
+  # is position, but it can be backgroundColor, cornerRadius or any other
+  translation_animation = CABasicAnimation.animationWithKeyPath('position')
+
+  # Set the animation duration  
+  translation_animation.duration = 1
+
+  # We need to set the initial value of the animation and the final one
+  translation_animation.fromValue = NSValue.valueWithCGPoint(@sun_layer.position)
+  translation_animation.toValue = NSValue.valueWithCGPoint(tap_point_in_view)
+
+
+  # Change the layer property that we want to be animated, the position of
+  # this line is important. It must be before the addAnimation message.
+  @sun_layer.position = tap_point_in_view
+
+  # Add the animation to the layer that we want to animate, and set a 
+  # name for it, in this case position animation. The name is used 
+  # if later we need to access the animation again in another part of the code
+  @sun_layer.addAnimation(translation_animation, forKey:'translation_animation')
+
+
+  # Create another instance of the CABasicAnimation with the property 'transform.rotation.z'
+  # this property allows us to change the layer in any of the three dimensions, in this case
+  # y axis
+  rotation_animation = CABasicAnimation.animationWithKeyPath('transform.rotation.z')
+
+  # Take a note here we are setting 360 degrees, but Core Animation works with radians
+  # thats why the conversion PI * 2
+  rotation_animation.toValue = NSNumber.numberWithFloat(Math::PI * 2)
+
+  # Set the duration according with the other animation
+  rotation_animation.duration = 1
+
+  # Add the animation to the layer
+  @sun_layer.addAnimation(rotation_animation, forKey:'rotation_animation')
+end
+--------------
+
+**IMAGE**
+
+
+Moving the clouds
+-----------------
+
+The sun looks a little lonely right? What about adding some clouds and make them move across the screen?
+
+The first step is adding the images of the clouds, please copy them from **Define deployment target** into the resources folder of the app.
+
+Next lets add the layers into our view, in the following way:
+
+[source, ruby]
+--------------
+def loadView
+
+  # Lets create a view for our view controller
+  self.view = UIView.alloc.initWithFrame(UIScreen.mainScreen.bounds)
+
+  # Instantiate a gesture recognizer to handle the user touch
+  tap_gesture_recognizer = UITapGestureRecognizer.alloc.initWithTarget(self,
+                                                                       action:'view_tap:')
+
+  self.view.addGestureRecognizer(tap_gesture_recognizer)
+
+  layout_background_layer
+  layout_sun_layer
+  layout_cloud_layers
+  layout_grass_layer
+end
+
+def layout_cloud_layers
+
+  #Lets instance a new layer for our first cloud image                             
+  first_cloud_layer = CALayer.layer
+  first_cloud_layer.frame = CGRectMake(0, 0, 153, 82)
+  first_cloud_layer.position = CGPointMake(90, 170)
+
+  #Load the image into memory
+  first_cloud_image = UIImage.imageNamed("bgCloud1.png")
+
+  # Set the image as content of the layer
+  first_cloud_layer.contents = first_cloud_image.CGImage
+
+  self.view.layer.addSublayer(first_cloud_layer)
+
+
+  # New layer for our second cloud image                             
+  second_cloud_layer = CALayer.layer
+  second_cloud_layer.frame = CGRectMake(0, 0, 185, 96)
+  second_cloud_layer.position = CGPointMake(220, 130)
+
+  second_cloud_image = UIImage.imageNamed("bgCloud2.png")
+
+  second_cloud_layer.contents = second_cloud_image.CGImage
+
+  self.view.layer.addSublayer(second_cloud_layer)
+end
+--------------
+
+If we run now the application, you should see the following:
+
+**Image**
+
+Pretty but not amazing!, Now lets add some animation to the clouds:
+
+
+
+
+
+IMPORTANT: Please take notice that the cloud position changed

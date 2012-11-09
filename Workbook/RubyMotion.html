@@ -3251,8 +3251,8 @@ subtitle. Optional, returns an NSString with the subtitle of the annotation.
 
   <span class="c1"># Create a new type of layer, in this case CAShapeLayer</span>
   <span class="vi">@sun_layer</span> <span class="o">=</span> <span class="no">CAShapeLayer</span><span class="o">.</span><span class="n">layer</span>
-  <span class="vi">@sun_layer</span><span class="o">.</span><span class="n">frame</span> <span class="o">=</span> <span class="no">CGRectMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">150</span><span class="p">,</span> <span class="mi">150</span><span class="p">)</span>
-  <span class="vi">@sun_layer</span><span class="o">.</span><span class="n">position</span> <span class="o">=</span> <span class="no">CGPointMake</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
+  <span class="vi">@sun_layer</span><span class="o">.</span><span class="n">frame</span> <span class="o">=</span> <span class="no">CGRectMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">180</span><span class="p">,</span> <span class="mi">180</span><span class="p">)</span>
+  <span class="vi">@sun_layer</span><span class="o">.</span><span class="n">position</span> <span class="o">=</span> <span class="no">CGPointMake</span><span class="p">(</span><span class="mi">90</span><span class="p">,</span> <span class="mi">90</span><span class="p">)</span>
 
   <span class="c1"># Set some color for the figure fill and the stroke</span>
   <span class="vi">@sun_layer</span><span class="o">.</span><span class="n">fillColor</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">colorWithRed</span><span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">957</span><span class="p">,</span> <span class="n">green</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mi">824</span><span class="p">,</span> <span class="n">blue</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mi">184</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">CGColor</span>
@@ -3449,12 +3449,317 @@ Change the background of the application when the sun layer is on top, and on bo
 </div>
 </div>
 </div>
+<h1 id="_chapter_21_core_animation">Chapter 21 - Core Animation</h1>
+<div class="paragraph"><p>In this chapter we will continue learning Core Animation implementing more complex animations and transitions.</p></div>
+<div class="paragraph"><p>Lets begin! When you need more control on the animation, lets say move the layer along a path, control the duration or some easing, its required that you implement a explicit animation.</p></div>
+<div class="admonitionblock">
+<table><tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="title">Easing</div>
+<div class="paragraph"><p>Easing means to control the acceleration or deceleration of the objects in the animation. This is used to simulate real life forces like friction or gravity.</p></div>
+</td>
+</tr></table>
+</div>
+<div class="paragraph"><p>Next we will look into the most basic type of explicit animations, CABasicAnimation</p></div>
+<div class="sect1">
+<h2 id="_cabasicanimation">CABasicAnimation</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>Its a single key-frame animation, this means that you can only set the initial and final step of such application. An proper example will illustrate this better:</p></div>
+<div class="paragraph"><p>You need to move a layer from point A to point B. The initial step is A and the final is B, this is case of a single key-frame, but if you need to move from point A passing through point C, then point D and finally B this is a multi key-frame, which will cover it later.</p></div>
+<div class="paragraph"><p>In this perspective this kind of explicit animations are a lot like the implicit ones, the difference is that you can have more control on it like:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+Setting some delay on the animation
+</p>
+</li>
+<li>
+<p>
+Know when the animation finished
+</p>
+</li>
+<li>
+<p>
+Animation duration
+</p>
+</li>
+<li>
+<p>
+Combine multiple animations at once
+</p>
+</li>
+<li>
+<p>
+Reverse the animation on finish
+</p>
+</li>
+<li>
+<p>
+Repeat the animation indefinitely
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>The first thing we can do is change the sun move animation which is implicit to a explicit one, for this lets open our <strong>Layer</strong> project, and edit the <strong>view_tap</strong> method to look like the following:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">view_tap</span><span class="p">(</span><span class="n">tap_gesture_recognizer</span><span class="p">)</span>
+
+  <span class="c1">#Get the position of the touch according to the view</span>
+  <span class="n">tap_point_in_view</span> <span class="o">=</span> <span class="n">tap_gesture_recognizer</span><span class="o">.</span><span class="n">locationInView</span><span class="p">(</span><span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="p">)</span>
+
+
+  <span class="c1"># When we create an instance of a CABasicAnimation, its needed</span>
+  <span class="c1"># to set which property we want to animate. In this case the property</span>
+  <span class="c1"># is position, but it can be backgroundColor, cornerRadius or any other</span>
+  <span class="n">animation</span> <span class="o">=</span> <span class="no">CABasicAnimation</span><span class="o">.</span><span class="n">animationWithKeyPath</span><span class="p">(</span><span class="s1">&#39;position&#39;</span><span class="p">)</span>
+
+  <span class="c1"># Set the animation duration</span>
+  <span class="n">animation</span><span class="o">.</span><span class="n">duration</span> <span class="o">=</span> <span class="mi">1</span>
+
+  <span class="c1"># We need to set the initial value of the animation and the final one,</span>
+  <span class="n">animation</span><span class="o">.</span><span class="n">fromValue</span> <span class="o">=</span> <span class="no">NSValue</span><span class="o">.</span><span class="n">valueWithCGPoint</span><span class="p">(</span><span class="vi">@sun_layer</span><span class="o">.</span><span class="n">position</span><span class="p">)</span>
+  <span class="n">animation</span><span class="o">.</span><span class="n">toValue</span> <span class="o">=</span> <span class="no">NSValue</span><span class="o">.</span><span class="n">valueWithCGPoint</span><span class="p">(</span><span class="n">tap_point_in_view</span><span class="p">)</span>
+
+
+  <span class="c1"># Add the animation to the layer that we want to animate, and set a</span>
+  <span class="c1"># name for it, in this case position_animation. The name is used</span>
+  <span class="c1"># if later we need to access the animation again in another part of the code</span>
+  <span class="vi">@sun_layer</span><span class="o">.</span><span class="n">addAnimation</span><span class="p">(</span><span class="n">animation</span><span class="p">,</span> <span class="n">forKey</span><span class="ss">:&#39;position_animation&#39;</span><span class="p">)</span>
+
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p><strong>Image</strong></p></div>
+<div class="paragraph"><p>Uh? What happen? The sun move to the position we touch, but at the end of the animation it return to its initial value. This happens because the animation is independent of the layer that is running into, it will move the layer to the touch position but at the end if you don&#8217;t change the layer property it will return to the initial state.</p></div>
+<div class="paragraph"><p>Try the following:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">view_tap</span><span class="p">(</span><span class="n">tap_gesture_recognizer</span><span class="p">)</span>
+
+  <span class="c1">#Get the position of the touch according to the view</span>
+  <span class="n">tap_point_in_view</span> <span class="o">=</span> <span class="n">tap_gesture_recognizer</span><span class="o">.</span><span class="n">locationInView</span><span class="p">(</span><span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="p">)</span>
+
+
+  <span class="c1"># When we create an instance of a CABasicAnimation, its needed</span>
+  <span class="c1"># to set which property we want to animate. In this case the property</span>
+  <span class="c1"># is position, but it can be backgroundColor, cornerRadius or any other</span>
+  <span class="n">animation</span> <span class="o">=</span> <span class="no">CABasicAnimation</span><span class="o">.</span><span class="n">animationWithKeyPath</span><span class="p">(</span><span class="s1">&#39;position&#39;</span><span class="p">)</span>
+
+  <span class="c1"># Set the animation duration</span>
+  <span class="n">animation</span><span class="o">.</span><span class="n">duration</span> <span class="o">=</span> <span class="mi">1</span>
+
+  <span class="c1"># We need to set the initial value of the animation and the final one</span>
+  <span class="n">animation</span><span class="o">.</span><span class="n">fromValue</span> <span class="o">=</span> <span class="no">NSValue</span><span class="o">.</span><span class="n">valueWithCGPoint</span><span class="p">(</span><span class="vi">@sun_layer</span><span class="o">.</span><span class="n">position</span><span class="p">)</span>
+  <span class="n">animation</span><span class="o">.</span><span class="n">toValue</span> <span class="o">=</span> <span class="no">NSValue</span><span class="o">.</span><span class="n">valueWithCGPoint</span><span class="p">(</span><span class="n">tap_point_in_view</span><span class="p">)</span>
+
+
+  <span class="c1"># Change the layer property that we want to be animated, the position of</span>
+  <span class="c1"># this line is important. It must be before the addAnimation message.</span>
+  <span class="vi">@sun_layer</span><span class="o">.</span><span class="n">position</span> <span class="o">=</span> <span class="n">tap_point_in_view</span>
+
+  <span class="c1"># Add the animation to the layer that we want to animate, and set a</span>
+  <span class="c1"># name for it, in this case position_animation. The name is used</span>
+  <span class="c1"># if later we need to access the animation again in another part of the code</span>
+  <span class="vi">@sun_layer</span><span class="o">.</span><span class="n">addAnimation</span><span class="p">(</span><span class="n">animation</span><span class="p">,</span> <span class="n">forKey</span><span class="ss">:&#39;position_animation&#39;</span><span class="p">)</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p><strong>Image</strong></p></div>
+<div class="paragraph"><p>Now it works as expected! The animation is pretty slow because we set to it 1 second, try changing it for more fun.</p></div>
+<div class="admonitionblock">
+<table><tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="title">Interpolation</div>
+<div class="paragraph"><p>Did you notice that close the distance of the animation is more slow? This is because it has to cover less distance in the same duration.</p></div>
+</td>
+</tr></table>
+</div>
+<div class="paragraph"><p>Lets try something new, reverse the animation once is finished. This is accomplished with the following code:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">view_tap</span><span class="p">(</span><span class="n">tap_gesture_recognizer</span><span class="p">)</span>
+
+  <span class="c1">#Get the position of the touch according to the view</span>
+  <span class="n">tap_point_in_view</span> <span class="o">=</span> <span class="n">tap_gesture_recognizer</span><span class="o">.</span><span class="n">locationInView</span><span class="p">(</span><span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="p">)</span>
+
+
+  <span class="c1"># When we create an instance of a CABasicAnimation, its needed</span>
+  <span class="c1"># to set which property we want to animate. In this case the property</span>
+  <span class="c1"># is position, but it can be backgroundColor, cornerRadius or any other</span>
+  <span class="n">animation</span> <span class="o">=</span> <span class="no">CABasicAnimation</span><span class="o">.</span><span class="n">animationWithKeyPath</span><span class="p">(</span><span class="s1">&#39;position&#39;</span><span class="p">)</span>
+
+  <span class="c1"># Set the animation duration</span>
+  <span class="n">animation</span><span class="o">.</span><span class="n">duration</span> <span class="o">=</span> <span class="mi">1</span>
+
+  <span class="c1"># We need to set the initial value of the animation and the final one</span>
+  <span class="n">animation</span><span class="o">.</span><span class="n">fromValue</span> <span class="o">=</span> <span class="no">NSValue</span><span class="o">.</span><span class="n">valueWithCGPoint</span><span class="p">(</span><span class="vi">@sun_layer</span><span class="o">.</span><span class="n">position</span><span class="p">)</span>
+  <span class="n">animation</span><span class="o">.</span><span class="n">toValue</span> <span class="o">=</span> <span class="no">NSValue</span><span class="o">.</span><span class="n">valueWithCGPoint</span><span class="p">(</span><span class="n">tap_point_in_view</span><span class="p">)</span>
+
+  <span class="c1"># Tell the animation that we need to reverse at finish</span>
+  <span class="n">animation</span><span class="o">.</span><span class="n">autoreverses</span> <span class="o">=</span> <span class="kp">true</span>
+
+  <span class="c1"># Add the animation to the layer that we want to animate, and set a</span>
+  <span class="c1"># name for it, in this case position_animation. The name is used</span>
+  <span class="c1"># if later we need to access the animation again in another part of the code</span>
+  <span class="vi">@sun_layer</span><span class="o">.</span><span class="n">addAnimation</span><span class="p">(</span><span class="n">animation</span><span class="p">,</span> <span class="n">forKey</span><span class="ss">:&#39;position_animation&#39;</span><span class="p">)</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p><strong>Image</strong></p></div>
+<div class="paragraph"><p>If we want to make that cycle of moving and returning happen 100 times?</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">view_tap</span><span class="p">(</span><span class="n">tap_gesture_recognizer</span><span class="p">)</span>
+
+  <span class="c1">#Get the position of the touch according to the view</span>
+  <span class="n">tap_point_in_view</span> <span class="o">=</span> <span class="n">tap_gesture_recognizer</span><span class="o">.</span><span class="n">locationInView</span><span class="p">(</span><span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="p">)</span>
+
+
+  <span class="c1"># When we create an instance of a CABasicAnimation, its needed</span>
+  <span class="c1"># to set which property we want to animate. In this case the property</span>
+  <span class="c1"># is position, but it can be backgroundColor, cornerRadius or any other</span>
+  <span class="n">animation</span> <span class="o">=</span> <span class="no">CABasicAnimation</span><span class="o">.</span><span class="n">animationWithKeyPath</span><span class="p">(</span><span class="s1">&#39;position&#39;</span><span class="p">)</span>
+
+  <span class="c1"># Set the animation duration</span>
+  <span class="n">animation</span><span class="o">.</span><span class="n">duration</span> <span class="o">=</span> <span class="mi">1</span>
+
+  <span class="c1"># We need to set the initial value of the animation and the final one</span>
+  <span class="n">animation</span><span class="o">.</span><span class="n">fromValue</span> <span class="o">=</span> <span class="no">NSValue</span><span class="o">.</span><span class="n">valueWithCGPoint</span><span class="p">(</span><span class="vi">@sun_layer</span><span class="o">.</span><span class="n">position</span><span class="p">)</span>
+  <span class="n">animation</span><span class="o">.</span><span class="n">toValue</span> <span class="o">=</span> <span class="no">NSValue</span><span class="o">.</span><span class="n">valueWithCGPoint</span><span class="p">(</span><span class="n">tap_point_in_view</span><span class="p">)</span>
+
+  <span class="c1"># Tell the animation that we need to reverse at finish</span>
+  <span class="n">animation</span><span class="o">.</span><span class="n">autoreverses</span> <span class="o">=</span> <span class="kp">true</span>
+
+  <span class="c1"># Set the repeat count to 100</span>
+  <span class="n">animation</span><span class="o">.</span><span class="n">repeatCount</span> <span class="o">=</span> <span class="mi">100</span>
+
+  <span class="c1"># Add the animation to the layer that we want to animate, and set a</span>
+  <span class="c1"># name for it, in this case position_animation. The name is used</span>
+  <span class="c1"># if later we need to access the animation again in another part of the code</span>
+  <span class="vi">@sun_layer</span><span class="o">.</span><span class="n">addAnimation</span><span class="p">(</span><span class="n">animation</span><span class="p">,</span> <span class="n">forKey</span><span class="ss">:&#39;position_animation&#39;</span><span class="p">)</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p><strong>Image</strong></p></div>
+<div class="paragraph"><p>What about combining two animations: a spinning one with the moving one</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">view_tap</span><span class="p">(</span><span class="n">tap_gesture_recognizer</span><span class="p">)</span>
+
+  <span class="c1">#Get the position of the touch according to the view</span>
+  <span class="n">tap_point_in_view</span> <span class="o">=</span> <span class="n">tap_gesture_recognizer</span><span class="o">.</span><span class="n">locationInView</span><span class="p">(</span><span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="p">)</span>
+
+
+  <span class="c1"># When we create an instance of a CABasicAnimation, its needed</span>
+  <span class="c1"># to set which property we want to animate. In this case the property</span>
+  <span class="c1"># is position, but it can be backgroundColor, cornerRadius or any other</span>
+  <span class="n">translation_animation</span> <span class="o">=</span> <span class="no">CABasicAnimation</span><span class="o">.</span><span class="n">animationWithKeyPath</span><span class="p">(</span><span class="s1">&#39;position&#39;</span><span class="p">)</span>
+
+  <span class="c1"># Set the animation duration</span>
+  <span class="n">translation_animation</span><span class="o">.</span><span class="n">duration</span> <span class="o">=</span> <span class="mi">1</span>
+
+  <span class="c1"># We need to set the initial value of the animation and the final one</span>
+  <span class="n">translation_animation</span><span class="o">.</span><span class="n">fromValue</span> <span class="o">=</span> <span class="no">NSValue</span><span class="o">.</span><span class="n">valueWithCGPoint</span><span class="p">(</span><span class="vi">@sun_layer</span><span class="o">.</span><span class="n">position</span><span class="p">)</span>
+  <span class="n">translation_animation</span><span class="o">.</span><span class="n">toValue</span> <span class="o">=</span> <span class="no">NSValue</span><span class="o">.</span><span class="n">valueWithCGPoint</span><span class="p">(</span><span class="n">tap_point_in_view</span><span class="p">)</span>
+
+
+  <span class="c1"># Change the layer property that we want to be animated, the position of</span>
+  <span class="c1"># this line is important. It must be before the addAnimation message.</span>
+  <span class="vi">@sun_layer</span><span class="o">.</span><span class="n">position</span> <span class="o">=</span> <span class="n">tap_point_in_view</span>
+
+  <span class="c1"># Add the animation to the layer that we want to animate, and set a</span>
+  <span class="c1"># name for it, in this case position animation. The name is used</span>
+  <span class="c1"># if later we need to access the animation again in another part of the code</span>
+  <span class="vi">@sun_layer</span><span class="o">.</span><span class="n">addAnimation</span><span class="p">(</span><span class="n">translation_animation</span><span class="p">,</span> <span class="n">forKey</span><span class="ss">:&#39;translation_animation&#39;</span><span class="p">)</span>
+
+
+  <span class="c1"># Create another instance of the CABasicAnimation with the property &#39;transform.rotation.z&#39;</span>
+  <span class="c1"># this property allows us to change the layer in any of the three dimensions, in this case</span>
+  <span class="c1"># y axis</span>
+  <span class="n">rotation_animation</span> <span class="o">=</span> <span class="no">CABasicAnimation</span><span class="o">.</span><span class="n">animationWithKeyPath</span><span class="p">(</span><span class="s1">&#39;transform.rotation.z&#39;</span><span class="p">)</span>
+
+  <span class="c1"># Take a note here we are setting 360 degrees, but Core Animation works with radians</span>
+  <span class="c1"># thats why the conversion PI * 2</span>
+  <span class="n">rotation_animation</span><span class="o">.</span><span class="n">toValue</span> <span class="o">=</span> <span class="no">NSNumber</span><span class="o">.</span><span class="n">numberWithFloat</span><span class="p">(</span><span class="no">Math</span><span class="o">::</span><span class="no">PI</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span>
+
+  <span class="c1"># Set the duration according with the other animation</span>
+  <span class="n">rotation_animation</span><span class="o">.</span><span class="n">duration</span> <span class="o">=</span> <span class="mi">1</span>
+
+  <span class="c1"># Add the animation to the layer</span>
+  <span class="vi">@sun_layer</span><span class="o">.</span><span class="n">addAnimation</span><span class="p">(</span><span class="n">rotation_animation</span><span class="p">,</span> <span class="n">forKey</span><span class="ss">:&#39;rotation_animation&#39;</span><span class="p">)</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p><strong>IMAGE</strong></p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_moving_the_clouds">Moving the clouds</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>The sun looks a little lonely right? What about adding some clouds and make them move across the screen?</p></div>
+<div class="paragraph"><p>The first step is adding the images of the clouds, please copy them from <strong>Define deployment target</strong> into the resources folder of the app.</p></div>
+<div class="paragraph"><p>Next lets add the layers into our view, in the following way:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">loadView</span>
+
+  <span class="c1"># Lets create a view for our view controller</span>
+  <span class="nb">self</span><span class="o">.</span><span class="n">view</span> <span class="o">=</span> <span class="no">UIView</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithFrame</span><span class="p">(</span><span class="no">UIScreen</span><span class="o">.</span><span class="n">mainScreen</span><span class="o">.</span><span class="n">bounds</span><span class="p">)</span>
+
+  <span class="c1"># Instantiate a gesture recognizer to handle the user touch</span>
+  <span class="n">tap_gesture_recognizer</span> <span class="o">=</span> <span class="no">UITapGestureRecognizer</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithTarget</span><span class="p">(</span><span class="nb">self</span><span class="p">,</span>
+                                                                       <span class="n">action</span><span class="ss">:&#39;view_tap:&#39;</span><span class="p">)</span>
+
+  <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">addGestureRecognizer</span><span class="p">(</span><span class="n">tap_gesture_recognizer</span><span class="p">)</span>
+
+  <span class="n">layout_background_layer</span>
+  <span class="n">layout_sun_layer</span>
+  <span class="n">layout_cloud_layers</span>
+  <span class="n">layout_grass_layer</span>
+<span class="k">end</span>
+
+<span class="k">def</span> <span class="nf">layout_cloud_layers</span>
+
+  <span class="c1">#Lets instance a new layer for our first cloud image</span>
+  <span class="n">first_cloud_layer</span> <span class="o">=</span> <span class="no">CALayer</span><span class="o">.</span><span class="n">layer</span>
+  <span class="n">first_cloud_layer</span><span class="o">.</span><span class="n">frame</span> <span class="o">=</span> <span class="no">CGRectMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">153</span><span class="p">,</span> <span class="mi">82</span><span class="p">)</span>
+  <span class="n">first_cloud_layer</span><span class="o">.</span><span class="n">position</span> <span class="o">=</span> <span class="no">CGPointMake</span><span class="p">(</span><span class="mi">90</span><span class="p">,</span> <span class="mi">170</span><span class="p">)</span>
+
+  <span class="c1">#Load the image into memory</span>
+  <span class="n">first_cloud_image</span> <span class="o">=</span> <span class="no">UIImage</span><span class="o">.</span><span class="n">imageNamed</span><span class="p">(</span><span class="s2">&quot;bgCloud1.png&quot;</span><span class="p">)</span>
+
+  <span class="c1"># Set the image as content of the layer</span>
+  <span class="n">first_cloud_layer</span><span class="o">.</span><span class="n">contents</span> <span class="o">=</span> <span class="n">first_cloud_image</span><span class="o">.</span><span class="n">CGImage</span>
+
+  <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">layer</span><span class="o">.</span><span class="n">addSublayer</span><span class="p">(</span><span class="n">first_cloud_layer</span><span class="p">)</span>
+
+
+  <span class="c1"># New layer for our second cloud image</span>
+  <span class="n">second_cloud_layer</span> <span class="o">=</span> <span class="no">CALayer</span><span class="o">.</span><span class="n">layer</span>
+  <span class="n">second_cloud_layer</span><span class="o">.</span><span class="n">frame</span> <span class="o">=</span> <span class="no">CGRectMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">185</span><span class="p">,</span> <span class="mi">96</span><span class="p">)</span>
+  <span class="n">second_cloud_layer</span><span class="o">.</span><span class="n">position</span> <span class="o">=</span> <span class="no">CGPointMake</span><span class="p">(</span><span class="mi">220</span><span class="p">,</span> <span class="mi">130</span><span class="p">)</span>
+
+  <span class="n">second_cloud_image</span> <span class="o">=</span> <span class="no">UIImage</span><span class="o">.</span><span class="n">imageNamed</span><span class="p">(</span><span class="s2">&quot;bgCloud2.png&quot;</span><span class="p">)</span>
+
+  <span class="n">second_cloud_layer</span><span class="o">.</span><span class="n">contents</span> <span class="o">=</span> <span class="n">second_cloud_image</span><span class="o">.</span><span class="n">CGImage</span>
+
+  <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">layer</span><span class="o">.</span><span class="n">addSublayer</span><span class="p">(</span><span class="n">second_cloud_layer</span><span class="p">)</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>If we run now the application, you should see the following:</p></div>
+<div class="paragraph"><p><strong>Image</strong></p></div>
+<div class="paragraph"><p>Pretty but not amazing!, Now lets add some animation to the clouds:</p></div>
+<div class="admonitionblock">
+<table><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">Please take notice that the cloud position changed</td>
+</tr></table>
+</div>
+</div>
+</div>
 </div>
 <div id="footnotes"><hr /></div>
 <div id="footer">
 <div id="footer-text">
 Version 0.1<br />
-Last updated 2012-11-06 16:41:47 CST
+Last updated 2012-11-08 15:52:59 CST
 </div>
 </div>
 </body>
