@@ -1,0 +1,209 @@
+Chapter 09 - Testing
+===================
+
+Testing is a fundamental part of any application, and it is also a hard task for developers. However, RubyMotion provides us with one tool that will ease the task of testing our apps: *MacBacon*, a special flavour of *Bacon* prepared to test iOS apps.
+
+App Setup
+---------
+Before we being testing our app, we actually need an app. Open the *ch09_testing_resources.zip* and unzip it. Run the app with the command
+
+[source, sh]
+------------
+$ rake
+------------
+
+As you can see, is the same app that we did during Chapter 7:
+
+.Chapter 7 app
+image::Resources/ch09-Testing/ch09_01_app.png[Chapter 7 app]
+
+We have added an extra functionality to the app, if you tap the *Book Event* button the title of the button changes to *Event Booked* and is disabled:
+
+.Book Event
+image::Resources/ch09-Testing/ch09_02_book_event.png[Book Event]
+
+
+Besides that, we have added a method to the *event.rb* model class. Open that file and locate the method called *days_left_until:* that gives you the number of dates until a future date. If the date is not a future date but is in the past, is will return a 0. This method will be used to paint the correct days left in our Custom View we did in the previous workshop.
+
+You can check how we are calculating the number of days between two dates in the *days_between:and:* method. We are using the *NSDateComponents* class. That class, is the one we used in CocoaTouch to make *NSDate* operations. Remember that the traditional Ruby class *Time* inherits from NSDate so we can use it in its place.
+
+
+Functional Testing
+~~~~~~~~~~~~~~~~~~ 
+The first we are going to test is this *days_left_until:* method. We want to be sure that it works in these three cases:
+
+- When given a future date, it calculates accurately the number of days until that date.
+- When given the current date, it returns a 0.
+- When given a past date, it returns a 0 (we don't want negative number in our view).
+
+The first step is to create a *Spec* for our *Event* class. In the *spec* folder, create a folder named *models* and inside a file named *event_spec.rb*
+
+To define the Spec, write this lines:
+
+[source, ruby]
+--------------
+describe "Event" do
+
+end
+--------------
+
+*"Event"* is the class that you want to test. Next, we'll create some constants of the values we are going to use for our tests, and to initialize our *Event* instance:
+
+[source, ruby]
+--------------
+DAYS_LEFT = 10
+
+NEGATIVE_PAST_DAYS = -10
+
+before do
+
+  @event = Event.mock_event
+end
+--------------
+
+As you can see, we are creating a mock *Event* using a class method. This *before* block, is executed before any test, and is helpful to initialize values required by your tests.
+
+Let's write our first test:
+
+[source, ruby]
+--------------
+it "should count days left until future date" do 
+
+  future_date = date_adding_days( DAYS_LEFT )    
+  days_left_until_future_date = @event.days_left_until( future_date )
+  days_left_until_future_date.should.equal DAYS_LEFT
+end
+
+def date_adding_days( days_to_add )
+
+  components = NSDateComponents.alloc.init
+  components.day = days_to_add
+  gregorian = NSCalendar.alloc.initWithCalendarIdentifier( NSGregorianCalendar )
+  gregorian.dateByAddingComponents( components, toDate:Time.now, options:0 )    
+end  
+---------------  
+
+With the *it* block, we define specs that our classes should comply with. The string should represent in a written and descriptive form the spec. In the spec, we are creating a date 10 days in the future using our helper method *date_adding_days:*. 
+
+We pass that date to our model class and evaluate the returned result with *should.equal* MacBacon adds *should* and *equals* methods. You have several more that you can use to evaluate results inside your specs. If the evaluation is not satisfactory, the test will fail.
+
+Now run the spec with the command
+
+[source, sh]
+------------
+$ rake spec
+------------
+
+You should see the output with the specifications passed:
+
+.First Spec Passed
+image::Resources/ch09-Testing/ch09_03_first_spec.png[First Spec Passed]
+
+Try to change the expected value in the *should.equal* evaluation to see how MacBacon displays an error message when the spec is broken.
+
+Let's cover another functional requirement, when the date passed as an argument to the method *days_left_until:* is in the past, we don't want to display a negative number but a zero instead:
+
+
+[source, ruby]
+--------------
+it "should count days left as 0 for past date" do 
+ 
+  past_date = date_adding_days( NEGATIVE_PAST_DAYS )
+  days_left_until_past_date = @event.days_left_until( past_date )
+  days_left_until_past_date.should.equal 0
+end
+--------------
+
+Run your example.
+
+
+Testing our UI
+~~~~~~~~~~~~~~
+One of the main problems while developing apps, is to test its UI. It's hard to test the UI of an iOS application programmatically, even when some tools exists, they are difficult to use. RubyMotion has added support to MacBacon to write specs for visual elements with the same simplicity of our functional tests. Let's try this feature.
+
+Create a file in the folder *specs/controllers* named *event_detail_view_controller_spec.rb* and add this code to create our spec:
+
+
+[source, ruby]
+--------------
+describe "The Event Details view controller" do
+
+  tests EventDetailViewController  
+end
+--------------
+
+As you can see, we are specifiyng the class we are going to test: 
+
+[source, ruby]
+--------------
+tests EventDetailViewController
+--------------
+
+MacBacon will instantiate our *EventDetailViewController* and will add it to a *UIWindow*, to display it. MacBacon will take care of initializing our app and creating the appropiate objects needed it to display the View of our View Controller. Thus, we need to let MacBacon to handle this for us. If you remember, we normally create our *UIWindow* and its *rootView* in the *AppDelegate*. Open it and add this code:
+
+
+[source, ruby]
+--------------
+class AppDelegate
+
+  def application(application, didFinishLaunchingWithOptions:launchOptions)
+
+    return true if RUBYMOTION_ENV == 'test'
+    event_detail_view_controller = EventDetailViewController.alloc.init
+    @window = UIWindow.alloc.initWithFrame(UIScreen.mainScreen.bounds)
+    @window.rootViewController = event_detail_view_controller
+    @window.makeKeyAndVisible
+    true
+  end
+
+end
+-----------------
+
+We are creating our own *UIWindow* only if we are not testing the app, in that case MacBacon will handle that. 
+
+So, what do we want to test? Our *Book Event* button. Our first step is to actually verify that the button exists, our *event_detail_view_controller_spec.rb* file write the following spec:
+
+
+[source, ruby]
+--------------
+it "has book button" do  
+
+  view('Book Event').should.not.equal nil
+end
+--------------
+
+The *view* method allows us to select views with a given title. In this case we are selecting the *UIButton* with the "Book Event" title, and testing that is not nil. Run the example, verifiy that the *EventDetailsViewController* is briefly shown in the simulator and that the spec is succesfully satisfied:
+
+.UI Spec Passed
+image::Resources/ch09-Testing/ch09_04_ui_spec.png[UI Spec Passed]
+
+The next step is to test if when you tap on the button, its state changes to disabled and its title to "Event Booked". You will see that the idiom of MacBacon allows us to write such a test very easilly:
+
+
+[source, ruby]
+------------------
+it "book event" do
+
+  button_to_evaluate = view('Book Event')        
+  tap 'Book Event'
+  #wait for 2 seconds
+  proper_wait 2    
+  button_to_evaluate.titleLabel.text.should.equal "Event Booked"    
+  button_to_evaluate.isEnabled.should.equal false
+end  
+-----------
+
+We are using the method *tap* to tap our button. MacBacon has methods to apply all the standard CocoaTouch gestures to UIViews, such as pinch, zoom, drag, etc. You can review how to use each of them in the http://www.rubymotion.com/developer-center/articles/testing/#_view_events[online documentation.] Then we evaluate the title and the *isEnabled* property to check if the state of the *UIButton* changed.
+
+Run your example and this time, because of the 2 seconds wait, you should see how the title changed in the button:
+
+.UI Spec Passed
+image::Resources/ch09-Testing/ch09_05_ui_running.png[UI spec passed]
+
+
+Challenge
+~~~~~~~~~
+
+* We have created specs for the *days_left_until* method of the class *Event*. But we are currently missing one test, write the spec to test that when you pass the current date to that method, it should return a "0".
+
+
