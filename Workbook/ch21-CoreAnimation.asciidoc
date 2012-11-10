@@ -1030,7 +1030,7 @@ image::resources/ch21-CoreAnimation/ch21_SunAndMoonAnimation.png[Sun & Moon Anim
 
 Challenges
 ----------
-. In the **Define deployment path** are a couple of star images, the challenge is make a animation with them moving from top to bottom, only when the moon is rising. And remove them with another animation when the sun is rising
+. In the **Define deployment path** are a couple of star images, the challenge is make a animation with them moving from top to bottom, only when the moon is rising. And remove them with another animation when the sun is appears
 
-. Change the past animation of the stars to look like shooting stars, enter and leaving leaving the screen
+. Change the past animation to look like shooting stars, enter and leaving the screen
 
