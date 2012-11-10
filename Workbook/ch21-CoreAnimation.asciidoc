@@ -60,7 +60,8 @@ def view_tap(tap_gesture_recognizer)
 end
 --------------
 
-**Image**
+.Animation Blinking to Start
+image::resources/ch21-CoreAnimation/ch21_AnimationBlinkToStart.png[Animation Blinking to Start]
 
 Uh? What happen? The sun move to the position we touch, but at the end of the animation it return to its initial value. This happens because the animation is independent of the layer that is running into, it will move the layer to the touch position but at the end if you don't change the layer property it will return to the initial state.
 
@@ -98,7 +99,8 @@ def view_tap(tap_gesture_recognizer)
 end
 --------------
 
-**Image**
+.Animation Complete
+image::resources/ch21-CoreAnimation/ch21_AnimationComplete.png[Animation Complete]
 
 Now it works as expected! The animation is pretty slow because we set to it 1 second, try changing it for more fun. 
 
@@ -141,7 +143,8 @@ def view_tap(tap_gesture_recognizer)
 end
 --------------
 
-**Image**
+.Animation Returning to Starting Point
+image::resources/ch21-CoreAnimation/ch21_AnimationReturningToStartingPoint.png[Animation Returning to Starting Point]
 
 If we want to make that cycle of moving and returning happen 100 times?
 
@@ -178,7 +181,8 @@ def view_tap(tap_gesture_recognizer)
 end
 --------------
 
-**Image**
+.Animation Loop
+image::resources/ch21-CoreAnimation/ch21_AnimationLoop.png[Animation Loop]
 
 What about combining two animations: a spinning one with the moving one
 
@@ -230,7 +234,8 @@ def view_tap(tap_gesture_recognizer)
 end
 --------------
 
-**IMAGE**
+.Animation Spinning and Moving
+image::resources/ch21-CoreAnimation/ch21_AnimationSpinning.png[Animation Spinning and Moving]
 
 
 Moving the clouds
@@ -292,12 +297,740 @@ end
 
 If we run now the application, you should see the following:
 
-**Image**
+.Sun & Clouds
+image::resources/ch21-CoreAnimation/ch21_SunAndClouds.png[Sun & Clouds]
 
 Pretty but not amazing!, Now lets add some animation to the clouds:
 
+[source, ruby]
+--------------
+def layout_cloud_layers
+
+  # Lets instance a new layer for our first cloud image                             
+  first_cloud_layer = CALayer.layer
+  first_cloud_layer.frame = CGRectMake(0, 0, 153, 82)
+  first_cloud_layer.position = CGPointMake(-153, 170)
+
+  # Load the image into memory
+  first_cloud_image = UIImage.imageNamed("bgCloud1.png")
+
+  # Set the image as content of the layer
+  first_cloud_layer.contents = first_cloud_image.CGImage
+
+  self.view.layer.addSublayer(first_cloud_layer)
+  
+
+  # Instanciate a new animation for the first cloud move
+  first_cloud_animation = CABasicAnimation.animationWithKeyPath('position')
+
+   # Set the animation duration  
+  first_cloud_animation.duration = 7
+
+  # We need to set the initial value of the animation and the final one
+  first_cloud_animation.fromValue = NSValue.valueWithCGPoint(first_cloud_layer.position)
+  
+  # Final position for the first cloud
+  first_cloud_final_position = CGPointMake(473, 170)
+
+  first_cloud_animation.toValue = NSValue.valueWithCGPoint(first_cloud_final_position)
+
+  # Because we want a infinite animation we set the repeat count to Float Max
+  first_cloud_animation.repeatCount = Float::MAX
+
+  first_cloud_layer.addAnimation(first_cloud_animation, forKey:'position_animation')
 
 
 
+  # New layer for our second cloud image                             
+  second_cloud_layer = CALayer.layer
+  second_cloud_layer.frame = CGRectMake(0, 0, 185, 96)
+  second_cloud_layer.position = CGPointMake(-185, 130)
+
+  second_cloud_image = UIImage.imageNamed("bgCloud2.png")
+
+  second_cloud_layer.contents = second_cloud_image.CGImage
+
+  self.view.layer.addSublayer(second_cloud_layer)
+
+
+  # Instanciate a new animation for the second cloud move
+  second_cloud_animation = CABasicAnimation.animationWithKeyPath('position')
+
+  # Set the animation duration  
+  second_cloud_animation.duration = 5
+
+  # We need to set the initial value of the animation and the final one
+  second_cloud_animation.fromValue = NSValue.valueWithCGPoint(first_cloud_layer.position)
+  
+  # Final position for the second cloud
+  second_cloud_final_position = CGPointMake(505, 130)
+
+  second_cloud_animation.toValue = NSValue.valueWithCGPoint(second_cloud_final_position)
+
+  # Because we want a infinite animation we set the repeat count to Float Max
+  second_cloud_animation.repeatCount = Float::MAX
+
+  second_cloud_layer.addAnimation(second_cloud_animation, forKey:'position_animation')
+end
+--------------
 
 IMPORTANT: Please take notice that the cloud position changed
+
+.Cloud Animation
+image::resources/ch21-CoreAnimation/ch21_AnimationClouds.png[Cloud Animation]
+
+
+Yes, it looks kind of good. But the animation is too linear the clouds does not look like the real life, what we can do is adding some easing with a timing function. The objective is when the cloud appear on the screen go faster and then it decelerate until its finished. This kind of easing is called EasyOut:
+
+Lets apply it to the code:
+
+[source, ruby]
+--------------
+def layout_cloud_layers
+
+  # Lets instance a new layer for our first cloud image                             
+  first_cloud_layer = CALayer.layer
+  first_cloud_layer.frame = CGRectMake(0, 0, 153, 82)
+  first_cloud_layer.position = CGPointMake(-153, 170)
+
+  # Load the image into memory
+  first_cloud_image = UIImage.imageNamed("bgCloud1.png")
+
+  # Set the image as content of the layer
+  first_cloud_layer.contents = first_cloud_image.CGImage
+
+  self.view.layer.addSublayer(first_cloud_layer)
+  
+
+  # Instanciate a new animation for the first cloud move
+  first_cloud_animation = CABasicAnimation.animationWithKeyPath('position')
+
+   # Set the animation duration  
+  first_cloud_animation.duration = 7
+
+  # We need to set the initial value of the animation and the final one
+  first_cloud_animation.fromValue = NSValue.valueWithCGPoint(first_cloud_layer.position)
+  
+  # Final position for the first cloud
+  first_cloud_final_position = CGPointMake(473, 170)
+
+  first_cloud_animation.toValue = NSValue.valueWithCGPoint(first_cloud_final_position)
+
+  # Because we want a infinite animation we set the repeat count to Float Max
+  first_cloud_animation.repeatCount = Float::MAX
+
+  # Apply the timing function to simulate the Easy out Easing
+  first_cloud_animation.timingFunction = CAMediaTimingFunction.functionWithName(KCAMediaTimingFunctionEaseOut)
+
+  first_cloud_layer.addAnimation(first_cloud_animation, forKey:'position_animation')
+
+
+
+  # New layer for our second cloud image                             
+  second_cloud_layer = CALayer.layer
+  second_cloud_layer.frame = CGRectMake(0, 0, 185, 96)
+  second_cloud_layer.position = CGPointMake(-185, 130)
+
+  second_cloud_image = UIImage.imageNamed("bgCloud2.png")
+
+  second_cloud_layer.contents = second_cloud_image.CGImage
+
+  self.view.layer.addSublayer(second_cloud_layer)
+
+
+  # Instanciate a new animation for the second cloud move
+  second_cloud_animation = CABasicAnimation.animationWithKeyPath('position')
+
+  # Set the animation duration  
+  second_cloud_animation.duration = 5
+
+  # We need to set the initial value of the animation and the final one
+  second_cloud_animation.fromValue = NSValue.valueWithCGPoint(first_cloud_layer.position)
+  
+  # Final position for the second cloud
+  second_cloud_final_position = CGPointMake(505, 130)
+
+  second_cloud_animation.toValue = NSValue.valueWithCGPoint(second_cloud_final_position)
+
+  # Because we want a infinite animation we set the repeat count to Float Max
+  second_cloud_animation.repeatCount = Float::MAX
+
+  
+  # Apply the timing function to simulate the Easy out Easing
+  second_cloud_animation.timingFunction = CAMediaTimingFunction.functionWithName(KCAMediaTimingFunctionEaseOut)
+
+  second_cloud_layer.addAnimation(second_cloud_animation, forKey:'position_animation')
+end
+--------------
+
+.Cloud Animation with Easing
+image::resources/ch21-CoreAnimation/ch21_AnimationCloudsWithEasing.png[Cloud Animation with Easing]
+
+Subtle right? Thats the idea! It now looks more that the wind blows stronger at the first and then it slows down. But what is really happening? 
+
+Do you remember the part of the interpolation? We were saying in that moment that it is the calculus between the initial value and the final every millisecond of the sequence. It means that if we move 3 points during 3 seconds, it will move one point per second right? 
+
+Yes it does if our timing function is linear (Which is the default), but if we change that to a EasyIn what is really happening is that in the first second it moves 1.5 points, in the second 1 point and in the final second .5 points. Thats makes the illusion of decelerating
+
+In iOS they are 4 default easing available for the timing functions:
+
+.iOS Easings
+image::resources/ch21-CoreAnimation/ch21_Easings.png[iOS Easings]
+
+Also if you don't like anyone, you can implement your custom timing function.
+
+
+CAKeyFrameAnimation
+-------------------
+
+Until this part we have created single key-frame animations, from a value to value, without intermediates. But what happens when we need to set more points into a moving animation, by example the arc that makes the sun in the sky during the day? 
+
+If we start on the left bottom corner on the screen and use a CABasicAnimation to move the sun to the right bottom, it will move in a straight line, so we will need to add a middle point in top middle of the screen. This is done using a CAKeyFrameAnimation:
+
+[source, ruby]
+--------------
+def loadView
+
+  # Lets create a view for our view controller
+  self.view = UIView.alloc.initWithFrame(UIScreen.mainScreen.bounds)
+
+  layout_background_layer
+  layout_sun_layer
+  layout_cloud_layers
+  layout_grass_layer
+  load_sun_animation
+end
+
+
+def load_sun_animation
+
+  # Create a new instance of CAKeyframeAnimation
+  translation_animation = CAKeyframeAnimation.animationWithKeyPath('position')
+
+  translation_animation.duration = 15
+
+  # We need to have an array for containing all the positions
+  values = NSMutableArray.alloc.init
+
+
+  # Initial Sun Position
+  initial_sun_position = NSValue.valueWithCGPoint(CGPointMake(-180, 660))
+  values.addObject(initial_sun_position)
+
+  # Middle Sun Position
+  middle_sun_position = NSValue.valueWithCGPoint(CGPointMake(155, 100))
+  values.addObject(middle_sun_position)
+
+  final_sun_position = NSValue.valueWithCGPoint(CGPointMake(500, 660))
+  values.addObject(final_sun_position)
+
+
+  translation_animation.values = values
+
+     # Because we want a infinite animation we set the repeat count to Float Max
+  translation_animation.repeatCount = Float::MAX
+
+  # Apply the timing function to simulate the Easy out Easing
+  translation_animation.timingFunction = CAMediaTimingFunction.functionWithName(KCAMediaTimingFunctionEaseInEaseOut)
+
+  @sun_layer.addAnimation(translation_animation, forKey:'position_animation')
+end
+--------------
+
+.Sun Straight Animation
+image::resources/ch21-CoreAnimation/ch21_SunStraightAnimation.png[Sun Straight Animation]
+
+We are improving! But the sun does not move in a straight line, so lets change does points into an arc:
+
+
+[source, ruby]
+--------------
+def load_sun_animation
+
+  # Create a new instance of CAKeyframeAnimation
+  translation_animation = CAKeyframeAnimation.animationWithKeyPath('position')
+
+  # Set the animation duration  
+  translation_animation.duration = 15
+
+
+  # Using a BezierPath we will create the Arc for the position 
+  # animation to cover, is better this way using lines and curves
+  # than setting every point by ourselfs
+  sun_path = UIBezierPath.bezierPath
+  sun_path.moveToPoint(CGPointMake(-90, 660))
+  sun_path.addCurveToPoint(CGPointMake(410, 660), 
+                           controlPoint1:CGPointMake(90, -100), 
+                           controlPoint2:CGPointMake(230, -100))
+
+  
+  # Assign the path to the animation
+  translation_animation.path = sun_path.CGPath
+
+  # Because we want a infinite animation we set the repeat count to Float Max
+  translation_animation.repeatCount = Float::MAX
+
+  # Apply the timing function to simulate the Easy out Easing
+  translation_animation.timingFunction = CAMediaTimingFunction.functionWithName(KCAMediaTimingFunctionEaseInEaseOut)
+
+  @sun_layer.addAnimation(translation_animation, forKey:'position_animation')
+end
+--------------
+
+.Sun Arc Animation
+image::resources/ch21-CoreAnimation/ch21_SunArcAnimation.png[Sun Arc Animation]
+
+Great! Now this is working, but how about combining the translation animation with a spinning one? (CABasicAnimation & CAKeyframeAnimation):
+
+[source, ruby]
+--------------
+def load_sun_animation
+
+ # Create a new instance of CAKeyframeAnimation
+ translation_animation = CAKeyframeAnimation.animationWithKeyPath('position')
+
+ # Set the animation duration  
+ translation_animation.duration = 15
+
+
+ # Using a BezierPath we will create the Arc for the position 
+ # animation to cover, is better this way using lines and curves
+ # than setting every point by ourselves
+ sun_path = UIBezierPath.bezierPath
+ sun_path.moveToPoint(CGPointMake(-90, 660))
+ sun_path.addCurveToPoint(CGPointMake(410, 660), 
+                          controlPoint1:CGPointMake(90, -100), 
+                          controlPoint2:CGPointMake(230, -100))
+
+ 
+ # Assign the path to the animation
+ translation_animation.path = sun_path.CGPath
+
+ # Because we want a infinite animation we set the repeat count to Float Max
+ translation_animation.repeatCount = Float::MAX
+
+ # Apply the timing function to simulate the Easy out Easing
+ translation_animation.timingFunction = CAMediaTimingFunction.functionWithName(KCAMediaTimingFunctionEaseInEaseOut)
+
+
+ @sun_layer.addAnimation(translation_animation, forKey:'position_animation')
+
+
+ # Create another instance of the CABasicAnimation with the property 'transform.rotation.z'
+ # this property allows us to change the layer in any of the three dimensions, in this case
+ # y axis
+ rotation_animation = CABasicAnimation.animationWithKeyPath('transform.rotation.z')
+
+ # Take a note here we are setting 360 degrees, but Core Animation works with radians
+ # thats why the conversion PI * 2
+ rotation_animation.toValue = NSNumber.numberWithFloat(Math::PI * 2)
+
+ # Set the duration according with the other animation
+ rotation_animation.duration = 5
+
+  # Because we want a infinite animation we set the repeat count to Float Max
+ rotation_animation.repeatCount = Float::MAX
+
+ # Add the animation to the layer
+ @sun_layer.addAnimation(rotation_animation, forKey:'rotation_animation')
+end
+--------------
+
+But this is not the end of it, what about changing the colors of the sky according to the position of the sun? For this we will need to animate the background layer in the following way:
+
+[source, ruby]
+--------------
+def load_sun_animation
+
+ # Create a new instance of CAKeyframeAnimation
+ translation_animation = CAKeyframeAnimation.animationWithKeyPath('position')
+
+ # Set the animation duration  
+ translation_animation.duration = 15
+
+
+ # Using a BezierPath we will create the Arc for the position 
+ # animation to cover, is better this way using lines and curves
+ # than setting every point by ourselfs
+ sun_path = UIBezierPath.bezierPath
+ sun_path.moveToPoint(CGPointMake(-90, 660))
+ sun_path.addCurveToPoint(CGPointMake(410, 660), 
+                          controlPoint1:CGPointMake(90, -100), 
+                          controlPoint2:CGPointMake(230, -100))
+
+ 
+ # Assign the path to the animation
+ translation_animation.path = sun_path.CGPath
+
+ # Because we want a infinite animation we set the repeat count to Float Max
+ translation_animation.repeatCount = Float::MAX
+
+ # Apply the timing function to simulate the Easy out Easing
+ translation_animation.timingFunction = CAMediaTimingFunction.functionWithName(KCAMediaTimingFunctionEaseInEaseOut)
+
+
+ @sun_layer.addAnimation(translation_animation, forKey:'position_animation')
+
+
+ # Create another instance of the CABasicAnimation with the property 'transform.rotation.z'
+ # this property allows us to change the layer in any of the three dimensions, in this case
+ # y axis
+ rotation_animation = CABasicAnimation.animationWithKeyPath('transform.rotation.z')
+
+ # Take a note here we are setting 360 degrees, but Core Animation works with radians
+ # thats why the conversion PI * 2
+ rotation_animation.toValue = NSNumber.numberWithFloat(Math::PI * 2)
+
+ # Set the duration according with the other animation
+ rotation_animation.duration = 5
+
+  # Because we want a infinite animation we set the repeat count to Float Max
+ rotation_animation.repeatCount = Float::MAX
+
+ # Add the animation to the layer
+ @sun_layer.addAnimation(rotation_animation, forKey:'rotation_animation')
+
+
+ # We need to create an array of the color gradients thar we want the 
+ # background transition into
+ animation_colors = NSMutableArray.alloc.init
+
+ # Because we are using a gradient, we need to have a 3 pair of colors for 
+ # each transition
+
+ # Morning Colors
+ initial_colors = NSMutableArray.alloc.init
+
+ initial_colors.addObject(UIColor.colorWithRed(0.078, green:0.463, blue:0.984, alpha:1.0).CGColor)
+ initial_colors.addObject(UIColor.colorWithRed(0.329, green:0.612, blue:0.984, alpha:1.0).CGColor)
+ initial_colors.addObject(UIColor.colorWithRed(0.329, green:0.612, blue:0.984, alpha:1.0).CGColor)
+
+ # Mid Day Colors
+ mid_colors = NSMutableArray.alloc.init
+
+ mid_colors.addObject(UIColor.colorWithRed(0.388, green:0.714, blue:0.988, alpha:1.0).CGColor)
+ mid_colors.addObject(UIColor.colorWithRed(0.553, green:0.808, blue:0.992, alpha:1.0).CGColor)
+ mid_colors.addObject(UIColor.colorWithRed(0.553, green:0.808, blue:0.992, alpha:1.0).CGColor)
+
+ # Dawn Day Colors
+ final_colors = NSMutableArray.alloc.init
+
+ final_colors.addObject(UIColor.colorWithRed(0.094, green:0.086, blue:0.686, alpha:1.0).CGColor)
+ final_colors.addObject(UIColor.colorWithRed(0.635, green:0.051, blue:0.404, alpha:1.0).CGColor)
+ final_colors.addObject(UIColor.colorWithRed(0.635, green:0.051, blue:0.404, alpha:1.0).CGColor)
+
+
+ animation_colors.addObject(initial_colors)
+ animation_colors.addObject(mid_colors)
+ animation_colors.addObject(final_colors)
+
+
+ # Create a new instance of CAKeyframeAnimation with the property
+ # of colors
+ gradient_animation = CAKeyframeAnimation.animationWithKeyPath('colors')
+
+ # Set the animation duration  
+ gradient_animation.duration = 15
+
+ # Set the matrix of gradient colors into the animation
+ gradient_animation.values = animation_colors
+
+ # Because we want a infinite animation we set the repeat count to Float Max
+ gradient_animation.repeatCount = Float::MAX
+ gradient_animation.fillMode = KCAFillModeForwards
+
+ @background_layer.colors = final_colors
+ @background_layer.addAnimation(gradient_animation, forKey:'colors_animation')
+end
+--------------
+
+.Sun Sunset Animation
+image::resources/ch21-CoreAnimation/ch21_SunSunsetAnimation.png[Sun Sunset Animation]
+
+It looks pretty good! But we are missing the night part right? Thats the next part of the exercise
+
+
+Ready, Set, Action!
+-------------------
+Do you remember when we talk about know when a animation finish? We will need that part to present our night scene! The way to know when the animation finished is using the delegate pattern, lets implement it!
+
+[source, ruby]
+--------------
+def load_sun_animation
+
+  # Create a new instance of CAKeyframeAnimation
+  translation_animation = CAKeyframeAnimation.animationWithKeyPath('position')
+
+  # Set the animation duration  
+  translation_animation.duration = 15
+
+
+  # Using a BezierPath we will create the Arc for the position 
+  # animation to cover, is better this way using lines and curves
+  # than setting every point by ourselfs
+  sun_path = UIBezierPath.bezierPath
+  sun_path.moveToPoint(CGPointMake(-90, 660))
+  sun_path.addCurveToPoint(CGPointMake(410, 660), 
+                           controlPoint1:CGPointMake(90, -100), 
+                           controlPoint2:CGPointMake(230, -100))
+
+  
+  # Assign the path to the animation
+  translation_animation.path = sun_path.CGPath
+
+  # Apply the timing function to simulate the Easy out Easing
+  translation_animation.timingFunction = CAMediaTimingFunction.functionWithName(KCAMediaTimingFunctionEaseInEaseOut)
+
+  # We assign self as delegate of the animation
+  translation_animation.delegate = self
+  translation_animation.removedOnCompletion = false
+
+  @sun_layer.position = CGPointMake(410, 660)
+
+  @sun_layer.addAnimation(translation_animation, forKey:'position_animation')
+
+
+  # Create another instance of the CABasicAnimation with the property 'transform.rotation.z'
+  # this property allows us to change the layer in any of the three dimensions, in this case
+  # y axis
+  rotation_animation = CABasicAnimation.animationWithKeyPath('transform.rotation.z')
+
+  # Take a note here we are setting 360 degrees, but Core Animation works with radians
+  # thats why the conversion PI * 2
+  rotation_animation.toValue = NSNumber.numberWithFloat(Math::PI * 2)
+
+  # Set the duration according with the other animation
+  rotation_animation.duration = 5
+
+   # Because we want a infinite animation we set the repeat count to Float Max
+  rotation_animation.repeatCount = Float::MAX
+
+  # Add the animation to the layer
+  @sun_layer.addAnimation(rotation_animation, forKey:'rotation_animation')
+
+
+  # We need to create an array of the color gradients thar we want the 
+  # background transition into
+  animation_colors = NSMutableArray.alloc.init
+
+  # Because we are using a gradient, we need to have a 3 pair of colors for 
+  # each transition
+
+
+  # Last Night Color 
+  last_night_color = NSMutableArray.alloc.init
+
+  last_night_color.addObject(UIColor.colorWithWhite(0.051, alpha:1.0).CGColor)
+  last_night_color.addObject(UIColor.colorWithRed(0.157, green:0.173, blue:0.192, alpha:1.0).CGColor)
+  last_night_color.addObject(UIColor.colorWithRed(0.157, green:0.173, blue:0.192, alpha:1.0).CGColor)
+
+  # Morning Colors
+  initial_colors = NSMutableArray.alloc.init
+
+  initial_colors.addObject(UIColor.colorWithRed(0.078, green:0.463, blue:0.984, alpha:1.0).CGColor)
+  initial_colors.addObject(UIColor.colorWithRed(0.329, green:0.612, blue:0.984, alpha:1.0).CGColor)
+  initial_colors.addObject(UIColor.colorWithRed(0.329, green:0.612, blue:0.984, alpha:1.0).CGColor)
+
+  # Mid Day Colors
+  mid_colors = NSMutableArray.alloc.init
+
+  mid_colors.addObject(UIColor.colorWithRed(0.388, green:0.714, blue:0.988, alpha:1.0).CGColor)
+  mid_colors.addObject(UIColor.colorWithRed(0.553, green:0.808, blue:0.992, alpha:1.0).CGColor)
+  mid_colors.addObject(UIColor.colorWithRed(0.553, green:0.808, blue:0.992, alpha:1.0).CGColor)
+
+  # Dawn Day Colors
+  final_colors = NSMutableArray.alloc.init
+
+  final_colors.addObject(UIColor.colorWithRed(0.094, green:0.086, blue:0.686, alpha:1.0).CGColor)
+  final_colors.addObject(UIColor.colorWithRed(0.635, green:0.051, blue:0.404, alpha:1.0).CGColor)
+  final_colors.addObject(UIColor.colorWithRed(0.635, green:0.051, blue:0.404, alpha:1.0).CGColor)
+
+
+  animation_colors.addObject(last_night_color)
+  animation_colors.addObject(initial_colors)
+  animation_colors.addObject(mid_colors)
+  animation_colors.addObject(final_colors)
+
+
+  # Create a new instance of CAKeyframeAnimation with the property
+  # of colors
+  gradient_animation = CAKeyframeAnimation.animationWithKeyPath('colors')
+
+  # Set the animation duration  
+  gradient_animation.duration = 15
+
+  # Set the matrix of gradient colors into the animation
+  gradient_animation.values = animation_colors
+
+  @background_layer.colors = final_colors
+
+  @background_layer.addAnimation(gradient_animation, forKey:'colors_animation')
+end
+
+def animationDidStop(animation, finished:flag)
+  
+  load_sun_animation
+end
+--------------
+
+If you look close at the code, we don't change pretty much right? Only we remove the repeatCount and assign the view controller as delegate of the animation, this is for when the animation finishes we invoke the method **load_sun_animation** again to continue the loop 
+
+IMPORTANT: Also we add one more color into the background transition, this last is important for the day break transition.
+
+For the next step please copy the **bgMoon.png** from the **Define deployment target** into our application resources folder.
+
+Lets add a new layer to include the new moon image:
+
+[source, ruby]
+--------------
+def loadView
+
+  # Lets create a view for our view controller
+  self.view = UIView.alloc.initWithFrame(UIScreen.mainScreen.bounds)
+
+  layout_background_layer
+  layout_sun_layer
+  layout_cloud_layers
+  layout_moon_layer
+  layout_grass_layer
+  load_sun_animation
+end
+
+
+def layout_moon_layer
+
+  # Lets instance a new layer for our first cloud image                             
+  @moon_layer = CALayer.layer
+  @moon_layer.frame = CGRectMake(0, 0, 120, 120)
+  @moon_layer.position = CGPointMake(-120, 600)
+
+  # Load the image into memory
+  moon_image = UIImage.imageNamed("bgMoon.png")
+
+  # Set the image as content of the layer
+  @moon_layer.contents = moon_image.CGImage
+
+  self.view.layer.addSublayer(@moon_layer)
+end
+--------------
+
+
+We are close! Lets implement the moon animation adding the following method:
+
+[source, ruby]
+--------------
+def load_moon_animation
+
+  # Create a new instance of CAKeyframeAnimation
+  translation_animation = CAKeyframeAnimation.animationWithKeyPath('position')
+
+  # Set the animation duration  
+  translation_animation.duration = 15
+
+
+  # Using a BezierPath we will create the Arc for the position 
+  # animation to cover, is better this way using lines and curves
+  # than setting every point by ourselfs
+  sun_path = UIBezierPath.bezierPath
+  sun_path.moveToPoint(CGPointMake(-90, 660))
+  sun_path.addCurveToPoint(CGPointMake(410, 660), 
+                           controlPoint1:CGPointMake(90, -100), 
+                           controlPoint2:CGPointMake(230, -100))
+
+  
+  # Assign the path to the animation
+  translation_animation.path = sun_path.CGPath
+
+  # Apply the timing function to simulate the Easy out Easing
+  translation_animation.timingFunction = CAMediaTimingFunction.functionWithName(KCAMediaTimingFunctionEaseInEaseOut)
+
+  # We assign self as delegate of the animation
+  translation_animation.delegate = self
+  translation_animation.removedOnCompletion = false
+
+  @moon_layer.position = CGPointMake(410, 660)
+
+  @moon_layer.addAnimation(translation_animation, forKey:'position_animation')
+
+
+  # We need to create an array of the color gradients thar we want the 
+  # background transition into
+  animation_colors = NSMutableArray.alloc.init
+
+  # Because we are using a gradient, we need to have a 3 pair of colors for 
+  # each transition
+
+  # The last gradient used in the sun animation
+  last_day_color = NSMutableArray.alloc.init
+
+  last_day_color.addObject(UIColor.colorWithRed(0.094, green:0.086, blue:0.686, alpha:1.0).CGColor)
+  last_day_color.addObject(UIColor.colorWithRed(0.635, green:0.051, blue:0.404, alpha:1.0).CGColor)
+  last_day_color.addObject(UIColor.colorWithRed(0.635, green:0.051, blue:0.404, alpha:1.0).CGColor)
+
+
+  # Night Colors
+  initial_colors = NSMutableArray.alloc.init
+
+  initial_colors.addObject(UIColor.colorWithRed(0.008, green:0.169, blue:0.302, alpha:1.0).CGColor)
+  initial_colors.addObject(UIColor.colorWithRed(0.051, green:0.365, blue:0.627, alpha:1.0).CGColor)
+  initial_colors.addObject(UIColor.colorWithRed(0.051, green:0.365, blue:0.627, alpha:1.0).CGColor)
+
+
+  # Midnight Colors
+  final_colors = NSMutableArray.alloc.init
+
+  final_colors.addObject(UIColor.colorWithWhite(0.051, alpha:1.0).CGColor)
+  final_colors.addObject(UIColor.colorWithRed(0.157, green:0.173, blue:0.192, alpha:1.0).CGColor)
+  final_colors.addObject(UIColor.colorWithRed(0.157, green:0.173, blue:0.192, alpha:1.0).CGColor)
+
+  animation_colors.addObject(last_day_color)
+  animation_colors.addObject(initial_colors)
+  animation_colors.addObject(final_colors)
+
+
+  # Create a new instance of CAKeyframeAnimation with the property
+  # of colors
+  gradient_animation = CAKeyframeAnimation.animationWithKeyPath('colors')
+
+  # Set the animation duration  
+  gradient_animation.duration = 15
+
+  # Set the matrix of gradient colors into the animation
+  gradient_animation.values = animation_colors
+
+  @background_layer.addAnimation(gradient_animation, forKey:'colors_animation')
+end
+--------------
+
+Now we have the sun and the moon layers and animations, so as last part we need to transition between animations to simulate night and day. The best we can do at this point is on the animation delegate, invoke the moon animation if the sun ended and otherwise. This is implemented the following way:
+
+[source, ruby]
+--------------
+# CAAnimation delegate call
+def animationDidStop(animation, finished:flag)
+
+  # Using the key of the addAnimation we can get the animation and compare
+  # it against the one that finish to know if it is the sun or the moon one
+  if animation == @sun_layer.animationForKey('position_animation')
+  
+    load_moon_animation
+  else
+  
+    load_sun_animation
+  end
+--------------
+
+Interesting how can we retrieve the animation instance from a layer using the same keypath used when we add it. Thats the way can we determinate which application was finished!
+
+Now run the application and enjoy!
+
+.Sun & Moon Animation
+image::resources/ch21-CoreAnimation/ch21_SunAndMoonAnimation.png[Sun & Moon Animation]
+
+
+Challenges
+----------
+. In the **Define deployment path** are a couple of star images, the challenge is make a animation with them moving from top to bottom, only when the moon is rising. And remove them with another animation when the sun is rising
+
+. Change the past animation of the stars to look like shooting stars, enter and leaving leaving the screen
+
