@@ -1,20 +1,20 @@
-# UITableView
+# TableViews
 
 <slide>
-## UITableView
+## TableViews
 
-![](tableview.png "UITableView") 
+![](tableview.png "TableViews") 
 
 </slide>
 
 <slide>
-## UITableView
+## TableViews
 
 </slide>
     
 <slide>
-## UITableView
+## TableViews
 
-![](tableview.png "UITableView") 
+![](tableview.png "TableViews") 
 
 </slide>

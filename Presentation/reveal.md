@@ -37,11 +37,11 @@
 <slide>
 ## Day 3
 
-[DataSources](./12-DataSources/reveal.html)
+[TableViews](./12-TableViews/reveal.html)
 
 [CustomCells](./13-CustomCells/reveal.html)
 
-[SharingData](./14-SharingData/reveal.html)
+[NavigationControllers](./14-NavigationControllers/reveal.html)
 
 [Notifications](./15-Notifications/reveal.html)
 
