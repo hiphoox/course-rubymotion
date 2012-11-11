@@ -47,6 +47,34 @@
 
 [CollectionViews](./16-CollectionViews/reveal.html)
 
+</slide>
+
+<slide>
+## Day 4
+
 [Camera](./17-Camera/reveal.html)
+
+[MemoryWarnings](./18-MemoryWarnings/reveal.html)
+
+[Multitouch](./19-Multitouch/reveal.html)
+
+[CALayers](./20-CALayers/reveal.html)
+
+[CoreAnimation](./21-CoreAnimation/reveal.html)
+
+</slide>
+
+<slide>
+## Day 5
+
+[Settings](./22-Settings/reveal.html)
+
+[WebServices](./23-WebServices/reveal.html)
+
+[CoreData](./24-CoreData/reveal.html)
+
+[ThirdPartyLibraries](./25-ThirdPartyLibraries/reveal.html)
+
+[Concurrency](./26-Concurrency/reveal.html)
 
 </slide>
