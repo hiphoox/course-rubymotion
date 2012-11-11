@@ -178,6 +178,13 @@ In your TableViewController subclass:
 ![](documentation.png "Documentation") 
 
 </slide>
+
+<slide>
+## Protocols Documentation
+
+![](UITableViewDataSource.png "UITableViewDataSource") 
+
+</slide>
     
 <slide>
 ## TableViews
