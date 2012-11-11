@@ -212,15 +212,15 @@ def loadView
   # Lets create a view for our view controller
   self.view = UIView.alloc.initWithFrame(UIScreen.mainScreen.bounds)
 
-  layout_background_layer()
+  layout_background_layer
 end
 
 
 def layout_background_layer
 
   # We need a new type of layer used to create Gradients
-  background_layer = CAGradientLayer.layer
-  background_layer.frame = self.view.bounds
+  @background_layer = CAGradientLayer.layer
+  @background_layer.frame = self.view.bounds
 
   # Initialize the colors of the gradient, it can have any number of colors
   # in this case we will use only three
@@ -229,21 +229,21 @@ def layout_background_layer
   bottom_background_color = UIColor.colorWithRed(0.367, green:0.692, blue:1.0, alpha:1.0).CGColor
 
   # Set the colors in the layer using an array
-  background_layer.colors = NSArray.arrayWithObjects(top_background_color,
-                                                    middle_background_color,
-                                                    bottom_background_color,
-                                                    nil)
+  @background_layer.colors = NSArray.arrayWithObjects(top_background_color,
+                                                     middle_background_color,
+                                                     bottom_background_color,
+                                                     nil)
 
   # Set the colors locations into the array, this means where it will start painting
   # the color, if you look closely we are telling the layer to paint the top color in
   # 0.0 which is the top, the middle in 0.5 and 0.0 for the bottom color
-  background_layer.locations = NSArray.arrayWithObjects(NSNumber.numberWithFloat(0.0),
-                                                       NSNumber.numberWithFloat(0.5),
-                                                       NSNumber.numberWithFloat(1.0),
-                                                       nil)
+  @background_layer.locations = NSArray.arrayWithObjects(NSNumber.numberWithFloat(0.0),
+                                                        NSNumber.numberWithFloat(0.5),
+                                                        NSNumber.numberWithFloat(1.0),
+                                                        nil)
 
   # We want this layer to be the background of our app    
-  self.view.layer.insertSublayer(background_layer, atIndex:0)
+  self.view.layer.insertSublayer(@background_layer, atIndex:0)
 end
 --------------
 

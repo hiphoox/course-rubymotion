@@ -81,9 +81,9 @@ ul > li     { color: #4f4f4f; }
 ul > li > * { color: #666666; }
 
 .monospaced, code, pre {
-  font-family: "Courier New", Courier, monospace;
+  font-family: Inconsolata;
   font-size: inherit;
-  color: navy;
+  color: #4d4d4c;
   padding: 0;
   margin: 0;
 }
@@ -173,6 +173,7 @@ div.listingblock > div.content {
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
+  font-family: Inconsolata;
 }
 
 div.quoteblock, div.verseblock {

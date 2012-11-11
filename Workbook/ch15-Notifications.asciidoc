@@ -1,0 +1,269 @@
+Chapter 15 - Notification Center
+==============================
+
+Digital Photo Frame
+-------------------
+
+In this chapter we are going to build our own photo frame, but in a more fashion way of course on an iDevice.
+
+First at all we have to remember that objects are always sending messages one each other, but some times all objects may be interested in what just one object hast to say, but keep all the objects connected may be not a good strategy, for this reason we have a very handful tool, the notification center.
+
+Now its time to create our ViewController that will hold our photo, run the rake command and give "PhotoFrame" as name of the application 
+
+
+[source, sh]
+--------------------------------------
+$ motion create PhotoFrame
+--------------------------------------
+
+
+Now create a new file named *photo_frame_view_controller.rb* in app folder and add the following code. Don't forget to add the image that comes in your chapter folder named frame.png and copy it to the resources folder.
+
+[source, ruby]
+----------------------------------------------------------------
+class PhotoViewController < UIViewController
+  
+  def viewDidLoad
+
+    view.backgroundColor = UIColor.lightGrayColor
+  end 
+
+end
+----------------------------------------------------------------
+
+Save your file and run the rake command:
+
+[source, sh]
+----------------------------------------------------------------
+$ rake
+----------------------------------------------------------------
+
+Don't forget to set it as rootViewController in your *app_delegate.rb* file because this ViewController will be useful for present our photo and also use the photo that comes in chapter 15 directory and paste it in your resources folder.
+
+[source, ruby]
+----------------------------------------------------------------
+class AppDelegate
+
+  def application(application, didFinishLaunchingWithOptions:launchOptions) 
+
+    @window = UIWindow.alloc.initWithFrame(UIScreen.mainScreen.bounds)
+    @window.rootViewController = PhotoFrameViewController.alloc.init
+    @window.makeKeyAndVisible
+    true
+  end
+
+end
+----------------------------------------------------------------
+
+The next step is add an UIImage to our PhotoFrameViewController feel free to create a file for the uielemtens like *photo_view_utilities.rb*
+
+[source, ruby]
+----------------------------------------------------------------
+def photoUIImageView
+
+  image = UIImage.imageNamed("me.png")
+  photoView = UIImageView.alloc.initWithImage(image)
+  photoView.frame =  CGRectMake(20,20, 280, 420)
+  photoView
+end
+----------------------------------------------------------------
+
+Don't forget to add the image to the view in the PhotoFrameViewController 
+
+[source, ruby]
+----------------------------------------------------------------
+class PhotoFrameViewController < UIViewController
+
+  def viewDidLoad
+
+    view.backgroundColor = UIColor.lightGrayColor
+    view.addSubview(photoUIImageView)
+  end 
+
+end
+----------------------------------------------------------------
+
+
+Save your file and compile the project to see if everything goes well, You will be able to see a wild cat:
+
+.Picture Frame
+image::resources/ch15-Notifications/ch15_PictureFrame.png[Picture Frame]
+
+
+Now Rotate the simulator or the device.
+
+.Landscape Frame
+image::resources/ch15-Notifications/ch15_LandscapeFrame.png[Landscape Frame]
+
+
+What just happened here? Everything indicates that the image did not adjust accordingly to the orientation.
+It may be useful if the device can tell us when it rotates so we can act in response; guess what actually it tell us, we just have to listen carefully or in this case subscribe our view controller to this notification.
+
+UIDevice Notification
+~~~~~~~~~~~~~~~~~~~~~
+
+Let's add register our photocontroller to receive notifications when the orientation of the device changes, add the following methods in your *photo_frame_view_controller.rb* file
+
+[source, ruby]
+----------------------------------------------------------------
+def orientationChanged(notification)
+
+  puts notification.object.orientation
+end
+   
+def registerDeviceNotification
+
+    # Get the device object
+    device = UIDevice.currentDevice
+    # Tell it to start monitoring the accelerometer for orientation
+    device.beginGeneratingDeviceOrientationNotifications
+    # Get the notification center for the app
+    nc = NSNotificationCenter.defaultCenter
+    # Add yourself as an observer
+    nc.addObserver(self, selector: :'orientationChanged:',name:UIDeviceOrientationDidChangeNotification ,object:device)
+end
+----------------------------------------------------------------
+
+You can rotate tour simulator by holding the 'command' key and use the directions arrows, you will notice a series of number form 1 to 4 printed on your console, but that number means? In fact there are an enumeration:
+
+[source, c]
+----------------------------------------------------------------
+typedef enum {
+   UIDeviceOrientationUnknown,
+   UIDeviceOrientationPortrait,
+   UIDeviceOrientationPortraitUpsideDown,
+   UIDeviceOrientationLandscapeLeft,
+   UIDeviceOrientationLandscapeRight,
+   UIDeviceOrientationFaceUp,
+   UIDeviceOrientationFaceDown
+} UIDeviceOrientation;
+----------------------------------------------------------------
+
+After know that, we can make a little improvements to our method  ***orientationChanged*** in our *photo_frame_view_controller.rb* file.
+
+[source, ruby]
+----------------------------------------------------------------
+def orientationChanged(notification)
+
+  deviceOrientation = notification.object.orientation
+    if deviceOrientation == UIDeviceOrientationLandscapeLeft || deviceOrientation == UIDeviceOrientationLandscapeRight
+      
+      @imageView.frame = CGRectMake(20,20, 440, 260)
+  
+    else
+      @imageView.frame = CGRectMake(20,20, 280, 420)
+  end
+end
+----------------------------------------------------------------
+
+Run your application and rotate the device, and watch carefully the landscape mode
+
+.Landscape Picture
+image::resources/ch15-Notifications/ch15_LandscapePicture.png[Landscape Picture]
+
+
+Autorotation
+~~~~~~~~~~~~
+Rotation it’s a very common task between iOS applications, you can use UIDevice Notification, but this may be a lot of work, instead we can use autorotation for this purpose.
+
+We can achieve this if the view is controlled by an UIViewController, we ask to a view controller if its okay to rotate the view, if the view controller agrees, the view it's rotated and resized also it's subviews.
+
+For this purpose we need to add the following method to our *photo_frame_view_controller.rb*, and don't subscribe to the UIDevice Notifications in the viewDidLoad Method
+
+[source, ruby]
+----------------------------------------------------------------
+def viewDidLoad
+
+  view.backgroundColor = UIColor.lightGrayColor
+  @imageView = photoUIImageView;
+  view.addSubview(@imageView)
+  #registerDeviceNotification
+end 
+---------------------------------------------------------------- 
+
+[source, ruby]
+----------------------------------------------------------------
+def shouldAutorotateToInterfaceOrientation(interfaceOrientation)
+
+  # Return YES if incoming orientation is Portrait
+  #  or either of the Landscapes, otherwise, return NO
+  shouldRotate = NO
+  if (interfaceOrientation == UIInterfaceOrientationPortrait) || UIInterfaceOrientationIsLandscape(interfaceOrientation)
+    shouldRotate = YES    
+  end 
+
+  shouldRotate 
+end 
+----------------------------------------------------------------  
+
+At this point it seems that our previous work has disappeared, and its because we did not tell how the UIImage should be resized, let's modified the methods that return the UIImageView whit the following autoresizing mask:
+
+[source, ruby]
+----------------------------------------------------------------
+def photoUIImageView
+
+  image = UIImage.imageNamed("me.png")
+  photoView = UIImageView.alloc.initWithImage(image)
+  photoView.frame =  CGRectMake(20,20, 280, 420)
+  #The view resizes by expanding or shrinking its width.
+  #The view resizes by expanding or shrinking its height.
+  photoView.setAutoresizingMask(UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight)
+  photoView
+end
+---------------------------------------------------------------- 
+
+Save and then run your application, now all the previous work has returned
+,as you can see the view  adjusts it's size automatically when devices rotates, fortunately we have additional resize masks
+
+* UIViewAutoresizingFlexibleLeftMargin
+* UIViewAutoresizingFlexibleRightMargin
+* UIViewAutoresizingFlexibleTopMargin
+* UIViewAutoresizingFlexibleBottomMargin
+
+The only thing left its add a more fancy frame so we can get rid off that ugly gray background, open your *photo_view_utilities.rb* file and add the following method
+
+[source, ruby]
+----------------------------------------------------------------
+def frameUIImageView
+
+  image = UIImage.imageNamed("frame.png")
+  photoView = UIImageView.alloc.initWithImage(image)
+  photoView.frame =  CGRectMake(0,0, 320, 460)
+  photoView.setAutoresizingMask(UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight)
+  photoView
+end
+----------------------------------------------------------------
+
+Now in your *photo_frame_view_controller.rb* add the frame image just before adding the picture image
+
+[source, ruby]
+----------------------------------------------------------------
+def viewDidLoad
+
+  @imageView = photoUIImageView;
+  frameView = frameUIImageView;
+  view.addSubview(frameView)
+  view.addSubview(@imageView)
+end 
+----------------------------------------------------------------
+
+.Photo Frame App
+image::resources/ch15-Notifications/ch15_PhotoFrameApp.png[Photo Frame App]
+
+Challenge - Status Bar
+~~~~~~~~~~~~~~~~~~~~~~
+
+It seems that the only element that not fits right on this picture, its the status bar, try to remove it so we can appreciate in all the screen, add the following line at the beginning of your viewDidLoad method
+
+[source, ruby]
+----------------------------------------------------------------
+UIApplication.sharedApplication.setStatusBarHidden(true ,animated:false)
+----------------------------------------------------------------
+
+
+Challenges
+~~~~~~~~~~
+*It will be nice if our digital photo frame could tell us the battery level, subscribe to UIDeviceBatteryLevelDidChangeNotification and enable batteryMonitoringEnabled.
+Add a label that indicates the level of the battery, green when its above 10% and red when get lower or equal than 10%   
+
+*Allow only portrait mode for the app, because in land scape we can looks like a little bit stretch

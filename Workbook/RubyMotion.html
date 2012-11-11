@@ -89,9 +89,9 @@ ul > li     { color: #4f4f4f; }
 ul > li > * { color: #666666; }
 
 .monospaced, code, pre {
-  font-family: "Courier New", Courier, monospace;
+  font-family: Inconsolata;
   font-size: inherit;
-  color: navy;
+  color: #4d4d4c;
   padding: 0;
   margin: 0;
 }
@@ -181,6 +181,7 @@ div.listingblock > div.content {
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
+  font-family: Inconsolata;
 }
 
 div.quoteblock, div.verseblock {
@@ -541,69 +542,79 @@ body.manpage div.sectionbody {
 /*
   pygmentize filter
 */
-.highlight .hll { background-color: #ffffcc }
-.highlight  { background: #f4f4f4; }
-.highlight .c { color: #008800; font-style: italic } /* Comment */
-.highlight .err { border: 1px solid #FF0000 } /* Error */
-.highlight .k { color: #AA22FF; font-weight: bold } /* Keyword */
-.highlight .o { color: #666666 } /* Operator */
-.highlight .cm { color: #008800; font-style: italic } /* Comment.Multiline */
-.highlight .cp { color: #008800 } /* Comment.Preproc */
-.highlight .c1 { color: #008800; font-style: italic } /* Comment.Single */
-.highlight .cs { color: #008800; font-weight: bold } /* Comment.Special */
-.highlight .gd { color: #A00000 } /* Generic.Deleted */
-.highlight .ge { font-style: italic } /* Generic.Emph */
-.highlight .gr { color: #FF0000 } /* Generic.Error */
-.highlight .gh { color: #000080; font-weight: bold } /* Generic.Heading */
-.highlight .gi { color: #00A000 } /* Generic.Inserted */
-.highlight .go { color: #808080 } /* Generic.Output */
-.highlight .gp { color: #000080; font-weight: bold } /* Generic.Prompt */
-.highlight .gs { font-weight: bold } /* Generic.Strong */
-.highlight .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
-.highlight .gt { color: #0040D0 } /* Generic.Traceback */
-.highlight .kc { color: #AA22FF; font-weight: bold } /* Keyword.Constant */
-.highlight .kd { color: #AA22FF; font-weight: bold } /* Keyword.Declaration */
-.highlight .kn { color: #AA22FF; font-weight: bold } /* Keyword.Namespace */
-.highlight .kp { color: #AA22FF } /* Keyword.Pseudo */
-.highlight .kr { color: #AA22FF; font-weight: bold } /* Keyword.Reserved */
-.highlight .kt { color: #00BB00; font-weight: bold } /* Keyword.Type */
-.highlight .m { color: #666666 } /* Literal.Number */
-.highlight .s { color: #BB4444 } /* Literal.String */
-.highlight .na { color: #BB4444 } /* Name.Attribute */
-.highlight .nb { color: #AA22FF } /* Name.Builtin */
-.highlight .nc { color: #0000FF } /* Name.Class */
-.highlight .no { color: #880000 } /* Name.Constant */
-.highlight .nd { color: #AA22FF } /* Name.Decorator */
-.highlight .ni { color: #999999; font-weight: bold } /* Name.Entity */
-.highlight .ne { color: #D2413A; font-weight: bold } /* Name.Exception */
-.highlight .nf { color: #00A000 } /* Name.Function */
-.highlight .nl { color: #A0A000 } /* Name.Label */
-.highlight .nn { color: #0000FF; font-weight: bold } /* Name.Namespace */
-.highlight .nt { color: #008000; font-weight: bold } /* Name.Tag */
-.highlight .nv { color: #B8860B } /* Name.Variable */
-.highlight .ow { color: #AA22FF; font-weight: bold } /* Operator.Word */
-.highlight .w { color: #bbbbbb } /* Text.Whitespace */
-.highlight .mf { color: #666666 } /* Literal.Number.Float */
-.highlight .mh { color: #666666 } /* Literal.Number.Hex */
-.highlight .mi { color: #666666 } /* Literal.Number.Integer */
-.highlight .mo { color: #666666 } /* Literal.Number.Oct */
-.highlight .sb { color: #BB4444 } /* Literal.String.Backtick */
-.highlight .sc { color: #BB4444 } /* Literal.String.Char */
-.highlight .sd { color: #BB4444; font-style: italic } /* Literal.String.Doc */
-.highlight .s2 { color: #BB4444 } /* Literal.String.Double */
-.highlight .se { color: #BB6622; font-weight: bold } /* Literal.String.Escape */
-.highlight .sh { color: #BB4444 } /* Literal.String.Heredoc */
-.highlight .si { color: #BB6688; font-weight: bold } /* Literal.String.Interpol */
-.highlight .sx { color: #008000 } /* Literal.String.Other */
-.highlight .sr { color: #BB6688 } /* Literal.String.Regex */
-.highlight .s1 { color: #BB4444 } /* Literal.String.Single */
-.highlight .ss { color: #B8860B } /* Literal.String.Symbol */
-.highlight .bp { color: #AA22FF } /* Name.Builtin.Pseudo */
-.highlight .vc { color: #B8860B } /* Name.Variable.Class */
-.highlight .vg { color: #B8860B } /* Name.Variable.Global */
-.highlight .vi { color: #B8860B } /* Name.Variable.Instance */
-.highlight .il { color: #666666 } /* Literal.Number.Integer.Long */
+.highlight .hll { background-color: #8e908c; color:#ffd27e; font-family: Inconsolata; }
+.highlight  { background: #f4f4f4; font-family: Inconsolata; }
+.highlight .c { color: #8e908c; font-style: italic; font-family: Inconsolata; } /* Comment */
+.highlight .err { border: 1px solid #FF0000; font-family: Inconsolata; } /* Error */
+.highlight .k { color: #8959a8; font-family: Inconsolata; } /* Keyword */
+.highlight .o { color: #666666; font-family: Inconsolata; } /* Operator */
 
+.highlight .cm { color: #8e908c; font-style: italic; font-family: Inconsolata; } /* Comment.Multiline */
+.highlight .cp { color: #8e908c; font-family: Inconsolata; } /* Comment.Preproc */
+.highlight .c1 { color: #8e908c; font-style: italic; font-family: Inconsolata; } /* Comment.Single */
+.highlight .cs { color: #8e908c; font-weight: bold; font-family: Inconsolata; } /* Comment.Special */
+.highlight .gd { color: #A00000; font-family: Inconsolata; } /* Generic.Deleted */
+.highlight .ge { font-style: italic; font-family: Inconsolata; } /* Generic.Emph */
+.highlight .gr { color: #FF0000; font-family: Inconsolata; } /* Generic.Error */
+
+.highlight .gh { color: #000080; font-weight: bold; font-family: Inconsolata; } /* Generic.Heading */
+.highlight .gi { color: #00A000; font-family: Inconsolata; } /* Generic.Inserted */
+.highlight .go { color: #808080; font-family: Inconsolata; } /* Generic.Output */
+.highlight .gp { color: #4d4d4c; font-weight: bold; font-family: Inconsolata; } /* Generic.Prompt */
+.highlight .gs { font-weight: bold; font-family: Inconsolata; } /* Generic.Strong */
+.highlight .gu { color: #800080; font-weight: bold; font-family: Inconsolata; } /* Generic.Subheading */
+.highlight .gt { color: #800080; font-family: Inconsolata; } /* Generic.Traceback */
+
+
+.highlight .kc { color: #8959a8; font-family: Inconsolata; } /* Keyword.Constant */
+.highlight .kd { color: #8959a8; font-family: Inconsolata; } /* Keyword.Declaration */
+.highlight .kn { color: #8959a8; font-family: Inconsolata; } /* Keyword.Namespace */
+.highlight .kp { color: #8959a8; font-family: Inconsolata; } /* Keyword.Pseudo */
+.highlight .kr { color: #8959a8; font-family: Inconsolata; } /* Keyword.Reserved */
+.highlight .kt { color: #8959a8; font-family: Inconsolata; } /* Keyword.Type */
+
+
+.highlight .m { color: #666666; font-family: Inconsolata; } /* Literal.Number */
+.highlight .s { color: #BB4444; font-family: Inconsolata; } /* Literal.String */
+
+.highlight .na { color: #BB4444; font-family: Inconsolata; } /* Name.Attribute */
+.highlight .nb { color: #718c00; font-family: Inconsolata; } /* Name.Builtin */
+.highlight .nc { color: #c82829; font-family: Inconsolata; } /* Name.Class */
+.highlight .no { color: #c82829; font-family: Inconsolata; } /* Name.Constant */
+.highlight .nd { color: #AA22FF; font-family: Inconsolata; } /* Name.Decorator */
+.highlight .ni { color: #999999; font-family: Inconsolata; } /* Name.Entity */
+.highlight .ne { color: #D2413A; font-family: Inconsolata; } /* Name.Exception */
+.highlight .nf { color: #4271ae; font-family: Inconsolata; } /* Name.Function */
+.highlight .nl { color: #A0A000; font-family: Inconsolata; } /* Name.Label */
+.highlight .nn { color: #0000FF; font-family: Inconsolata; } /* Name.Namespace */
+.highlight .nt { color: #008000; font-family: Inconsolata; } /* Name.Tag */
+.highlight .nv { color: #4d4d4c; font-family: Inconsolata; } /* Name.Variable */
+.highlight .bp { color: #AA22FF; font-family: Inconsolata; } /* Name.Builtin.Pseudo */
+.highlight .vc { color: #4d4d4c; font-family: Inconsolata; } /* Name.Variable.Class */
+.highlight .vg { color: #3e999f; font-family: Inconsolata; } /* Name.Variable.Global */
+.highlight .vi { color: #3e999f; font-family: Inconsolata; } /* Name.Variable.Instance */
+
+
+.highlight .ow { color: #f5871f; font-family: Inconsolata; } /* Operator.Word */
+.highlight .w { color: #f5871f; font-family: Inconsolata; } /* Text.Whitespace */
+.highlight .mf { color: #f5871f; font-family: Inconsolata; } /* Literal.Number.Float */
+.highlight .mh { color: #f5871f; font-family: Inconsolata; } /* Literal.Number.Hex */
+.highlight .mi { color: #f5871f; font-family: Inconsolata; } /* Literal.Number.Integer */
+.highlight .mo { color: #f5871f; font-family: Inconsolata; } /* Literal.Number.Oct */
+.highlight .sb { color: #f5871f; font-family: Inconsolata; } /* Literal.String.Backtick */
+.highlight .sc { color: #f5871f; font-family: Inconsolata; } /* Literal.String.Char */
+.highlight .sd { color: #f5871f; font-family: Inconsolata; } /* Literal.String.Doc */
+.highlight .s2 { color: #f5871f; font-family: Inconsolata; } /* Literal.String.Double */
+.highlight .se { color: #f5871f; font-family: Inconsolata; } /* Literal.String.Escape */
+.highlight .sh { color: #f5871f; font-family: Inconsolata; } /* Literal.String.Heredoc */
+.highlight .si { color: #f5871f; font-family: Inconsolata; } /* Literal.String.Interpol */
+.highlight .sx { color: #f5871f; font-family: Inconsolata; } /* Literal.String.Other */
+.highlight .sr { color: #f5871f; font-family: Inconsolata; } /* Literal.String.Regex */
+.highlight .s1 { color: #f5871f; font-family: Inconsolata; } /* Literal.String.Single */
+.highlight .ss { color: #f5871f; font-family: Inconsolata; } /* Literal.String.Symbol */
+
+
+.highlight .il { color: #f5871f; font-family: Inconsolata; } /* Literal.Number.Integer.Long */
 
 
 </style>
@@ -2967,7 +2978,430 @@ subtitle. Optional, returns an NSString with the subtitle of the annotation.
 </span></p></div>
 <div class="paragraph"><p>If you see the view being updated when you tap on the button, you have finish this lab.</p></div>
 </div>
+<h1 id="_chapter_09_testing">Chapter 09 - Testing</h1>
+<div class="paragraph"><p>Testing is a fundamental part of any application, and it is also a hard task for developers. However, RubyMotion provides us with one tool that will ease the task of testing our apps: <strong>MacBacon</strong>, a special flavour of <strong>Bacon</strong> prepared to test iOS apps.</p></div>
+<div class="sect1">
+<h2 id="_app_setup">App Setup</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>Before we being testing our app, we actually need an app. Open the <strong>ch09_testing_resources.zip</strong> and unzip it. Run the app with the command</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="nv">$ </span>rake
+</pre></div></div></div>
+<div class="paragraph"><p>As you can see, is the same app that we did during Chapter 7:</p></div>
+<div class="imageblock">
+<div class="content">
+<img src="Resources/ch09-Testing/ch09_01_app.png" alt="Chapter 7 app" />
+</div>
+<div class="title">Figure 14. Chapter 7 app</div>
+</div>
+<div class="paragraph"><p>We have added an extra functionality to the app, if you tap the <strong>Book Event</strong> button the title of the button changes to <strong>Event Booked</strong> and is disabled:</p></div>
+<div class="imageblock">
+<div class="content">
+<img src="Resources/ch09-Testing/ch09_02_book_event.png" alt="Book Event" />
+</div>
+<div class="title">Figure 15. Book Event</div>
+</div>
+<div class="paragraph"><p>Besides that, we have added a method to the <strong>event.rb</strong> model class. Open that file and locate the method called <strong>days_left_until:</strong> that gives you the number of dates until a future date. If the date is not a future date but is in the past, is will return a 0. This method will be used to paint the correct days left in our Custom View we did in the previous workshop.</p></div>
+<div class="paragraph"><p>You can check how we are calculating the number of days between two dates in the <strong>days_between:and:</strong> method. We are using the <strong>NSDateComponents</strong> class. That class, is the one we used in CocoaTouch to make <strong>NSDate</strong> operations. Remember that the traditional Ruby class <strong>Time</strong> inherits from NSDate so we can use it in its place.</p></div>
+<div class="sect2">
+<h3 id="_functional_testing">Functional Testing</h3>
+<div class="paragraph"><p>The first we are going to test is this <strong>days_left_until:</strong> method. We want to be sure that it works in these three cases:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+When given a future date, it calculates accurately the number of days until that date.
+</p>
+</li>
+<li>
+<p>
+When given the current date, it returns a 0.
+</p>
+</li>
+<li>
+<p>
+When given a past date, it returns a 0 (we don&#8217;t want negative number in our view).
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>The first step is to create a <strong>Spec</strong> for our <strong>Event</strong> class. In the <strong>spec</strong> folder, create a folder named <strong>models</strong> and inside a file named <strong>event_spec.rb</strong></p></div>
+<div class="paragraph"><p>To define the Spec, write this lines:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="n">describe</span> <span class="s2">&quot;Event&quot;</span> <span class="k">do</span>
+
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p><strong>"Event"</strong> is the class that you want to test. Next, we&#8217;ll create some constants of the values we are going to use for our tests, and to initialize our <strong>Event</strong> instance:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="no">DAYS_LEFT</span> <span class="o">=</span> <span class="mi">10</span>
+
+<span class="no">NEGATIVE_PAST_DAYS</span> <span class="o">=</span> <span class="o">-</span><span class="mi">10</span>
+
+<span class="n">before</span> <span class="k">do</span>
+
+  <span class="vi">@event</span> <span class="o">=</span> <span class="no">Event</span><span class="o">.</span><span class="n">mock_event</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>As you can see, we are creating a mock <strong>Event</strong> using a class method. This <strong>before</strong> block, is executed before any test, and is helpful to initialize values required by your tests.</p></div>
+<div class="paragraph"><p>Let&#8217;s write our first test:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="n">it</span> <span class="s2">&quot;should count days left until future date&quot;</span> <span class="k">do</span>
+
+  <span class="n">future_date</span> <span class="o">=</span> <span class="n">date_adding_days</span><span class="p">(</span> <span class="no">DAYS_LEFT</span> <span class="p">)</span>
+  <span class="n">days_left_until_future_date</span> <span class="o">=</span> <span class="vi">@event</span><span class="o">.</span><span class="n">days_left_until</span><span class="p">(</span> <span class="n">future_date</span> <span class="p">)</span>
+  <span class="n">days_left_until_future_date</span><span class="o">.</span><span class="n">should</span><span class="o">.</span><span class="n">equal</span> <span class="no">DAYS_LEFT</span>
+<span class="k">end</span>
+
+<span class="k">def</span> <span class="nf">date_adding_days</span><span class="p">(</span> <span class="n">days_to_add</span> <span class="p">)</span>
+
+  <span class="n">components</span> <span class="o">=</span> <span class="no">NSDateComponents</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">init</span>
+  <span class="n">components</span><span class="o">.</span><span class="n">day</span> <span class="o">=</span> <span class="n">days_to_add</span>
+  <span class="n">gregorian</span> <span class="o">=</span> <span class="no">NSCalendar</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithCalendarIdentifier</span><span class="p">(</span> <span class="no">NSGregorianCalendar</span> <span class="p">)</span>
+  <span class="n">gregorian</span><span class="o">.</span><span class="n">dateByAddingComponents</span><span class="p">(</span> <span class="n">components</span><span class="p">,</span> <span class="n">toDate</span><span class="ss">:Time</span><span class="o">.</span><span class="n">now</span><span class="p">,</span> <span class="n">options</span><span class="p">:</span><span class="mi">0</span> <span class="p">)</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>With the <strong>it</strong> block, we define specs that our classes should comply with. The string should represent in a written and descriptive form the spec. In the spec, we are creating a date 10 days in the future using our helper method <strong>date_adding_days:</strong>.</p></div>
+<div class="paragraph"><p>We pass that date to our model class and evaluate the returned result with <strong>should.equal</strong> MacBacon adds <strong>should</strong> and <strong>equals</strong> methods. You have several more that you can use to evaluate results inside your specs. If the evaluation is not satisfactory, the test will fail.</p></div>
+<div class="paragraph"><p>Now run the spec with the command</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="nv">$ </span>rake spec
+</pre></div></div></div>
+<div class="paragraph"><p>You should see the output with the specifications passed:</p></div>
+<div class="imageblock">
+<div class="content">
+<img src="Resources/ch09-Testing/ch09_03_first_spec.png" alt="First Spec Passed" />
+</div>
+<div class="title">Figure 16. First Spec Passed</div>
+</div>
+<div class="paragraph"><p>Try to change the expected value in the <strong>should.equal</strong> evaluation to see how MacBacon displays an error message when the spec is broken.</p></div>
+<div class="paragraph"><p>Let&#8217;s cover another functional requirement, when the date passed as an argument to the method <strong>days_left_until:</strong> is in the past, we don&#8217;t want to display a negative number but a zero instead:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="n">it</span> <span class="s2">&quot;should count days left as 0 for past date&quot;</span> <span class="k">do</span>
+
+  <span class="n">past_date</span> <span class="o">=</span> <span class="n">date_adding_days</span><span class="p">(</span> <span class="no">NEGATIVE_PAST_DAYS</span> <span class="p">)</span>
+  <span class="n">days_left_until_past_date</span> <span class="o">=</span> <span class="vi">@event</span><span class="o">.</span><span class="n">days_left_until</span><span class="p">(</span> <span class="n">past_date</span> <span class="p">)</span>
+  <span class="n">days_left_until_past_date</span><span class="o">.</span><span class="n">should</span><span class="o">.</span><span class="n">equal</span> <span class="mi">0</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>Run your example.</p></div>
+</div>
+<div class="sect2">
+<h3 id="_testing_our_ui">Testing our UI</h3>
+<div class="paragraph"><p>One of the main problems while developing apps, is to test its UI. It&#8217;s hard to test the UI of an iOS application programmatically, even when some tools exists, they are difficult to use. RubyMotion has added support to MacBacon to write specs for visual elements with the same simplicity of our functional tests. Let&#8217;s try this feature.</p></div>
+<div class="paragraph"><p>Create a file in the folder <strong>specs/controllers</strong> named <strong>event_detail_view_controller_spec.rb</strong> and add this code to create our spec:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="n">describe</span> <span class="s2">&quot;The Event Details view controller&quot;</span> <span class="k">do</span>
+
+  <span class="n">tests</span> <span class="no">EventDetailViewController</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>As you can see, we are specifiyng the class we are going to test:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="n">tests</span> <span class="no">EventDetailViewController</span>
+</pre></div></div></div>
+<div class="paragraph"><p>MacBacon will instantiate our <strong>EventDetailViewController</strong> and will add it to a <strong>UIWindow</strong>, to display it. MacBacon will take care of initializing our app and creating the appropiate objects needed it to display the View of our View Controller. Thus, we need to let MacBacon to handle this for us. If you remember, we normally create our <strong>UIWindow</strong> and its <strong>rootView</strong> in the <strong>AppDelegate</strong>. Open it and add this code:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">class</span> <span class="nc">AppDelegate</span>
+
+  <span class="k">def</span> <span class="nf">application</span><span class="p">(</span><span class="n">application</span><span class="p">,</span> <span class="n">didFinishLaunchingWithOptions</span><span class="ss">:launchOptions</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="kp">true</span> <span class="k">if</span> <span class="no">RUBYMOTION_ENV</span> <span class="o">==</span> <span class="s1">&#39;test&#39;</span>
+    <span class="n">event_detail_view_controller</span> <span class="o">=</span> <span class="no">EventDetailViewController</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">init</span>
+    <span class="vi">@window</span> <span class="o">=</span> <span class="no">UIWindow</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithFrame</span><span class="p">(</span><span class="no">UIScreen</span><span class="o">.</span><span class="n">mainScreen</span><span class="o">.</span><span class="n">bounds</span><span class="p">)</span>
+    <span class="vi">@window</span><span class="o">.</span><span class="n">rootViewController</span> <span class="o">=</span> <span class="n">event_detail_view_controller</span>
+    <span class="vi">@window</span><span class="o">.</span><span class="n">makeKeyAndVisible</span>
+    <span class="kp">true</span>
+  <span class="k">end</span>
+
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>We are creating our own <strong>UIWindow</strong> only if we are not testing the app, in that case MacBacon will handle that.</p></div>
+<div class="paragraph"><p>So, what do we want to test? Our <strong>Book Event</strong> button. Our first step is to actually verify that the button exists, our <strong>event_detail_view_controller_spec.rb</strong> file write the following spec:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="n">it</span> <span class="s2">&quot;has book button&quot;</span> <span class="k">do</span>
+
+  <span class="n">view</span><span class="p">(</span><span class="s1">&#39;Book Event&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">should</span><span class="o">.</span><span class="n">not</span><span class="o">.</span><span class="n">equal</span> <span class="kp">nil</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>The <strong>view</strong> method allows us to select views with a given title. In this case we are selecting the <strong>UIButton</strong> with the "Book Event" title, and testing that is not nil. Run the example, verifiy that the <strong>EventDetailsViewController</strong> is briefly shown in the simulator and that the spec is succesfully satisfied:</p></div>
+<div class="imageblock">
+<div class="content">
+<img src="Resources/ch09-Testing/ch09_04_ui_spec.png" alt="UI Spec Passed" />
+</div>
+<div class="title">Figure 17. UI Spec Passed</div>
+</div>
+<div class="paragraph"><p>The next step is to test if when you tap on the button, its state changes to disabled and its title to "Event Booked". You will see that the idiom of MacBacon allows us to write such a test very easilly:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="n">it</span> <span class="s2">&quot;book event&quot;</span> <span class="k">do</span>
+
+  <span class="n">button_to_evaluate</span> <span class="o">=</span> <span class="n">view</span><span class="p">(</span><span class="s1">&#39;Book Event&#39;</span><span class="p">)</span>
+  <span class="n">tap</span> <span class="s1">&#39;Book Event&#39;</span>
+  <span class="c1">#wait for 2 seconds</span>
+  <span class="n">proper_wait</span> <span class="mi">2</span>
+  <span class="n">button_to_evaluate</span><span class="o">.</span><span class="n">titleLabel</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">should</span><span class="o">.</span><span class="n">equal</span> <span class="s2">&quot;Event Booked&quot;</span>
+  <span class="n">button_to_evaluate</span><span class="o">.</span><span class="n">isEnabled</span><span class="o">.</span><span class="n">should</span><span class="o">.</span><span class="n">equal</span> <span class="kp">false</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>We are using the method <strong>tap</strong> to tap our button. MacBacon has methods to apply all the standard CocoaTouch gestures to UIViews, such as pinch, zoom, drag, etc. You can review how to use each of them in the <a href="http://www.rubymotion.com/developer-center/articles/testing/#_view_events">online documentation.</a> Then we evaluate the title and the <strong>isEnabled</strong> property to check if the state of the <strong>UIButton</strong> changed.</p></div>
+<div class="paragraph"><p>Run your example and this time, because of the 2 seconds wait, you should see how the title changed in the button:</p></div>
+<div class="imageblock">
+<div class="content">
+<img src="Resources/ch09-Testing/ch09_05_ui_running.png" alt="UI spec passed" />
+</div>
+<div class="title">Figure 18. UI Spec Passed</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_challenge_3">Challenge</h3>
+<div class="ulist"><ul>
+<li>
+<p>
+We have created specs for the <strong>days_left_until</strong> method of the class <strong>Event</strong>. But we are currently missing one test, write the spec to test that when you pass the current date to that method, it should return a "0".
+</p>
+</li>
+</ul></div>
+</div>
+</div>
+</div>
 <h1 id="_day_3">Day 3</h1>
+<h1 id="_chapter_15_notification_center">Chapter 15 - Notification Center</h1>
+<div class="sect1">
+<h2 id="_digital_photo_frame">Digital Photo Frame</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>In this chapter we are going to build our own photo frame, but in a more fashion way of course on an iDevice.</p></div>
+<div class="paragraph"><p>First at all we have to remember that objects are always sending messages one each other, but some times all objects may be interested in what just one object hast to say, but keep all the objects connected may be not a good strategy, for this reason we have a very handful tool, the notification center.</p></div>
+<div class="paragraph"><p>Now its time to create our ViewController that will hold our photo, run the rake command and give "PhotoFrame" as name of the application</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="nv">$ </span>motion create PhotoFrame
+</pre></div></div></div>
+<div class="paragraph"><p>Now create a new file named <strong>photo_frame_view_controller.rb</strong> in app folder and add the following code. Don&#8217;t forget to add the image that comes in your chapter folder named frame.png and copy it to the resources folder.</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">class</span> <span class="nc">PhotoViewController</span> <span class="o">&lt;</span> <span class="no">UIViewController</span>
+
+  <span class="k">def</span> <span class="nf">viewDidLoad</span>
+
+    <span class="n">view</span><span class="o">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">lightGrayColor</span>
+  <span class="k">end</span>
+
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>Save your file and run the rake command:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="nv">$ </span>rake
+</pre></div></div></div>
+<div class="paragraph"><p>Don&#8217;t forget to set it as rootViewController in your <strong>app_delegate.rb</strong> file because this ViewController will be useful for present our photo and also use the photo that comes in chapter 15 directory and paste it in your resources folder.</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">class</span> <span class="nc">AppDelegate</span>
+
+  <span class="k">def</span> <span class="nf">application</span><span class="p">(</span><span class="n">application</span><span class="p">,</span> <span class="n">didFinishLaunchingWithOptions</span><span class="ss">:launchOptions</span><span class="p">)</span>
+
+    <span class="vi">@window</span> <span class="o">=</span> <span class="no">UIWindow</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithFrame</span><span class="p">(</span><span class="no">UIScreen</span><span class="o">.</span><span class="n">mainScreen</span><span class="o">.</span><span class="n">bounds</span><span class="p">)</span>
+    <span class="vi">@window</span><span class="o">.</span><span class="n">rootViewController</span> <span class="o">=</span> <span class="no">PhotoFrameViewController</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">init</span>
+    <span class="vi">@window</span><span class="o">.</span><span class="n">makeKeyAndVisible</span>
+    <span class="kp">true</span>
+  <span class="k">end</span>
+
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>The next step is add an UIImage to our PhotoFrameViewController feel free to create a file for the uielemtens like <strong>photo_view_utilities.rb</strong></p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">photoUIImageView</span>
+
+  <span class="n">image</span> <span class="o">=</span> <span class="no">UIImage</span><span class="o">.</span><span class="n">imageNamed</span><span class="p">(</span><span class="s2">&quot;me.png&quot;</span><span class="p">)</span>
+  <span class="n">photoView</span> <span class="o">=</span> <span class="no">UIImageView</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithImage</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+  <span class="n">photoView</span><span class="o">.</span><span class="n">frame</span> <span class="o">=</span>  <span class="no">CGRectMake</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span> <span class="mi">280</span><span class="p">,</span> <span class="mi">420</span><span class="p">)</span>
+  <span class="n">photoView</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>Don&#8217;t forget to add the image to the view in the PhotoFrameViewController</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">class</span> <span class="nc">PhotoFrameViewController</span> <span class="o">&lt;</span> <span class="no">UIViewController</span>
+
+  <span class="k">def</span> <span class="nf">viewDidLoad</span>
+
+    <span class="n">view</span><span class="o">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">lightGrayColor</span>
+    <span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="n">photoUIImageView</span><span class="p">)</span>
+  <span class="k">end</span>
+
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>Save your file and compile the project to see if everything goes well, You will be able to see a wild cat:</p></div>
+<div class="imageblock">
+<div class="content">
+<img src="resources/ch15-Notifications/ch15_PictureFrame.png" alt="Picture Frame" />
+</div>
+<div class="title">Figure 19. Picture Frame</div>
+</div>
+<div class="paragraph"><p>Now Rotate the simulator or the device.</p></div>
+<div class="imageblock">
+<div class="content">
+<img src="resources/ch15-Notifications/ch15_LandscapeFrame.png" alt="Landscape Frame" />
+</div>
+<div class="title">Figure 20. Landscape Frame</div>
+</div>
+<div class="paragraph"><p>What just happened here? Everything indicates that the image did not adjust accordingly to the orientation.
+It may be useful if the device can tell us when it rotates so we can act in response; guess what actually it tell us, we just have to listen carefully or in this case subscribe our view controller to this notification.</p></div>
+<div class="sect2">
+<h3 id="_uidevice_notification">UIDevice Notification</h3>
+<div class="paragraph"><p>Let&#8217;s add register our photocontroller to receive notifications when the orientation of the device changes, add the following methods in your <strong>photo_frame_view_controller.rb</strong> file</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">orientationChanged</span><span class="p">(</span><span class="n">notification</span><span class="p">)</span>
+
+  <span class="nb">puts</span> <span class="n">notification</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">orientation</span>
+<span class="k">end</span>
+
+<span class="k">def</span> <span class="nf">registerDeviceNotification</span>
+
+    <span class="c1"># Get the device object</span>
+    <span class="n">device</span> <span class="o">=</span> <span class="no">UIDevice</span><span class="o">.</span><span class="n">currentDevice</span>
+    <span class="c1"># Tell it to start monitoring the accelerometer for orientation</span>
+    <span class="n">device</span><span class="o">.</span><span class="n">beginGeneratingDeviceOrientationNotifications</span>
+    <span class="c1"># Get the notification center for the app</span>
+    <span class="n">nc</span> <span class="o">=</span> <span class="no">NSNotificationCenter</span><span class="o">.</span><span class="n">defaultCenter</span>
+    <span class="c1"># Add yourself as an observer</span>
+    <span class="n">nc</span><span class="o">.</span><span class="n">addObserver</span><span class="p">(</span><span class="nb">self</span><span class="p">,</span> <span class="n">selector</span><span class="p">:</span> <span class="ss">:&#39;orientationChanged:&#39;</span><span class="p">,</span><span class="nb">name</span><span class="ss">:UIDeviceOrientationDidChangeNotification</span> <span class="p">,</span><span class="n">object</span><span class="ss">:device</span><span class="p">)</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>You can rotate tour simulator by holding the <em>command</em> key and use the directions arrows, you will notice a series of number form 1 to 4 printed on your console, but that number means? In fact there are an enumeration:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">typedef</span> <span class="k">enum</span> <span class="p">{</span>
+   <span class="n">UIDeviceOrientationUnknown</span><span class="p">,</span>
+   <span class="n">UIDeviceOrientationPortrait</span><span class="p">,</span>
+   <span class="n">UIDeviceOrientationPortraitUpsideDown</span><span class="p">,</span>
+   <span class="n">UIDeviceOrientationLandscapeLeft</span><span class="p">,</span>
+   <span class="n">UIDeviceOrientationLandscapeRight</span><span class="p">,</span>
+   <span class="n">UIDeviceOrientationFaceUp</span><span class="p">,</span>
+   <span class="n">UIDeviceOrientationFaceDown</span>
+<span class="p">}</span> <span class="n">UIDeviceOrientation</span><span class="p">;</span>
+</pre></div></div></div>
+<div class="paragraph"><p>After know that, we can make a little improvements to our method  <strong><strong>orientationChanged</strong></strong> in our <strong>photo_frame_view_controller.rb</strong> file.</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">orientationChanged</span><span class="p">(</span><span class="n">notification</span><span class="p">)</span>
+
+  <span class="n">deviceOrientation</span> <span class="o">=</span> <span class="n">notification</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">orientation</span>
+    <span class="k">if</span> <span class="n">deviceOrientation</span> <span class="o">==</span> <span class="no">UIDeviceOrientationLandscapeLeft</span> <span class="o">||</span> <span class="n">deviceOrientation</span> <span class="o">==</span> <span class="no">UIDeviceOrientationLandscapeRight</span>
+
+      <span class="vi">@imageView</span><span class="o">.</span><span class="n">frame</span> <span class="o">=</span> <span class="no">CGRectMake</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span> <span class="mi">440</span><span class="p">,</span> <span class="mi">260</span><span class="p">)</span>
+
+    <span class="k">else</span>
+      <span class="vi">@imageView</span><span class="o">.</span><span class="n">frame</span> <span class="o">=</span> <span class="no">CGRectMake</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span> <span class="mi">280</span><span class="p">,</span> <span class="mi">420</span><span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>Run your application and rotate the device, and watch carefully the landscape mode</p></div>
+<div class="imageblock">
+<div class="content">
+<img src="resources/ch15-Notifications/ch15_LandscapePicture.png" alt="Landscape Picture" />
+</div>
+<div class="title">Figure 21. Landscape Picture</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_autorotation">Autorotation</h3>
+<div class="paragraph"><p>Rotation it’s a very common task between iOS applications, you can use UIDevice Notification, but this may be a lot of work, instead we can use autorotation for this purpose.</p></div>
+<div class="paragraph"><p>We can achieve this if the view is controlled by an UIViewController, we ask to a view controller if its okay to rotate the view, if the view controller agrees, the view it&#8217;s rotated and resized also it&#8217;s subviews.</p></div>
+<div class="paragraph"><p>For this purpose we need to add the following method to our <strong>photo_frame_view_controller.rb</strong>, and don&#8217;t subscribe to the UIDevice Notifications in the viewDidLoad Method</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">viewDidLoad</span>
+
+  <span class="n">view</span><span class="o">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">lightGrayColor</span>
+  <span class="vi">@imageView</span> <span class="o">=</span> <span class="n">photoUIImageView</span><span class="p">;</span>
+  <span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="vi">@imageView</span><span class="p">)</span>
+  <span class="c1">#registerDeviceNotification</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">shouldAutorotateToInterfaceOrientation</span><span class="p">(</span><span class="n">interfaceOrientation</span><span class="p">)</span>
+
+  <span class="c1"># Return YES if incoming orientation is Portrait</span>
+  <span class="c1">#  or either of the Landscapes, otherwise, return NO</span>
+  <span class="n">shouldRotate</span> <span class="o">=</span> <span class="no">NO</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">interfaceOrientation</span> <span class="o">==</span> <span class="no">UIInterfaceOrientationPortrait</span><span class="p">)</span> <span class="o">||</span> <span class="no">UIInterfaceOrientationIsLandscape</span><span class="p">(</span><span class="n">interfaceOrientation</span><span class="p">)</span>
+    <span class="n">shouldRotate</span> <span class="o">=</span> <span class="no">YES</span>
+  <span class="k">end</span>
+
+  <span class="n">shouldRotate</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>At this point it seems that our previous work has disappeared, and its because we did not tell how the UIImage should be resized, let&#8217;s modified the methods that return the UIImageView whit the following autoresizing mask:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">photoUIImageView</span>
+
+  <span class="n">image</span> <span class="o">=</span> <span class="no">UIImage</span><span class="o">.</span><span class="n">imageNamed</span><span class="p">(</span><span class="s2">&quot;me.png&quot;</span><span class="p">)</span>
+  <span class="n">photoView</span> <span class="o">=</span> <span class="no">UIImageView</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithImage</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+  <span class="n">photoView</span><span class="o">.</span><span class="n">frame</span> <span class="o">=</span>  <span class="no">CGRectMake</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span> <span class="mi">280</span><span class="p">,</span> <span class="mi">420</span><span class="p">)</span>
+  <span class="c1">#The view resizes by expanding or shrinking its width.</span>
+  <span class="c1">#The view resizes by expanding or shrinking its height.</span>
+  <span class="n">photoView</span><span class="o">.</span><span class="n">setAutoresizingMask</span><span class="p">(</span><span class="no">UIViewAutoresizingFlexibleWidth</span> <span class="o">|</span> <span class="no">UIViewAutoresizingFlexibleHeight</span><span class="p">)</span>
+  <span class="n">photoView</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>Save and then run your application, now all the previous work has returned
+,as you can see the view  adjusts it&#8217;s size automatically when devices rotates, fortunately we have additional resize masks</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+UIViewAutoresizingFlexibleLeftMargin
+</p>
+</li>
+<li>
+<p>
+UIViewAutoresizingFlexibleRightMargin
+</p>
+</li>
+<li>
+<p>
+UIViewAutoresizingFlexibleTopMargin
+</p>
+</li>
+<li>
+<p>
+UIViewAutoresizingFlexibleBottomMargin
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>The only thing left its add a more fancy frame so we can get rid off that ugly gray background, open your <strong>photo_view_utilities.rb</strong> file and add the following method</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">frameUIImageView</span>
+
+  <span class="n">image</span> <span class="o">=</span> <span class="no">UIImage</span><span class="o">.</span><span class="n">imageNamed</span><span class="p">(</span><span class="s2">&quot;frame.png&quot;</span><span class="p">)</span>
+  <span class="n">photoView</span> <span class="o">=</span> <span class="no">UIImageView</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithImage</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+  <span class="n">photoView</span><span class="o">.</span><span class="n">frame</span> <span class="o">=</span>  <span class="no">CGRectMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span> <span class="mi">320</span><span class="p">,</span> <span class="mi">460</span><span class="p">)</span>
+  <span class="n">photoView</span><span class="o">.</span><span class="n">setAutoresizingMask</span><span class="p">(</span><span class="no">UIViewAutoresizingFlexibleWidth</span> <span class="o">|</span> <span class="no">UIViewAutoresizingFlexibleHeight</span><span class="p">)</span>
+  <span class="n">photoView</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>Now in your <strong>photo_frame_view_controller.rb</strong> add the frame image just before adding the picture image</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">viewDidLoad</span>
+
+  <span class="vi">@imageView</span> <span class="o">=</span> <span class="n">photoUIImageView</span><span class="p">;</span>
+  <span class="n">frameView</span> <span class="o">=</span> <span class="n">frameUIImageView</span><span class="p">;</span>
+  <span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="n">frameView</span><span class="p">)</span>
+  <span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="vi">@imageView</span><span class="p">)</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="imageblock">
+<div class="content">
+<img src="resources/ch15-Notifications/ch15_PhotoFrameApp.png" alt="Photo Frame App" />
+</div>
+<div class="title">Figure 22. Photo Frame App</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_challenge_status_bar">Challenge - Status Bar</h3>
+<div class="paragraph"><p>It seems that the only element that not fits right on this picture, its the status bar, try to remove it so we can appreciate in all the screen, add the following line at the beginning of your viewDidLoad method</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="no">UIApplication</span><span class="o">.</span><span class="n">sharedApplication</span><span class="o">.</span><span class="n">setStatusBarHidden</span><span class="p">(</span><span class="kp">true</span> <span class="p">,</span><span class="n">animated</span><span class="ss">:false</span><span class="p">)</span>
+</pre></div></div></div>
+</div>
+<div class="sect2">
+<h3 id="_challenges_2">Challenges</h3>
+<div class="paragraph"><p>*It will be nice if our digital photo frame could tell us the battery level, subscribe to UIDeviceBatteryLevelDidChangeNotification and enable batteryMonitoringEnabled.
+Add a label that indicates the level of the battery, green when its above 10% and red when get lower or equal than 10%</p></div>
+<div class="paragraph"><p>*Allow only portrait mode for the app, because in land scape we can looks like a little bit stretch</p></div>
+</div>
+</div>
+</div>
 <h1 id="_day_4">Day 4</h1>
 <h1 id="_chapter_20_calayers">Chapter 20 - CALayers</h1>
 <div class="paragraph"><p>In this chapter we will use a Cocoa Touch Framework called Core Animation. This framework is has two main purposes: Composition and Animation, taking this as base we will look into the Composition part first.</p></div>
@@ -3080,7 +3514,7 @@ subtitle. Optional, returns an NSString with the subtitle of the annotation.
 <div class="content">
 <img src="resources/ch20-CALayers/ch20_REPL1.png" alt="Initial Run" />
 </div>
-<div class="title">Figure 14. Initial Run</div>
+<div class="title">Figure 23. Initial Run</div>
 </div>
 </div>
 <div class="sect2">
@@ -3106,7 +3540,7 @@ subtitle. Optional, returns an NSString with the subtitle of the annotation.
 <div class="content">
 <img src="resources/ch20-CALayers/ch20_REPL2.png" alt="Yellow Square" />
 </div>
-<div class="title">Figure 15. Yellow Square</div>
+<div class="title">Figure 24. Yellow Square</div>
 </div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="o">(</span><span class="c">#&lt;UIView:0x000000)&gt; layer.position = CGPointMake(100, 100)</span>
@@ -3115,7 +3549,7 @@ subtitle. Optional, returns an NSString with the subtitle of the annotation.
 <div class="content">
 <img src="resources/ch20-CALayers/ch20_REPL3.png" alt="Yellow Square in a Different Position" />
 </div>
-<div class="title">Figure 16. Yellow Square in a Different Position</div>
+<div class="title">Figure 25. Yellow Square in a Different Position</div>
 </div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="o">(</span><span class="c">#&lt;UIView:0x000000)&gt; layer.cornerRadius = 20</span>
@@ -3124,7 +3558,7 @@ subtitle. Optional, returns an NSString with the subtitle of the annotation.
 <div class="content">
 <img src="resources/ch20-CALayers/ch20_REPL4.png" alt="Yellow Square with Rounded Corners" />
 </div>
-<div class="title">Figure 17. Yellow Square with Rounded Corners</div>
+<div class="title">Figure 26. Yellow Square with Rounded Corners</div>
 </div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="o">(</span><span class="c">#&lt;UIView:0x000000)&gt; layer.borderWidth = 10</span>
@@ -3134,7 +3568,7 @@ subtitle. Optional, returns an NSString with the subtitle of the annotation.
 <div class="content">
 <img src="resources/ch20-CALayers/ch20_REPL5.png" alt="Yellow Square with Border" />
 </div>
-<div class="title">Figure 18. Yellow Square with Border</div>
+<div class="title">Figure 27. Yellow Square with Border</div>
 </div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="o">(</span><span class="c">#&lt;UIView:0x000000)&gt; layer.shadowRadius = 5.0</span>
@@ -3145,7 +3579,7 @@ subtitle. Optional, returns an NSString with the subtitle of the annotation.
 <div class="content">
 <img src="resources/ch20-CALayers/ch20_REPL6.png" alt="Yellow Square with Shadow" />
 </div>
-<div class="title">Figure 19. Yellow Square with Shadow</div>
+<div class="title">Figure 28. Yellow Square with Shadow</div>
 </div>
 <div class="paragraph"><p>They are two things important in this part, the first is that you can manipulate the appearance in more ways using a CALayer than a UIView like the Rounded Corners, Shadows, etc. Also if you look closely you must see that when you change some properties of the layer it animates it self, we will look into more deeply later on.</p></div>
 </div>
@@ -3161,15 +3595,15 @@ subtitle. Optional, returns an NSString with the subtitle of the annotation.
   <span class="c1"># Lets create a view for our view controller</span>
   <span class="nb">self</span><span class="o">.</span><span class="n">view</span> <span class="o">=</span> <span class="no">UIView</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithFrame</span><span class="p">(</span><span class="no">UIScreen</span><span class="o">.</span><span class="n">mainScreen</span><span class="o">.</span><span class="n">bounds</span><span class="p">)</span>
 
-  <span class="n">layout_background_layer</span><span class="p">()</span>
+  <span class="n">layout_background_layer</span>
 <span class="k">end</span>
 
 
 <span class="k">def</span> <span class="nf">layout_background_layer</span>
 
   <span class="c1"># We need a new type of layer used to create Gradients</span>
-  <span class="n">background_layer</span> <span class="o">=</span> <span class="no">CAGradientLayer</span><span class="o">.</span><span class="n">layer</span>
-  <span class="n">background_layer</span><span class="o">.</span><span class="n">frame</span> <span class="o">=</span> <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">bounds</span>
+  <span class="vi">@background_layer</span> <span class="o">=</span> <span class="no">CAGradientLayer</span><span class="o">.</span><span class="n">layer</span>
+  <span class="vi">@background_layer</span><span class="o">.</span><span class="n">frame</span> <span class="o">=</span> <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">bounds</span>
 
   <span class="c1"># Initialize the colors of the gradient, it can have any number of colors</span>
   <span class="c1"># in this case we will use only three</span>
@@ -3178,28 +3612,28 @@ subtitle. Optional, returns an NSString with the subtitle of the annotation.
   <span class="n">bottom_background_color</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">colorWithRed</span><span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">367</span><span class="p">,</span> <span class="n">green</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mi">692</span><span class="p">,</span> <span class="n">blue</span><span class="p">:</span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">CGColor</span>
 
   <span class="c1"># Set the colors in the layer using an array</span>
-  <span class="n">background_layer</span><span class="o">.</span><span class="n">colors</span> <span class="o">=</span> <span class="no">NSArray</span><span class="o">.</span><span class="n">arrayWithObjects</span><span class="p">(</span><span class="n">top_background_color</span><span class="p">,</span>
-                                                    <span class="n">middle_background_color</span><span class="p">,</span>
-                                                    <span class="n">bottom_background_color</span><span class="p">,</span>
-                                                    <span class="kp">nil</span><span class="p">)</span>
+  <span class="vi">@background_layer</span><span class="o">.</span><span class="n">colors</span> <span class="o">=</span> <span class="no">NSArray</span><span class="o">.</span><span class="n">arrayWithObjects</span><span class="p">(</span><span class="n">top_background_color</span><span class="p">,</span>
+                                                     <span class="n">middle_background_color</span><span class="p">,</span>
+                                                     <span class="n">bottom_background_color</span><span class="p">,</span>
+                                                     <span class="kp">nil</span><span class="p">)</span>
 
   <span class="c1"># Set the colors locations into the array, this means where it will start painting</span>
   <span class="c1"># the color, if you look closely we are telling the layer to paint the top color in</span>
   <span class="c1"># 0.0 which is the top, the middle in 0.5 and 0.0 for the bottom color</span>
-  <span class="n">background_layer</span><span class="o">.</span><span class="n">locations</span> <span class="o">=</span> <span class="no">NSArray</span><span class="o">.</span><span class="n">arrayWithObjects</span><span class="p">(</span><span class="no">NSNumber</span><span class="o">.</span><span class="n">numberWithFloat</span><span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="p">),</span>
-                                                       <span class="no">NSNumber</span><span class="o">.</span><span class="n">numberWithFloat</span><span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">5</span><span class="p">),</span>
-                                                       <span class="no">NSNumber</span><span class="o">.</span><span class="n">numberWithFloat</span><span class="p">(</span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="p">),</span>
-                                                       <span class="kp">nil</span><span class="p">)</span>
+  <span class="vi">@background_layer</span><span class="o">.</span><span class="n">locations</span> <span class="o">=</span> <span class="no">NSArray</span><span class="o">.</span><span class="n">arrayWithObjects</span><span class="p">(</span><span class="no">NSNumber</span><span class="o">.</span><span class="n">numberWithFloat</span><span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="p">),</span>
+                                                        <span class="no">NSNumber</span><span class="o">.</span><span class="n">numberWithFloat</span><span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">5</span><span class="p">),</span>
+                                                        <span class="no">NSNumber</span><span class="o">.</span><span class="n">numberWithFloat</span><span class="p">(</span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="p">),</span>
+                                                        <span class="kp">nil</span><span class="p">)</span>
 
   <span class="c1"># We want this layer to be the background of our app</span>
-  <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">layer</span><span class="o">.</span><span class="n">insertSublayer</span><span class="p">(</span><span class="n">background_layer</span><span class="p">,</span> <span class="n">atIndex</span><span class="p">:</span><span class="mi">0</span><span class="p">)</span>
+  <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">layer</span><span class="o">.</span><span class="n">insertSublayer</span><span class="p">(</span><span class="vi">@background_layer</span><span class="p">,</span> <span class="n">atIndex</span><span class="p">:</span><span class="mi">0</span><span class="p">)</span>
 <span class="k">end</span>
 </pre></div></div></div>
 <div class="imageblock">
 <div class="content">
 <img src="resources/ch20-CALayers/ch20_GradientBackground.png" alt="Background with Gradient" />
 </div>
-<div class="title">Figure 20. Background with Gradient</div>
+<div class="title">Figure 29. Background with Gradient</div>
 </div>
 <div class="paragraph"><p>Easy right? We create a nice background for our app using a gradient. Lets continue adding some grass into the composition:</p></div>
 <div class="paragraph"><p>Please copy the <strong>Determine deployment target</strong> into our app resources folder, after that add the following method to our <strong>LayerViewController</strong> class</p></div>
@@ -3232,7 +3666,7 @@ subtitle. Optional, returns an NSString with the subtitle of the annotation.
 <div class="content">
 <img src="resources/ch20-CALayers/ch20_GrassLayer.png" alt="Grass Layer" />
 </div>
-<div class="title">Figure 21. Grass Layer</div>
+<div class="title">Figure 30. Grass Layer</div>
 </div>
 <div class="paragraph"><p>Great! Now you see that we are compositing two layers together and learn that you can also include an Image as a content. But how about drawing custom figures? Add the following to the <strong>LayerViewController</strong> class:</p></div>
 <div class="listingblock">
@@ -3302,7 +3736,7 @@ subtitle. Optional, returns an NSString with the subtitle of the annotation.
 <div class="content">
 <img src="resources/ch20-CALayers/ch20_SunLayer.png" alt="Sun Layer" />
 </div>
-<div class="title">Figure 22. Sun Layer</div>
+<div class="title">Figure 31. Sun Layer</div>
 </div>
 </div>
 <div class="sect2">
@@ -3429,11 +3863,11 @@ Then the resulting matrix property values and times is executed, giving the effe
 <div class="content">
 <img src="resources/ch20-CALayers/ch20_AnimatedLayer.png" alt="Sun Layer" />
 </div>
-<div class="title">Figure 23. Animated Layer</div>
+<div class="title">Figure 32. Animated Layer</div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_challenges_2">Challenges</h3>
+<h3 id="_challenges_3">Challenges</h3>
 <div class="olist arabic"><ol class="arabic">
 <li>
 <p>
@@ -3530,7 +3964,12 @@ Repeat the animation indefinitely
 
 <span class="k">end</span>
 </pre></div></div></div>
-<div class="paragraph"><p><strong>Image</strong></p></div>
+<div class="imageblock">
+<div class="content">
+<img src="resources/ch21-CoreAnimation/ch21_AnimationBlinkToStart.png" alt="Animation Blinking to Start" />
+</div>
+<div class="title">Figure 33. Animation Blinking to Start</div>
+</div>
 <div class="paragraph"><p>Uh? What happen? The sun move to the position we touch, but at the end of the animation it return to its initial value. This happens because the animation is independent of the layer that is running into, it will move the layer to the touch position but at the end if you don&#8217;t change the layer property it will return to the initial state.</p></div>
 <div class="paragraph"><p>Try the following:</p></div>
 <div class="listingblock">
@@ -3563,7 +4002,12 @@ Repeat the animation indefinitely
   <span class="vi">@sun_layer</span><span class="o">.</span><span class="n">addAnimation</span><span class="p">(</span><span class="n">animation</span><span class="p">,</span> <span class="n">forKey</span><span class="ss">:&#39;position_animation&#39;</span><span class="p">)</span>
 <span class="k">end</span>
 </pre></div></div></div>
-<div class="paragraph"><p><strong>Image</strong></p></div>
+<div class="imageblock">
+<div class="content">
+<img src="resources/ch21-CoreAnimation/ch21_AnimationComplete.png" alt="Animation Complete" />
+</div>
+<div class="title">Figure 34. Animation Complete</div>
+</div>
 <div class="paragraph"><p>Now it works as expected! The animation is pretty slow because we set to it 1 second, try changing it for more fun.</p></div>
 <div class="admonitionblock">
 <table><tr>
@@ -3605,7 +4049,12 @@ Repeat the animation indefinitely
   <span class="vi">@sun_layer</span><span class="o">.</span><span class="n">addAnimation</span><span class="p">(</span><span class="n">animation</span><span class="p">,</span> <span class="n">forKey</span><span class="ss">:&#39;position_animation&#39;</span><span class="p">)</span>
 <span class="k">end</span>
 </pre></div></div></div>
-<div class="paragraph"><p><strong>Image</strong></p></div>
+<div class="imageblock">
+<div class="content">
+<img src="resources/ch21-CoreAnimation/ch21_AnimationReturningToStartingPoint.png" alt="Animation Returning to Starting Point" />
+</div>
+<div class="title">Figure 35. Animation Returning to Starting Point</div>
+</div>
 <div class="paragraph"><p>If we want to make that cycle of moving and returning happen 100 times?</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">view_tap</span><span class="p">(</span><span class="n">tap_gesture_recognizer</span><span class="p">)</span>
@@ -3638,7 +4087,12 @@ Repeat the animation indefinitely
   <span class="vi">@sun_layer</span><span class="o">.</span><span class="n">addAnimation</span><span class="p">(</span><span class="n">animation</span><span class="p">,</span> <span class="n">forKey</span><span class="ss">:&#39;position_animation&#39;</span><span class="p">)</span>
 <span class="k">end</span>
 </pre></div></div></div>
-<div class="paragraph"><p><strong>Image</strong></p></div>
+<div class="imageblock">
+<div class="content">
+<img src="resources/ch21-CoreAnimation/ch21_AnimationLoop.png" alt="Animation Loop" />
+</div>
+<div class="title">Figure 36. Animation Loop</div>
+</div>
 <div class="paragraph"><p>What about combining two animations: a spinning one with the moving one</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">view_tap</span><span class="p">(</span><span class="n">tap_gesture_recognizer</span><span class="p">)</span>
@@ -3686,7 +4140,12 @@ Repeat the animation indefinitely
   <span class="vi">@sun_layer</span><span class="o">.</span><span class="n">addAnimation</span><span class="p">(</span><span class="n">rotation_animation</span><span class="p">,</span> <span class="n">forKey</span><span class="ss">:&#39;rotation_animation&#39;</span><span class="p">)</span>
 <span class="k">end</span>
 </pre></div></div></div>
-<div class="paragraph"><p><strong>IMAGE</strong></p></div>
+<div class="imageblock">
+<div class="content">
+<img src="resources/ch21-CoreAnimation/ch21_AnimationSpinning.png" alt="Animation Spinning and Moving" />
+</div>
+<div class="title">Figure 37. Animation Spinning and Moving</div>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -3742,8 +4201,83 @@ Repeat the animation indefinitely
 <span class="k">end</span>
 </pre></div></div></div>
 <div class="paragraph"><p>If we run now the application, you should see the following:</p></div>
-<div class="paragraph"><p><strong>Image</strong></p></div>
+<div class="imageblock">
+<div class="content">
+<img src="resources/ch21-CoreAnimation/ch21_SunAndClouds.png" alt="Sun & Clouds" />
+</div>
+<div class="title">Figure 38. Sun &amp; Clouds</div>
+</div>
 <div class="paragraph"><p>Pretty but not amazing!, Now lets add some animation to the clouds:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">layout_cloud_layers</span>
+
+  <span class="c1"># Lets instance a new layer for our first cloud image</span>
+  <span class="n">first_cloud_layer</span> <span class="o">=</span> <span class="no">CALayer</span><span class="o">.</span><span class="n">layer</span>
+  <span class="n">first_cloud_layer</span><span class="o">.</span><span class="n">frame</span> <span class="o">=</span> <span class="no">CGRectMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">153</span><span class="p">,</span> <span class="mi">82</span><span class="p">)</span>
+  <span class="n">first_cloud_layer</span><span class="o">.</span><span class="n">position</span> <span class="o">=</span> <span class="no">CGPointMake</span><span class="p">(</span><span class="o">-</span><span class="mi">153</span><span class="p">,</span> <span class="mi">170</span><span class="p">)</span>
+
+  <span class="c1"># Load the image into memory</span>
+  <span class="n">first_cloud_image</span> <span class="o">=</span> <span class="no">UIImage</span><span class="o">.</span><span class="n">imageNamed</span><span class="p">(</span><span class="s2">&quot;bgCloud1.png&quot;</span><span class="p">)</span>
+
+  <span class="c1"># Set the image as content of the layer</span>
+  <span class="n">first_cloud_layer</span><span class="o">.</span><span class="n">contents</span> <span class="o">=</span> <span class="n">first_cloud_image</span><span class="o">.</span><span class="n">CGImage</span>
+
+  <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">layer</span><span class="o">.</span><span class="n">addSublayer</span><span class="p">(</span><span class="n">first_cloud_layer</span><span class="p">)</span>
+
+
+  <span class="c1"># Instanciate a new animation for the first cloud move</span>
+  <span class="n">first_cloud_animation</span> <span class="o">=</span> <span class="no">CABasicAnimation</span><span class="o">.</span><span class="n">animationWithKeyPath</span><span class="p">(</span><span class="s1">&#39;position&#39;</span><span class="p">)</span>
+
+   <span class="c1"># Set the animation duration</span>
+  <span class="n">first_cloud_animation</span><span class="o">.</span><span class="n">duration</span> <span class="o">=</span> <span class="mi">7</span>
+
+  <span class="c1"># We need to set the initial value of the animation and the final one</span>
+  <span class="n">first_cloud_animation</span><span class="o">.</span><span class="n">fromValue</span> <span class="o">=</span> <span class="no">NSValue</span><span class="o">.</span><span class="n">valueWithCGPoint</span><span class="p">(</span><span class="n">first_cloud_layer</span><span class="o">.</span><span class="n">position</span><span class="p">)</span>
+
+  <span class="c1"># Final position for the first cloud</span>
+  <span class="n">first_cloud_final_position</span> <span class="o">=</span> <span class="no">CGPointMake</span><span class="p">(</span><span class="mi">473</span><span class="p">,</span> <span class="mi">170</span><span class="p">)</span>
+
+  <span class="n">first_cloud_animation</span><span class="o">.</span><span class="n">toValue</span> <span class="o">=</span> <span class="no">NSValue</span><span class="o">.</span><span class="n">valueWithCGPoint</span><span class="p">(</span><span class="n">first_cloud_final_position</span><span class="p">)</span>
+
+  <span class="c1"># Because we want a infinite animation we set the repeat count to Float Max</span>
+  <span class="n">first_cloud_animation</span><span class="o">.</span><span class="n">repeatCount</span> <span class="o">=</span> <span class="nb">Float</span><span class="o">::</span><span class="no">MAX</span>
+
+  <span class="n">first_cloud_layer</span><span class="o">.</span><span class="n">addAnimation</span><span class="p">(</span><span class="n">first_cloud_animation</span><span class="p">,</span> <span class="n">forKey</span><span class="ss">:&#39;position_animation&#39;</span><span class="p">)</span>
+
+
+
+  <span class="c1"># New layer for our second cloud image</span>
+  <span class="n">second_cloud_layer</span> <span class="o">=</span> <span class="no">CALayer</span><span class="o">.</span><span class="n">layer</span>
+  <span class="n">second_cloud_layer</span><span class="o">.</span><span class="n">frame</span> <span class="o">=</span> <span class="no">CGRectMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">185</span><span class="p">,</span> <span class="mi">96</span><span class="p">)</span>
+  <span class="n">second_cloud_layer</span><span class="o">.</span><span class="n">position</span> <span class="o">=</span> <span class="no">CGPointMake</span><span class="p">(</span><span class="o">-</span><span class="mi">185</span><span class="p">,</span> <span class="mi">130</span><span class="p">)</span>
+
+  <span class="n">second_cloud_image</span> <span class="o">=</span> <span class="no">UIImage</span><span class="o">.</span><span class="n">imageNamed</span><span class="p">(</span><span class="s2">&quot;bgCloud2.png&quot;</span><span class="p">)</span>
+
+  <span class="n">second_cloud_layer</span><span class="o">.</span><span class="n">contents</span> <span class="o">=</span> <span class="n">second_cloud_image</span><span class="o">.</span><span class="n">CGImage</span>
+
+  <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">layer</span><span class="o">.</span><span class="n">addSublayer</span><span class="p">(</span><span class="n">second_cloud_layer</span><span class="p">)</span>
+
+
+  <span class="c1"># Instanciate a new animation for the second cloud move</span>
+  <span class="n">second_cloud_animation</span> <span class="o">=</span> <span class="no">CABasicAnimation</span><span class="o">.</span><span class="n">animationWithKeyPath</span><span class="p">(</span><span class="s1">&#39;position&#39;</span><span class="p">)</span>
+
+  <span class="c1"># Set the animation duration</span>
+  <span class="n">second_cloud_animation</span><span class="o">.</span><span class="n">duration</span> <span class="o">=</span> <span class="mi">5</span>
+
+  <span class="c1"># We need to set the initial value of the animation and the final one</span>
+  <span class="n">second_cloud_animation</span><span class="o">.</span><span class="n">fromValue</span> <span class="o">=</span> <span class="no">NSValue</span><span class="o">.</span><span class="n">valueWithCGPoint</span><span class="p">(</span><span class="n">first_cloud_layer</span><span class="o">.</span><span class="n">position</span><span class="p">)</span>
+
+  <span class="c1"># Final position for the second cloud</span>
+  <span class="n">second_cloud_final_position</span> <span class="o">=</span> <span class="no">CGPointMake</span><span class="p">(</span><span class="mi">505</span><span class="p">,</span> <span class="mi">130</span><span class="p">)</span>
+
+  <span class="n">second_cloud_animation</span><span class="o">.</span><span class="n">toValue</span> <span class="o">=</span> <span class="no">NSValue</span><span class="o">.</span><span class="n">valueWithCGPoint</span><span class="p">(</span><span class="n">second_cloud_final_position</span><span class="p">)</span>
+
+  <span class="c1"># Because we want a infinite animation we set the repeat count to Float Max</span>
+  <span class="n">second_cloud_animation</span><span class="o">.</span><span class="n">repeatCount</span> <span class="o">=</span> <span class="nb">Float</span><span class="o">::</span><span class="no">MAX</span>
+
+  <span class="n">second_cloud_layer</span><span class="o">.</span><span class="n">addAnimation</span><span class="p">(</span><span class="n">second_cloud_animation</span><span class="p">,</span> <span class="n">forKey</span><span class="ss">:&#39;position_animation&#39;</span><span class="p">)</span>
+<span class="k">end</span>
+</pre></div></div></div>
 <div class="admonitionblock">
 <table><tr>
 <td class="icon">
@@ -3752,6 +4286,662 @@ Repeat the animation indefinitely
 <td class="content">Please take notice that the cloud position changed</td>
 </tr></table>
 </div>
+<div class="imageblock">
+<div class="content">
+<img src="resources/ch21-CoreAnimation/ch21_AnimationClouds.png" alt="Cloud Animation" />
+</div>
+<div class="title">Figure 39. Cloud Animation</div>
+</div>
+<div class="paragraph"><p>Yes, it looks kind of good. But the animation is too linear the clouds does not look like the real life, what we can do is adding some easing with a timing function. The objective is when the cloud appear on the screen go faster and then it decelerate until its finished. This kind of easing is called EasyOut:</p></div>
+<div class="paragraph"><p>Lets apply it to the code:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">layout_cloud_layers</span>
+
+  <span class="c1"># Lets instance a new layer for our first cloud image</span>
+  <span class="n">first_cloud_layer</span> <span class="o">=</span> <span class="no">CALayer</span><span class="o">.</span><span class="n">layer</span>
+  <span class="n">first_cloud_layer</span><span class="o">.</span><span class="n">frame</span> <span class="o">=</span> <span class="no">CGRectMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">153</span><span class="p">,</span> <span class="mi">82</span><span class="p">)</span>
+  <span class="n">first_cloud_layer</span><span class="o">.</span><span class="n">position</span> <span class="o">=</span> <span class="no">CGPointMake</span><span class="p">(</span><span class="o">-</span><span class="mi">153</span><span class="p">,</span> <span class="mi">170</span><span class="p">)</span>
+
+  <span class="c1"># Load the image into memory</span>
+  <span class="n">first_cloud_image</span> <span class="o">=</span> <span class="no">UIImage</span><span class="o">.</span><span class="n">imageNamed</span><span class="p">(</span><span class="s2">&quot;bgCloud1.png&quot;</span><span class="p">)</span>
+
+  <span class="c1"># Set the image as content of the layer</span>
+  <span class="n">first_cloud_layer</span><span class="o">.</span><span class="n">contents</span> <span class="o">=</span> <span class="n">first_cloud_image</span><span class="o">.</span><span class="n">CGImage</span>
+
+  <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">layer</span><span class="o">.</span><span class="n">addSublayer</span><span class="p">(</span><span class="n">first_cloud_layer</span><span class="p">)</span>
+
+
+  <span class="c1"># Instanciate a new animation for the first cloud move</span>
+  <span class="n">first_cloud_animation</span> <span class="o">=</span> <span class="no">CABasicAnimation</span><span class="o">.</span><span class="n">animationWithKeyPath</span><span class="p">(</span><span class="s1">&#39;position&#39;</span><span class="p">)</span>
+
+   <span class="c1"># Set the animation duration</span>
+  <span class="n">first_cloud_animation</span><span class="o">.</span><span class="n">duration</span> <span class="o">=</span> <span class="mi">7</span>
+
+  <span class="c1"># We need to set the initial value of the animation and the final one</span>
+  <span class="n">first_cloud_animation</span><span class="o">.</span><span class="n">fromValue</span> <span class="o">=</span> <span class="no">NSValue</span><span class="o">.</span><span class="n">valueWithCGPoint</span><span class="p">(</span><span class="n">first_cloud_layer</span><span class="o">.</span><span class="n">position</span><span class="p">)</span>
+
+  <span class="c1"># Final position for the first cloud</span>
+  <span class="n">first_cloud_final_position</span> <span class="o">=</span> <span class="no">CGPointMake</span><span class="p">(</span><span class="mi">473</span><span class="p">,</span> <span class="mi">170</span><span class="p">)</span>
+
+  <span class="n">first_cloud_animation</span><span class="o">.</span><span class="n">toValue</span> <span class="o">=</span> <span class="no">NSValue</span><span class="o">.</span><span class="n">valueWithCGPoint</span><span class="p">(</span><span class="n">first_cloud_final_position</span><span class="p">)</span>
+
+  <span class="c1"># Because we want a infinite animation we set the repeat count to Float Max</span>
+  <span class="n">first_cloud_animation</span><span class="o">.</span><span class="n">repeatCount</span> <span class="o">=</span> <span class="nb">Float</span><span class="o">::</span><span class="no">MAX</span>
+
+  <span class="c1"># Apply the timing function to simulate the Easy out Easing</span>
+  <span class="n">first_cloud_animation</span><span class="o">.</span><span class="n">timingFunction</span> <span class="o">=</span> <span class="no">CAMediaTimingFunction</span><span class="o">.</span><span class="n">functionWithName</span><span class="p">(</span><span class="no">KCAMediaTimingFunctionEaseOut</span><span class="p">)</span>
+
+  <span class="n">first_cloud_layer</span><span class="o">.</span><span class="n">addAnimation</span><span class="p">(</span><span class="n">first_cloud_animation</span><span class="p">,</span> <span class="n">forKey</span><span class="ss">:&#39;position_animation&#39;</span><span class="p">)</span>
+
+
+
+  <span class="c1"># New layer for our second cloud image</span>
+  <span class="n">second_cloud_layer</span> <span class="o">=</span> <span class="no">CALayer</span><span class="o">.</span><span class="n">layer</span>
+  <span class="n">second_cloud_layer</span><span class="o">.</span><span class="n">frame</span> <span class="o">=</span> <span class="no">CGRectMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">185</span><span class="p">,</span> <span class="mi">96</span><span class="p">)</span>
+  <span class="n">second_cloud_layer</span><span class="o">.</span><span class="n">position</span> <span class="o">=</span> <span class="no">CGPointMake</span><span class="p">(</span><span class="o">-</span><span class="mi">185</span><span class="p">,</span> <span class="mi">130</span><span class="p">)</span>
+
+  <span class="n">second_cloud_image</span> <span class="o">=</span> <span class="no">UIImage</span><span class="o">.</span><span class="n">imageNamed</span><span class="p">(</span><span class="s2">&quot;bgCloud2.png&quot;</span><span class="p">)</span>
+
+  <span class="n">second_cloud_layer</span><span class="o">.</span><span class="n">contents</span> <span class="o">=</span> <span class="n">second_cloud_image</span><span class="o">.</span><span class="n">CGImage</span>
+
+  <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">layer</span><span class="o">.</span><span class="n">addSublayer</span><span class="p">(</span><span class="n">second_cloud_layer</span><span class="p">)</span>
+
+
+  <span class="c1"># Instanciate a new animation for the second cloud move</span>
+  <span class="n">second_cloud_animation</span> <span class="o">=</span> <span class="no">CABasicAnimation</span><span class="o">.</span><span class="n">animationWithKeyPath</span><span class="p">(</span><span class="s1">&#39;position&#39;</span><span class="p">)</span>
+
+  <span class="c1"># Set the animation duration</span>
+  <span class="n">second_cloud_animation</span><span class="o">.</span><span class="n">duration</span> <span class="o">=</span> <span class="mi">5</span>
+
+  <span class="c1"># We need to set the initial value of the animation and the final one</span>
+  <span class="n">second_cloud_animation</span><span class="o">.</span><span class="n">fromValue</span> <span class="o">=</span> <span class="no">NSValue</span><span class="o">.</span><span class="n">valueWithCGPoint</span><span class="p">(</span><span class="n">first_cloud_layer</span><span class="o">.</span><span class="n">position</span><span class="p">)</span>
+
+  <span class="c1"># Final position for the second cloud</span>
+  <span class="n">second_cloud_final_position</span> <span class="o">=</span> <span class="no">CGPointMake</span><span class="p">(</span><span class="mi">505</span><span class="p">,</span> <span class="mi">130</span><span class="p">)</span>
+
+  <span class="n">second_cloud_animation</span><span class="o">.</span><span class="n">toValue</span> <span class="o">=</span> <span class="no">NSValue</span><span class="o">.</span><span class="n">valueWithCGPoint</span><span class="p">(</span><span class="n">second_cloud_final_position</span><span class="p">)</span>
+
+  <span class="c1"># Because we want a infinite animation we set the repeat count to Float Max</span>
+  <span class="n">second_cloud_animation</span><span class="o">.</span><span class="n">repeatCount</span> <span class="o">=</span> <span class="nb">Float</span><span class="o">::</span><span class="no">MAX</span>
+
+
+  <span class="c1"># Apply the timing function to simulate the Easy out Easing</span>
+  <span class="n">second_cloud_animation</span><span class="o">.</span><span class="n">timingFunction</span> <span class="o">=</span> <span class="no">CAMediaTimingFunction</span><span class="o">.</span><span class="n">functionWithName</span><span class="p">(</span><span class="no">KCAMediaTimingFunctionEaseOut</span><span class="p">)</span>
+
+  <span class="n">second_cloud_layer</span><span class="o">.</span><span class="n">addAnimation</span><span class="p">(</span><span class="n">second_cloud_animation</span><span class="p">,</span> <span class="n">forKey</span><span class="ss">:&#39;position_animation&#39;</span><span class="p">)</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="imageblock">
+<div class="content">
+<img src="resources/ch21-CoreAnimation/ch21_AnimationCloudsWithEasing.png" alt="Cloud Animation with Easing" />
+</div>
+<div class="title">Figure 40. Cloud Animation with Easing</div>
+</div>
+<div class="paragraph"><p>Subtle right? Thats the idea! It now looks more that the wind blows stronger at the first and then it slows down. But what is really happening?</p></div>
+<div class="paragraph"><p>Do you remember the part of the interpolation? We were saying in that moment that it is the calculus between the initial value and the final every millisecond of the sequence. It means that if we move 3 points during 3 seconds, it will move one point per second right?</p></div>
+<div class="paragraph"><p>Yes it does if our timing function is linear (Which is the default), but if we change that to a EasyIn what is really happening is that in the first second it moves 1.5 points, in the second 1 point and in the final second .5 points. Thats makes the illusion of decelerating</p></div>
+<div class="paragraph"><p>In iOS they are 4 default easing available for the timing functions:</p></div>
+<div class="imageblock">
+<div class="content">
+<img src="resources/ch21-CoreAnimation/ch21_Easings.png" alt="iOS Easings" />
+</div>
+<div class="title">Figure 41. iOS Easings</div>
+</div>
+<div class="paragraph"><p>Also if you don&#8217;t like anyone, you can implement your custom timing function.</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_cakeyframeanimation">CAKeyFrameAnimation</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>Until this part we have created single key-frame animations, from a value to value, without intermediates. But what happens when we need to set more points into a moving animation, by example the arc that makes the sun in the sky during the day?</p></div>
+<div class="paragraph"><p>If we start on the left bottom corner on the screen and use a CABasicAnimation to move the sun to the right bottom, it will move in a straight line, so we will need to add a middle point in top middle of the screen. This is done using a CAKeyFrameAnimation:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">loadView</span>
+
+  <span class="c1"># Lets create a view for our view controller</span>
+  <span class="nb">self</span><span class="o">.</span><span class="n">view</span> <span class="o">=</span> <span class="no">UIView</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithFrame</span><span class="p">(</span><span class="no">UIScreen</span><span class="o">.</span><span class="n">mainScreen</span><span class="o">.</span><span class="n">bounds</span><span class="p">)</span>
+
+  <span class="n">layout_background_layer</span>
+  <span class="n">layout_sun_layer</span>
+  <span class="n">layout_cloud_layers</span>
+  <span class="n">layout_grass_layer</span>
+  <span class="n">load_sun_animation</span>
+<span class="k">end</span>
+
+
+<span class="k">def</span> <span class="nf">load_sun_animation</span>
+
+  <span class="c1"># Create a new instance of CAKeyframeAnimation</span>
+  <span class="n">translation_animation</span> <span class="o">=</span> <span class="no">CAKeyframeAnimation</span><span class="o">.</span><span class="n">animationWithKeyPath</span><span class="p">(</span><span class="s1">&#39;position&#39;</span><span class="p">)</span>
+
+  <span class="n">translation_animation</span><span class="o">.</span><span class="n">duration</span> <span class="o">=</span> <span class="mi">15</span>
+
+  <span class="c1"># We need to have an array for containing all the positions</span>
+  <span class="n">values</span> <span class="o">=</span> <span class="no">NSMutableArray</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">init</span>
+
+
+  <span class="c1"># Initial Sun Position</span>
+  <span class="n">initial_sun_position</span> <span class="o">=</span> <span class="no">NSValue</span><span class="o">.</span><span class="n">valueWithCGPoint</span><span class="p">(</span><span class="no">CGPointMake</span><span class="p">(</span><span class="o">-</span><span class="mi">180</span><span class="p">,</span> <span class="mi">660</span><span class="p">))</span>
+  <span class="n">values</span><span class="o">.</span><span class="n">addObject</span><span class="p">(</span><span class="n">initial_sun_position</span><span class="p">)</span>
+
+  <span class="c1"># Middle Sun Position</span>
+  <span class="n">middle_sun_position</span> <span class="o">=</span> <span class="no">NSValue</span><span class="o">.</span><span class="n">valueWithCGPoint</span><span class="p">(</span><span class="no">CGPointMake</span><span class="p">(</span><span class="mi">155</span><span class="p">,</span> <span class="mi">100</span><span class="p">))</span>
+  <span class="n">values</span><span class="o">.</span><span class="n">addObject</span><span class="p">(</span><span class="n">middle_sun_position</span><span class="p">)</span>
+
+  <span class="n">final_sun_position</span> <span class="o">=</span> <span class="no">NSValue</span><span class="o">.</span><span class="n">valueWithCGPoint</span><span class="p">(</span><span class="no">CGPointMake</span><span class="p">(</span><span class="mi">500</span><span class="p">,</span> <span class="mi">660</span><span class="p">))</span>
+  <span class="n">values</span><span class="o">.</span><span class="n">addObject</span><span class="p">(</span><span class="n">final_sun_position</span><span class="p">)</span>
+
+
+  <span class="n">translation_animation</span><span class="o">.</span><span class="n">values</span> <span class="o">=</span> <span class="n">values</span>
+
+     <span class="c1"># Because we want a infinite animation we set the repeat count to Float Max</span>
+  <span class="n">translation_animation</span><span class="o">.</span><span class="n">repeatCount</span> <span class="o">=</span> <span class="nb">Float</span><span class="o">::</span><span class="no">MAX</span>
+
+  <span class="c1"># Apply the timing function to simulate the Easy out Easing</span>
+  <span class="n">translation_animation</span><span class="o">.</span><span class="n">timingFunction</span> <span class="o">=</span> <span class="no">CAMediaTimingFunction</span><span class="o">.</span><span class="n">functionWithName</span><span class="p">(</span><span class="no">KCAMediaTimingFunctionEaseInEaseOut</span><span class="p">)</span>
+
+  <span class="vi">@sun_layer</span><span class="o">.</span><span class="n">addAnimation</span><span class="p">(</span><span class="n">translation_animation</span><span class="p">,</span> <span class="n">forKey</span><span class="ss">:&#39;position_animation&#39;</span><span class="p">)</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="imageblock">
+<div class="content">
+<img src="resources/ch21-CoreAnimation/ch21_SunStraightAnimation.png" alt="Sun Straight Animation" />
+</div>
+<div class="title">Figure 42. Sun Straight Animation</div>
+</div>
+<div class="paragraph"><p>We are improving! But the sun does not move in a straight line, so lets change does points into an arc:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">load_sun_animation</span>
+
+  <span class="c1"># Create a new instance of CAKeyframeAnimation</span>
+  <span class="n">translation_animation</span> <span class="o">=</span> <span class="no">CAKeyframeAnimation</span><span class="o">.</span><span class="n">animationWithKeyPath</span><span class="p">(</span><span class="s1">&#39;position&#39;</span><span class="p">)</span>
+
+  <span class="c1"># Set the animation duration</span>
+  <span class="n">translation_animation</span><span class="o">.</span><span class="n">duration</span> <span class="o">=</span> <span class="mi">15</span>
+
+
+  <span class="c1"># Using a BezierPath we will create the Arc for the position</span>
+  <span class="c1"># animation to cover, is better this way using lines and curves</span>
+  <span class="c1"># than setting every point by ourselfs</span>
+  <span class="n">sun_path</span> <span class="o">=</span> <span class="no">UIBezierPath</span><span class="o">.</span><span class="n">bezierPath</span>
+  <span class="n">sun_path</span><span class="o">.</span><span class="n">moveToPoint</span><span class="p">(</span><span class="no">CGPointMake</span><span class="p">(</span><span class="o">-</span><span class="mi">90</span><span class="p">,</span> <span class="mi">660</span><span class="p">))</span>
+  <span class="n">sun_path</span><span class="o">.</span><span class="n">addCurveToPoint</span><span class="p">(</span><span class="no">CGPointMake</span><span class="p">(</span><span class="mi">410</span><span class="p">,</span> <span class="mi">660</span><span class="p">),</span>
+                           <span class="n">controlPoint1</span><span class="ss">:CGPointMake</span><span class="p">(</span><span class="mi">90</span><span class="p">,</span> <span class="o">-</span><span class="mi">100</span><span class="p">),</span>
+                           <span class="n">controlPoint2</span><span class="ss">:CGPointMake</span><span class="p">(</span><span class="mi">230</span><span class="p">,</span> <span class="o">-</span><span class="mi">100</span><span class="p">))</span>
+
+
+  <span class="c1"># Assign the path to the animation</span>
+  <span class="n">translation_animation</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="n">sun_path</span><span class="o">.</span><span class="n">CGPath</span>
+
+  <span class="c1"># Because we want a infinite animation we set the repeat count to Float Max</span>
+  <span class="n">translation_animation</span><span class="o">.</span><span class="n">repeatCount</span> <span class="o">=</span> <span class="nb">Float</span><span class="o">::</span><span class="no">MAX</span>
+
+  <span class="c1"># Apply the timing function to simulate the Easy out Easing</span>
+  <span class="n">translation_animation</span><span class="o">.</span><span class="n">timingFunction</span> <span class="o">=</span> <span class="no">CAMediaTimingFunction</span><span class="o">.</span><span class="n">functionWithName</span><span class="p">(</span><span class="no">KCAMediaTimingFunctionEaseInEaseOut</span><span class="p">)</span>
+
+  <span class="vi">@sun_layer</span><span class="o">.</span><span class="n">addAnimation</span><span class="p">(</span><span class="n">translation_animation</span><span class="p">,</span> <span class="n">forKey</span><span class="ss">:&#39;position_animation&#39;</span><span class="p">)</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="imageblock">
+<div class="content">
+<img src="resources/ch21-CoreAnimation/ch21_SunArcAnimation.png" alt="Sun Arc Animation" />
+</div>
+<div class="title">Figure 43. Sun Arc Animation</div>
+</div>
+<div class="paragraph"><p>Great! Now this is working, but how about combining the translation animation with a spinning one? (CABasicAnimation &amp; CAKeyframeAnimation):</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">load_sun_animation</span>
+
+ <span class="c1"># Create a new instance of CAKeyframeAnimation</span>
+ <span class="n">translation_animation</span> <span class="o">=</span> <span class="no">CAKeyframeAnimation</span><span class="o">.</span><span class="n">animationWithKeyPath</span><span class="p">(</span><span class="s1">&#39;position&#39;</span><span class="p">)</span>
+
+ <span class="c1"># Set the animation duration</span>
+ <span class="n">translation_animation</span><span class="o">.</span><span class="n">duration</span> <span class="o">=</span> <span class="mi">15</span>
+
+
+ <span class="c1"># Using a BezierPath we will create the Arc for the position</span>
+ <span class="c1"># animation to cover, is better this way using lines and curves</span>
+ <span class="c1"># than setting every point by ourselves</span>
+ <span class="n">sun_path</span> <span class="o">=</span> <span class="no">UIBezierPath</span><span class="o">.</span><span class="n">bezierPath</span>
+ <span class="n">sun_path</span><span class="o">.</span><span class="n">moveToPoint</span><span class="p">(</span><span class="no">CGPointMake</span><span class="p">(</span><span class="o">-</span><span class="mi">90</span><span class="p">,</span> <span class="mi">660</span><span class="p">))</span>
+ <span class="n">sun_path</span><span class="o">.</span><span class="n">addCurveToPoint</span><span class="p">(</span><span class="no">CGPointMake</span><span class="p">(</span><span class="mi">410</span><span class="p">,</span> <span class="mi">660</span><span class="p">),</span>
+                          <span class="n">controlPoint1</span><span class="ss">:CGPointMake</span><span class="p">(</span><span class="mi">90</span><span class="p">,</span> <span class="o">-</span><span class="mi">100</span><span class="p">),</span>
+                          <span class="n">controlPoint2</span><span class="ss">:CGPointMake</span><span class="p">(</span><span class="mi">230</span><span class="p">,</span> <span class="o">-</span><span class="mi">100</span><span class="p">))</span>
+
+
+ <span class="c1"># Assign the path to the animation</span>
+ <span class="n">translation_animation</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="n">sun_path</span><span class="o">.</span><span class="n">CGPath</span>
+
+ <span class="c1"># Because we want a infinite animation we set the repeat count to Float Max</span>
+ <span class="n">translation_animation</span><span class="o">.</span><span class="n">repeatCount</span> <span class="o">=</span> <span class="nb">Float</span><span class="o">::</span><span class="no">MAX</span>
+
+ <span class="c1"># Apply the timing function to simulate the Easy out Easing</span>
+ <span class="n">translation_animation</span><span class="o">.</span><span class="n">timingFunction</span> <span class="o">=</span> <span class="no">CAMediaTimingFunction</span><span class="o">.</span><span class="n">functionWithName</span><span class="p">(</span><span class="no">KCAMediaTimingFunctionEaseInEaseOut</span><span class="p">)</span>
+
+
+ <span class="vi">@sun_layer</span><span class="o">.</span><span class="n">addAnimation</span><span class="p">(</span><span class="n">translation_animation</span><span class="p">,</span> <span class="n">forKey</span><span class="ss">:&#39;position_animation&#39;</span><span class="p">)</span>
+
+
+ <span class="c1"># Create another instance of the CABasicAnimation with the property &#39;transform.rotation.z&#39;</span>
+ <span class="c1"># this property allows us to change the layer in any of the three dimensions, in this case</span>
+ <span class="c1"># y axis</span>
+ <span class="n">rotation_animation</span> <span class="o">=</span> <span class="no">CABasicAnimation</span><span class="o">.</span><span class="n">animationWithKeyPath</span><span class="p">(</span><span class="s1">&#39;transform.rotation.z&#39;</span><span class="p">)</span>
+
+ <span class="c1"># Take a note here we are setting 360 degrees, but Core Animation works with radians</span>
+ <span class="c1"># thats why the conversion PI * 2</span>
+ <span class="n">rotation_animation</span><span class="o">.</span><span class="n">toValue</span> <span class="o">=</span> <span class="no">NSNumber</span><span class="o">.</span><span class="n">numberWithFloat</span><span class="p">(</span><span class="no">Math</span><span class="o">::</span><span class="no">PI</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span>
+
+ <span class="c1"># Set the duration according with the other animation</span>
+ <span class="n">rotation_animation</span><span class="o">.</span><span class="n">duration</span> <span class="o">=</span> <span class="mi">5</span>
+
+  <span class="c1"># Because we want a infinite animation we set the repeat count to Float Max</span>
+ <span class="n">rotation_animation</span><span class="o">.</span><span class="n">repeatCount</span> <span class="o">=</span> <span class="nb">Float</span><span class="o">::</span><span class="no">MAX</span>
+
+ <span class="c1"># Add the animation to the layer</span>
+ <span class="vi">@sun_layer</span><span class="o">.</span><span class="n">addAnimation</span><span class="p">(</span><span class="n">rotation_animation</span><span class="p">,</span> <span class="n">forKey</span><span class="ss">:&#39;rotation_animation&#39;</span><span class="p">)</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>But this is not the end of it, what about changing the colors of the sky according to the position of the sun? For this we will need to animate the background layer in the following way:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">load_sun_animation</span>
+
+ <span class="c1"># Create a new instance of CAKeyframeAnimation</span>
+ <span class="n">translation_animation</span> <span class="o">=</span> <span class="no">CAKeyframeAnimation</span><span class="o">.</span><span class="n">animationWithKeyPath</span><span class="p">(</span><span class="s1">&#39;position&#39;</span><span class="p">)</span>
+
+ <span class="c1"># Set the animation duration</span>
+ <span class="n">translation_animation</span><span class="o">.</span><span class="n">duration</span> <span class="o">=</span> <span class="mi">15</span>
+
+
+ <span class="c1"># Using a BezierPath we will create the Arc for the position</span>
+ <span class="c1"># animation to cover, is better this way using lines and curves</span>
+ <span class="c1"># than setting every point by ourselfs</span>
+ <span class="n">sun_path</span> <span class="o">=</span> <span class="no">UIBezierPath</span><span class="o">.</span><span class="n">bezierPath</span>
+ <span class="n">sun_path</span><span class="o">.</span><span class="n">moveToPoint</span><span class="p">(</span><span class="no">CGPointMake</span><span class="p">(</span><span class="o">-</span><span class="mi">90</span><span class="p">,</span> <span class="mi">660</span><span class="p">))</span>
+ <span class="n">sun_path</span><span class="o">.</span><span class="n">addCurveToPoint</span><span class="p">(</span><span class="no">CGPointMake</span><span class="p">(</span><span class="mi">410</span><span class="p">,</span> <span class="mi">660</span><span class="p">),</span>
+                          <span class="n">controlPoint1</span><span class="ss">:CGPointMake</span><span class="p">(</span><span class="mi">90</span><span class="p">,</span> <span class="o">-</span><span class="mi">100</span><span class="p">),</span>
+                          <span class="n">controlPoint2</span><span class="ss">:CGPointMake</span><span class="p">(</span><span class="mi">230</span><span class="p">,</span> <span class="o">-</span><span class="mi">100</span><span class="p">))</span>
+
+
+ <span class="c1"># Assign the path to the animation</span>
+ <span class="n">translation_animation</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="n">sun_path</span><span class="o">.</span><span class="n">CGPath</span>
+
+ <span class="c1"># Because we want a infinite animation we set the repeat count to Float Max</span>
+ <span class="n">translation_animation</span><span class="o">.</span><span class="n">repeatCount</span> <span class="o">=</span> <span class="nb">Float</span><span class="o">::</span><span class="no">MAX</span>
+
+ <span class="c1"># Apply the timing function to simulate the Easy out Easing</span>
+ <span class="n">translation_animation</span><span class="o">.</span><span class="n">timingFunction</span> <span class="o">=</span> <span class="no">CAMediaTimingFunction</span><span class="o">.</span><span class="n">functionWithName</span><span class="p">(</span><span class="no">KCAMediaTimingFunctionEaseInEaseOut</span><span class="p">)</span>
+
+
+ <span class="vi">@sun_layer</span><span class="o">.</span><span class="n">addAnimation</span><span class="p">(</span><span class="n">translation_animation</span><span class="p">,</span> <span class="n">forKey</span><span class="ss">:&#39;position_animation&#39;</span><span class="p">)</span>
+
+
+ <span class="c1"># Create another instance of the CABasicAnimation with the property &#39;transform.rotation.z&#39;</span>
+ <span class="c1"># this property allows us to change the layer in any of the three dimensions, in this case</span>
+ <span class="c1"># y axis</span>
+ <span class="n">rotation_animation</span> <span class="o">=</span> <span class="no">CABasicAnimation</span><span class="o">.</span><span class="n">animationWithKeyPath</span><span class="p">(</span><span class="s1">&#39;transform.rotation.z&#39;</span><span class="p">)</span>
+
+ <span class="c1"># Take a note here we are setting 360 degrees, but Core Animation works with radians</span>
+ <span class="c1"># thats why the conversion PI * 2</span>
+ <span class="n">rotation_animation</span><span class="o">.</span><span class="n">toValue</span> <span class="o">=</span> <span class="no">NSNumber</span><span class="o">.</span><span class="n">numberWithFloat</span><span class="p">(</span><span class="no">Math</span><span class="o">::</span><span class="no">PI</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span>
+
+ <span class="c1"># Set the duration according with the other animation</span>
+ <span class="n">rotation_animation</span><span class="o">.</span><span class="n">duration</span> <span class="o">=</span> <span class="mi">5</span>
+
+  <span class="c1"># Because we want a infinite animation we set the repeat count to Float Max</span>
+ <span class="n">rotation_animation</span><span class="o">.</span><span class="n">repeatCount</span> <span class="o">=</span> <span class="nb">Float</span><span class="o">::</span><span class="no">MAX</span>
+
+ <span class="c1"># Add the animation to the layer</span>
+ <span class="vi">@sun_layer</span><span class="o">.</span><span class="n">addAnimation</span><span class="p">(</span><span class="n">rotation_animation</span><span class="p">,</span> <span class="n">forKey</span><span class="ss">:&#39;rotation_animation&#39;</span><span class="p">)</span>
+
+
+ <span class="c1"># We need to create an array of the color gradients thar we want the</span>
+ <span class="c1"># background transition into</span>
+ <span class="n">animation_colors</span> <span class="o">=</span> <span class="no">NSMutableArray</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">init</span>
+
+ <span class="c1"># Because we are using a gradient, we need to have a 3 pair of colors for</span>
+ <span class="c1"># each transition</span>
+
+ <span class="c1"># Morning Colors</span>
+ <span class="n">initial_colors</span> <span class="o">=</span> <span class="no">NSMutableArray</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">init</span>
+
+ <span class="n">initial_colors</span><span class="o">.</span><span class="n">addObject</span><span class="p">(</span><span class="no">UIColor</span><span class="o">.</span><span class="n">colorWithRed</span><span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mo">07</span><span class="mi">8</span><span class="p">,</span> <span class="n">green</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mi">463</span><span class="p">,</span> <span class="n">blue</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mi">984</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">CGColor</span><span class="p">)</span>
+ <span class="n">initial_colors</span><span class="o">.</span><span class="n">addObject</span><span class="p">(</span><span class="no">UIColor</span><span class="o">.</span><span class="n">colorWithRed</span><span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">329</span><span class="p">,</span> <span class="n">green</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mi">612</span><span class="p">,</span> <span class="n">blue</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mi">984</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">CGColor</span><span class="p">)</span>
+ <span class="n">initial_colors</span><span class="o">.</span><span class="n">addObject</span><span class="p">(</span><span class="no">UIColor</span><span class="o">.</span><span class="n">colorWithRed</span><span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">329</span><span class="p">,</span> <span class="n">green</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mi">612</span><span class="p">,</span> <span class="n">blue</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mi">984</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">CGColor</span><span class="p">)</span>
+
+ <span class="c1"># Mid Day Colors</span>
+ <span class="n">mid_colors</span> <span class="o">=</span> <span class="no">NSMutableArray</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">init</span>
+
+ <span class="n">mid_colors</span><span class="o">.</span><span class="n">addObject</span><span class="p">(</span><span class="no">UIColor</span><span class="o">.</span><span class="n">colorWithRed</span><span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">388</span><span class="p">,</span> <span class="n">green</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mi">714</span><span class="p">,</span> <span class="n">blue</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mi">988</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">CGColor</span><span class="p">)</span>
+ <span class="n">mid_colors</span><span class="o">.</span><span class="n">addObject</span><span class="p">(</span><span class="no">UIColor</span><span class="o">.</span><span class="n">colorWithRed</span><span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">553</span><span class="p">,</span> <span class="n">green</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mi">808</span><span class="p">,</span> <span class="n">blue</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mi">992</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">CGColor</span><span class="p">)</span>
+ <span class="n">mid_colors</span><span class="o">.</span><span class="n">addObject</span><span class="p">(</span><span class="no">UIColor</span><span class="o">.</span><span class="n">colorWithRed</span><span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">553</span><span class="p">,</span> <span class="n">green</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mi">808</span><span class="p">,</span> <span class="n">blue</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mi">992</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">CGColor</span><span class="p">)</span>
+
+ <span class="c1"># Dawn Day Colors</span>
+ <span class="n">final_colors</span> <span class="o">=</span> <span class="no">NSMutableArray</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">init</span>
+
+ <span class="n">final_colors</span><span class="o">.</span><span class="n">addObject</span><span class="p">(</span><span class="no">UIColor</span><span class="o">.</span><span class="n">colorWithRed</span><span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">094</span><span class="p">,</span> <span class="n">green</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mi">086</span><span class="p">,</span> <span class="n">blue</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mi">686</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">CGColor</span><span class="p">)</span>
+ <span class="n">final_colors</span><span class="o">.</span><span class="n">addObject</span><span class="p">(</span><span class="no">UIColor</span><span class="o">.</span><span class="n">colorWithRed</span><span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">635</span><span class="p">,</span> <span class="n">green</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mo">051</span><span class="p">,</span> <span class="n">blue</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mi">404</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">CGColor</span><span class="p">)</span>
+ <span class="n">final_colors</span><span class="o">.</span><span class="n">addObject</span><span class="p">(</span><span class="no">UIColor</span><span class="o">.</span><span class="n">colorWithRed</span><span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">635</span><span class="p">,</span> <span class="n">green</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mo">051</span><span class="p">,</span> <span class="n">blue</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mi">404</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">CGColor</span><span class="p">)</span>
+
+
+ <span class="n">animation_colors</span><span class="o">.</span><span class="n">addObject</span><span class="p">(</span><span class="n">initial_colors</span><span class="p">)</span>
+ <span class="n">animation_colors</span><span class="o">.</span><span class="n">addObject</span><span class="p">(</span><span class="n">mid_colors</span><span class="p">)</span>
+ <span class="n">animation_colors</span><span class="o">.</span><span class="n">addObject</span><span class="p">(</span><span class="n">final_colors</span><span class="p">)</span>
+
+
+ <span class="c1"># Create a new instance of CAKeyframeAnimation with the property</span>
+ <span class="c1"># of colors</span>
+ <span class="n">gradient_animation</span> <span class="o">=</span> <span class="no">CAKeyframeAnimation</span><span class="o">.</span><span class="n">animationWithKeyPath</span><span class="p">(</span><span class="s1">&#39;colors&#39;</span><span class="p">)</span>
+
+ <span class="c1"># Set the animation duration</span>
+ <span class="n">gradient_animation</span><span class="o">.</span><span class="n">duration</span> <span class="o">=</span> <span class="mi">15</span>
+
+ <span class="c1"># Set the matrix of gradient colors into the animation</span>
+ <span class="n">gradient_animation</span><span class="o">.</span><span class="n">values</span> <span class="o">=</span> <span class="n">animation_colors</span>
+
+ <span class="c1"># Because we want a infinite animation we set the repeat count to Float Max</span>
+ <span class="n">gradient_animation</span><span class="o">.</span><span class="n">repeatCount</span> <span class="o">=</span> <span class="nb">Float</span><span class="o">::</span><span class="no">MAX</span>
+ <span class="n">gradient_animation</span><span class="o">.</span><span class="n">fillMode</span> <span class="o">=</span> <span class="no">KCAFillModeForwards</span>
+
+ <span class="vi">@background_layer</span><span class="o">.</span><span class="n">colors</span> <span class="o">=</span> <span class="n">final_colors</span>
+ <span class="vi">@background_layer</span><span class="o">.</span><span class="n">addAnimation</span><span class="p">(</span><span class="n">gradient_animation</span><span class="p">,</span> <span class="n">forKey</span><span class="ss">:&#39;colors_animation&#39;</span><span class="p">)</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="imageblock">
+<div class="content">
+<img src="resources/ch21-CoreAnimation/ch21_SunSunsetAnimation.png" alt="Sun Sunset Animation" />
+</div>
+<div class="title">Figure 44. Sun Sunset Animation</div>
+</div>
+<div class="paragraph"><p>It looks pretty good! But we are missing the night part right? Thats the next part of the exercise</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_ready_set_action">Ready, Set, Action!</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>Do you remember when we talk about know when a animation finish? We will need that part to present our night scene! The way to know when the animation finished is using the delegate pattern, lets implement it!</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">load_sun_animation</span>
+
+  <span class="c1"># Create a new instance of CAKeyframeAnimation</span>
+  <span class="n">translation_animation</span> <span class="o">=</span> <span class="no">CAKeyframeAnimation</span><span class="o">.</span><span class="n">animationWithKeyPath</span><span class="p">(</span><span class="s1">&#39;position&#39;</span><span class="p">)</span>
+
+  <span class="c1"># Set the animation duration</span>
+  <span class="n">translation_animation</span><span class="o">.</span><span class="n">duration</span> <span class="o">=</span> <span class="mi">15</span>
+
+
+  <span class="c1"># Using a BezierPath we will create the Arc for the position</span>
+  <span class="c1"># animation to cover, is better this way using lines and curves</span>
+  <span class="c1"># than setting every point by ourselfs</span>
+  <span class="n">sun_path</span> <span class="o">=</span> <span class="no">UIBezierPath</span><span class="o">.</span><span class="n">bezierPath</span>
+  <span class="n">sun_path</span><span class="o">.</span><span class="n">moveToPoint</span><span class="p">(</span><span class="no">CGPointMake</span><span class="p">(</span><span class="o">-</span><span class="mi">90</span><span class="p">,</span> <span class="mi">660</span><span class="p">))</span>
+  <span class="n">sun_path</span><span class="o">.</span><span class="n">addCurveToPoint</span><span class="p">(</span><span class="no">CGPointMake</span><span class="p">(</span><span class="mi">410</span><span class="p">,</span> <span class="mi">660</span><span class="p">),</span>
+                           <span class="n">controlPoint1</span><span class="ss">:CGPointMake</span><span class="p">(</span><span class="mi">90</span><span class="p">,</span> <span class="o">-</span><span class="mi">100</span><span class="p">),</span>
+                           <span class="n">controlPoint2</span><span class="ss">:CGPointMake</span><span class="p">(</span><span class="mi">230</span><span class="p">,</span> <span class="o">-</span><span class="mi">100</span><span class="p">))</span>
+
+
+  <span class="c1"># Assign the path to the animation</span>
+  <span class="n">translation_animation</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="n">sun_path</span><span class="o">.</span><span class="n">CGPath</span>
+
+  <span class="c1"># Apply the timing function to simulate the Easy out Easing</span>
+  <span class="n">translation_animation</span><span class="o">.</span><span class="n">timingFunction</span> <span class="o">=</span> <span class="no">CAMediaTimingFunction</span><span class="o">.</span><span class="n">functionWithName</span><span class="p">(</span><span class="no">KCAMediaTimingFunctionEaseInEaseOut</span><span class="p">)</span>
+
+  <span class="c1"># We assign self as delegate of the animation</span>
+  <span class="n">translation_animation</span><span class="o">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="nb">self</span>
+  <span class="n">translation_animation</span><span class="o">.</span><span class="n">removedOnCompletion</span> <span class="o">=</span> <span class="kp">false</span>
+
+  <span class="vi">@sun_layer</span><span class="o">.</span><span class="n">position</span> <span class="o">=</span> <span class="no">CGPointMake</span><span class="p">(</span><span class="mi">410</span><span class="p">,</span> <span class="mi">660</span><span class="p">)</span>
+
+  <span class="vi">@sun_layer</span><span class="o">.</span><span class="n">addAnimation</span><span class="p">(</span><span class="n">translation_animation</span><span class="p">,</span> <span class="n">forKey</span><span class="ss">:&#39;position_animation&#39;</span><span class="p">)</span>
+
+
+  <span class="c1"># Create another instance of the CABasicAnimation with the property &#39;transform.rotation.z&#39;</span>
+  <span class="c1"># this property allows us to change the layer in any of the three dimensions, in this case</span>
+  <span class="c1"># y axis</span>
+  <span class="n">rotation_animation</span> <span class="o">=</span> <span class="no">CABasicAnimation</span><span class="o">.</span><span class="n">animationWithKeyPath</span><span class="p">(</span><span class="s1">&#39;transform.rotation.z&#39;</span><span class="p">)</span>
+
+  <span class="c1"># Take a note here we are setting 360 degrees, but Core Animation works with radians</span>
+  <span class="c1"># thats why the conversion PI * 2</span>
+  <span class="n">rotation_animation</span><span class="o">.</span><span class="n">toValue</span> <span class="o">=</span> <span class="no">NSNumber</span><span class="o">.</span><span class="n">numberWithFloat</span><span class="p">(</span><span class="no">Math</span><span class="o">::</span><span class="no">PI</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span>
+
+  <span class="c1"># Set the duration according with the other animation</span>
+  <span class="n">rotation_animation</span><span class="o">.</span><span class="n">duration</span> <span class="o">=</span> <span class="mi">5</span>
+
+   <span class="c1"># Because we want a infinite animation we set the repeat count to Float Max</span>
+  <span class="n">rotation_animation</span><span class="o">.</span><span class="n">repeatCount</span> <span class="o">=</span> <span class="nb">Float</span><span class="o">::</span><span class="no">MAX</span>
+
+  <span class="c1"># Add the animation to the layer</span>
+  <span class="vi">@sun_layer</span><span class="o">.</span><span class="n">addAnimation</span><span class="p">(</span><span class="n">rotation_animation</span><span class="p">,</span> <span class="n">forKey</span><span class="ss">:&#39;rotation_animation&#39;</span><span class="p">)</span>
+
+
+  <span class="c1"># We need to create an array of the color gradients thar we want the</span>
+  <span class="c1"># background transition into</span>
+  <span class="n">animation_colors</span> <span class="o">=</span> <span class="no">NSMutableArray</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">init</span>
+
+  <span class="c1"># Because we are using a gradient, we need to have a 3 pair of colors for</span>
+  <span class="c1"># each transition</span>
+
+
+  <span class="c1"># Last Night Color</span>
+  <span class="n">last_night_color</span> <span class="o">=</span> <span class="no">NSMutableArray</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">init</span>
+
+  <span class="n">last_night_color</span><span class="o">.</span><span class="n">addObject</span><span class="p">(</span><span class="no">UIColor</span><span class="o">.</span><span class="n">colorWithWhite</span><span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mo">051</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">CGColor</span><span class="p">)</span>
+  <span class="n">last_night_color</span><span class="o">.</span><span class="n">addObject</span><span class="p">(</span><span class="no">UIColor</span><span class="o">.</span><span class="n">colorWithRed</span><span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">157</span><span class="p">,</span> <span class="n">green</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mi">173</span><span class="p">,</span> <span class="n">blue</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mi">192</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">CGColor</span><span class="p">)</span>
+  <span class="n">last_night_color</span><span class="o">.</span><span class="n">addObject</span><span class="p">(</span><span class="no">UIColor</span><span class="o">.</span><span class="n">colorWithRed</span><span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">157</span><span class="p">,</span> <span class="n">green</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mi">173</span><span class="p">,</span> <span class="n">blue</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mi">192</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">CGColor</span><span class="p">)</span>
+
+  <span class="c1"># Morning Colors</span>
+  <span class="n">initial_colors</span> <span class="o">=</span> <span class="no">NSMutableArray</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">init</span>
+
+  <span class="n">initial_colors</span><span class="o">.</span><span class="n">addObject</span><span class="p">(</span><span class="no">UIColor</span><span class="o">.</span><span class="n">colorWithRed</span><span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mo">07</span><span class="mi">8</span><span class="p">,</span> <span class="n">green</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mi">463</span><span class="p">,</span> <span class="n">blue</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mi">984</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">CGColor</span><span class="p">)</span>
+  <span class="n">initial_colors</span><span class="o">.</span><span class="n">addObject</span><span class="p">(</span><span class="no">UIColor</span><span class="o">.</span><span class="n">colorWithRed</span><span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">329</span><span class="p">,</span> <span class="n">green</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mi">612</span><span class="p">,</span> <span class="n">blue</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mi">984</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">CGColor</span><span class="p">)</span>
+  <span class="n">initial_colors</span><span class="o">.</span><span class="n">addObject</span><span class="p">(</span><span class="no">UIColor</span><span class="o">.</span><span class="n">colorWithRed</span><span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">329</span><span class="p">,</span> <span class="n">green</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mi">612</span><span class="p">,</span> <span class="n">blue</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mi">984</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">CGColor</span><span class="p">)</span>
+
+  <span class="c1"># Mid Day Colors</span>
+  <span class="n">mid_colors</span> <span class="o">=</span> <span class="no">NSMutableArray</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">init</span>
+
+  <span class="n">mid_colors</span><span class="o">.</span><span class="n">addObject</span><span class="p">(</span><span class="no">UIColor</span><span class="o">.</span><span class="n">colorWithRed</span><span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">388</span><span class="p">,</span> <span class="n">green</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mi">714</span><span class="p">,</span> <span class="n">blue</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mi">988</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">CGColor</span><span class="p">)</span>
+  <span class="n">mid_colors</span><span class="o">.</span><span class="n">addObject</span><span class="p">(</span><span class="no">UIColor</span><span class="o">.</span><span class="n">colorWithRed</span><span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">553</span><span class="p">,</span> <span class="n">green</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mi">808</span><span class="p">,</span> <span class="n">blue</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mi">992</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">CGColor</span><span class="p">)</span>
+  <span class="n">mid_colors</span><span class="o">.</span><span class="n">addObject</span><span class="p">(</span><span class="no">UIColor</span><span class="o">.</span><span class="n">colorWithRed</span><span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">553</span><span class="p">,</span> <span class="n">green</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mi">808</span><span class="p">,</span> <span class="n">blue</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mi">992</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">CGColor</span><span class="p">)</span>
+
+  <span class="c1"># Dawn Day Colors</span>
+  <span class="n">final_colors</span> <span class="o">=</span> <span class="no">NSMutableArray</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">init</span>
+
+  <span class="n">final_colors</span><span class="o">.</span><span class="n">addObject</span><span class="p">(</span><span class="no">UIColor</span><span class="o">.</span><span class="n">colorWithRed</span><span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">094</span><span class="p">,</span> <span class="n">green</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mi">086</span><span class="p">,</span> <span class="n">blue</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mi">686</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">CGColor</span><span class="p">)</span>
+  <span class="n">final_colors</span><span class="o">.</span><span class="n">addObject</span><span class="p">(</span><span class="no">UIColor</span><span class="o">.</span><span class="n">colorWithRed</span><span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">635</span><span class="p">,</span> <span class="n">green</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mo">051</span><span class="p">,</span> <span class="n">blue</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mi">404</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">CGColor</span><span class="p">)</span>
+  <span class="n">final_colors</span><span class="o">.</span><span class="n">addObject</span><span class="p">(</span><span class="no">UIColor</span><span class="o">.</span><span class="n">colorWithRed</span><span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">635</span><span class="p">,</span> <span class="n">green</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mo">051</span><span class="p">,</span> <span class="n">blue</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mi">404</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">CGColor</span><span class="p">)</span>
+
+
+  <span class="n">animation_colors</span><span class="o">.</span><span class="n">addObject</span><span class="p">(</span><span class="n">last_night_color</span><span class="p">)</span>
+  <span class="n">animation_colors</span><span class="o">.</span><span class="n">addObject</span><span class="p">(</span><span class="n">initial_colors</span><span class="p">)</span>
+  <span class="n">animation_colors</span><span class="o">.</span><span class="n">addObject</span><span class="p">(</span><span class="n">mid_colors</span><span class="p">)</span>
+  <span class="n">animation_colors</span><span class="o">.</span><span class="n">addObject</span><span class="p">(</span><span class="n">final_colors</span><span class="p">)</span>
+
+
+  <span class="c1"># Create a new instance of CAKeyframeAnimation with the property</span>
+  <span class="c1"># of colors</span>
+  <span class="n">gradient_animation</span> <span class="o">=</span> <span class="no">CAKeyframeAnimation</span><span class="o">.</span><span class="n">animationWithKeyPath</span><span class="p">(</span><span class="s1">&#39;colors&#39;</span><span class="p">)</span>
+
+  <span class="c1"># Set the animation duration</span>
+  <span class="n">gradient_animation</span><span class="o">.</span><span class="n">duration</span> <span class="o">=</span> <span class="mi">15</span>
+
+  <span class="c1"># Set the matrix of gradient colors into the animation</span>
+  <span class="n">gradient_animation</span><span class="o">.</span><span class="n">values</span> <span class="o">=</span> <span class="n">animation_colors</span>
+
+  <span class="vi">@background_layer</span><span class="o">.</span><span class="n">colors</span> <span class="o">=</span> <span class="n">final_colors</span>
+
+  <span class="vi">@background_layer</span><span class="o">.</span><span class="n">addAnimation</span><span class="p">(</span><span class="n">gradient_animation</span><span class="p">,</span> <span class="n">forKey</span><span class="ss">:&#39;colors_animation&#39;</span><span class="p">)</span>
+<span class="k">end</span>
+
+<span class="k">def</span> <span class="nf">animationDidStop</span><span class="p">(</span><span class="n">animation</span><span class="p">,</span> <span class="n">finished</span><span class="ss">:flag</span><span class="p">)</span>
+
+  <span class="n">load_sun_animation</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>If you look close at the code, we don&#8217;t change pretty much right? Only we remove the repeatCount and assign the view controller as delegate of the animation, this is for when the animation finishes we invoke the method <strong>load_sun_animation</strong> again to continue the loop</p></div>
+<div class="admonitionblock">
+<table><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">Also we add one more color into the background transition, this last is important for the day break transition.</td>
+</tr></table>
+</div>
+<div class="paragraph"><p>For the next step please copy the <strong>bgMoon.png</strong> from the <strong>Define deployment target</strong> into our application resources folder.</p></div>
+<div class="paragraph"><p>Lets add a new layer to include the new moon image:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">loadView</span>
+
+  <span class="c1"># Lets create a view for our view controller</span>
+  <span class="nb">self</span><span class="o">.</span><span class="n">view</span> <span class="o">=</span> <span class="no">UIView</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithFrame</span><span class="p">(</span><span class="no">UIScreen</span><span class="o">.</span><span class="n">mainScreen</span><span class="o">.</span><span class="n">bounds</span><span class="p">)</span>
+
+  <span class="n">layout_background_layer</span>
+  <span class="n">layout_sun_layer</span>
+  <span class="n">layout_cloud_layers</span>
+  <span class="n">layout_moon_layer</span>
+  <span class="n">layout_grass_layer</span>
+  <span class="n">load_sun_animation</span>
+<span class="k">end</span>
+
+
+<span class="k">def</span> <span class="nf">layout_moon_layer</span>
+
+  <span class="c1"># Lets instance a new layer for our first cloud image</span>
+  <span class="vi">@moon_layer</span> <span class="o">=</span> <span class="no">CALayer</span><span class="o">.</span><span class="n">layer</span>
+  <span class="vi">@moon_layer</span><span class="o">.</span><span class="n">frame</span> <span class="o">=</span> <span class="no">CGRectMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">120</span><span class="p">,</span> <span class="mi">120</span><span class="p">)</span>
+  <span class="vi">@moon_layer</span><span class="o">.</span><span class="n">position</span> <span class="o">=</span> <span class="no">CGPointMake</span><span class="p">(</span><span class="o">-</span><span class="mi">120</span><span class="p">,</span> <span class="mi">600</span><span class="p">)</span>
+
+  <span class="c1"># Load the image into memory</span>
+  <span class="n">moon_image</span> <span class="o">=</span> <span class="no">UIImage</span><span class="o">.</span><span class="n">imageNamed</span><span class="p">(</span><span class="s2">&quot;bgMoon.png&quot;</span><span class="p">)</span>
+
+  <span class="c1"># Set the image as content of the layer</span>
+  <span class="vi">@moon_layer</span><span class="o">.</span><span class="n">contents</span> <span class="o">=</span> <span class="n">moon_image</span><span class="o">.</span><span class="n">CGImage</span>
+
+  <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">layer</span><span class="o">.</span><span class="n">addSublayer</span><span class="p">(</span><span class="vi">@moon_layer</span><span class="p">)</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>We are close! Lets implement the moon animation adding the following method:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">load_moon_animation</span>
+
+  <span class="c1"># Create a new instance of CAKeyframeAnimation</span>
+  <span class="n">translation_animation</span> <span class="o">=</span> <span class="no">CAKeyframeAnimation</span><span class="o">.</span><span class="n">animationWithKeyPath</span><span class="p">(</span><span class="s1">&#39;position&#39;</span><span class="p">)</span>
+
+  <span class="c1"># Set the animation duration</span>
+  <span class="n">translation_animation</span><span class="o">.</span><span class="n">duration</span> <span class="o">=</span> <span class="mi">15</span>
+
+
+  <span class="c1"># Using a BezierPath we will create the Arc for the position</span>
+  <span class="c1"># animation to cover, is better this way using lines and curves</span>
+  <span class="c1"># than setting every point by ourselfs</span>
+  <span class="n">sun_path</span> <span class="o">=</span> <span class="no">UIBezierPath</span><span class="o">.</span><span class="n">bezierPath</span>
+  <span class="n">sun_path</span><span class="o">.</span><span class="n">moveToPoint</span><span class="p">(</span><span class="no">CGPointMake</span><span class="p">(</span><span class="o">-</span><span class="mi">90</span><span class="p">,</span> <span class="mi">660</span><span class="p">))</span>
+  <span class="n">sun_path</span><span class="o">.</span><span class="n">addCurveToPoint</span><span class="p">(</span><span class="no">CGPointMake</span><span class="p">(</span><span class="mi">410</span><span class="p">,</span> <span class="mi">660</span><span class="p">),</span>
+                           <span class="n">controlPoint1</span><span class="ss">:CGPointMake</span><span class="p">(</span><span class="mi">90</span><span class="p">,</span> <span class="o">-</span><span class="mi">100</span><span class="p">),</span>
+                           <span class="n">controlPoint2</span><span class="ss">:CGPointMake</span><span class="p">(</span><span class="mi">230</span><span class="p">,</span> <span class="o">-</span><span class="mi">100</span><span class="p">))</span>
+
+
+  <span class="c1"># Assign the path to the animation</span>
+  <span class="n">translation_animation</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="n">sun_path</span><span class="o">.</span><span class="n">CGPath</span>
+
+  <span class="c1"># Apply the timing function to simulate the Easy out Easing</span>
+  <span class="n">translation_animation</span><span class="o">.</span><span class="n">timingFunction</span> <span class="o">=</span> <span class="no">CAMediaTimingFunction</span><span class="o">.</span><span class="n">functionWithName</span><span class="p">(</span><span class="no">KCAMediaTimingFunctionEaseInEaseOut</span><span class="p">)</span>
+
+  <span class="c1"># We assign self as delegate of the animation</span>
+  <span class="n">translation_animation</span><span class="o">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="nb">self</span>
+  <span class="n">translation_animation</span><span class="o">.</span><span class="n">removedOnCompletion</span> <span class="o">=</span> <span class="kp">false</span>
+
+  <span class="vi">@moon_layer</span><span class="o">.</span><span class="n">position</span> <span class="o">=</span> <span class="no">CGPointMake</span><span class="p">(</span><span class="mi">410</span><span class="p">,</span> <span class="mi">660</span><span class="p">)</span>
+
+  <span class="vi">@moon_layer</span><span class="o">.</span><span class="n">addAnimation</span><span class="p">(</span><span class="n">translation_animation</span><span class="p">,</span> <span class="n">forKey</span><span class="ss">:&#39;position_animation&#39;</span><span class="p">)</span>
+
+
+  <span class="c1"># We need to create an array of the color gradients thar we want the</span>
+  <span class="c1"># background transition into</span>
+  <span class="n">animation_colors</span> <span class="o">=</span> <span class="no">NSMutableArray</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">init</span>
+
+  <span class="c1"># Because we are using a gradient, we need to have a 3 pair of colors for</span>
+  <span class="c1"># each transition</span>
+
+  <span class="c1"># The last gradient used in the sun animation</span>
+  <span class="n">last_day_color</span> <span class="o">=</span> <span class="no">NSMutableArray</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">init</span>
+
+  <span class="n">last_day_color</span><span class="o">.</span><span class="n">addObject</span><span class="p">(</span><span class="no">UIColor</span><span class="o">.</span><span class="n">colorWithRed</span><span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">094</span><span class="p">,</span> <span class="n">green</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mi">086</span><span class="p">,</span> <span class="n">blue</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mi">686</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">CGColor</span><span class="p">)</span>
+  <span class="n">last_day_color</span><span class="o">.</span><span class="n">addObject</span><span class="p">(</span><span class="no">UIColor</span><span class="o">.</span><span class="n">colorWithRed</span><span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">635</span><span class="p">,</span> <span class="n">green</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mo">051</span><span class="p">,</span> <span class="n">blue</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mi">404</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">CGColor</span><span class="p">)</span>
+  <span class="n">last_day_color</span><span class="o">.</span><span class="n">addObject</span><span class="p">(</span><span class="no">UIColor</span><span class="o">.</span><span class="n">colorWithRed</span><span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">635</span><span class="p">,</span> <span class="n">green</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mo">051</span><span class="p">,</span> <span class="n">blue</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mi">404</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">CGColor</span><span class="p">)</span>
+
+
+  <span class="c1"># Night Colors</span>
+  <span class="n">initial_colors</span> <span class="o">=</span> <span class="no">NSMutableArray</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">init</span>
+
+  <span class="n">initial_colors</span><span class="o">.</span><span class="n">addObject</span><span class="p">(</span><span class="no">UIColor</span><span class="o">.</span><span class="n">colorWithRed</span><span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mo">00</span><span class="mi">8</span><span class="p">,</span> <span class="n">green</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mi">169</span><span class="p">,</span> <span class="n">blue</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mi">302</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">CGColor</span><span class="p">)</span>
+  <span class="n">initial_colors</span><span class="o">.</span><span class="n">addObject</span><span class="p">(</span><span class="no">UIColor</span><span class="o">.</span><span class="n">colorWithRed</span><span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mo">051</span><span class="p">,</span> <span class="n">green</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mi">365</span><span class="p">,</span> <span class="n">blue</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mi">627</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">CGColor</span><span class="p">)</span>
+  <span class="n">initial_colors</span><span class="o">.</span><span class="n">addObject</span><span class="p">(</span><span class="no">UIColor</span><span class="o">.</span><span class="n">colorWithRed</span><span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mo">051</span><span class="p">,</span> <span class="n">green</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mi">365</span><span class="p">,</span> <span class="n">blue</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mi">627</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">CGColor</span><span class="p">)</span>
+
+
+  <span class="c1"># Midnight Colors</span>
+  <span class="n">final_colors</span> <span class="o">=</span> <span class="no">NSMutableArray</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">init</span>
+
+  <span class="n">final_colors</span><span class="o">.</span><span class="n">addObject</span><span class="p">(</span><span class="no">UIColor</span><span class="o">.</span><span class="n">colorWithWhite</span><span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mo">051</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">CGColor</span><span class="p">)</span>
+  <span class="n">final_colors</span><span class="o">.</span><span class="n">addObject</span><span class="p">(</span><span class="no">UIColor</span><span class="o">.</span><span class="n">colorWithRed</span><span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">157</span><span class="p">,</span> <span class="n">green</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mi">173</span><span class="p">,</span> <span class="n">blue</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mi">192</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">CGColor</span><span class="p">)</span>
+  <span class="n">final_colors</span><span class="o">.</span><span class="n">addObject</span><span class="p">(</span><span class="no">UIColor</span><span class="o">.</span><span class="n">colorWithRed</span><span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">157</span><span class="p">,</span> <span class="n">green</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mi">173</span><span class="p">,</span> <span class="n">blue</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mi">192</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">CGColor</span><span class="p">)</span>
+
+  <span class="n">animation_colors</span><span class="o">.</span><span class="n">addObject</span><span class="p">(</span><span class="n">last_day_color</span><span class="p">)</span>
+  <span class="n">animation_colors</span><span class="o">.</span><span class="n">addObject</span><span class="p">(</span><span class="n">initial_colors</span><span class="p">)</span>
+  <span class="n">animation_colors</span><span class="o">.</span><span class="n">addObject</span><span class="p">(</span><span class="n">final_colors</span><span class="p">)</span>
+
+
+  <span class="c1"># Create a new instance of CAKeyframeAnimation with the property</span>
+  <span class="c1"># of colors</span>
+  <span class="n">gradient_animation</span> <span class="o">=</span> <span class="no">CAKeyframeAnimation</span><span class="o">.</span><span class="n">animationWithKeyPath</span><span class="p">(</span><span class="s1">&#39;colors&#39;</span><span class="p">)</span>
+
+  <span class="c1"># Set the animation duration</span>
+  <span class="n">gradient_animation</span><span class="o">.</span><span class="n">duration</span> <span class="o">=</span> <span class="mi">15</span>
+
+  <span class="c1"># Set the matrix of gradient colors into the animation</span>
+  <span class="n">gradient_animation</span><span class="o">.</span><span class="n">values</span> <span class="o">=</span> <span class="n">animation_colors</span>
+
+  <span class="vi">@background_layer</span><span class="o">.</span><span class="n">addAnimation</span><span class="p">(</span><span class="n">gradient_animation</span><span class="p">,</span> <span class="n">forKey</span><span class="ss">:&#39;colors_animation&#39;</span><span class="p">)</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>Now we have the sun and the moon layers and animations, so as last part we need to transition between animations to simulate night and day. The best we can do at this point is on the animation delegate, invoke the moon animation if the sun ended and otherwise. This is implemented the following way:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="c1"># CAAnimation delegate call</span>
+<span class="k">def</span> <span class="nf">animationDidStop</span><span class="p">(</span><span class="n">animation</span><span class="p">,</span> <span class="n">finished</span><span class="ss">:flag</span><span class="p">)</span>
+
+  <span class="c1"># Using the key of the addAnimation we can get the animation and compare</span>
+  <span class="c1"># it against the one that finish to know if it is the sun or the moon one</span>
+  <span class="k">if</span> <span class="n">animation</span> <span class="o">==</span> <span class="vi">@sun_layer</span><span class="o">.</span><span class="n">animationForKey</span><span class="p">(</span><span class="s1">&#39;position_animation&#39;</span><span class="p">)</span>
+
+    <span class="n">load_moon_animation</span>
+  <span class="k">else</span>
+
+    <span class="n">load_sun_animation</span>
+  <span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>Interesting how can we retrieve the animation instance from a layer using the same keypath used when we add it. Thats the way can we determinate which application was finished!</p></div>
+<div class="paragraph"><p>Now run the application and enjoy!</p></div>
+<div class="imageblock">
+<div class="content">
+<img src="resources/ch21-CoreAnimation/ch21_SunAndMoonAnimation.png" alt="Sun & Moon Animation" />
+</div>
+<div class="title">Figure 45. Sun &amp; Moon Animation</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_challenges_4">Challenges</h2>
+<div class="sectionbody">
+<div class="olist arabic"><ol class="arabic">
+<li>
+<p>
+In the <strong>Define deployment path</strong> are a couple of star images, the challenge is make a animation with them moving from top to bottom, only when the moon is rising. And remove them with another animation when the sun is appears
+</p>
+</li>
+<li>
+<p>
+Change the past animation to look like shooting stars, enter and leaving the screen
+</p>
+</li>
+</ol></div>
 </div>
 </div>
 </div>
@@ -3759,7 +4949,7 @@ Repeat the animation indefinitely
 <div id="footer">
 <div id="footer-text">
 Version 0.1<br />
-Last updated 2012-11-08 15:52:59 CST
+Last updated 2012-11-10 15:27:11 CST
 </div>
 </div>
 </body>
