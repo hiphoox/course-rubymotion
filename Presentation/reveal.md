@@ -54,7 +54,7 @@
 
 [Camera](./17-Camera/reveal.html)
 
-[MemoryWarnings](./18-MemoryWarnings/reveal.html)
+[FileSystem](./18-FileSystem/reveal.html)
 
 [Multitouch](./19-Multitouch/reveal.html)
 
