@@ -3,7 +3,7 @@
 <slide>
 ## CollectionsViews
 
-![](tableview.png "CollectionsViews") 
+![](collectionviews.png "CollectionsViews") 
 
 </slide>
 
@@ -15,6 +15,6 @@
 <slide>
 ## CollectionsViews
 
-![](tableview.png "CollectionsViews") 
+![](collectionviews.png "CollectionsViews") 
 
 </slide>

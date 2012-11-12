@@ -3,7 +3,7 @@
 <slide>
 ## Notifications
 
-![](tableview.png "Notifications") 
+![](notifications.png "Notifications") 
 
 </slide>
 
@@ -79,6 +79,6 @@ Other Options
 <slide>
 ## Notifications
 
-![](tableview.png "Notifications") 
+![](notifications.png "Notifications") 
 
 </slide>

@@ -3,7 +3,7 @@
 <slide>
 ## Interface Builder
 
-![](tableview.png "Interface Builder") 
+![](interfacebuilder.png "Interface Builder") 
 
 </slide>
 
@@ -15,6 +15,6 @@
 <slide>
 ## Interface Builder
 
-![](tableview.png "Interface Builder") 
+![](interfacebuilder.png "Interface Builder") 
 
 </slide>

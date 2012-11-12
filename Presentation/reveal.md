@@ -24,7 +24,7 @@
 
 [Mapkit](./07-MapKit/reveal.html)
 
-[UIViews](./08-UIViews/reveal.html)
+[Views](./08-Views/reveal.html)
 
 [Testing](./09-Testing/reveal.html)
 
@@ -41,11 +41,11 @@
 
 [CustomCells](./13-CustomCells/reveal.html)
 
-[NavigationControllers](./14-NavigationControllers/reveal.html)
+[Navigation Controllers](./14-NavigationControllers/reveal.html)
 
 [Notifications](./15-Notifications/reveal.html)
 
-[CollectionViews](./16-CollectionViews/reveal.html)
+[Collection Views](./16-CollectionViews/reveal.html)
 
 </slide>
 
@@ -60,7 +60,7 @@
 
 [CALayers](./20-CALayers/reveal.html)
 
-[CoreAnimation](./21-CoreAnimation/reveal.html)
+[Core Animation](./21-CoreAnimation/reveal.html)
 
 </slide>
 
