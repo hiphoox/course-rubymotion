@@ -3,7 +3,7 @@
 <slide>
 ## Multitouch
 
-![](tableview.png "Multitouch") 
+![](multitouch.png "Multitouch") 
 
 </slide>
 
@@ -165,6 +165,6 @@ Processing touches
 <slide>
 ## Multitouch
 
-![](tableview.png "Multitouch") 
+![](multitouch.png "Multitouch") 
 
 </slide>

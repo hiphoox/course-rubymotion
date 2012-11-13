@@ -3,7 +3,7 @@
 <slide>
 ## Camera
 
-![](tableview.png "Camera") 
+![](camera.png "Camera") 
 
 </slide>
 
@@ -135,6 +135,6 @@ Another configuration options
 <slide>
 ## Camera
 
-![](tableview.png "Camera") 
+![](camera.png "Camera") 
 
 </slide>

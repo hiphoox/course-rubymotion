@@ -3,7 +3,7 @@
 <slide>
 ## Settings
 
-![](tableview.png "Settings") 
+![](settings.png "Settings") 
 
 </slide>
 
@@ -75,6 +75,6 @@ Takes an NSDictionary with the factory defaults. These will be used if no other 
 <slide>
 ## Settings
 
-![](tableview.png "Settings") 
+![](settings.png "Settings") 
 
 </slide>
