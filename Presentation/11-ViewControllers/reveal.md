@@ -123,6 +123,13 @@ Every view controller has a ***view*** property.
 </slide>
 
 <slide>
+## Life Cycle
+
+![](lifecycle.png "Life Cycle") 
+
+</slide>
+
+<slide>
 ## ViewControllers
 
 ![](viewcontrollers.png "ViewControllers") 

@@ -24,7 +24,7 @@
 
 [Mapkit](./07-MapKit/reveal.html)
 
-[UIViews](./08-UIViews/reveal.html)
+[Views](./08-Views/reveal.html)
 
 [Testing](./09-Testing/reveal.html)
 
@@ -37,16 +37,44 @@
 <slide>
 ## Day 3
 
-[DataSources](./12-DataSources/reveal.html)
+[TableViews](./12-TableViews/reveal.html)
 
 [CustomCells](./13-CustomCells/reveal.html)
 
-[SharingData](./14-SharingData/reveal.html)
+[Navigation Controllers](./14-NavigationControllers/reveal.html)
 
 [Notifications](./15-Notifications/reveal.html)
 
-[CollectionViews](./16-CollectionViews/reveal.html)
+[Collection Views](./16-CollectionViews/reveal.html)
+
+</slide>
+
+<slide>
+## Day 4
 
 [Camera](./17-Camera/reveal.html)
+
+[FileSystem](./18-FileSystem/reveal.html)
+
+[Multitouch](./19-Multitouch/reveal.html)
+
+[CALayers](./20-CALayers/reveal.html)
+
+[Core Animation](./21-CoreAnimation/reveal.html)
+
+</slide>
+
+<slide>
+## Day 5
+
+[Settings](./22-Settings/reveal.html)
+
+[WebServices](./23-WebServices/reveal.html)
+
+[CoreData](./24-CoreData/reveal.html)
+
+[ThirdPartyLibraries](./25-ThirdPartyLibraries/reveal.html)
+
+[Concurrency](./26-Concurrency/reveal.html)
 
 </slide>
