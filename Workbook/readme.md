@@ -8,9 +8,9 @@ First is needed to have installed "Pygments" from the following URL http://pygme
 
 `source-highlighter=pygments`
 
-## ASCIIDOC Template
+## Asciidoc Template
 
-To install the template please copy from the "RubyMotion.css" file into /usr/local/etc/asciidoc/themes/rubymotion/
+To install the template please copy from the "rubymotion.css" file into /usr/local/etc/asciidoc/themes/rubymotion/
 
 ## Filter Template
 
