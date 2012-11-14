@@ -38,6 +38,8 @@ include::ch15-Notifications.asciidoc[]
 
 = Day 4
 
+include::ch19-Multitouch.asciidoc[]
+
 include::ch20-CALayers.asciidoc[]
 
 include::ch21-CoreAnimation.asciidoc[]

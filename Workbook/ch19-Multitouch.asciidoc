@@ -1,0 +1,367 @@
+Chapter 19 - Multitouch
+=======================
+
+One of the best features of the iPhone or iPad is the touch screen, in this chapter we will use it to make a app for drawing on the screen
+
+
+Kanji Master
+------------
+
+One of the most difficult languages to learn is Japanese because they use one symbol (Kanji) to express full concepts. This is different than most of the languages, because they use words (Multiple symbols: letters) for the same purpose. 
+
+In this exercise we will create a app that will teach the user how to draw a Kanji, allowing him to paint the shape with his fingers on the screen.
+
+.Kanji
+image::resources/ch19-Multitouch/ch19_Kanji.png[Kanji]
+
+
+Preparing the Canvas
+~~~~~~~~~~~~~~~~~~~~
+
+Lets start creating a new project called **KanjiMaster**:
+
+[source, sh]
+------------
+$ motion create KanjiMaster
+------------
+
+Please copy the resources from **DEFINE DEPLOYMENT PATH** into the project resources folder, after that create the following file:
+
+[source, sh]
+------------
+$ cd KanjiMaster/app
+
+$ mkdir views
+
+$ touch kanji_view.rb
+
+$ open kanji_view.rb
+------------
+
+Now add the following to our **kanji_view.rb** file:
+
+[source, ruby]
+--------------
+class KanjiView < UIView
+
+  def initWithFrame(frame)
+
+    if super
+
+      # In order to does not hide the background image on
+      # the controllers view, we need to set the background color on
+      # this view as transparent
+      self.backgroundColor = UIColor.clearColor
+
+      # We need to set multipleTouchEnabled to true if we want to handle
+      # more than one finger touching the screen
+      self.multipleTouchEnabled = true
+
+      # Instance an Array for storing the user touches
+      @touch_points = NSMutableArray.alloc.init
+    end
+
+    self
+
+  end
+
+end
+--------------
+
+Lets create a controller for our new view with the name **KanjiViewController**:
+
+[source, sh]
+------------
+$ cd ..
+
+$ mkdir controllers
+
+$ cd controllers
+
+$ touch kanji_view_controller.rb
+
+$ open kanji_view_controller.rb
+------------
+
+Insert the following into the **kanji_view_controller.rb** file:
+
+[source, ruby]
+------------
+class KanjiViewController < UIViewController
+
+  def loadView
+
+    self.view = UIView.alloc.initWithFrame(UIScreen.mainScreen.bounds)
+
+    # Create a new UIImageView to draw our background image
+    background_image_view = UIImageView.alloc.initWithFrame(self.view.bounds)
+
+    # Set our background image into the UIImageView
+    background_image_view.image = UIImage.imageNamed("bgKanji.jpg")
+
+    # Add the UIImageView instance into the view
+    self.view.addSubview(background_image_view)
+
+    # Load our custom UIView (KanjiView)
+    kanjiView = KanjiView.alloc.initWithFrame(self.view.bounds)
+
+    # Add it to our view controller's view 
+    self.view.addSubview(kanjiView)
+  end
+
+end
+------------
+
+Finally lets open our **app_delegate.rb** and add the following:
+
+[source, sh]
+------------
+$ cd ..
+
+$ open app_delegate.rb
+------------
+
+[source, ruby]
+--------------
+class AppDelegate
+
+  def application(application, didFinishLaunchingWithOptions:launchOptions)
+    
+    #Create an instance of Kanji View Controller
+    kanji_view_controller = KanjiViewController.alloc.init
+
+    @window = UIWindow.alloc.initWithFrame(UIScreen.mainScreen.bounds)
+
+    #Every window has a root view controller from which it will present its view
+    @window.rootViewController = kanji_view_controller
+    @window.makeKeyAndVisible
+
+    true
+  end
+
+end
+--------------
+
+If we run the app, you should see the following:
+
+[source, sh]
+------------
+$ rake
+------------
+
+.Initial Application
+image::resources/ch19-Multitouch/ch19_InitialApplication.png[Initial Application]
+
+
+The Responder Chain
+~~~~~~~~~~~~~~~~~~~
+If you look closely on the project that we just create, we have to implement a custom view called **KanjiView**. The purpose of this is that we can catch the touch events on it. But why on a UIView? 
+
+When the user touch the screen a new event is created and send as a message to the first responder (The most foremost view in the hierarchy), if it cannot handle the message, is forwarded to the "next responder" and so on. This linked series is called **Responder Chain**
+
+In iOS (not as same as Mac) both UIViews and UIViewControllers are part of the **Responder Chain**, but typically just the Views can handle the touch events, this happens because by default the UIViewControllers can not become fist responders
+
+According to the above we need a object that can become first responder and be in the responder chain so it can handle the touch events, this object generally is a UIView
+
+IMPORTANT: If you need by any reason to handle the touch events on your controller, you can override the method **canBecomeFirstResponder** to allow it to become first responder 
+
+
+Handling the Touches
+~~~~~~~~~~~~~~~~~~~~
+Now that we understand the Responder Chain, How to handle the touches? The response is implementing the following methods on our view:
+
+[source, ruby]
+--------------
+# This method is called when the finger (or fingers) touch the screen for the first time
+def touchesBegan(touches, withEvent: event)
+
+# This method is called when the finger (or fingers) are moving without leaving the screen
+def touchesMoved(touches, withEvent: event)
+
+# This method is called when the finger (or fingers) leave the screen
+def touchesEnded(touches, withEvent:event)
+--------------
+
+For testing proposes lets implement it on our **KanjiView** the following way:
+
+[source, ruby]
+--------------
+# This method is called when the finger (or fingers) 
+# touch the screen for the first time
+def touchesBegan(touches, withEvent: event)
+
+  #  Touches is an set of UITouch, each of them
+  #  represent a diferent finger on the screen
+  touches.allObjects.each_with_index { | touch, index |
+
+    # We need to ask the touch for his location according
+    # to the current view
+    pointInView = touch.locationInView(self)
+
+    NSLog("Touch %@ starting on %@", index + 1, NSStringFromCGPoint(pointInView))
+  }
+
+end
+
+# This method is called when the finger (or fingers) 
+# are moving without leaving the screen
+def touchesMoved(touches, withEvent: event)
+
+  #  Touches is an set of UITouch, each of them
+  #  represent a diferent finger on the screen
+  touches.allObjects.each_with_index { | touch, index |
+
+    # We need to ask the touch for his location according
+    # to the current view
+    pointInView = touch.locationInView(self)
+
+    NSLog("Touch %@ moving to %@", index + 1, NSStringFromCGPoint(pointInView))   
+  }
+
+end
+
+# This method is called when the finger (or fingers) 
+# leave the screen
+def touchesEnded(touches, withEvent:event)
+
+  #  Touches is an set of UITouch, each of them
+  #  represent a diferent finger on the screen
+  touches.allObjects.each_with_index { | touch, index |
+
+    # We need to ask the touch for his location according
+    # to the current view
+    pointInView = touch.locationInView(self)
+
+    NSLog("Touch %@ ended at %@", index + 1, NSStringFromCGPoint(pointInView))
+  }
+
+end
+--------------
+
+If we run the application we should see the following when we touch the screen:
+
+[source, sh]
+------------
+> Touch 1 starting on {147, 305}
+> Touch 2 starting on {117, 205}
+> Touch 1 moving to {151, 297}
+> Touch 2 moving to {179, 327}
+> Touch 1 moving to {153, 294}
+> Touch 2 moving to {178, 323}
+> Touch 1 moving to {155, 289}
+> Touch 2 moving to {179, 326}
+> Touch 1 ended at {178, 319}
+> Touch 2 ended at {198, 119}
+------------
+
+IMPORTANT: Are you using the iOS Simulator? No problem! You can also simulate multiple touches pressing **alt** and if you need to move the multiple touches together press **alt + shift** 
+
+
+Painting the Touches
+~~~~~~~~~~~~~~~~~~~~
+Now that we have detected the touches, its time to paint them on the screen. For that we will use a technology called CoreGraphics, but before we use it we need to understand some key concepts:
+
+* If we want to draw on a UIView using CoreGraphics we need to do it in a method called **drawRect**, its a override and you shouldn't implemented unless your will draw something (It affects performance when its not drawing)
+
+* The drawing on a UIView using Core Graphics its not additive, what this means is that I can't draw a line and then later when the user touches the screen draw another (I can't  call **drawRect** manually). For that purpose we need to store which lines will be painted and then call **setNeedsDisplay**, this method will clear the entire view and then call **drawRect** again, forcing repainting everything again.
+
+Using the above information lets implement the user touches on the screen:
+
+[source, ruby]
+--------------
+# Method where we need to do the Core Graphics drawing
+def drawRect(rect)
+
+  # Get the Core Graphics current context
+  context = UIGraphicsGetCurrentContext()
+  
+  # Set a color for drawing the touch points
+  UIColor.colorWithRed(0.988, green:0.612, blue:0.157, alpha:1.0).set
+
+  # Iterate the touch points
+  @touch_points.each { | touch_point |
+
+    # Move the context to the touch point
+    CGContextMoveToPoint(context, 
+                         touch_point.CGPointValue.x, 
+                         touch_point.CGPointValue.y)
+    
+    # Create a rect in which want to the ellipse be drawen
+    point_rect = CGRectMake(point.CGPointValue.x, 
+                            point.CGPointValue.y,
+                            20,
+                            20)
+
+    # Add the ellipse using the rect into the context
+    CGContextAddEllipseInRect(context, point_rect)
+  
+    # Draw the context into the view
+    CGContextFillPath(context)
+  }
+end
+
+# This method is called when the finger (or fingers) 
+# touch the screen for the first time
+def touchesBegan(touches, withEvent: event)
+
+  #  Touches is an set of UITouch, each of them
+  #  represent a diferent finger on the screen
+  touches.allObjects.each_with_index { | touch, index |
+
+    # We need to ask the touch for his location according
+    # to the current view
+    pointInView = touch.locationInView(self)
+
+    # Add the point to our array, but because is a structure (CGPoint)
+    # we need to store it on a NSValue
+    @touch_points.addObject(NSValue.valueWithCGPoint(pointInView))
+  }
+
+  # Ask the view to redraw again
+  self.setNeedsDisplay
+
+end
+--------------
+
+.Initial Touches
+image::resources/ch19-Multitouch/ch19_InitialTouches.png[Initial Touches]
+
+Great! Now we are really seeing where the user touches began, lets continue adding the touch movements:
+
+IMPORTANT: If you are using a simulator probably you will notice that the dot is painted down right of the cursor. This is normal because iOS handle the mouse click as the top left corner of a finger
+
+[source, ruby]
+--------------
+# This method is called when the finger (or fingers) 
+# are moving without leaving the screen
+def touchesMoved(touches, withEvent: event)
+
+  #  Touches is an set of UITouch, each of them
+  #  represent a diferent finger on the screen
+  touches.allObjects.each_with_index { | touch, index |
+
+    # We need to ask the touch for his location according
+    # to the current view
+    pointInView = touch.locationInView(self)
+
+    @touch_points.addObject(NSValue.valueWithCGPoint(pointInView))  
+  }
+
+  self.setNeedsDisplay
+end
+--------------
+
+**IMAGE***
+
+Now we are drawing the initial touches and the movement in the screen, it looks like a line but if we move the finger faster will become more like a dotted line right? No problem we will fix that later
+
+
+Kanji Drawing
+~~~~~~~~~~~~~
+We just play a bit with the touches and drawing for us to feel comfortable about how it works, lets do something more challenging:
+
+If we look on our background picture, we have a Kanji with traces marked with numbers. The objective is to draw the kanji according to the path and in order with the numbers, so our first task is to determine if the touch was on the start of the trace and in which one it was
+
+**Image**
+
+ 
