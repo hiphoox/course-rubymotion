@@ -10,7 +10,7 @@ So we have deleted the old label with the days left, open the file *ch08-uiviews
 image:Resources/ch08-UIViews/ch08_02_starting_app.png[Chapter 8 starting app]
 
 Creating a custom UIView
-~~~~~~~~~~~~~~~~~~~~~~
+------------------------
 
 
 When you face the challenge of creating a custom component such as this flip calendar, is often required to create a custom UIView. Custom UIViews gives you complete control over the look and logic of a UIView. 
