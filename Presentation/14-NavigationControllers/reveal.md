@@ -63,7 +63,7 @@ Navigation Controllers allows us to animate a view controller on to the screen t
 <slide>
 ## Passing Data
 
-![](datadrilldown.pdf "Passing Data") 
+![](datadrilldown.png "Passing Data") 
 
 </slide>   
 
