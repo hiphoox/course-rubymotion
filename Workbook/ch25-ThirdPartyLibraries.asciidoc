@@ -1,0 +1,75 @@
+Chapter 25 - Third Party Libraries
+==================================
+
+Integrating Third Party Libraries (Even if they are in Objective-C ;) into our project is pretty simple using CocoaPods. For this application lets make a simple game called asteroids using a library called Cocos2D
+
+CocoaPods
+---------
+CocoaPods (cocoapods.org) is a dependency library manager for Objective-C projects, much more like bundler is in rails. Using CocoaPods with a RubyMotion project simplifies all the tasks needed to integrate the library: Just add the Pod to the **RakeFile** and then compile the app. It will download the library, also all of its dependencies and then link them to the app.
+
+Cocos 2D
+--------
+Cocos 2D (cocos2d-iphone.org) is a framework made it in Objective-C that will allow us to create a 2D Video Game more easy. In this case it will be a old game called Asteroids, the objective of the game is that using a SpaceShip destroy as many meteors as you can without crashing into them
+
+Getting it Running
+~~~~~~~~~~~~~~~~~~
+First we need to install CocoaPods into our MacOSX, this is done running the following commands into our terminal:
+
+[source, sh]
+------------
+$ sudo gem install cocoapods
+
+$ pod setup
+
+$ sudo gem install motion-cocoapods
+------------
+
+
+Create the App
+~~~~~~~~~~~~~~
+Lets create a new project called **Asteroids**:
+
+[source, sh]
+------------
+$ motion create Asteroids
+------------
+
+Then integrate Cocos2D into our project editing our **RakeFile**
+
+[source, sh]
+------------
+$ cd Asteroids
+
+$ open RakeFile
+------------
+
+[source, ruby]
+--------------
+# -*- coding: utf-8 -*-
+$:.unshift("/Library/RubyMotion/lib")
+require 'motion/project'
+require 'motion-cocoapods'
+
+Motion::Project::App.setup do |app|
+  # Use `rake config' to see complete project settings.
+  app.name = 'asteroids'
+
+  app.pods do
+
+    pod 'cocos2d'
+  end
+end
+--------------
+
+Well! Lets build our project (It can take a couple of seconds because the weight of the Cocos2d library):
+
+[source, sh]
+------------
+$ rake
+------------
+
+The Cocos2d library is now integrated into our project! Easy right?
+
+
+Building a Game
+~~~~~~~~~~~~~~~

@@ -43,3 +43,7 @@ include::ch19-Multitouch.asciidoc[]
 include::ch20-CALayers.asciidoc[]
 
 include::ch21-CoreAnimation.asciidoc[]
+
+= Day 5
+
+include::ch25-ThirdPartyLibraries.asciidoc[]

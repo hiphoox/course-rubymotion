@@ -3670,9 +3670,9 @@ The drawing on a UIView using Core Graphics its not additive, what this means is
                          <span class="n">touch_point</span><span class="o">.</span><span class="n">CGPointValue</span><span class="o">.</span><span class="n">x</span><span class="p">,</span>
                          <span class="n">touch_point</span><span class="o">.</span><span class="n">CGPointValue</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
 
-    <span class="c1"># Create a rect in which want to the ellipse be drawen</span>
-    <span class="n">point_rect</span> <span class="o">=</span> <span class="no">CGRectMake</span><span class="p">(</span><span class="n">point</span><span class="o">.</span><span class="n">CGPointValue</span><span class="o">.</span><span class="n">x</span><span class="p">,</span>
-                            <span class="n">point</span><span class="o">.</span><span class="n">CGPointValue</span><span class="o">.</span><span class="n">y</span><span class="p">,</span>
+    <span class="c1"># Create a rect in which want to the ellipse be drawn</span>
+    <span class="n">point_rect</span> <span class="o">=</span> <span class="no">CGRectMake</span><span class="p">(</span><span class="n">point</span><span class="o">.</span><span class="n">CGPointValue</span><span class="o">.</span><span class="n">x</span> <span class="o">-</span> <span class="mi">10</span><span class="p">,</span>
+                            <span class="n">point</span><span class="o">.</span><span class="n">CGPointValue</span><span class="o">.</span><span class="n">y</span> <span class="o">-</span> <span class="mi">10</span><span class="p">,</span>
                             <span class="mi">20</span><span class="p">,</span>
                             <span class="mi">20</span><span class="p">)</span>
 
@@ -3740,14 +3740,571 @@ The drawing on a UIView using Core Graphics its not additive, what this means is
   <span class="nb">self</span><span class="o">.</span><span class="n">setNeedsDisplay</span>
 <span class="k">end</span>
 </pre></div></div></div>
-<div class="paragraph"><p><strong>IMAGE</strong>*</p></div>
+<div class="imageblock">
+<div class="content">
+<img src="resources/ch19-Multitouch/ch19_InitialLines.png" alt="Initial Lines" />
+</div>
+<div class="title">Figure 26. Initial Lines</div>
+</div>
 <div class="paragraph"><p>Now we are drawing the initial touches and the movement in the screen, it looks like a line but if we move the finger faster will become more like a dotted line right? No problem we will fix that later</p></div>
 </div>
 <div class="sect2">
 <h3 id="_kanji_drawing">Kanji Drawing</h3>
 <div class="paragraph"><p>We just play a bit with the touches and drawing for us to feel comfortable about how it works, lets do something more challenging:</p></div>
-<div class="paragraph"><p>If we look on our background picture, we have a Kanji with traces marked with numbers. The objective is to draw the kanji according to the path and in order with the numbers, so our first task is to determine if the touch was on the start of the trace and in which one it was</p></div>
-<div class="paragraph"><p><strong>Image</strong></p></div>
+<div class="paragraph"><p>If we look on our background picture, we have a Kanji with traces marked with numbers. The objective is create a little game for the user to draw the Kanji, so our first task is to determinate if the user is following the traces or not</p></div>
+<div class="imageblock">
+<div class="content">
+<img src="resources/ch19-Multitouch/ch19_StartingPoints.png" alt="Starting Points" />
+</div>
+<div class="title">Figure 27. Starting Points</div>
+</div>
+<div class="paragraph"><p>The first thing we can do is to have an array of the trace starting coordinates, that will enable us to evaluate if the touch was on the beginning. Lets do a little experiment to test this part:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">initWithFrame</span><span class="p">(</span><span class="n">frame</span><span class="p">)</span>
+
+  <span class="k">if</span> <span class="k">super</span>
+
+    <span class="c1"># In order to does not hide the background image on</span>
+    <span class="c1"># the controllers view, we need to set the background color on</span>
+    <span class="c1"># this view as transparent</span>
+    <span class="nb">self</span><span class="o">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">clearColor</span>
+
+    <span class="c1"># Instance an Array for storing the user touches</span>
+    <span class="vi">@touch_points</span> <span class="o">=</span> <span class="no">NSMutableArray</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">init</span>
+
+    <span class="n">load_kanji_traces</span>
+  <span class="k">end</span>
+
+  <span class="nb">self</span>
+
+<span class="k">end</span>
+
+<span class="k">def</span> <span class="nf">load_kanji_traces</span>
+
+  <span class="c1"># Create an array to store our Kanji Paths</span>
+  <span class="vi">@kanji_traces</span> <span class="o">=</span> <span class="no">NSMutableArray</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">init</span>
+
+  <span class="c1"># As a experiment lets add only the starting point of</span>
+  <span class="c1"># the trace number three</span>
+  <span class="n">kanji_starting_trace_three</span> <span class="o">=</span> <span class="no">CGPointMake</span><span class="p">(</span><span class="mi">150</span><span class="p">,</span> <span class="mi">260</span><span class="p">)</span>
+
+
+  <span class="c1"># Add the point to the Kanji Paths array</span>
+  <span class="vi">@kanji_traces</span><span class="o">.</span><span class="n">addObject</span><span class="p">(</span><span class="no">NSValue</span><span class="o">.</span><span class="n">valueWithCGPoint</span><span class="p">(</span><span class="n">kanji_starting_trace_three</span><span class="p">))</span>
+<span class="k">end</span>
+
+
+
+<span class="c1"># This method is called when the finger (or fingers)</span>
+<span class="c1"># touch the screen for the first time</span>
+<span class="k">def</span> <span class="nf">touchesBegan</span><span class="p">(</span><span class="n">touches</span><span class="p">,</span> <span class="n">withEvent</span><span class="p">:</span> <span class="n">event</span><span class="p">)</span>
+
+  <span class="c1"># We need to ask the touch for his location according</span>
+  <span class="c1"># to the current view</span>
+  <span class="n">pointInView</span> <span class="o">=</span> <span class="n">touches</span><span class="o">.</span><span class="n">anyObject</span><span class="o">.</span><span class="n">locationInView</span><span class="p">(</span><span class="nb">self</span><span class="p">)</span>
+
+
+  <span class="n">touch_at_beginning</span> <span class="o">=</span> <span class="kp">false</span>
+
+  <span class="c1"># Iterate through all the Kanji Paths available</span>
+  <span class="vi">@kanji_traces</span><span class="o">.</span><span class="n">each</span> <span class="p">{</span> <span class="o">|</span> <span class="n">kanji_trace</span> <span class="o">|</span>
+
+    <span class="c1"># If the touched point is equal to any Kanji Trace starting</span>
+    <span class="c1"># point</span>
+    <span class="k">if</span> <span class="no">CGPointEqualToPoint</span><span class="p">(</span><span class="n">kanji_trace</span><span class="o">.</span><span class="n">CGPointValue</span><span class="p">,</span> <span class="n">pointInView</span><span class="p">)</span>
+
+      <span class="n">touch_at_beginning</span> <span class="o">=</span> <span class="kp">true</span>
+    <span class="k">end</span>
+  <span class="p">}</span>
+
+
+  <span class="c1"># If the touch was at the beginning of any Kanji Trace</span>
+  <span class="k">unless</span> <span class="n">touch_at_beginning</span>
+
+    <span class="c1"># Add the point to our array, but because is a structure (CGPoint)</span>
+    <span class="c1"># we need to store it on a NSValue</span>
+    <span class="vi">@touch_points</span><span class="o">.</span><span class="n">addObject</span><span class="p">(</span><span class="no">NSValue</span><span class="o">.</span><span class="n">valueWithCGPoint</span><span class="p">(</span><span class="n">pointInView</span><span class="p">))</span>
+
+    <span class="c1"># Ask the view to redraw again</span>
+    <span class="nb">self</span><span class="o">.</span><span class="n">setNeedsDisplay</span>
+  <span class="k">end</span>
+
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>Impossible do it with the first touch (Without moving the touch), right? This is because we are comparing a small point in the screen with a wide of a finger, making it difficult to touch with precision. The solution to this is creating a rectangle surrounding the starting trace point, so it will be more easy to hit it with the finger.</p></div>
+<div class="paragraph"><p>Actually also we need to evaluate if the user is following the trace, and if it the trace ended where it should, for this we will use rectangles as well. In the light of this is better to create a object for all this variables.</p></div>
+<div class="admonitionblock">
+<table><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">Remember it does not matter if it is a point, rectangle or a button, it needs to be bigger enough for the user to touch</td>
+</tr></table>
+</div>
+<div class="paragraph"><p>Lets create our new class <strong>KanjiTrace</strong>:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="nv">$ </span><span class="nb">cd</span> ..
+
+<span class="nv">$ </span><span class="nb">cd </span>mkdir models
+
+<span class="nv">$ </span><span class="nb">cd </span>models
+
+<span class="nv">$ </span>touch kanji_trace.rb
+
+<span class="nv">$ </span>open kanji_trace.rb
+</pre></div></div></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">class</span> <span class="nc">KanjiTrace</span>
+
+  <span class="no">SURROUND_SIZE</span> <span class="o">=</span> <span class="mi">40</span>
+
+  <span class="kp">attr_accessor</span> <span class="ss">:starting_point</span>
+  <span class="kp">attr_accessor</span> <span class="ss">:end_point</span>
+
+
+  <span class="k">def</span> <span class="nf">initial_rectangle</span>
+
+    <span class="no">GPointMake</span><span class="p">(</span><span class="n">starting_point</span><span class="o">.</span><span class="n">x</span> <span class="o">-</span> <span class="no">SURROUND_SIZE</span><span class="p">,</span>
+               <span class="n">starting_point</span><span class="o">.</span><span class="n">y</span> <span class="o">-</span> <span class="no">SURROUND_SIZE</span><span class="p">,</span>
+               <span class="no">SURROUND_SIZE</span> <span class="o">*</span> <span class="mi">2</span><span class="p">,</span>
+               <span class="no">SURROUND_SIZE</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span>
+  <span class="k">end</span>
+
+
+  <span class="k">def</span> <span class="nf">final_rectangle</span>
+
+    <span class="no">GPointMake</span><span class="p">(</span><span class="n">end_point</span><span class="o">.</span><span class="n">x</span> <span class="o">-</span> <span class="no">SURROUND_SIZE</span><span class="p">,</span>
+               <span class="n">end_point</span><span class="o">.</span><span class="n">y</span> <span class="o">-</span> <span class="no">SURROUND_SIZE</span><span class="p">,</span>
+               <span class="no">SURROUND_SIZE</span> <span class="o">*</span> <span class="mi">2</span><span class="p">,</span>
+               <span class="no">SURROUND_SIZE</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span>
+
+  <span class="k">end</span>
+
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>Great! Now we have a object containing the trace start and end points and it return the surrounding rectangles. Lets implement the <strong>KanjiTrace</strong> class into our <strong>kanji_view.rb</strong>:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="nv">$ </span><span class="nb">cd</span> ..
+
+<span class="nv">$ </span><span class="nb">cd </span>controllers
+
+<span class="nv">$ </span>open kanji_view.rb
+</pre></div></div></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">load_kanji_traces</span>
+
+  <span class="c1"># Create an array to store our Kanji Paths</span>
+  <span class="vi">@kanji_traces</span> <span class="o">=</span> <span class="no">NSMutableArray</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">init</span>
+
+
+  <span class="c1"># Continuing the experiment create only a Kanji Trace</span>
+  <span class="c1"># for the trace number three</span>
+  <span class="n">trace_three</span> <span class="o">=</span> <span class="no">KanjiTrace</span><span class="o">.</span><span class="n">new</span>
+
+  <span class="n">trace_three</span><span class="o">.</span><span class="n">starting_point</span> <span class="o">=</span> <span class="no">CGPointMake</span><span class="p">(</span><span class="mi">150</span><span class="p">,</span> <span class="mi">260</span><span class="p">)</span>
+
+  <span class="c1"># Add the point to the Kanji Paths array</span>
+  <span class="vi">@kanji_traces</span><span class="o">.</span><span class="n">addObject</span><span class="p">(</span><span class="n">trace_three</span><span class="p">)</span>
+<span class="k">end</span>
+
+
+
+<span class="c1"># This method is called when the finger (or fingers)</span>
+<span class="c1"># touch the screen for the first time</span>
+<span class="k">def</span> <span class="nf">touchesBegan</span><span class="p">(</span><span class="n">touches</span><span class="p">,</span> <span class="n">withEvent</span><span class="p">:</span> <span class="n">event</span><span class="p">)</span>
+
+  <span class="c1"># We need to ask the touch for his location according</span>
+  <span class="c1"># to the current view</span>
+  <span class="n">pointInView</span> <span class="o">=</span> <span class="n">touches</span><span class="o">.</span><span class="n">anyObject</span><span class="o">.</span><span class="n">locationInView</span><span class="p">(</span><span class="nb">self</span><span class="p">)</span>
+
+
+  <span class="n">touch_at_beginning</span> <span class="o">=</span> <span class="kp">false</span>
+
+  <span class="c1"># Iterate through all the Kanji Paths available</span>
+  <span class="vi">@kanji_traces</span><span class="o">.</span><span class="n">each</span> <span class="p">{</span> <span class="o">|</span> <span class="n">kanji_trace</span> <span class="o">|</span>
+
+    <span class="c1"># If the touched point is equal to any Kanji Trace starting</span>
+    <span class="c1"># point</span>
+    <span class="k">if</span> <span class="no">CGRectContainsPoint</span><span class="p">(</span><span class="n">kanji_trace</span><span class="o">.</span><span class="n">initial_rectangle</span><span class="p">,</span> <span class="n">pointInView</span><span class="p">)</span>
+
+      <span class="c1"># Assign the trace that the user is currently</span>
+      <span class="c1"># drawing</span>
+      <span class="vi">@current_trace</span> <span class="o">=</span> <span class="n">kanji_trace</span>
+      <span class="n">touch_at_beginning</span> <span class="o">=</span> <span class="kp">true</span>
+    <span class="k">end</span>
+  <span class="p">}</span>
+
+
+  <span class="c1"># If the touch was at the beginning of any Kanji Trace</span>
+  <span class="k">if</span> <span class="n">touch_at_beginning</span>
+
+    <span class="c1"># Add the point to our array, but because is a structure (CGPoint)</span>
+    <span class="c1"># we need to store it on a NSValue</span>
+    <span class="vi">@touch_points</span><span class="o">.</span><span class="n">addObject</span><span class="p">(</span><span class="no">NSValue</span><span class="o">.</span><span class="n">valueWithCGPoint</span><span class="p">(</span><span class="n">pointInView</span><span class="p">))</span>
+
+    <span class="c1"># Ask the view to redraw again</span>
+    <span class="nb">self</span><span class="o">.</span><span class="n">setNeedsDisplay</span>
+
+  <span class="k">else</span>
+
+    <span class="c1"># If there is no touch at the beginning means</span>
+    <span class="c1"># that the user is not drawing a new trace</span>
+    <span class="vi">@current_trace</span> <span class="o">=</span> <span class="kp">nil</span>
+  <span class="k">end</span>
+
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="imageblock">
+<div class="content">
+<img src="resources/ch19-Multitouch/ch19_StartTrace3.png" alt="Start Trace #3" />
+</div>
+<div class="title">Figure 28. Start Trace #3</div>
+</div>
+<div class="paragraph"><p>Is working now! Is more easy for the user to touch the start of the trace, so lets continue adding the all the Kanji Traces:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">load_kanji_traces</span>
+
+  <span class="c1"># Create an array to store our Kanji Paths</span>
+  <span class="vi">@kanji_traces</span> <span class="o">=</span> <span class="no">NSMutableArray</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">init</span>
+
+
+  <span class="n">trace_one</span> <span class="o">=</span> <span class="no">KanjiTrace</span><span class="o">.</span><span class="n">new</span>
+  <span class="n">trace_one</span><span class="o">.</span><span class="n">starting_point</span> <span class="o">=</span> <span class="no">CGPointMake</span><span class="p">(</span><span class="mi">40</span><span class="p">,</span> <span class="mi">300</span><span class="p">)</span>
+  <span class="n">trace_one</span><span class="o">.</span><span class="n">end_point</span> <span class="o">=</span> <span class="no">CGPointMake</span><span class="p">(</span><span class="mi">273</span><span class="p">,</span> <span class="mi">282</span><span class="p">)</span>
+
+  <span class="vi">@kanji_traces</span><span class="o">.</span><span class="n">addObject</span><span class="p">(</span><span class="n">trace_one</span><span class="p">)</span>
+
+
+  <span class="n">trace_two</span> <span class="o">=</span> <span class="no">KanjiTrace</span><span class="o">.</span><span class="n">new</span>
+  <span class="n">trace_two</span><span class="o">.</span><span class="n">starting_point</span> <span class="o">=</span> <span class="no">CGPointMake</span><span class="p">(</span><span class="mi">155</span><span class="p">,</span> <span class="mi">285</span><span class="p">)</span>
+  <span class="n">trace_two</span><span class="o">.</span><span class="n">end_point</span> <span class="o">=</span> <span class="no">CGPointMake</span><span class="p">(</span><span class="mi">289</span><span class="p">,</span> <span class="mi">366</span><span class="p">)</span>
+
+  <span class="vi">@kanji_traces</span><span class="o">.</span><span class="n">addObject</span><span class="p">(</span><span class="n">trace_two</span><span class="p">)</span>
+
+
+  <span class="c1"># Continuing the experiment create only a Kanji Trace</span>
+  <span class="c1"># for the trace number three</span>
+  <span class="n">trace_three</span> <span class="o">=</span> <span class="no">KanjiTrace</span><span class="o">.</span><span class="n">new</span>
+  <span class="n">trace_three</span><span class="o">.</span><span class="n">starting_point</span> <span class="o">=</span> <span class="no">CGPointMake</span><span class="p">(</span><span class="mi">150</span><span class="p">,</span> <span class="mi">260</span><span class="p">)</span>
+  <span class="n">trace_three</span><span class="o">.</span><span class="n">end_point</span> <span class="o">=</span> <span class="no">CGPointMake</span><span class="p">(</span><span class="mi">152</span><span class="p">,</span> <span class="mi">367</span><span class="p">)</span>
+
+  <span class="c1"># Add the point to the Kanji Paths array</span>
+  <span class="vi">@kanji_traces</span><span class="o">.</span><span class="n">addObject</span><span class="p">(</span><span class="n">trace_three</span><span class="p">)</span>
+
+
+  <span class="n">trace_four</span> <span class="o">=</span> <span class="no">KanjiTrace</span><span class="o">.</span><span class="n">new</span>
+  <span class="n">trace_four</span><span class="o">.</span><span class="n">starting_point</span> <span class="o">=</span> <span class="no">CGPointMake</span><span class="p">(</span><span class="mi">31</span><span class="p">,</span> <span class="mi">366</span><span class="p">)</span>
+  <span class="n">trace_four</span><span class="o">.</span><span class="n">end_point</span> <span class="o">=</span> <span class="no">CGPointMake</span><span class="p">(</span><span class="mi">145</span><span class="p">,</span> <span class="mi">294</span><span class="p">)</span>
+
+  <span class="vi">@kanji_traces</span><span class="o">.</span><span class="n">addObject</span><span class="p">(</span><span class="n">trace_four</span><span class="p">)</span>
+
+
+  <span class="n">trace_five</span> <span class="o">=</span> <span class="no">KanjiTrace</span><span class="o">.</span><span class="n">new</span>
+  <span class="n">trace_five</span><span class="o">.</span><span class="n">starting_point</span> <span class="o">=</span> <span class="no">CGPointMake</span><span class="p">(</span><span class="mi">225</span><span class="p">,</span> <span class="mi">175</span><span class="p">)</span>
+  <span class="n">trace_five</span><span class="o">.</span><span class="n">end_point</span> <span class="o">=</span> <span class="no">CGPointMake</span><span class="p">(</span><span class="mi">226</span><span class="p">,</span> <span class="mi">140</span><span class="p">)</span>
+
+  <span class="vi">@kanji_traces</span><span class="o">.</span><span class="n">addObject</span><span class="p">(</span><span class="n">trace_five</span><span class="p">)</span>
+
+
+  <span class="n">trace_six</span> <span class="o">=</span> <span class="no">KanjiTrace</span><span class="o">.</span><span class="n">new</span>
+  <span class="n">trace_six</span><span class="o">.</span><span class="n">starting_point</span> <span class="o">=</span> <span class="no">CGPointMake</span><span class="p">(</span><span class="mi">219</span><span class="p">,</span> <span class="mi">202</span><span class="p">)</span>
+  <span class="n">trace_six</span><span class="o">.</span><span class="n">end_point</span> <span class="o">=</span> <span class="no">CGPointMake</span><span class="p">(</span><span class="mi">277</span><span class="p">,</span> <span class="mi">237</span><span class="p">)</span>
+
+  <span class="vi">@kanji_traces</span><span class="o">.</span><span class="n">addObject</span><span class="p">(</span><span class="n">trace_six</span><span class="p">)</span>
+
+
+  <span class="n">trace_seven</span> <span class="o">=</span> <span class="no">KanjiTrace</span><span class="o">.</span><span class="n">new</span>
+  <span class="n">trace_seven</span><span class="o">.</span><span class="n">starting_point</span> <span class="o">=</span> <span class="no">CGPointMake</span><span class="p">(</span><span class="mi">69</span><span class="p">,</span> <span class="mi">191</span><span class="p">)</span>
+  <span class="n">trace_seven</span><span class="o">.</span><span class="n">end_point</span> <span class="o">=</span> <span class="no">CGPointMake</span><span class="p">(</span><span class="mi">33</span><span class="p">,</span> <span class="mi">160</span><span class="p">)</span>
+
+  <span class="vi">@kanji_traces</span><span class="o">.</span><span class="n">addObject</span><span class="p">(</span><span class="n">trace_seven</span><span class="p">)</span>
+
+
+  <span class="n">trace_eight</span> <span class="o">=</span> <span class="no">KanjiTrace</span><span class="o">.</span><span class="n">new</span>
+  <span class="n">trace_eight</span><span class="o">.</span><span class="n">starting_point</span> <span class="o">=</span> <span class="no">CGPointMake</span><span class="p">(</span><span class="mi">85</span><span class="p">,</span> <span class="mi">211</span><span class="p">)</span>
+  <span class="n">trace_eight</span><span class="o">.</span><span class="n">end_point</span> <span class="o">=</span> <span class="no">CGPointMake</span><span class="p">(</span><span class="mi">40</span><span class="p">,</span> <span class="mi">247</span><span class="p">)</span>
+
+  <span class="vi">@kanji_traces</span><span class="o">.</span><span class="n">addObject</span><span class="p">(</span><span class="n">trace_eight</span><span class="p">)</span>
+
+
+  <span class="n">trace_nine</span> <span class="o">=</span> <span class="no">KanjiTrace</span><span class="o">.</span><span class="n">new</span>
+  <span class="n">trace_nine</span><span class="o">.</span><span class="n">starting_point</span> <span class="o">=</span> <span class="no">CGPointMake</span><span class="p">(</span><span class="mi">109</span><span class="p">,</span> <span class="mi">171</span><span class="p">)</span>
+  <span class="n">trace_nine</span><span class="o">.</span><span class="n">end_point</span> <span class="o">=</span> <span class="no">CGPointMake</span><span class="p">(</span><span class="mi">185</span><span class="p">,</span> <span class="mi">159</span><span class="p">)</span>
+
+  <span class="vi">@kanji_traces</span><span class="o">.</span><span class="n">addObject</span><span class="p">(</span><span class="n">trace_nine</span><span class="p">)</span>
+
+
+  <span class="n">trace_ten</span> <span class="o">=</span> <span class="no">KanjiTrace</span><span class="o">.</span><span class="n">new</span>
+  <span class="n">trace_ten</span><span class="o">.</span><span class="n">starting_point</span> <span class="o">=</span> <span class="no">CGPointMake</span><span class="p">(</span><span class="mi">190</span><span class="p">,</span> <span class="mi">171</span><span class="p">)</span>
+  <span class="n">trace_ten</span><span class="o">.</span><span class="n">end_point</span> <span class="o">=</span> <span class="no">CGPointMake</span><span class="p">(</span><span class="mi">186</span><span class="p">,</span> <span class="mi">241</span><span class="p">)</span>
+
+  <span class="vi">@kanji_traces</span><span class="o">.</span><span class="n">addObject</span><span class="p">(</span><span class="n">trace_ten</span><span class="p">)</span>
+
+
+  <span class="n">trace_eleven</span> <span class="o">=</span> <span class="no">KanjiTrace</span><span class="o">.</span><span class="n">new</span>
+  <span class="n">trace_eleven</span><span class="o">.</span><span class="n">starting_point</span> <span class="o">=</span> <span class="no">CGPointMake</span><span class="p">(</span><span class="mi">175</span><span class="p">,</span> <span class="mi">227</span><span class="p">)</span>
+  <span class="n">trace_eleven</span><span class="o">.</span><span class="n">end_point</span> <span class="o">=</span> <span class="no">CGPointMake</span><span class="p">(</span><span class="mi">114</span><span class="p">,</span> <span class="mi">235</span><span class="p">)</span>
+
+  <span class="vi">@kanji_traces</span><span class="o">.</span><span class="n">addObject</span><span class="p">(</span><span class="n">trace_eleven</span><span class="p">)</span>
+
+
+  <span class="n">trace_twelve</span> <span class="o">=</span> <span class="no">KanjiTrace</span><span class="o">.</span><span class="n">new</span>
+  <span class="n">trace_twelve</span><span class="o">.</span><span class="n">starting_point</span> <span class="o">=</span> <span class="no">CGPointMake</span><span class="p">(</span><span class="mi">112</span><span class="p">,</span> <span class="mi">223</span><span class="p">)</span>
+  <span class="n">trace_twelve</span><span class="o">.</span><span class="n">end_point</span> <span class="o">=</span> <span class="no">CGPointMake</span><span class="p">(</span><span class="mi">112</span><span class="p">,</span> <span class="mi">181</span><span class="p">)</span>
+
+  <span class="vi">@kanji_traces</span><span class="o">.</span><span class="n">addObject</span><span class="p">(</span><span class="n">trace_twelve</span><span class="p">)</span>
+
+
+  <span class="n">trace_thirteen</span> <span class="o">=</span> <span class="no">KanjiTrace</span><span class="o">.</span><span class="n">new</span>
+  <span class="n">trace_thirteen</span><span class="o">.</span><span class="n">starting_point</span> <span class="o">=</span> <span class="no">CGPointMake</span><span class="p">(</span><span class="mi">114</span><span class="p">,</span> <span class="mi">161</span><span class="p">)</span>
+  <span class="n">trace_thirteen</span><span class="o">.</span><span class="n">end_point</span> <span class="o">=</span> <span class="no">CGPointMake</span><span class="p">(</span><span class="mi">140</span><span class="p">,</span> <span class="mi">129</span><span class="p">)</span>
+
+  <span class="vi">@kanji_traces</span><span class="o">.</span><span class="n">addObject</span><span class="p">(</span><span class="n">trace_thirteen</span><span class="p">)</span>
+
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="imageblock">
+<div class="content">
+<img src="resources/ch19-Multitouch/ch19_AllStartingTraces.png" alt="All Starting Traces" />
+</div>
+<div class="title">Figure 29. All Starting Traces</div>
+</div>
+<div class="paragraph"><p>Yes! We can start painting on any trace now, so lets continue adding a method to our <strong>KanjiTrace</strong> for evaluate if the user is following the line and assigning a score for the drawing:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="nv">$ </span><span class="nb">cd</span> ..
+
+<span class="nv">$ </span><span class="nb">cd </span>models
+
+<span class="nv">$ </span>open <span class="s2">&quot;kanji_trace.rb&quot;</span>
+</pre></div></div></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="kp">attr_reader</span> <span class="ss">:accurate_points</span>
+
+<span class="k">def</span> <span class="nf">evaluate_point</span><span class="p">(</span><span class="n">point</span><span class="p">)</span>
+
+  <span class="c1"># Lets create properties to store the accurate touches of</span>
+  <span class="c1"># the user and the missing ones</span>
+  <span class="vi">@accurate_points</span> <span class="o">||=</span> <span class="mi">0</span>
+  <span class="vi">@missing_points</span> <span class="o">||=</span> <span class="mi">0</span>
+
+  <span class="c1"># The next step is creating a surrounding rectangle for the</span>
+  <span class="c1"># trace, make it more easy for the user to touch</span>
+  <span class="n">trace_rect</span> <span class="o">=</span> <span class="no">CGRectMake</span><span class="p">(</span><span class="o">[</span><span class="n">starting_point</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">end_point</span><span class="o">.</span><span class="n">x</span><span class="o">].</span><span class="n">min</span> <span class="o">-</span> <span class="no">SURROUND_SIZE</span><span class="p">,</span>
+                          <span class="o">[</span><span class="n">starting_point</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">end_point</span><span class="o">.</span><span class="n">y</span><span class="o">].</span><span class="n">min</span> <span class="o">-</span> <span class="no">SURROUND_SIZE</span><span class="p">,</span>
+                          <span class="p">(</span><span class="n">starting_point</span><span class="o">.</span><span class="n">x</span> <span class="o">-</span> <span class="n">end_point</span><span class="o">.</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">abs</span> <span class="o">+</span> <span class="no">SURROUND_SIZE</span> <span class="o">*</span> <span class="mi">2</span><span class="p">,</span>
+                          <span class="p">(</span><span class="n">starting_point</span><span class="o">.</span><span class="n">y</span> <span class="o">-</span> <span class="n">end_point</span><span class="o">.</span><span class="n">y</span><span class="p">)</span><span class="o">.</span><span class="n">abs</span> <span class="o">+</span> <span class="no">SURROUND_SIZE</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span>
+
+
+  <span class="c1"># If the point is in the trace</span>
+  <span class="k">if</span> <span class="no">CGRectContainsPoint</span><span class="p">(</span><span class="n">trace_rect</span><span class="p">,</span> <span class="n">point</span><span class="p">)</span>
+
+    <span class="c1"># Add one to the accurate points</span>
+    <span class="vi">@accurate_points</span> <span class="o">+=</span> <span class="mi">1</span>
+  <span class="k">else</span>
+
+    <span class="c1"># Add one to the missing points</span>
+    <span class="vi">@missing_points</span> <span class="o">+=</span> <span class="mi">1</span>
+  <span class="k">end</span>
+
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>Our <strong>KanjiTrace</strong> is now evaluating and recording the score, next step is to used in our <strong>kanji_view.rb</strong> on the touchesMoved method:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="nv">$ </span><span class="nb">cd</span> ..
+
+<span class="nv">$ </span><span class="nb">cd </span>views
+
+<span class="nv">$ </span>open kanji_view.rb
+</pre></div></div></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="c1"># This method is called when the finger (or fingers)</span>
+<span class="c1"># are moving without leaving the screen</span>
+<span class="k">def</span> <span class="nf">touchesMoved</span><span class="p">(</span><span class="n">touches</span><span class="p">,</span> <span class="n">withEvent</span><span class="p">:</span> <span class="n">event</span><span class="p">)</span>
+
+  <span class="c1"># We need to ask the touch for his location according</span>
+  <span class="c1"># to the current view</span>
+  <span class="n">pointInView</span> <span class="o">=</span> <span class="n">touches</span><span class="o">.</span><span class="n">anyObject</span><span class="o">.</span><span class="n">locationInView</span><span class="p">(</span><span class="nb">self</span><span class="p">)</span>
+
+
+  <span class="c1"># If the user is drawing a trace</span>
+  <span class="k">unless</span> <span class="vi">@current_trace</span><span class="o">.</span><span class="n">nil?</span>
+
+    <span class="c1"># Add the touch point into the array, so it can be</span>
+    <span class="c1"># drawing later</span>
+    <span class="vi">@touch_points</span><span class="o">.</span><span class="n">addObject</span><span class="p">(</span><span class="no">NSValue</span><span class="o">.</span><span class="n">valueWithCGPoint</span><span class="p">(</span><span class="n">pointInView</span><span class="p">))</span>
+
+    <span class="c1"># Evaluate how accurate is the touch in relationship</span>
+    <span class="c1"># to the trace</span>
+    <span class="vi">@current_trace</span><span class="o">.</span><span class="n">evaluate_point</span><span class="p">(</span><span class="n">pointInView</span><span class="p">)</span>
+
+    <span class="c1"># Ask for repainting</span>
+    <span class="nb">self</span><span class="o">.</span><span class="n">setNeedsDisplay</span>
+  <span class="k">end</span>
+
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>Yeah now we are keeping a score about how accurate is the user drawing, but we are not doing nothing with it! Our next step is just about that!</p></div>
+<div class="imageblock">
+<div class="content">
+<img src="resources/ch19-Multitouch/ch19_PaintedTrace.png" alt="Painted Trace" />
+</div>
+<div class="title">Figure 30. Painted Trace</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_high_score">High Score!</h3>
+<div class="paragraph"><p>So as the Kanji description tell us is that is a technique for building cups of tea, so what about adding some disable cups on the top of the app to symbolize the score of the user (3 disable cups mean 0 right?)</p></div>
+<div class="paragraph"><p>So the first thing will be copy the images in <strong>DEFINE DEPLOYMENT PATH</strong> into our app resource&#8217;s folder, next add the follow to the <strong>kanji_view.rb</strong>:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">initWithFrame</span><span class="p">(</span><span class="n">frame</span><span class="p">)</span>
+
+  <span class="k">if</span> <span class="k">super</span>
+
+    <span class="c1"># In order to does not hide the background image on</span>
+    <span class="c1"># the controllers view, we need to set the background color on</span>
+    <span class="c1"># this view as transparent</span>
+    <span class="nb">self</span><span class="o">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">clearColor</span>
+
+    <span class="c1"># Instance an Array for storing the user touches</span>
+    <span class="vi">@touch_points</span> <span class="o">=</span> <span class="no">NSMutableArray</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">init</span>
+
+    <span class="n">layout_cups</span>
+    <span class="n">load_kanji_traces</span>
+
+  <span class="k">end</span>
+
+  <span class="nb">self</span>
+
+<span class="k">end</span>
+
+
+<span class="k">def</span> <span class="nf">layout_cups</span>
+
+  <span class="n">first_cup_frame</span> <span class="o">=</span> <span class="no">CGRectMake</span><span class="p">(</span><span class="mi">55</span><span class="p">,</span> <span class="mi">29</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
+
+  <span class="vi">@first_cup_image_view</span> <span class="o">=</span> <span class="no">UIImageView</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithFrame</span><span class="p">(</span><span class="n">first_cup_frame</span><span class="p">)</span>
+
+  <span class="vi">@first_cup_image_view</span><span class="o">.</span><span class="n">image</span> <span class="o">=</span> <span class="no">UIImage</span><span class="o">.</span><span class="n">imageNamed</span><span class="p">(</span><span class="s1">&#39;bgRakuOff1.png&#39;</span><span class="p">)</span>
+
+  <span class="nb">self</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="vi">@first_cup_image_view</span><span class="p">)</span>
+
+
+  <span class="n">second_cup_frame</span> <span class="o">=</span> <span class="no">CGRectMake</span><span class="p">(</span><span class="mi">135</span><span class="p">,</span> <span class="mi">29</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
+
+  <span class="vi">@second_cup_image_view</span> <span class="o">=</span> <span class="no">UIImageView</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithFrame</span><span class="p">(</span><span class="n">second_cup_frame</span><span class="p">)</span>
+
+  <span class="vi">@second_cup_image_view</span><span class="o">.</span><span class="n">image</span> <span class="o">=</span> <span class="no">UIImage</span><span class="o">.</span><span class="n">imageNamed</span><span class="p">(</span><span class="s1">&#39;bgRakuOff2.png&#39;</span><span class="p">)</span>
+
+  <span class="nb">self</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="vi">@second_cup_image_view</span><span class="p">)</span>
+
+
+  <span class="n">thrid_cup_frame</span> <span class="o">=</span> <span class="no">CGRectMake</span><span class="p">(</span><span class="mi">215</span><span class="p">,</span> <span class="mi">29</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
+
+  <span class="vi">@thrid_cup_image_view</span> <span class="o">=</span> <span class="no">UIImageView</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithFrame</span><span class="p">(</span><span class="n">thrid_cup_frame</span><span class="p">)</span>
+
+  <span class="vi">@thrid_cup_image_view</span><span class="o">.</span><span class="n">image</span> <span class="o">=</span> <span class="no">UIImage</span><span class="o">.</span><span class="n">imageNamed</span><span class="p">(</span><span class="s1">&#39;bgRakuOff3.png&#39;</span><span class="p">)</span>
+
+  <span class="nb">self</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="vi">@thrid_cup_image_view</span><span class="p">)</span>
+
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="imageblock">
+<div class="content">
+<img src="resources/ch19-Multitouch/ch19_ScoreBoard.png" alt="Score Board" />
+</div>
+<div class="title">Figure 31. Score Board</div>
+</div>
+<div class="paragraph"><p>The last part of the exercise consist of analyzing the score of all the traces and according to that change the images of the cups. Making a little scoreboard!</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="c1"># Method where we need to do the Core Graphics drawing</span>
+<span class="k">def</span> <span class="nf">drawRect</span><span class="p">(</span><span class="n">rect</span><span class="p">)</span>
+
+  <span class="n">update_score_board</span>
+
+  <span class="c1"># Get the Core Graphics current context</span>
+  <span class="n">context</span> <span class="o">=</span> <span class="no">UIGraphicsGetCurrentContext</span><span class="p">()</span>
+
+  <span class="c1"># Set a color for drawing the touch points</span>
+  <span class="no">UIColor</span><span class="o">.</span><span class="n">colorWithRed</span><span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">988</span><span class="p">,</span> <span class="n">green</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mi">612</span><span class="p">,</span> <span class="n">blue</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mi">157</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mi">6</span><span class="p">)</span><span class="o">.</span><span class="n">set</span>
+
+  <span class="c1"># Iterate the touch points</span>
+  <span class="vi">@touch_points</span><span class="o">.</span><span class="n">each</span> <span class="p">{</span> <span class="o">|</span> <span class="n">touch_point</span> <span class="o">|</span>
+
+    <span class="c1"># Move the context to the touch point</span>
+    <span class="no">CGContextMoveToPoint</span><span class="p">(</span><span class="n">context</span><span class="p">,</span>
+                         <span class="n">touch_point</span><span class="o">.</span><span class="n">CGPointValue</span><span class="o">.</span><span class="n">x</span><span class="p">,</span>
+                         <span class="n">touch_point</span><span class="o">.</span><span class="n">CGPointValue</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
+
+  <span class="c1"># Create a rect in which want to the ellipse be drawen</span>
+  <span class="n">point_rect</span> <span class="o">=</span> <span class="no">CGRectMake</span><span class="p">(</span><span class="n">touch_point</span><span class="o">.</span><span class="n">CGPointValue</span><span class="o">.</span><span class="n">x</span> <span class="o">-</span> <span class="mi">10</span><span class="p">,</span>
+                          <span class="n">touch_point</span><span class="o">.</span><span class="n">CGPointValue</span><span class="o">.</span><span class="n">y</span> <span class="o">-</span> <span class="mi">10</span><span class="p">,</span>
+                          <span class="mi">20</span><span class="p">,</span>
+                          <span class="mi">20</span><span class="p">)</span>
+
+  <span class="c1"># Add the ellipse using the rect into the context</span>
+  <span class="no">CGContextAddEllipseInRect</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">point_rect</span><span class="p">)</span>
+
+  <span class="c1"># Draw the context into the view</span>
+  <span class="no">CGContextFillPath</span><span class="p">(</span><span class="n">context</span><span class="p">)</span>
+  <span class="p">}</span>
+<span class="k">end</span>
+
+
+<span class="k">def</span> <span class="nf">update_score_board</span>
+
+  <span class="n">total_accurate_points</span> <span class="o">=</span> <span class="mi">0</span>
+
+  <span class="vi">@kanji_traces</span><span class="o">.</span><span class="n">each</span> <span class="p">{</span> <span class="o">|</span> <span class="n">kanji_trace</span> <span class="o">|</span>
+
+      <span class="k">unless</span> <span class="n">kanji_trace</span><span class="o">.</span><span class="n">accurate_points</span><span class="o">.</span><span class="n">nil?</span>
+
+        <span class="n">total_accurate_points</span> <span class="o">+=</span> <span class="n">kanji_trace</span><span class="o">.</span><span class="n">accurate_points</span>
+      <span class="k">end</span>
+  <span class="p">}</span>
+
+  <span class="k">if</span> <span class="n">total_accurate_points</span> <span class="o">&gt;=</span> <span class="mi">100</span>
+
+    <span class="vi">@first_cup_image_view</span><span class="o">.</span><span class="n">image</span> <span class="o">=</span> <span class="no">UIImage</span><span class="o">.</span><span class="n">imageNamed</span><span class="p">(</span><span class="s1">&#39;bgRakuOn1.png&#39;</span><span class="p">)</span>
+  <span class="k">end</span>
+
+  <span class="k">if</span> <span class="n">total_accurate_points</span> <span class="o">&gt;=</span> <span class="mi">300</span>
+
+    <span class="vi">@second_cup_image_view</span><span class="o">.</span><span class="n">image</span> <span class="o">=</span> <span class="no">UIImage</span><span class="o">.</span><span class="n">imageNamed</span><span class="p">(</span><span class="s1">&#39;bgRakuOn2.png&#39;</span><span class="p">)</span>
+  <span class="k">end</span>
+
+  <span class="k">if</span> <span class="n">total_accurate_points</span> <span class="o">&gt;=</span> <span class="mi">500</span>
+
+    <span class="vi">@thrid_cup_image_view</span><span class="o">.</span><span class="n">image</span> <span class="o">=</span> <span class="no">UIImage</span><span class="o">.</span><span class="n">imageNamed</span><span class="p">(</span><span class="s1">&#39;bgRakuOn3.png&#39;</span><span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="imageblock">
+<div class="content">
+<img src="resources/ch19-Multitouch/ch19_HighScore.png" alt="High Score" />
+</div>
+<div class="title">Figure 32. High Score</div>
+</div>
+<div class="paragraph"><p>Now is finished! It looks like it will need some animations for the cups to look amazing, in the next chapters we will see how to make animations</p></div>
+</div>
+<div class="sect2">
+<h3 id="_challenges_3">Challenges</h3>
+<div class="olist arabic"><ol class="arabic">
+<li>
+<p>
+Restart the game when the user double tap the screen (Hint: tapCount)
+</p>
+</li>
+<li>
+<p>
+Implement a point subtraction of the trace score, when the user draws outside the trace, but without loosing the ability to  get the maximum score
+</p>
+</li>
+<li>
+<p>
+The current implementation is drawing every point into the view, the challenge is change that into drawing just one line starting in the first touch and ending when the user removes the finger (Hint: CGContextAddLineToPoint)
+</p>
+</li>
+</ol></div>
 </div>
 </div>
 </div>
@@ -3862,7 +4419,7 @@ The drawing on a UIView using Core Graphics its not additive, what this means is
 <div class="content">
 <img src="resources/ch20-CALayers/ch20_REPL1.png" alt="Initial Run" />
 </div>
-<div class="title">Figure 26. Initial Run</div>
+<div class="title">Figure 33. Initial Run</div>
 </div>
 </div>
 <div class="sect2">
@@ -3888,7 +4445,7 @@ The drawing on a UIView using Core Graphics its not additive, what this means is
 <div class="content">
 <img src="resources/ch20-CALayers/ch20_REPL2.png" alt="Yellow Square" />
 </div>
-<div class="title">Figure 27. Yellow Square</div>
+<div class="title">Figure 34. Yellow Square</div>
 </div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="o">(</span><span class="c">#&lt;UIView:0x000000)&gt; layer.position = CGPointMake(100, 100)</span>
@@ -3897,7 +4454,7 @@ The drawing on a UIView using Core Graphics its not additive, what this means is
 <div class="content">
 <img src="resources/ch20-CALayers/ch20_REPL3.png" alt="Yellow Square in a Different Position" />
 </div>
-<div class="title">Figure 28. Yellow Square in a Different Position</div>
+<div class="title">Figure 35. Yellow Square in a Different Position</div>
 </div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="o">(</span><span class="c">#&lt;UIView:0x000000)&gt; layer.cornerRadius = 20</span>
@@ -3906,7 +4463,7 @@ The drawing on a UIView using Core Graphics its not additive, what this means is
 <div class="content">
 <img src="resources/ch20-CALayers/ch20_REPL4.png" alt="Yellow Square with Rounded Corners" />
 </div>
-<div class="title">Figure 29. Yellow Square with Rounded Corners</div>
+<div class="title">Figure 36. Yellow Square with Rounded Corners</div>
 </div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="o">(</span><span class="c">#&lt;UIView:0x000000)&gt; layer.borderWidth = 10</span>
@@ -3916,7 +4473,7 @@ The drawing on a UIView using Core Graphics its not additive, what this means is
 <div class="content">
 <img src="resources/ch20-CALayers/ch20_REPL5.png" alt="Yellow Square with Border" />
 </div>
-<div class="title">Figure 30. Yellow Square with Border</div>
+<div class="title">Figure 37. Yellow Square with Border</div>
 </div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="o">(</span><span class="c">#&lt;UIView:0x000000)&gt; layer.shadowRadius = 5.0</span>
@@ -3927,7 +4484,7 @@ The drawing on a UIView using Core Graphics its not additive, what this means is
 <div class="content">
 <img src="resources/ch20-CALayers/ch20_REPL6.png" alt="Yellow Square with Shadow" />
 </div>
-<div class="title">Figure 31. Yellow Square with Shadow</div>
+<div class="title">Figure 38. Yellow Square with Shadow</div>
 </div>
 <div class="paragraph"><p>They are two things important in this part, the first is that you can manipulate the appearance in more ways using a CALayer than a UIView like the Rounded Corners, Shadows, etc. Also if you look closely you must see that when you change some properties of the layer it animates it self, we will look into more deeply later on.</p></div>
 </div>
@@ -3981,7 +4538,7 @@ The drawing on a UIView using Core Graphics its not additive, what this means is
 <div class="content">
 <img src="resources/ch20-CALayers/ch20_GradientBackground.png" alt="Background with Gradient" />
 </div>
-<div class="title">Figure 32. Background with Gradient</div>
+<div class="title">Figure 39. Background with Gradient</div>
 </div>
 <div class="paragraph"><p>Easy right? We create a nice background for our app using a gradient. Lets continue adding some grass into the composition:</p></div>
 <div class="paragraph"><p>Please copy the <strong>Determine deployment target</strong> into our app resources folder, after that add the following method to our <strong>LayerViewController</strong> class</p></div>
@@ -4014,7 +4571,7 @@ The drawing on a UIView using Core Graphics its not additive, what this means is
 <div class="content">
 <img src="resources/ch20-CALayers/ch20_GrassLayer.png" alt="Grass Layer" />
 </div>
-<div class="title">Figure 33. Grass Layer</div>
+<div class="title">Figure 40. Grass Layer</div>
 </div>
 <div class="paragraph"><p>Great! Now you see that we are compositing two layers together and learn that you can also include an Image as a content. But how about drawing custom figures? Add the following to the <strong>LayerViewController</strong> class:</p></div>
 <div class="listingblock">
@@ -4084,7 +4641,7 @@ The drawing on a UIView using Core Graphics its not additive, what this means is
 <div class="content">
 <img src="resources/ch20-CALayers/ch20_SunLayer.png" alt="Sun Layer" />
 </div>
-<div class="title">Figure 34. Sun Layer</div>
+<div class="title">Figure 41. Sun Layer</div>
 </div>
 </div>
 <div class="sect2">
@@ -4211,11 +4768,11 @@ Then the resulting matrix property values and times is executed, giving the effe
 <div class="content">
 <img src="resources/ch20-CALayers/ch20_AnimatedLayer.png" alt="Sun Layer" />
 </div>
-<div class="title">Figure 35. Animated Layer</div>
+<div class="title">Figure 42. Animated Layer</div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_challenges_3">Challenges</h3>
+<h3 id="_challenges_4">Challenges</h3>
 <div class="olist arabic"><ol class="arabic">
 <li>
 <p>
@@ -4316,7 +4873,7 @@ Repeat the animation indefinitely
 <div class="content">
 <img src="resources/ch21-CoreAnimation/ch21_AnimationBlinkToStart.png" alt="Animation Blinking to Start" />
 </div>
-<div class="title">Figure 36. Animation Blinking to Start</div>
+<div class="title">Figure 43. Animation Blinking to Start</div>
 </div>
 <div class="paragraph"><p>Uh? What happen? The sun move to the position we touch, but at the end of the animation it return to its initial value. This happens because the animation is independent of the layer that is running into, it will move the layer to the touch position but at the end if you don&#8217;t change the layer property it will return to the initial state.</p></div>
 <div class="paragraph"><p>Try the following:</p></div>
@@ -4354,7 +4911,7 @@ Repeat the animation indefinitely
 <div class="content">
 <img src="resources/ch21-CoreAnimation/ch21_AnimationComplete.png" alt="Animation Complete" />
 </div>
-<div class="title">Figure 37. Animation Complete</div>
+<div class="title">Figure 44. Animation Complete</div>
 </div>
 <div class="paragraph"><p>Now it works as expected! The animation is pretty slow because we set to it 1 second, try changing it for more fun.</p></div>
 <div class="admonitionblock">
@@ -4401,7 +4958,7 @@ Repeat the animation indefinitely
 <div class="content">
 <img src="resources/ch21-CoreAnimation/ch21_AnimationReturningToStartingPoint.png" alt="Animation Returning to Starting Point" />
 </div>
-<div class="title">Figure 38. Animation Returning to Starting Point</div>
+<div class="title">Figure 45. Animation Returning to Starting Point</div>
 </div>
 <div class="paragraph"><p>If we want to make that cycle of moving and returning happen 100 times?</p></div>
 <div class="listingblock">
@@ -4439,7 +4996,7 @@ Repeat the animation indefinitely
 <div class="content">
 <img src="resources/ch21-CoreAnimation/ch21_AnimationLoop.png" alt="Animation Loop" />
 </div>
-<div class="title">Figure 39. Animation Loop</div>
+<div class="title">Figure 46. Animation Loop</div>
 </div>
 <div class="paragraph"><p>What about combining two animations: a spinning one with the moving one</p></div>
 <div class="listingblock">
@@ -4492,7 +5049,7 @@ Repeat the animation indefinitely
 <div class="content">
 <img src="resources/ch21-CoreAnimation/ch21_AnimationSpinning.png" alt="Animation Spinning and Moving" />
 </div>
-<div class="title">Figure 40. Animation Spinning and Moving</div>
+<div class="title">Figure 47. Animation Spinning and Moving</div>
 </div>
 </div>
 </div>
@@ -4553,7 +5110,7 @@ Repeat the animation indefinitely
 <div class="content">
 <img src="resources/ch21-CoreAnimation/ch21_SunAndClouds.png" alt="Sun & Clouds" />
 </div>
-<div class="title">Figure 41. Sun &amp; Clouds</div>
+<div class="title">Figure 48. Sun &amp; Clouds</div>
 </div>
 <div class="paragraph"><p>Pretty but not amazing!, Now lets add some animation to the clouds:</p></div>
 <div class="listingblock">
@@ -4638,7 +5195,7 @@ Repeat the animation indefinitely
 <div class="content">
 <img src="resources/ch21-CoreAnimation/ch21_AnimationClouds.png" alt="Cloud Animation" />
 </div>
-<div class="title">Figure 42. Cloud Animation</div>
+<div class="title">Figure 49. Cloud Animation</div>
 </div>
 <div class="paragraph"><p>Yes, it looks kind of good. But the animation is too linear the clouds does not look like the real life, what we can do is adding some easing with a timing function. The objective is when the cloud appear on the screen go faster and then it decelerate until its finished. This kind of easing is called EasyOut:</p></div>
 <div class="paragraph"><p>Lets apply it to the code:</p></div>
@@ -4723,7 +5280,7 @@ Repeat the animation indefinitely
 <div class="content">
 <img src="resources/ch21-CoreAnimation/ch21_AnimationCloudsWithEasing.png" alt="Cloud Animation with Easing" />
 </div>
-<div class="title">Figure 43. Cloud Animation with Easing</div>
+<div class="title">Figure 50. Cloud Animation with Easing</div>
 </div>
 <div class="paragraph"><p>Subtle right? Thats the idea! It now looks more that the wind blows stronger at the first and then it slows down. But what is really happening?</p></div>
 <div class="paragraph"><p>Do you remember the part of the interpolation? We were saying in that moment that it is the calculus between the initial value and the final every millisecond of the sequence. It means that if we move 3 points during 3 seconds, it will move one point per second right?</p></div>
@@ -4733,7 +5290,7 @@ Repeat the animation indefinitely
 <div class="content">
 <img src="resources/ch21-CoreAnimation/ch21_Easings.png" alt="iOS Easings" />
 </div>
-<div class="title">Figure 44. iOS Easings</div>
+<div class="title">Figure 51. iOS Easings</div>
 </div>
 <div class="paragraph"><p>Also if you don&#8217;t like anyone, you can implement your custom timing function.</p></div>
 </div>
@@ -4795,7 +5352,7 @@ Repeat the animation indefinitely
 <div class="content">
 <img src="resources/ch21-CoreAnimation/ch21_SunStraightAnimation.png" alt="Sun Straight Animation" />
 </div>
-<div class="title">Figure 45. Sun Straight Animation</div>
+<div class="title">Figure 52. Sun Straight Animation</div>
 </div>
 <div class="paragraph"><p>We are improving! But the sun does not move in a straight line, so lets change does points into an arc:</p></div>
 <div class="listingblock">
@@ -4834,7 +5391,7 @@ Repeat the animation indefinitely
 <div class="content">
 <img src="resources/ch21-CoreAnimation/ch21_SunArcAnimation.png" alt="Sun Arc Animation" />
 </div>
-<div class="title">Figure 46. Sun Arc Animation</div>
+<div class="title">Figure 53. Sun Arc Animation</div>
 </div>
 <div class="paragraph"><p>Great! Now this is working, but how about combining the translation animation with a spinning one? (CABasicAnimation &amp; CAKeyframeAnimation):</p></div>
 <div class="listingblock">
@@ -4998,7 +5555,7 @@ Repeat the animation indefinitely
 <div class="content">
 <img src="resources/ch21-CoreAnimation/ch21_SunSunsetAnimation.png" alt="Sun Sunset Animation" />
 </div>
-<div class="title">Figure 47. Sun Sunset Animation</div>
+<div class="title">Figure 54. Sun Sunset Animation</div>
 </div>
 <div class="paragraph"><p>It looks pretty good! But we are missing the night part right? Thats the next part of the exercise</p></div>
 </div>
@@ -5271,12 +5828,12 @@ Repeat the animation indefinitely
 <div class="content">
 <img src="resources/ch21-CoreAnimation/ch21_SunAndMoonAnimation.png" alt="Sun & Moon Animation" />
 </div>
-<div class="title">Figure 48. Sun &amp; Moon Animation</div>
+<div class="title">Figure 55. Sun &amp; Moon Animation</div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_challenges_4">Challenges</h2>
+<h2 id="_challenges_5">Challenges</h2>
 <div class="sectionbody">
 <div class="olist arabic"><ol class="arabic">
 <li>
@@ -5292,12 +5849,75 @@ Change the past animation to look like shooting stars, enter and leaving the scr
 </ol></div>
 </div>
 </div>
+<h1 id="_day_5">Day 5</h1>
+<h1 id="_chapter_25_third_party_libraries">Chapter 25 - Third Party Libraries</h1>
+<div class="paragraph"><p>Integrating Third Party Libraries (Even if they are in Objective-C ;) into our project is pretty simple using CocoaPods. For this application lets make a simple game called asteroids using a library called Cocos2D</p></div>
+<div class="sect1">
+<h2 id="_cocoapods">CocoaPods</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>CocoaPods (cocoapods.org) is a dependency library manager for Objective-C projects, much more like bundler is in rails. Using CocoaPods with a RubyMotion project simplifies all the tasks needed to integrate the library: Just add the Pod to the <strong>RakeFile</strong> and then compile the app. It will download the library, also all of its dependencies and then link them to the app.</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_cocos_2d">Cocos 2D</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>Cocos 2D (cocos2d-iphone.org) is a framework made it in Objective-C that will allow us to create a 2D Video Game more easy. In this case it will be a old game called Asteroids, the objective of the game is that using a SpaceShip destroy as many meteors as you can without crashing into them</p></div>
+<div class="sect2">
+<h3 id="_getting_it_running">Getting it Running</h3>
+<div class="paragraph"><p>First we need to install CocoaPods into our MacOSX, this is done running the following commands into our terminal:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="nv">$ </span>sudo gem install cocoapods
+
+<span class="nv">$ </span>pod setup
+
+<span class="nv">$ </span>sudo gem install motion-cocoapods
+</pre></div></div></div>
+</div>
+<div class="sect2">
+<h3 id="_create_the_app">Create the App</h3>
+<div class="paragraph"><p>Lets create a new project called <strong>Asteroids</strong>:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="nv">$ </span>motion create Asteroids
+</pre></div></div></div>
+<div class="paragraph"><p>Then integrate Cocos2D into our project editing our <strong>RakeFile</strong></p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="nv">$ </span><span class="nb">cd </span>Asteroids
+
+<span class="nv">$ </span>open RakeFile
+</pre></div></div></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="vg">$:</span><span class="o">.</span><span class="n">unshift</span><span class="p">(</span><span class="s2">&quot;/Library/RubyMotion/lib&quot;</span><span class="p">)</span>
+<span class="nb">require</span> <span class="s1">&#39;motion/project&#39;</span>
+<span class="nb">require</span> <span class="s1">&#39;motion-cocoapods&#39;</span>
+
+<span class="no">Motion</span><span class="o">::</span><span class="no">Project</span><span class="o">::</span><span class="no">App</span><span class="o">.</span><span class="n">setup</span> <span class="k">do</span> <span class="o">|</span><span class="n">app</span><span class="o">|</span>
+  <span class="c1"># Use `rake config&#39; to see complete project settings.</span>
+  <span class="n">app</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;asteroids&#39;</span>
+
+  <span class="n">app</span><span class="o">.</span><span class="n">pods</span> <span class="k">do</span>
+
+    <span class="n">pod</span> <span class="s1">&#39;cocos2d&#39;</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>Well! Lets build our project (It can take a couple of seconds because the weight of the Cocos2d library):</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="nv">$ </span>rake
+</pre></div></div></div>
+<div class="paragraph"><p>The Cocos2d library is now integrated into our project! Easy right?</p></div>
+</div>
+<div class="sect2">
+<h3 id="_building_a_game">Building a Game</h3>
+</div>
+</div>
+</div>
 </div>
 <div id="footnotes"><hr /></div>
 <div id="footer">
 <div id="footer-text">
 Version 0.1<br />
-Last updated 2012-11-12 18:51:53 CST
+Last updated 2012-11-15 20:33:24 CST
 </div>
 </div>
 </body>
