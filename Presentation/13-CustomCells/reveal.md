@@ -3,7 +3,7 @@
 <slide>
 ## Custome Cells
 
-![](tableview.png "Custome Cells") 
+![](customcell.png "Custome Cells") 
 
 </slide>
 
@@ -82,6 +82,6 @@ Create an offscreen image context.
 <slide>
 ## Custome Cells
 
-![](tableview.png "Custome Cells") 
+![](customcell.png "Custome Cells") 
 
 </slide>

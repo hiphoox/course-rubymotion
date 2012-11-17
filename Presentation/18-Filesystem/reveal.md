@@ -3,7 +3,7 @@
 <slide>
 ## File System
 
-![](tableview.png "File Sytem") 
+![](navigationcontroller.png "File Sytem") 
 
 </slide>
 
@@ -141,6 +141,6 @@ iOS has methods to save string or binary data:
 <slide>
 ## File System
 
-![](tableview.png "Memory Warnings") 
+![](navigationcontroller.png "Memory Warnings") 
 
 </slide>

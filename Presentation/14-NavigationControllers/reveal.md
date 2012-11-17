@@ -3,7 +3,7 @@
 <slide>
 ## Navigation Controllers
 
-![](tableview.png "Navigation Controllers") 
+![](navigationcontroller.png "Navigation Controllers") 
 
 </slide>
 
@@ -115,6 +115,6 @@ In the subclass of your Navigation Controller
 <slide>
 ## Navigation Controllers
 
-![](tableview.png "Navigation Controllers") 
+![](navigationcontroller.png "Navigation Controllers") 
 
 </slide>
