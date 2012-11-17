@@ -34,6 +34,8 @@ include::ch10-InterfaceBuilder.asciidoc[]
 
 include::ch11-ViewControllers.asciidoc[]
 
+include::ch12-TableViews.asciidoc[]
+
 include::ch15-Notifications.asciidoc[]
 
 = Day 4

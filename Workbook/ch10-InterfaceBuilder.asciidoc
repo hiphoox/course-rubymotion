@@ -1,0 +1,542 @@
+Chapter 10 - Interface Builder
+============================
+
+
+In this workshop, we are going to learn to use the Interface Builder, the tool to build User Interfaces without coding them. 
+
+
+In previous chapter we have been programmatically creating our views, suchs as buttons or even maps. The Interface Builder will allow us to separate the task of building visual components to specialized files called *nib* files. 
+
+
+Setting up the app
+-----------------
+
+
+Unzip the file *10-interfacebuilder_resources.zip* run the app using the *rake* command. You will notice that displays our old Next Event
+View:
+
+image:Resources/ch10-InterfaceBuilder/ch10_01_app.png[Chapter 10 app]
+
+We want to implement the Sign in and the Sign up views, but this time will use the Interface Builder to help us.
+
+Setting up our Xcode project
+--------------------------
+
+
+
+The Interface Builder is integrated into Xcode, the IDE for building iOS projects using Objective-C. Although is technically possible to just create a *Nib* file without a project, is easier to create it inside a project. And having your Nib files integrated into one project is helpful to keep them organized. 
+
+
+If you don't have Xcode installed, download it from the App Store in your Mac. Open it and you'll be prompted to create a new project. Choose in the side menu iOS > Application and the Single View Application template:
+
+
+
+image:Resources/ch10-InterfaceBuilder/ch10_02_xcode_project.png[Chapter 10 xcode project]
+
+
+Next, enter this data in the project creation wizard. Notice that we are unselecting the "Use Storyboards" option.
+
+image:Resources/ch10-InterfaceBuilder/ch10_03_xcode_options.png[Chapter 10 xcode options]
+
+
+Save the project in the same folder where the Cocoaheads Rubymotion project is located.
+
+
+Creating the Sign In View
+------------------------
+
+
+You will see that Xcode have created an *Xib* file called *RBMViewController.xib*
+
+image:Resources/ch10-InterfaceBuilder/ch10_04_project_files.png[Chapter 10 xcode files]
+
+Open it, Xcode opens this kind of files in the Interface Builder Editor.
+
+In the right side panel we have two main sections: 
+
+- Placeholders
+- Objects
+
+In the center panel, we have our view. In the left side panel we have on the top section the *Inspectors*
+
+- *Inspectors* We use them to modify the attributes of the view selected in the left panel's sections.
+- The Libraries. We use them to select CocoaTouch components, Objects, etc and drag them into our view.
+
+image:Resources/ch10-InterfaceBuilder/ch10_05_xcode.png[Chapter 10 xcode]
+
+The Interface Builder can link the objects that we create in the *Xib* file to other objects in our app. In the Placeholder section, select the *File's Owner* object. and in the Inspectors select the *Identity* inspector (the third tab):
+
+image:Resources/ch10-InterfaceBuilder/ch10_06_identity.png[Chapter 10 identity]
+
+You will notice that this object is a *RBMViewController* a UIViewController subclass that Xcode has created for us. You already know that a UIViewController needs to create its own view, we've been doing this task in the *loadView* method. When you use InterfaceBuilder the view is created inside the Xib file and you link it to the *File's owner* that should be a UIViewController.
+
+Because this *Xib* was created by the Xcode template, it already has this links defined. Ctrl + click in the File's Owner object and you will see the its list of *Outlets*
+
+image:Resources/ch10-InterfaceBuilder/ch10_07_outlets.png[Chapter 10 outlets]
+
+The outlets are the variables of an object that an be bound to a component created in the Interface Builder. Select the one named *view* and you will see that the UIView is highligthed. The UIViewController has bound its *view* variable to the UIView created in the Editor.
+
+Let's start creating our Sign-in view. First, we are going to modify the size of the UIView. Select the View in the *Objects* panel. Now in the *Inspectors* panel select the *Attributes* inspector: the fourth tab. You will notice that Xcode set the size for the iPhone 5's 4" screen. Change it to a standard 3.5":
+
+image:Resources/ch10-InterfaceBuilder/ch10_08_view_size.png[Chapter 10 view size]
+
+
+Now choose the first tab, the *Identity* tab and unselect the *Use AutoLayout* option. AutoLayouts is a new feature in iOS6 that helps you to build Interfaces that adapt themselves to different screen sizes. We'll cover that topic in the Chapter 16.
+
+
+image:Resources/ch10-InterfaceBuilder/ch10_09_autolayout.png[Chapter 10 autolayout]
+
+
+Lets start creating our view. As you may recall, the views of our Cocoaheads app has an header image with this Cocoa-like texture and below a red gradient background image. We are going to start by creating this objects.
+
+In the right panel, go to the bottom panel and select the *Objects* tab, the third one:
+
+
+image:Resources/ch10-InterfaceBuilder/ch10_10_objects_panel.png[Chapter 10 objects panel]
+
+
+In the search field type type UIImageView, the objects will be filtered according to that criteria and only a UIImageView object will appear:
+
+image:Resources/ch10-InterfaceBuilder/ch10_11_imageview.png[Chapter 10 image view filter]
+
+
+Drag the object to your view. The next step is to resize the background, this is going to be our header image. You can adjust the size with your mouse or you can use the *Size* Inspector. Select your UIImageView and in the right panel, in the top panel (*Inspectors*) panel, select the *Size* tab (the fifth one). You will see that you can enter the Frame data in this tab. Enter this values: x:0, y:0, width:320, height:64:
+
+image:Resources/ch10-InterfaceBuilder/ch10_12_imageview_frame.png[Chapter 10 image view frame]
+
+
+
+The next step is to create below this header image our background image. Drag another UIImageView. Set its frame to: x:0, y:64, width:320, height:396.
+
+
+Now, we are going to create our UIControls. Let's start with the TextFields. Drag a UITextField from the *Objects* panel into your view.
+
+Select the *Attributes* inspector (the fourth tab in the Inspectors panel) and enter *email* in the placeholder attribute. In the Border Style select the first option (No border) and in the Keyboard attribute select *Email*. This option will show a keyboard customized for entering email addresses:
+
+image:Resources/ch10-InterfaceBuilder/ch10_13_textfield_attributes.png[Chapter 10 text field attributes]
+
+
+Next, adjust the size and location of the textfield using your mouse. Another option is to select the  Text Field and in the *Inspector* section, in the Fifth tab (*Size*) you can type the absolut values for its Frame. For this field we'll enter x: 20, y: 130, width 289 and height 44. Don't worry if the Textfield is almost invisible, we'll add a background image programatically later.
+
+image:Resources/ch10-InterfaceBuilder/ch10_14_textfield_frame.png[Chapter 10 text field attributes]
+
+
+Add another Textfield In the *Attributes* tab enter *password* as its placeholder, with no border  and in the bottom select the *Secure* option.
+
+
+image:Resources/ch10-InterfaceBuilder/ch10_15_password_attributes.png[Chapter 10 password field attributes]
+
+
+In the *Size* inspector set its frame to x:20, y:190, width:289 and height:44.
+
+Now, we are going to add two buttons: one to close the Sign in view and other to sign in. In the *Objects* section type Round Rect Button and drag a UIButton to the View.
+
+In the *Attributes* inspector:
+
+- Change its type to *Custom*
+- In the title delete *Button* and leave it blank.
+
+image:Resources/ch10-InterfaceBuilder/ch10_16_button_attributes.png[Chapter 10 button attributes]
+
+
+Now, set the frame of the object in the *Size* inspector to x:14, y:10, width:56, height:41.
+
+The next step is to add our Sign In button. Drag another Round Rect Button into the View. In the *Attributes* Inspector set its properties to:
+
+- Type: Custom
+- Title: SignIn
+- Font: Helvetica Neue Medium 18
+- TextColor: White
+
+image:Resources/ch10-InterfaceBuilder/ch10_17_button_font.png[Chapter 10 button font]
+
+
+The frame of the button should be x:25, y:396 and the size should have width:270, height:44. Your UIView should look like
+
+image:Resources/ch10-InterfaceBuilder/ch10_18_view_design.png[Chapter 10 view design]
+
+
+
+Wiring our UIView to a View Controller
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+Once we have created our view, we should wire it to our View Controller. The easiest way to do this is to use its *Tag* attribute. *Tag* is an integer property of *UIView* that you can use to identify your views. Basically, you have to set a unique integer for each UIView you need to access from your UIViewController. We are going to start with the Header Image View. 
+
+Select the UIImageView in the *Objects* section and in the Inspectors select the *Attributes* inspector (the 4th tab). Set its Tag property to 1:
+
+image:Resources/ch10-InterfaceBuilder/ch10_19_tag.png[Chapter 10 tag attribute]
+
+
+Do the same for all objects with using these numbers as its tags:
+
+- Background Image View: 2
+- Close button: 3
+- Email textfield: 4
+- Password textfield: 5
+- SignIn button: 6
+
+Now we are ready to import our Xib file into our RubyMotion project.
+
+Open in *Finder* the folder of the Xcode Project and locate the *RBMViewController.xib* (hint: it's inside a folder named en.lproj) copy it into the *resources* folder of your RubyMotion project.
+
+Run
+
+[source, sh]
+-----------
+rake
+-----------
+
+and you should notice that it compiles the *Xib* file into a *Nib* file.
+
+Now let's create our Sign In View Controller. Create a file called *sign_in_viewcontroller.rb* in the app/controllers folder. Copy this code
+
+[source, ruby]
+------------------------------
+class SignInViewController < UIViewController
+
+  HEADER_IMAGE_VIEW_TAG = 1
+  BACKGROUND_IMAGE_VIEW_TAG = 2
+  CLOSE_BUTTON_TAG = 3
+  EMAIL_TEXTFIELD_TAG = 4
+  PASSWORD_TEXTFIELD_TAG = 5
+  SIGN_IN_BUTTON_TAG = 6
+
+end  
+-------------------------------
+
+We are declaring our UIViewController subclass and initializing some constants with the tags that we assigned in Interface Builder, we'll use them to wire our variables to those components.
+
+Now we are going to add the code to setup our views:
+
+
+[source, ruby]
+----------------------------------------
+def viewDidLoad  
+                  
+  setupHeaderImageView
+  setupBackgroundImageView
+  setupEmailTextField
+  setupPasswordTextField
+  setupCloseButton    
+  setupSignInButton 
+end 
+
+
+def setupHeaderImageView
+
+  header_image_view = self.view.viewWithTag(HEADER_IMAGE_VIEW_TAG)
+  header_image_view.image = UIImage.imageNamed('bgTitleBar')
+end  
+
+
+def setupBackgroundImageView
+
+  background_image_view = self.view.viewWithTag(BACKGROUND_IMAGE_VIEW_TAG)
+  background_image_view.image = UIImage.imageNamed('bgApp')
+end  
+
+
+def setupEmailTextField
+
+  @email_textfield = self.view.viewWithTag(EMAIL_TEXTFIELD_TAG)
+  @email_textfield.background = UIImage.imageNamed('bgTextField')
+end
+
+
+def setupPasswordTextField   
+   
+  @password_textfield = self.view.viewWithTag(PASSWORD_TEXTFIELD_TAG)
+  @password_textfield.background = UIImage.imageNamed('bgTextField')
+  @password_textfield.delegate = self
+end
+
+
+def setupCloseButton      
+
+  @close_button = self.view.viewWithTag(CLOSE_BUTTON_TAG)    
+  @close_button.setBackgroundImage(UIImage.imageNamed("btnCancel"), forState:UIControlStateNormal)
+  @close_button.addTarget(self, 
+    action:'close', forControlEvents:UIControlEventTouchUpInside)
+end  
+
+
+def setupSignInButton
+
+  @sign_in_button = self.view.viewWithTag(SIGN_IN_BUTTON_TAG)
+  @sign_in_button.addTarget(self, 
+    action:'sign_in', forControlEvents:UIControlEventTouchUpInside)        
+  @sign_in_button.setBackgroundImage(UIImage.imageNamed("btnBrown"), forState:UIControlStateNormal)
+end
+------------------------------------------
+
+
+The first thing you should notice is that we are using the method
+
+[source, ruby]
+----------------------------------
+self.view.viewWithTag(EMAIL_TEXTFIELD_TAG)  
+----------------------------------
+
+To retrieve a subview of self.view based on its tag. Next, we are doing some additional setup. For instance, we are setting the background image to our image view:
+
+[source, ruby]
+-------------------------------
+background_image_view.image = UIImage.imageNamed('bgApp')
+------------------------------
+
+And assigning the Target-Selector to our Buttons:
+
+[source, ruby]
+-----------------------------------
+@close_button.addTarget(self, 
+      action:'close', forControlEvents:UIControlEventTouchUpInside)
+------------------------------------
+
+Practically, we have removed all the code related to creating the views and setting their frames.
+
+Let's try it. Before we could run the example we have to create our new view controller in the *next_event_view_controller.rb*. Open it and locate the method *sign_in* , add this code:
+
+[source, ruby]
+-------------------------------
+def sign_in(button)
+
+    signin_controller = SignInViewController.alloc.initWithNibName("RBMViewController", bundle:nil)
+    presentModalViewController(signin_controller, animated:true)
+end
+--------------------------------
+
+We are creating the View Controller with an initializer called *initWithNibName:bundle* that receives as a parameter the new of the Nib file with the view of the View Controller. This initializer has the responsibility of instantiate the Nib file, and wire the View declared in there to the view property of the View Controller. Exactly what we used to do by hand in the *loadView* method.
+
+The *presentModalViewController* method shows the view of the controller passed as an arguments, as a modal view with an animation from the bottom of the screen. 
+
+Run the app and tap in the *Sign in* button.
+
+image:Resources/ch10-InterfaceBuilder/ch10_20_signin.png[Chapter 10 tag sign in screen]
+
+
+Now let's implement the logic for the close and sign in methods in the *sign_in_view_controller.rb*
+
+[source, ruby]
+-------------------------------------------
+def sign_in
+
+  if isFormValid 
+
+    close
+  else
+
+    showAlert("Error", title:"Please, fill all the fields.")
+  end  
+end  
+
+
+def close
+
+  dismissModalViewControllerAnimated true
+end  
+
+def isFormValid
+
+  not @email_textfield.text.empty? and not @password_textfield.text.empty?
+end 
+
+
+def showAlert(message, title:title)
+
+  alert = UIAlertView.alloc.initWithTitle(title, 
+                      message:message, 
+                      delegate:self, 
+                      cancelButtonTitle:'OK', 
+                      otherButtonTitles:nil)
+  alert.show
+end 
+
+
+#uitextfield delegate methods
+def textFieldShouldReturn(textField)
+
+  textField.resignFirstResponder    
+  false
+end
+---------------------------------------------  
+
+In the close method we are calling the method
+
+[source, ruby]
+------------------------------------
+dismissModalViewControllerAnimated:
+----------------------------------
+
+This method is used to close modal views, such as this sign in view.
+
+For the sign in, we are validating that the user input some data in both text fields. 
+
+Another interesting method is *textFieldShouldReturn:* Before we explain what it does, run the example. Type an email and a password. As you can see, the keyboard is hiding the "Sign In" Button:
+
+image:Resources/ch10-InterfaceBuilder/ch10_21_keyboard.png[Chapter 10 keyboard]
+
+When you press the *Return* button in the keyboard, the keyboard is hidden. That's the work of the *textFieldShouldReturn* method. This method is called by the TextField when the user taps on the *Return* button. Inside we are sending the message *resignFirstResponder* to the text field. That message is the one that quits the focus from the text field hidding the keyboard. Without this method, the *Sign in* button could never be tapped.
+
+
+Creating the Sign Up View
+------------------------
+
+Now let's create our SignUp View. Back to the Xcode project select in the Main Menu: File -> New -> File. In the Template Dialog, choose iOS User Interface in the left panel and View in the Main Panel:
+
+image:Resources/ch10-InterfaceBuilder/ch10_22_new_file_dialog.png[Chapter 10 new file dialog]
+
+Type *SignUpView.xib* as the file name. In the Interface Builder, change the Size of the View in the *Attributes* Inspector tap to be 
+*Retina 3.5 Full Screen* and in the *File* Inspector unselect the *Use AutoLayout* option.
+
+
+- Add an UIImageView for the header with a *tag* of 1 and a frame of x:0, y:0, width:320, height:64
+- Add an UIImageView to the view that cover the full screen with a *tag* of 2 and a frame of x:0, y:64, width:320, height:396
+- Add a Round Rect Button. Set its type to Custom and its title to blank. Set its frame to x:14, y:10, width:56, height:41. Set its *tag* to 3. 
+- Add a uitextfield with the placeholder set to *email*, its border set to No border. Its frame should be of x:20, y:94, width:289, height:44. Set its *tag* to 4 and its keyboard to *email adreess*.
+- Add a uitextfield with the placeholder set to *name*, its border set to No border. Its frame set to x:20, y:159, width:289, height:44. Set its *tag* to 5.
+- Add a uitextfield with the placeholder set to *password*, its border set to No border. Set its frame to x:20, y:224, width:289, height:44. Set its *Secure* attribute to true in the *Attributes* inspector. Set its *tag* to 6.
+- Add a Round Rect Button. Set its type to Custom, its title to *Register*, its font to Helvetica Neue Medium 18 and its text color to white. Its frame should be x:25, y:396, width:270 and height:44.Set its *tag* to 7.
+
+Because we created this *Xib* file from the scratch, we have to set its *File's Owner*. Select the File's Owner in the left panel, then select the *Identity* tab in the Inspectors panel. In the Class field type *UIViewController*
+
+image:Resources/ch10-InterfaceBuilder/ch10_23_change_identity.png[Chapter 10 change identity]
+
+
+Now Ctrl+click on the file owner to show its outlets. Drag the *view* outlet to the view in the *Objects* panel. The outlet should appear as linked to a view:
+
+image:Resources/ch10-InterfaceBuilder/ch10_23_set_outlet.png[Chapter 10 set outlet]
+
+
+
+Ok now we have our UIView created in our Xib file. But before we added to our RubyMotion project we'll do something extra. In the Sign In view, we added the images programmatically in the View Controller, now we are going to do it using Xcode. 
+
+Go to your RubyMotion project and copy the following images that are located in the *resources* folder:
+
+- bgApp.png
+- btnBrown.png
+- bgTitleBar.png
+- btnCancel.png
+- bgTextField.png
+
+Copy them to the folder of your Xcode project:
+
+image:Resources/ch10-InterfaceBuilder/ch10_24_files_copied.png[Chapter 10 files copied]
+
+
+Now we need to import them to our project. In Xcode, the left panel - the one that shows the files of the project- is the *Project Navigator* If you can not see it, go to the Menu View -> Navigators -> Show project navigator. Ctrl + click on the Folder named *CocoaheadsViews* and choose the *Add files* option. Select the images in the dialog and leave all the options with their default value:
+
+image:Resources/ch10-InterfaceBuilder/ch10_25_add_files_dialog.png[Chapter 10 add files dialog]
+
+Now back to your View, select the Background UIImageView in the *Objects* panel and in the *Attributes* inspector in the *Image* property, select the bgApp.png image:
+
+image:Resources/ch10-InterfaceBuilder/ch10_26_set_image.png[Chapter 10 set image]
+
+Select the header image view and set its *Image* attribute to *bgTitleBar*
+For the textfields, select each one of them and set its *Background* attribute to *bgTextField.png*
+Next, select the cancel Button and set its *Background* attribute to *btnCancel.png*
+Finally, select the *Register* button and set its *Background* attribute to the *btnBrown.png* image.
+
+Now you have a more accurate design view of your screen in Interface Builder:
+
+image:Resources/ch10-InterfaceBuilder/ch10_27_design_view.png[Chapter 10 design view]
+
+It's important to notice that the images are not inserted into the Xib file, we are only setting references to some image files. As long as you include images with the same name in your RubyMotion Project, this approach will work.
+
+Creating the Sign Up View Controller
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Copy the *SignUpView.xib* into the resources folder of your RubyMotion project. Then create a new file in the controllers folder named *sign_up_view_controller.rb*. The code is very similar to the one we did for the *SignInViewController* :
+
+
+[source, ruby]
+---------------------------------------------
+class SignUpViewController < UIViewController
+
+  CLOSE_BUTTON_TAG = 3    
+  EMAIL_TEXTFIELD_TAG = 4
+  NAME_TEXTFIELD_TAG = 5
+  PASSWORD_TEXTFIELD_TAG = 6
+  SIGN_UP_BUTTON_TAG = 7
+
+  def viewDidLoad
+        
+    @email_textfield = self.view.viewWithTag(EMAIL_TEXTFIELD_TAG) 
+    @name_textfield = self.view.viewWithTag(NAME_TEXTFIELD_TAG)    
+    @password_textfield = self.view.viewWithTag(PASSWORD_TEXTFIELD_TAG)
+    @password_textfield.delegate = self
+        
+    setupCloseButton    
+    setupSignUpButton
+  end 
+
+
+  def setupCloseButton      
+
+    @close_button = self.view.viewWithTag(CLOSE_BUTTON_TAG)    
+    @close_button.addTarget(self, 
+      action:'close', forControlEvents:UIControlEventTouchUpInside)
+  end  
+
+
+  def setupSignUpButton
+    @sign_up_button = self.view.viewWithTag(SIGN_UP_BUTTON_TAG)
+    @sign_up_button.addTarget(self, 
+      action:'sign_up', forControlEvents:UIControlEventTouchUpInside)          
+  end
+
+
+  def sign_up
+
+    if isFormValid 
+
+      close
+    else
+
+      showAlert("Error", title:"Please, fill all the fields.")
+    end  
+  end  
+
+
+  def close
+
+    dismissModalViewControllerAnimated true
+  end  
+
+
+  def isFormValid
+
+    not @email_textfield.text.empty? and not @password_textfield.text.empty? and not @name_textfield.text.empty?
+  end 
+
+  def showAlert(message, title:title)
+    alert = UIAlertView.alloc.initWithTitle(title, 
+                        message:message, 
+                        delegate:self, 
+                        cancelButtonTitle:'OK', 
+                        otherButtonTitles:nil)
+    alert.show
+  end 
+
+
+  #uitextfield delegate methods
+  def textFieldShouldReturn(textField)
+
+    textField.resignFirstResponder    
+    false
+  end
+end   
+------------------------------------------------
+
+The main difference is that we no longer need to access the background view, because is already fully initialized in the Xib file and the same with the Sign Up button, we are only setting its target-selector because it already has its background image defined.
+
+Challenge
+~~~~~~~~
+
+In the *next_view_controller.rb* modify the *sign_up* method to show our SignUpViewController as a modal view, remember that should pass the name of the Xib file to use as the view.
+
+Test it, you should see the SignUp screen:
+
+image:Resources/ch10-InterfaceBuilder/ch10_28_sign_up_screen.png[Chapter 10 sign up screen]
+
+Modify the *isFormValid* method in the SignUpViewController to validate that the name has at least 10 characters.

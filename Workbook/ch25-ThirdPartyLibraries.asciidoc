@@ -61,14 +61,14 @@ Motion::Project::App.setup do |app|
 end
 --------------
 
-Well! Lets build our project (It can take a couple of seconds because the weight of the Cocos2d library):
+Well! Lets build our project (It can take a couple of seconds because the weight of the Cocos2D library):
 
 [source, sh]
 ------------
 $ rake
 ------------
 
-The Cocos2d library is now integrated into our project! Easy right?
+The Cocos2D library is now integrated into our project! Easy right?
 
 
 Building a Game

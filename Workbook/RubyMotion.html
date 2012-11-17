@@ -3162,7 +3162,1207 @@ We have created specs for the <strong>days_left_until</strong> method of the cla
 </div>
 </div>
 </div>
+<h1 id="_chapter_10_interface_builder">Chapter 10 - Interface Builder</h1>
+<div class="paragraph"><p>In this workshop, we are going to learn to use the Interface Builder, the tool to build User Interfaces without coding them.</p></div>
+<div class="paragraph"><p>In previous chapter we have been programmatically creating our views, suchs as buttons or even maps. The Interface Builder will allow us to separate the task of building visual components to specialized files called <strong>nib</strong> files.</p></div>
+<div class="sect1">
+<h2 id="_setting_up_the_app">Setting up the app</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>Unzip the file <strong>10-interfacebuilder_resources.zip</strong> run the app using the <strong>rake</strong> command. You will notice that displays our old Next Event
+View:</p></div>
+<div class="paragraph"><p><span class="image">
+<img src="Resources/ch10-InterfaceBuilder/ch10_01_app.png" alt="Chapter 10 app" />
+</span></p></div>
+<div class="paragraph"><p>We want to implement the Sign in and the Sign up views, but this time will use the Interface Builder to help us.</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_setting_up_our_xcode_project">Setting up our Xcode project</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>The Interface Builder is integrated into Xcode, the IDE for building iOS projects using Objective-C. Although is technically possible to just create a <strong>Nib</strong> file without a project, is easier to create it inside a project. And having your Nib files integrated into one project is helpful to keep them organized.</p></div>
+<div class="paragraph"><p>If you don&#8217;t have Xcode installed, download it from the App Store in your Mac. Open it and you&#8217;ll be prompted to create a new project. Choose in the side menu iOS &gt; Application and the Single View Application template:</p></div>
+<div class="paragraph"><p><span class="image">
+<img src="Resources/ch10-InterfaceBuilder/ch10_02_xcode_project.png" alt="Chapter 10 xcode project" />
+</span></p></div>
+<div class="paragraph"><p>Next, enter this data in the project creation wizard. Notice that we are unselecting the "Use Storyboards" option.</p></div>
+<div class="paragraph"><p><span class="image">
+<img src="Resources/ch10-InterfaceBuilder/ch10_03_xcode_options.png" alt="Chapter 10 xcode options" />
+</span></p></div>
+<div class="paragraph"><p>Save the project in the same folder where the Cocoaheads Rubymotion project is located.</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_creating_the_sign_in_view">Creating the Sign In View</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>You will see that Xcode have created an <strong>Xib</strong> file called <strong>RBMViewController.xib</strong></p></div>
+<div class="paragraph"><p><span class="image">
+<img src="Resources/ch10-InterfaceBuilder/ch10_04_project_files.png" alt="Chapter 10 xcode files" />
+</span></p></div>
+<div class="paragraph"><p>Open it, Xcode opens this kind of files in the Interface Builder Editor.</p></div>
+<div class="paragraph"><p>In the right side panel we have two main sections:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+Placeholders
+</p>
+</li>
+<li>
+<p>
+Objects
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>In the center panel, we have our view. In the left side panel we have on the top section the <strong>Inspectors</strong></p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<strong>Inspectors</strong> We use them to modify the attributes of the view selected in the left panel&#8217;s sections.
+</p>
+</li>
+<li>
+<p>
+The Libraries. We use them to select CocoaTouch components, Objects, etc and drag them into our view.
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p><span class="image">
+<img src="Resources/ch10-InterfaceBuilder/ch10_05_xcode.png" alt="Chapter 10 xcode" />
+</span></p></div>
+<div class="paragraph"><p>The Interface Builder can link the objects that we create in the <strong>Xib</strong> file to other objects in our app. In the Placeholder section, select the <strong>File&#8217;s Owner</strong> object. and in the Inspectors select the <strong>Identity</strong> inspector (the third tab):</p></div>
+<div class="paragraph"><p><span class="image">
+<img src="Resources/ch10-InterfaceBuilder/ch10_06_identity.png" alt="Chapter 10 identity" />
+</span></p></div>
+<div class="paragraph"><p>You will notice that this object is a <strong>RBMViewController</strong> a UIViewController subclass that Xcode has created for us. You already know that a UIViewController needs to create its own view, we&#8217;ve been doing this task in the <strong>loadView</strong> method. When you use InterfaceBuilder the view is created inside the Xib file and you link it to the <strong>File&#8217;s owner</strong> that should be a UIViewController.</p></div>
+<div class="paragraph"><p>Because this <strong>Xib</strong> was created by the Xcode template, it already has this links defined. Ctrl + click in the File&#8217;s Owner object and you will see the its list of <strong>Outlets</strong></p></div>
+<div class="paragraph"><p><span class="image">
+<img src="Resources/ch10-InterfaceBuilder/ch10_07_outlets.png" alt="Chapter 10 outlets" />
+</span></p></div>
+<div class="paragraph"><p>The outlets are the variables of an object that an be bound to a component created in the Interface Builder. Select the one named <strong>view</strong> and you will see that the UIView is highligthed. The UIViewController has bound its <strong>view</strong> variable to the UIView created in the Editor.</p></div>
+<div class="paragraph"><p>Let&#8217;s start creating our Sign-in view. First, we are going to modify the size of the UIView. Select the View in the <strong>Objects</strong> panel. Now in the <strong>Inspectors</strong> panel select the <strong>Attributes</strong> inspector: the fourth tab. You will notice that Xcode set the size for the iPhone 5&#8217;s 4" screen. Change it to a standard 3.5":</p></div>
+<div class="paragraph"><p><span class="image">
+<img src="Resources/ch10-InterfaceBuilder/ch10_08_view_size.png" alt="Chapter 10 view size" />
+</span></p></div>
+<div class="paragraph"><p>Now choose the first tab, the <strong>Identity</strong> tab and unselect the <strong>Use AutoLayout</strong> option. AutoLayouts is a new feature in iOS6 that helps you to build Interfaces that adapt themselves to different screen sizes. We&#8217;ll cover that topic in the Chapter 16.</p></div>
+<div class="paragraph"><p><span class="image">
+<img src="Resources/ch10-InterfaceBuilder/ch10_09_autolayout.png" alt="Chapter 10 autolayout" />
+</span></p></div>
+<div class="paragraph"><p>Lets start creating our view. As you may recall, the views of our Cocoaheads app has an header image with this Cocoa-like texture and below a red gradient background image. We are going to start by creating this objects.</p></div>
+<div class="paragraph"><p>In the right panel, go to the bottom panel and select the <strong>Objects</strong> tab, the third one:</p></div>
+<div class="paragraph"><p><span class="image">
+<img src="Resources/ch10-InterfaceBuilder/ch10_10_objects_panel.png" alt="Chapter 10 objects panel" />
+</span></p></div>
+<div class="paragraph"><p>In the search field type type UIImageView, the objects will be filtered according to that criteria and only a UIImageView object will appear:</p></div>
+<div class="paragraph"><p><span class="image">
+<img src="Resources/ch10-InterfaceBuilder/ch10_11_imageview.png" alt="Chapter 10 image view filter" />
+</span></p></div>
+<div class="paragraph"><p>Drag the object to your view. The next step is to resize the background, this is going to be our header image. You can adjust the size with your mouse or you can use the <strong>Size</strong> Inspector. Select your UIImageView and in the right panel, in the top panel (<strong>Inspectors</strong>) panel, select the <strong>Size</strong> tab (the fifth one). You will see that you can enter the Frame data in this tab. Enter this values: x:0, y:0, width:320, height:64:</p></div>
+<div class="paragraph"><p><span class="image">
+<img src="Resources/ch10-InterfaceBuilder/ch10_12_imageview_frame.png" alt="Chapter 10 image view frame" />
+</span></p></div>
+<div class="paragraph"><p>The next step is to create below this header image our background image. Drag another UIImageView. Set its frame to: x:0, y:64, width:320, height:396.</p></div>
+<div class="paragraph"><p>Now, we are going to create our UIControls. Let&#8217;s start with the TextFields. Drag a UITextField from the <strong>Objects</strong> panel into your view.</p></div>
+<div class="paragraph"><p>Select the <strong>Attributes</strong> inspector (the fourth tab in the Inspectors panel) and enter <strong>email</strong> in the placeholder attribute. In the Border Style select the first option (No border) and in the Keyboard attribute select <strong>Email</strong>. This option will show a keyboard customized for entering email addresses:</p></div>
+<div class="paragraph"><p><span class="image">
+<img src="Resources/ch10-InterfaceBuilder/ch10_13_textfield_attributes.png" alt="Chapter 10 text field attributes" />
+</span></p></div>
+<div class="paragraph"><p>Next, adjust the size and location of the textfield using your mouse. Another option is to select the  Text Field and in the <strong>Inspector</strong> section, in the Fifth tab (<strong>Size</strong>) you can type the absolut values for its Frame. For this field we&#8217;ll enter x: 20, y: 130, width 289 and height 44. Don&#8217;t worry if the Textfield is almost invisible, we&#8217;ll add a background image programatically later.</p></div>
+<div class="paragraph"><p><span class="image">
+<img src="Resources/ch10-InterfaceBuilder/ch10_14_textfield_frame.png" alt="Chapter 10 text field attributes" />
+</span></p></div>
+<div class="paragraph"><p>Add another Textfield In the <strong>Attributes</strong> tab enter <strong>password</strong> as its placeholder, with no border  and in the bottom select the <strong>Secure</strong> option.</p></div>
+<div class="paragraph"><p><span class="image">
+<img src="Resources/ch10-InterfaceBuilder/ch10_15_password_attributes.png" alt="Chapter 10 password field attributes" />
+</span></p></div>
+<div class="paragraph"><p>In the <strong>Size</strong> inspector set its frame to x:20, y:190, width:289 and height:44.</p></div>
+<div class="paragraph"><p>Now, we are going to add two buttons: one to close the Sign in view and other to sign in. In the <strong>Objects</strong> section type Round Rect Button and drag a UIButton to the View.</p></div>
+<div class="paragraph"><p>In the <strong>Attributes</strong> inspector:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+Change its type to <strong>Custom</strong>
+</p>
+</li>
+<li>
+<p>
+In the title delete <strong>Button</strong> and leave it blank.
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p><span class="image">
+<img src="Resources/ch10-InterfaceBuilder/ch10_16_button_attributes.png" alt="Chapter 10 button attributes" />
+</span></p></div>
+<div class="paragraph"><p>Now, set the frame of the object in the <strong>Size</strong> inspector to x:14, y:10, width:56, height:41.</p></div>
+<div class="paragraph"><p>The next step is to add our Sign In button. Drag another Round Rect Button into the View. In the <strong>Attributes</strong> Inspector set its properties to:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+Type: Custom
+</p>
+</li>
+<li>
+<p>
+Title: SignIn
+</p>
+</li>
+<li>
+<p>
+Font: Helvetica Neue Medium 18
+</p>
+</li>
+<li>
+<p>
+TextColor: White
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p><span class="image">
+<img src="Resources/ch10-InterfaceBuilder/ch10_17_button_font.png" alt="Chapter 10 button font" />
+</span></p></div>
+<div class="paragraph"><p>The frame of the button should be x:25, y:396 and the size should have width:270, height:44. Your UIView should look like</p></div>
+<div class="paragraph"><p><span class="image">
+<img src="Resources/ch10-InterfaceBuilder/ch10_18_view_design.png" alt="Chapter 10 view design" />
+</span></p></div>
+<div class="sect2">
+<h3 id="_wiring_our_uiview_to_a_view_controller">Wiring our UIView to a View Controller</h3>
+<div class="paragraph"><p>Once we have created our view, we should wire it to our View Controller. The easiest way to do this is to use its <strong>Tag</strong> attribute. <strong>Tag</strong> is an integer property of <strong>UIView</strong> that you can use to identify your views. Basically, you have to set a unique integer for each UIView you need to access from your UIViewController. We are going to start with the Header Image View.</p></div>
+<div class="paragraph"><p>Select the UIImageView in the <strong>Objects</strong> section and in the Inspectors select the <strong>Attributes</strong> inspector (the 4th tab). Set its Tag property to 1:</p></div>
+<div class="paragraph"><p><span class="image">
+<img src="Resources/ch10-InterfaceBuilder/ch10_19_tag.png" alt="Chapter 10 tag attribute" />
+</span></p></div>
+<div class="paragraph"><p>Do the same for all objects with using these numbers as its tags:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+Background Image View: 2
+</p>
+</li>
+<li>
+<p>
+Close button: 3
+</p>
+</li>
+<li>
+<p>
+Email textfield: 4
+</p>
+</li>
+<li>
+<p>
+Password textfield: 5
+</p>
+</li>
+<li>
+<p>
+SignIn button: 6
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Now we are ready to import our Xib file into our RubyMotion project.</p></div>
+<div class="paragraph"><p>Open in <strong>Finder</strong> the folder of the Xcode Project and locate the <strong>RBMViewController.xib</strong> (hint: it&#8217;s inside a folder named en.lproj) copy it into the <strong>resources</strong> folder of your RubyMotion project.</p></div>
+<div class="paragraph"><p>Run</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre>rake
+</pre></div></div></div>
+<div class="paragraph"><p>and you should notice that it compiles the <strong>Xib</strong> file into a <strong>Nib</strong> file.</p></div>
+<div class="paragraph"><p>Now let&#8217;s create our Sign In View Controller. Create a file called <strong>sign_in_viewcontroller.rb</strong> in the app/controllers folder. Copy this code</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">class</span> <span class="nc">SignInViewController</span> <span class="o">&lt;</span> <span class="no">UIViewController</span>
+
+  <span class="no">HEADER_IMAGE_VIEW_TAG</span> <span class="o">=</span> <span class="mi">1</span>
+  <span class="no">BACKGROUND_IMAGE_VIEW_TAG</span> <span class="o">=</span> <span class="mi">2</span>
+  <span class="no">CLOSE_BUTTON_TAG</span> <span class="o">=</span> <span class="mi">3</span>
+  <span class="no">EMAIL_TEXTFIELD_TAG</span> <span class="o">=</span> <span class="mi">4</span>
+  <span class="no">PASSWORD_TEXTFIELD_TAG</span> <span class="o">=</span> <span class="mi">5</span>
+  <span class="no">SIGN_IN_BUTTON_TAG</span> <span class="o">=</span> <span class="mi">6</span>
+
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>We are declaring our UIViewController subclass and initializing some constants with the tags that we assigned in Interface Builder, we&#8217;ll use them to wire our variables to those components.</p></div>
+<div class="paragraph"><p>Now we are going to add the code to setup our views:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">viewDidLoad</span>
+
+  <span class="n">setupHeaderImageView</span>
+  <span class="n">setupBackgroundImageView</span>
+  <span class="n">setupEmailTextField</span>
+  <span class="n">setupPasswordTextField</span>
+  <span class="n">setupCloseButton</span>
+  <span class="n">setupSignInButton</span>
+<span class="k">end</span>
+
+
+<span class="k">def</span> <span class="nf">setupHeaderImageView</span>
+
+  <span class="n">header_image_view</span> <span class="o">=</span> <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">viewWithTag</span><span class="p">(</span><span class="no">HEADER_IMAGE_VIEW_TAG</span><span class="p">)</span>
+  <span class="n">header_image_view</span><span class="o">.</span><span class="n">image</span> <span class="o">=</span> <span class="no">UIImage</span><span class="o">.</span><span class="n">imageNamed</span><span class="p">(</span><span class="s1">&#39;bgTitleBar&#39;</span><span class="p">)</span>
+<span class="k">end</span>
+
+
+<span class="k">def</span> <span class="nf">setupBackgroundImageView</span>
+
+  <span class="n">background_image_view</span> <span class="o">=</span> <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">viewWithTag</span><span class="p">(</span><span class="no">BACKGROUND_IMAGE_VIEW_TAG</span><span class="p">)</span>
+  <span class="n">background_image_view</span><span class="o">.</span><span class="n">image</span> <span class="o">=</span> <span class="no">UIImage</span><span class="o">.</span><span class="n">imageNamed</span><span class="p">(</span><span class="s1">&#39;bgApp&#39;</span><span class="p">)</span>
+<span class="k">end</span>
+
+
+<span class="k">def</span> <span class="nf">setupEmailTextField</span>
+
+  <span class="vi">@email_textfield</span> <span class="o">=</span> <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">viewWithTag</span><span class="p">(</span><span class="no">EMAIL_TEXTFIELD_TAG</span><span class="p">)</span>
+  <span class="vi">@email_textfield</span><span class="o">.</span><span class="n">background</span> <span class="o">=</span> <span class="no">UIImage</span><span class="o">.</span><span class="n">imageNamed</span><span class="p">(</span><span class="s1">&#39;bgTextField&#39;</span><span class="p">)</span>
+<span class="k">end</span>
+
+
+<span class="k">def</span> <span class="nf">setupPasswordTextField</span>
+
+  <span class="vi">@password_textfield</span> <span class="o">=</span> <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">viewWithTag</span><span class="p">(</span><span class="no">PASSWORD_TEXTFIELD_TAG</span><span class="p">)</span>
+  <span class="vi">@password_textfield</span><span class="o">.</span><span class="n">background</span> <span class="o">=</span> <span class="no">UIImage</span><span class="o">.</span><span class="n">imageNamed</span><span class="p">(</span><span class="s1">&#39;bgTextField&#39;</span><span class="p">)</span>
+  <span class="vi">@password_textfield</span><span class="o">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="nb">self</span>
+<span class="k">end</span>
+
+
+<span class="k">def</span> <span class="nf">setupCloseButton</span>
+
+  <span class="vi">@close_button</span> <span class="o">=</span> <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">viewWithTag</span><span class="p">(</span><span class="no">CLOSE_BUTTON_TAG</span><span class="p">)</span>
+  <span class="vi">@close_button</span><span class="o">.</span><span class="n">setBackgroundImage</span><span class="p">(</span><span class="no">UIImage</span><span class="o">.</span><span class="n">imageNamed</span><span class="p">(</span><span class="s2">&quot;btnCancel&quot;</span><span class="p">),</span> <span class="n">forState</span><span class="ss">:UIControlStateNormal</span><span class="p">)</span>
+  <span class="vi">@close_button</span><span class="o">.</span><span class="n">addTarget</span><span class="p">(</span><span class="nb">self</span><span class="p">,</span>
+    <span class="n">action</span><span class="ss">:&#39;close&#39;</span><span class="p">,</span> <span class="n">forControlEvents</span><span class="ss">:UIControlEventTouchUpInside</span><span class="p">)</span>
+<span class="k">end</span>
+
+
+<span class="k">def</span> <span class="nf">setupSignInButton</span>
+
+  <span class="vi">@sign_in_button</span> <span class="o">=</span> <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">viewWithTag</span><span class="p">(</span><span class="no">SIGN_IN_BUTTON_TAG</span><span class="p">)</span>
+  <span class="vi">@sign_in_button</span><span class="o">.</span><span class="n">addTarget</span><span class="p">(</span><span class="nb">self</span><span class="p">,</span>
+    <span class="n">action</span><span class="ss">:&#39;sign_in&#39;</span><span class="p">,</span> <span class="n">forControlEvents</span><span class="ss">:UIControlEventTouchUpInside</span><span class="p">)</span>
+  <span class="vi">@sign_in_button</span><span class="o">.</span><span class="n">setBackgroundImage</span><span class="p">(</span><span class="no">UIImage</span><span class="o">.</span><span class="n">imageNamed</span><span class="p">(</span><span class="s2">&quot;btnBrown&quot;</span><span class="p">),</span> <span class="n">forState</span><span class="ss">:UIControlStateNormal</span><span class="p">)</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>The first thing you should notice is that we are using the method</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">viewWithTag</span><span class="p">(</span><span class="no">EMAIL_TEXTFIELD_TAG</span><span class="p">)</span>
+</pre></div></div></div>
+<div class="paragraph"><p>To retrieve a subview of self.view based on its tag. Next, we are doing some additional setup. For instance, we are setting the background image to our image view:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="n">background_image_view</span><span class="o">.</span><span class="n">image</span> <span class="o">=</span> <span class="no">UIImage</span><span class="o">.</span><span class="n">imageNamed</span><span class="p">(</span><span class="s1">&#39;bgApp&#39;</span><span class="p">)</span>
+</pre></div></div></div>
+<div class="paragraph"><p>And assigning the Target-Selector to our Buttons:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="vi">@close_button</span><span class="o">.</span><span class="n">addTarget</span><span class="p">(</span><span class="nb">self</span><span class="p">,</span>
+      <span class="n">action</span><span class="ss">:&#39;close&#39;</span><span class="p">,</span> <span class="n">forControlEvents</span><span class="ss">:UIControlEventTouchUpInside</span><span class="p">)</span>
+</pre></div></div></div>
+<div class="paragraph"><p>Practically, we have removed all the code related to creating the views and setting their frames.</p></div>
+<div class="paragraph"><p>Let&#8217;s try it. Before we could run the example we have to create our new view controller in the <strong>next_event_view_controller.rb</strong>. Open it and locate the method <strong>sign_in</strong> , add this code:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">sign_in</span><span class="p">(</span><span class="n">button</span><span class="p">)</span>
+
+    <span class="n">signin_controller</span> <span class="o">=</span> <span class="no">SignInViewController</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithNibName</span><span class="p">(</span><span class="s2">&quot;RBMViewController&quot;</span><span class="p">,</span> <span class="n">bundle</span><span class="ss">:nil</span><span class="p">)</span>
+    <span class="n">presentModalViewController</span><span class="p">(</span><span class="n">signin_controller</span><span class="p">,</span> <span class="n">animated</span><span class="ss">:true</span><span class="p">)</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>We are creating the View Controller with an initializer called <strong>initWithNibName:bundle</strong> that receives as a parameter the new of the Nib file with the view of the View Controller. This initializer has the responsibility of instantiate the Nib file, and wire the View declared in there to the view property of the View Controller. Exactly what we used to do by hand in the <strong>loadView</strong> method.</p></div>
+<div class="paragraph"><p>The <strong>presentModalViewController</strong> method shows the view of the controller passed as an arguments, as a modal view with an animation from the bottom of the screen.</p></div>
+<div class="paragraph"><p>Run the app and tap in the <strong>Sign in</strong> button.</p></div>
+<div class="paragraph"><p><span class="image">
+<img src="Resources/ch10-InterfaceBuilder/ch10_20_signin.png" alt="Chapter 10 tag sign in screen" />
+</span></p></div>
+<div class="paragraph"><p>Now let&#8217;s implement the logic for the close and sign in methods in the <strong>sign_in_view_controller.rb</strong></p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">sign_in</span>
+
+  <span class="k">if</span> <span class="n">isFormValid</span>
+
+    <span class="n">close</span>
+  <span class="k">else</span>
+
+    <span class="n">showAlert</span><span class="p">(</span><span class="s2">&quot;Error&quot;</span><span class="p">,</span> <span class="n">title</span><span class="ss">:&quot;Please, fill all the fields.&quot;</span><span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+
+<span class="k">def</span> <span class="nf">close</span>
+
+  <span class="n">dismissModalViewControllerAnimated</span> <span class="kp">true</span>
+<span class="k">end</span>
+
+<span class="k">def</span> <span class="nf">isFormValid</span>
+
+  <span class="ow">not</span> <span class="vi">@email_textfield</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">empty?</span> <span class="ow">and</span> <span class="ow">not</span> <span class="vi">@password_textfield</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">empty?</span>
+<span class="k">end</span>
+
+
+<span class="k">def</span> <span class="nf">showAlert</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">title</span><span class="ss">:title</span><span class="p">)</span>
+
+  <span class="n">alert</span> <span class="o">=</span> <span class="no">UIAlertView</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithTitle</span><span class="p">(</span><span class="n">title</span><span class="p">,</span>
+                      <span class="n">message</span><span class="ss">:message</span><span class="p">,</span>
+                      <span class="n">delegate</span><span class="ss">:self</span><span class="p">,</span>
+                      <span class="n">cancelButtonTitle</span><span class="ss">:&#39;OK&#39;</span><span class="p">,</span>
+                      <span class="n">otherButtonTitles</span><span class="ss">:nil</span><span class="p">)</span>
+  <span class="n">alert</span><span class="o">.</span><span class="n">show</span>
+<span class="k">end</span>
+
+
+<span class="c1">#uitextfield delegate methods</span>
+<span class="k">def</span> <span class="nf">textFieldShouldReturn</span><span class="p">(</span><span class="n">textField</span><span class="p">)</span>
+
+  <span class="n">textField</span><span class="o">.</span><span class="n">resignFirstResponder</span>
+  <span class="kp">false</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>In the close method we are calling the method</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="n">dismissModalViewControllerAnimated</span><span class="p">:</span>
+</pre></div></div></div>
+<div class="paragraph"><p>This method is used to close modal views, such as this sign in view.</p></div>
+<div class="paragraph"><p>For the sign in, we are validating that the user input some data in both text fields.</p></div>
+<div class="paragraph"><p>Another interesting method is <strong>textFieldShouldReturn:</strong> Before we explain what it does, run the example. Type an email and a password. As you can see, the keyboard is hiding the "Sign In" Button:</p></div>
+<div class="paragraph"><p><span class="image">
+<img src="Resources/ch10-InterfaceBuilder/ch10_21_keyboard.png" alt="Chapter 10 keyboard" />
+</span></p></div>
+<div class="paragraph"><p>When you press the <strong>Return</strong> button in the keyboard, the keyboard is hidden. That&#8217;s the work of the <strong>textFieldShouldReturn</strong> method. This method is called by the TextField when the user taps on the <strong>Return</strong> button. Inside we are sending the message <strong>resignFirstResponder</strong> to the text field. That message is the one that quits the focus from the text field hidding the keyboard. Without this method, the <strong>Sign in</strong> button could never be tapped.</p></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_creating_the_sign_up_view">Creating the Sign Up View</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>Now let&#8217;s create our SignUp View. Back to the Xcode project select in the Main Menu: File &#8594; New &#8594; File. In the Template Dialog, choose iOS User Interface in the left panel and View in the Main Panel:</p></div>
+<div class="paragraph"><p><span class="image">
+<img src="Resources/ch10-InterfaceBuilder/ch10_22_new_file_dialog.png" alt="Chapter 10 new file dialog" />
+</span></p></div>
+<div class="paragraph"><p>Type <strong>SignUpView.xib</strong> as the file name. In the Interface Builder, change the Size of the View in the <strong>Attributes</strong> Inspector tap to be
+<strong>Retina 3.5 Full Screen</strong> and in the <strong>File</strong> Inspector unselect the <strong>Use AutoLayout</strong> option.</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+Add an UIImageView for the header with a <strong>tag</strong> of 1 and a frame of x:0, y:0, width:320, height:64
+</p>
+</li>
+<li>
+<p>
+Add an UIImageView to the view that cover the full screen with a <strong>tag</strong> of 2 and a frame of x:0, y:64, width:320, height:396
+</p>
+</li>
+<li>
+<p>
+Add a Round Rect Button. Set its type to Custom and its title to blank. Set its frame to x:14, y:10, width:56, height:41. Set its <strong>tag</strong> to 3.
+</p>
+</li>
+<li>
+<p>
+Add a uitextfield with the placeholder set to <strong>email</strong>, its border set to No border. Its frame should be of x:20, y:94, width:289, height:44. Set its <strong>tag</strong> to 4 and its keyboard to <strong>email adreess</strong>.
+</p>
+</li>
+<li>
+<p>
+Add a uitextfield with the placeholder set to <strong>name</strong>, its border set to No border. Its frame set to x:20, y:159, width:289, height:44. Set its <strong>tag</strong> to 5.
+</p>
+</li>
+<li>
+<p>
+Add a uitextfield with the placeholder set to <strong>password</strong>, its border set to No border. Set its frame to x:20, y:224, width:289, height:44. Set its <strong>Secure</strong> attribute to true in the <strong>Attributes</strong> inspector. Set its <strong>tag</strong> to 6.
+</p>
+</li>
+<li>
+<p>
+Add a Round Rect Button. Set its type to Custom, its title to <strong>Register</strong>, its font to Helvetica Neue Medium 18 and its text color to white. Its frame should be x:25, y:396, width:270 and height:44.Set its <strong>tag</strong> to 7.
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Because we created this <strong>Xib</strong> file from the scratch, we have to set its <strong>File&#8217;s Owner</strong>. Select the File&#8217;s Owner in the left panel, then select the <strong>Identity</strong> tab in the Inspectors panel. In the Class field type <strong>UIViewController</strong></p></div>
+<div class="paragraph"><p><span class="image">
+<img src="Resources/ch10-InterfaceBuilder/ch10_23_change_identity.png" alt="Chapter 10 change identity" />
+</span></p></div>
+<div class="paragraph"><p>Now Ctrl+click on the file owner to show its outlets. Drag the <strong>view</strong> outlet to the view in the <strong>Objects</strong> panel. The outlet should appear as linked to a view:</p></div>
+<div class="paragraph"><p><span class="image">
+<img src="Resources/ch10-InterfaceBuilder/ch10_23_set_outlet.png" alt="Chapter 10 set outlet" />
+</span></p></div>
+<div class="paragraph"><p>Ok now we have our UIView created in our Xib file. But before we added to our RubyMotion project we&#8217;ll do something extra. In the Sign In view, we added the images programmatically in the View Controller, now we are going to do it using Xcode.</p></div>
+<div class="paragraph"><p>Go to your RubyMotion project and copy the following images that are located in the <strong>resources</strong> folder:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+bgApp.png
+</p>
+</li>
+<li>
+<p>
+btnBrown.png
+</p>
+</li>
+<li>
+<p>
+bgTitleBar.png
+</p>
+</li>
+<li>
+<p>
+btnCancel.png
+</p>
+</li>
+<li>
+<p>
+bgTextField.png
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Copy them to the folder of your Xcode project:</p></div>
+<div class="paragraph"><p><span class="image">
+<img src="Resources/ch10-InterfaceBuilder/ch10_24_files_copied.png" alt="Chapter 10 files copied" />
+</span></p></div>
+<div class="paragraph"><p>Now we need to import them to our project. In Xcode, the left panel - the one that shows the files of the project- is the <strong>Project Navigator</strong> If you can not see it, go to the Menu View &#8594; Navigators &#8594; Show project navigator. Ctrl + click on the Folder named <strong>CocoaheadsViews</strong> and choose the <strong>Add files</strong> option. Select the images in the dialog and leave all the options with their default value:</p></div>
+<div class="paragraph"><p><span class="image">
+<img src="Resources/ch10-InterfaceBuilder/ch10_25_add_files_dialog.png" alt="Chapter 10 add files dialog" />
+</span></p></div>
+<div class="paragraph"><p>Now back to your View, select the Background UIImageView in the <strong>Objects</strong> panel and in the <strong>Attributes</strong> inspector in the <strong>Image</strong> property, select the bgApp.png image:</p></div>
+<div class="paragraph"><p><span class="image">
+<img src="Resources/ch10-InterfaceBuilder/ch10_26_set_image.png" alt="Chapter 10 set image" />
+</span></p></div>
+<div class="paragraph"><p>Select the header image view and set its <strong>Image</strong> attribute to <strong>bgTitleBar</strong>
+For the textfields, select each one of them and set its <strong>Background</strong> attribute to <strong>bgTextField.png</strong>
+Next, select the cancel Button and set its <strong>Background</strong> attribute to <strong>btnCancel.png</strong>
+Finally, select the <strong>Register</strong> button and set its <strong>Background</strong> attribute to the <strong>btnBrown.png</strong> image.</p></div>
+<div class="paragraph"><p>Now you have a more accurate design view of your screen in Interface Builder:</p></div>
+<div class="paragraph"><p><span class="image">
+<img src="Resources/ch10-InterfaceBuilder/ch10_27_design_view.png" alt="Chapter 10 design view" />
+</span></p></div>
+<div class="paragraph"><p>It&#8217;s important to notice that the images are not inserted into the Xib file, we are only setting references to some image files. As long as you include images with the same name in your RubyMotion Project, this approach will work.</p></div>
+<div class="sect2">
+<h3 id="_creating_the_sign_up_view_controller">Creating the Sign Up View Controller</h3>
+<div class="paragraph"><p>Copy the <strong>SignUpView.xib</strong> into the resources folder of your RubyMotion project. Then create a new file in the controllers folder named <strong>sign_up_view_controller.rb</strong>. The code is very similar to the one we did for the <strong>SignInViewController</strong> :</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">class</span> <span class="nc">SignUpViewController</span> <span class="o">&lt;</span> <span class="no">UIViewController</span>
+
+  <span class="no">CLOSE_BUTTON_TAG</span> <span class="o">=</span> <span class="mi">3</span>
+  <span class="no">EMAIL_TEXTFIELD_TAG</span> <span class="o">=</span> <span class="mi">4</span>
+  <span class="no">NAME_TEXTFIELD_TAG</span> <span class="o">=</span> <span class="mi">5</span>
+  <span class="no">PASSWORD_TEXTFIELD_TAG</span> <span class="o">=</span> <span class="mi">6</span>
+  <span class="no">SIGN_UP_BUTTON_TAG</span> <span class="o">=</span> <span class="mi">7</span>
+
+  <span class="k">def</span> <span class="nf">viewDidLoad</span>
+
+    <span class="vi">@email_textfield</span> <span class="o">=</span> <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">viewWithTag</span><span class="p">(</span><span class="no">EMAIL_TEXTFIELD_TAG</span><span class="p">)</span>
+    <span class="vi">@name_textfield</span> <span class="o">=</span> <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">viewWithTag</span><span class="p">(</span><span class="no">NAME_TEXTFIELD_TAG</span><span class="p">)</span>
+    <span class="vi">@password_textfield</span> <span class="o">=</span> <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">viewWithTag</span><span class="p">(</span><span class="no">PASSWORD_TEXTFIELD_TAG</span><span class="p">)</span>
+    <span class="vi">@password_textfield</span><span class="o">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="nb">self</span>
+
+    <span class="n">setupCloseButton</span>
+    <span class="n">setupSignUpButton</span>
+  <span class="k">end</span>
+
+
+  <span class="k">def</span> <span class="nf">setupCloseButton</span>
+
+    <span class="vi">@close_button</span> <span class="o">=</span> <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">viewWithTag</span><span class="p">(</span><span class="no">CLOSE_BUTTON_TAG</span><span class="p">)</span>
+    <span class="vi">@close_button</span><span class="o">.</span><span class="n">addTarget</span><span class="p">(</span><span class="nb">self</span><span class="p">,</span>
+      <span class="n">action</span><span class="ss">:&#39;close&#39;</span><span class="p">,</span> <span class="n">forControlEvents</span><span class="ss">:UIControlEventTouchUpInside</span><span class="p">)</span>
+  <span class="k">end</span>
+
+
+  <span class="k">def</span> <span class="nf">setupSignUpButton</span>
+    <span class="vi">@sign_up_button</span> <span class="o">=</span> <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">viewWithTag</span><span class="p">(</span><span class="no">SIGN_UP_BUTTON_TAG</span><span class="p">)</span>
+    <span class="vi">@sign_up_button</span><span class="o">.</span><span class="n">addTarget</span><span class="p">(</span><span class="nb">self</span><span class="p">,</span>
+      <span class="n">action</span><span class="ss">:&#39;sign_up&#39;</span><span class="p">,</span> <span class="n">forControlEvents</span><span class="ss">:UIControlEventTouchUpInside</span><span class="p">)</span>
+  <span class="k">end</span>
+
+
+  <span class="k">def</span> <span class="nf">sign_up</span>
+
+    <span class="k">if</span> <span class="n">isFormValid</span>
+
+      <span class="n">close</span>
+    <span class="k">else</span>
+
+      <span class="n">showAlert</span><span class="p">(</span><span class="s2">&quot;Error&quot;</span><span class="p">,</span> <span class="n">title</span><span class="ss">:&quot;Please, fill all the fields.&quot;</span><span class="p">)</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+
+
+  <span class="k">def</span> <span class="nf">close</span>
+
+    <span class="n">dismissModalViewControllerAnimated</span> <span class="kp">true</span>
+  <span class="k">end</span>
+
+
+  <span class="k">def</span> <span class="nf">isFormValid</span>
+
+    <span class="ow">not</span> <span class="vi">@email_textfield</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">empty?</span> <span class="ow">and</span> <span class="ow">not</span> <span class="vi">@password_textfield</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">empty?</span> <span class="ow">and</span> <span class="ow">not</span> <span class="vi">@name_textfield</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">empty?</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">showAlert</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">title</span><span class="ss">:title</span><span class="p">)</span>
+    <span class="n">alert</span> <span class="o">=</span> <span class="no">UIAlertView</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithTitle</span><span class="p">(</span><span class="n">title</span><span class="p">,</span>
+                        <span class="n">message</span><span class="ss">:message</span><span class="p">,</span>
+                        <span class="n">delegate</span><span class="ss">:self</span><span class="p">,</span>
+                        <span class="n">cancelButtonTitle</span><span class="ss">:&#39;OK&#39;</span><span class="p">,</span>
+                        <span class="n">otherButtonTitles</span><span class="ss">:nil</span><span class="p">)</span>
+    <span class="n">alert</span><span class="o">.</span><span class="n">show</span>
+  <span class="k">end</span>
+
+
+  <span class="c1">#uitextfield delegate methods</span>
+  <span class="k">def</span> <span class="nf">textFieldShouldReturn</span><span class="p">(</span><span class="n">textField</span><span class="p">)</span>
+
+    <span class="n">textField</span><span class="o">.</span><span class="n">resignFirstResponder</span>
+    <span class="kp">false</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>The main difference is that we no longer need to access the background view, because is already fully initialized in the Xib file and the same with the Sign Up button, we are only setting its target-selector because it already has its background image defined.</p></div>
+</div>
+<div class="sect2">
+<h3 id="_challenge_4">Challenge</h3>
+<div class="paragraph"><p>In the <strong>next_view_controller.rb</strong> modify the <strong>sign_up</strong> method to show our SignUpViewController as a modal view, remember that should pass the name of the Xib file to use as the view.</p></div>
+<div class="paragraph"><p>Test it, you should see the SignUp screen:</p></div>
+<div class="paragraph"><p><span class="image">
+<img src="Resources/ch10-InterfaceBuilder/ch10_28_sign_up_screen.png" alt="Chapter 10 sign up screen" />
+</span></p></div>
+<div class="paragraph"><p>Modify the <strong>isFormValid</strong> method in the SignUpViewController to validate that the name has at least 10 characters.</p></div>
+</div>
+</div>
+</div>
 <h1 id="_day_3">Day 3</h1>
+<h1 id="_chapter_11_view_controllers">Chapter 11 - View Controllers</h1>
+<div class="paragraph"><p>In this chapter we are goint to review some basic concepts abouts the lifecycle of UIViewControllers and we will introduce to <strong>UITabBarController</strong> a special UIViewController that helps you to build Tab-based interfaces.</p></div>
+<div class="sect1">
+<h2 id="_setting_up_the_project">Setting up the project</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>Unzip the <strong>ch11_viewcontrollers_resources.zip</strong> file. It contains our Cocoaheads app that we will use a base for this exercise:</p></div>
+<div class="paragraph"><p><span class="image">
+<img src="Resources/ch11-ViewControllers/ch11_01_app.png" alt="Chapter 11 app" />
+</span></p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_creating_our_tabbarcontroller">Creating our TabBarController</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>Our first task is to create a <strong>UITabBarController</strong> This component creates a tabbar in the bottom of the application and is used to implement a Tab-based navigation in your apps. You can see it in action in the AppStore app or in the Twitter app.</p></div>
+<div class="paragraph"><p>Tab-based navigation is very useful, it allows your users to have the main sections of your app always at a glance (at the bottom of the screen). But it has a constraint: it can only have up to 5 tabs. So if your app has more than 5 main sections, you should consider other alternatives.</p></div>
+<div class="sect2">
+<h3 id="_creating_our_missing_sections">Creating our missing sections</h3>
+<div class="paragraph"><p>Our Cocoahead apps will have 3 main sections:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+Calendar
+</p>
+</li>
+<li>
+<p>
+Next Event
+</p>
+</li>
+<li>
+<p>
+News
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Until now, we have only created our Next Event screen. So, we are going to start creating the two other sections.</p></div>
+<div class="paragraph"><p>Inside the <strong>controller</strong> folder, create two files:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<strong>news_view_controller.rb</strong>
+</p>
+</li>
+<li>
+<p>
+<strong>calendar_view_controller.rb</strong>
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>For the first one type this code:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">class</span> <span class="nc">NewsViewController</span> <span class="o">&lt;</span> <span class="no">UIViewController</span>
+
+  <span class="k">def</span> <span class="nf">init</span>
+
+    <span class="k">super</span>
+    <span class="nb">self</span><span class="o">.</span><span class="n">title</span> <span class="o">=</span> <span class="s2">&quot;News&quot;</span>
+    <span class="nb">self</span>
+  <span class="k">end</span>
+
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>For the Calendar View Controller:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">class</span> <span class="nc">CalendarViewController</span> <span class="o">&lt;</span> <span class="no">UIViewController</span>
+
+  <span class="k">def</span> <span class="nf">init</span>
+
+    <span class="k">super</span>
+    <span class="nb">self</span><span class="o">.</span><span class="n">title</span> <span class="o">=</span> <span class="s2">&quot;Calendar&quot;</span>
+    <span class="nb">self</span>
+  <span class="k">end</span>
+
+<span class="k">end</span>
+</pre></div></div></div>
+</div>
+<div class="sect2">
+<h3 id="_creating_a_basic_tab_bar_controller">Creating a basic Tab Bar Controller</h3>
+<div class="paragraph"><p>Now we can create our Tab Bar Controller. Open the <strong>app_delegate.rb</strong>, as you can see we are creating our NextEventViewController as assigning it to the <strong>window</strong> as its root controller:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="n">next_event_view_controller</span> <span class="o">=</span> <span class="no">NextEventViewController</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">init</span>
+<span class="vi">@window</span> <span class="o">=</span> <span class="no">UIWindow</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithFrame</span><span class="p">(</span><span class="no">UIScreen</span><span class="o">.</span><span class="n">mainScreen</span><span class="o">.</span><span class="n">bounds</span><span class="p">)</span>
+<span class="vi">@window</span><span class="o">.</span><span class="n">rootViewController</span> <span class="o">=</span> <span class="n">next_event_view_controller</span>
+<span class="vi">@window</span><span class="o">.</span><span class="n">makeKeyAndVisible</span>
+</pre></div></div></div>
+<div class="paragraph"><p>We need to change that and pass, instead, a Tab Bar Controller. Change that code to this:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="vi">@window</span> <span class="o">=</span> <span class="no">UIWindow</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithFrame</span><span class="p">(</span><span class="no">UIScreen</span><span class="o">.</span><span class="n">mainScreen</span><span class="o">.</span><span class="n">bounds</span><span class="p">)</span>
+<span class="vi">@window</span><span class="o">.</span><span class="n">rootViewController</span> <span class="o">=</span> <span class="n">appTabBarController</span>
+<span class="vi">@window</span><span class="o">.</span><span class="n">makeKeyAndVisible</span>
+</pre></div></div></div>
+<div class="paragraph"><p>Now, implement the method:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">appTabBarController</span>
+
+  <span class="n">tab_bar_controller</span> <span class="o">=</span> <span class="no">UITabBarController</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">init</span>
+  <span class="n">tab_bar_controller</span><span class="o">.</span><span class="n">viewControllers</span> <span class="o">=</span> <span class="o">[</span>
+    <span class="no">CalendarViewController</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">init</span><span class="p">,</span>
+    <span class="no">NextEventViewController</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">init</span><span class="p">,</span>
+    <span class="no">NewsViewController</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">init</span>
+  <span class="o">]</span>
+  <span class="n">tab_bar_controller</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>A <strong>UITabBarController</strong> needs an array of UIViewControllers. Each one of them will became a Tab in the <strong>UITabBar</strong>. This Controller will render a <strong>UITabBar</strong> in the bottom of the screen of 44 pixels in heigth. For each UIViewController will put a tab, that is actually a <strong>UITabBarItem</strong>. The Tab Bar Controller will use the <strong>title</strong> property of the UIViewController as the name of the tab.</p></div>
+<div class="paragraph"><p>Run the app, you will see 3 tabs each one labeled with the title of its UIViewController:</p></div>
+<div class="paragraph"><p><span class="image">
+<img src="Resources/ch11-ViewControllers/ch11_02_basic_tabbar.png" alt="Chapter 11 basic tab bar" />
+</span></p></div>
+<div class="paragraph"><p>This the most basic tab bar that you can build. But we will customize it to make it look better.</p></div>
+</div>
+<div class="sect2">
+<h3 id="_customizing_the_uitabbar">Customizing the UITabBar</h3>
+<div class="paragraph"><p>Our designer has made a custom tab bar background, you can see it in the resources folder with the name <strong>bgTabBar</strong>. We are going to add it as a custom background for our TabBar:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">appTabBarController</span>
+
+  <span class="n">tab_bar_controller</span> <span class="o">=</span> <span class="no">UITabBarController</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">init</span>
+  <span class="n">tab_bar_controller</span><span class="o">.</span><span class="n">viewControllers</span> <span class="o">=</span> <span class="o">[</span>
+    <span class="no">CalendarViewController</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">init</span><span class="p">,</span>
+    <span class="no">NextEventViewController</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">init</span><span class="p">,</span>
+    <span class="no">NewsViewController</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">init</span>
+  <span class="o">]</span>
+  <span class="n">tab_bar_controller</span><span class="o">.</span><span class="n">tabBar</span><span class="o">.</span><span class="n">backgroundImage</span> <span class="o">=</span> <span class="no">UIImage</span><span class="o">.</span><span class="n">imageNamed</span> <span class="s2">&quot;bgTabBar&quot;</span>
+  <span class="n">tab_bar_controller</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>Run the app:</p></div>
+<div class="paragraph"><p><span class="image">
+<img src="Resources/ch11-ViewControllers/ch11_03_tabbar_background.png" alt="Chapter 11 custom tabbar" />
+</span></p></div>
+</div>
+<div class="sect2">
+<h3 id="_customizing_the_uitabbaritems">Customizing the UITabBarItems</h3>
+<div class="paragraph"><p>The designer has also made some cool icons for our tabs, we are going to add them to the tab bar.</p></div>
+<div class="paragraph"><p>As we have said, the <strong>tabs</strong> are instance of <strong>UITabBarItem</strong>. Each UIViewController has a property called <strong>tabBarItem</strong>. We can easilly create our own. Let&#8217;s try it with the Calendar View Controller.</p></div>
+<div class="paragraph"><p>Open the <strong>calendar_view_controller.rb</strong> file and add this code:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">class</span> <span class="nc">CalendarViewController</span> <span class="o">&lt;</span> <span class="no">UIViewController</span>
+
+  <span class="k">def</span> <span class="nf">init</span>
+
+    <span class="k">super</span>
+    <span class="nb">self</span><span class="o">.</span><span class="n">title</span> <span class="o">=</span> <span class="s2">&quot;Calendar&quot;</span>
+    <span class="n">setupTabBarItem</span>
+    <span class="nb">self</span>
+  <span class="k">end</span>
+
+
+  <span class="k">def</span> <span class="nf">loadView</span>
+
+    <span class="nb">self</span><span class="o">.</span><span class="n">view</span> <span class="o">=</span> <span class="no">UIView</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithFrame</span><span class="p">(</span><span class="no">UIScreen</span><span class="o">.</span><span class="n">mainScreen</span><span class="o">.</span><span class="n">bounds</span><span class="p">)</span>
+    <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">whiteColor</span>
+  <span class="k">end</span>
+
+
+  <span class="k">def</span> <span class="nf">setupTabBarItem</span>
+
+    <span class="n">tab_bar_item</span> <span class="o">=</span> <span class="no">UITabBarItem</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithTitle</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+      <span class="n">image</span><span class="ss">:UIImage</span><span class="o">.</span><span class="n">imageNamed</span><span class="p">(</span><span class="s2">&quot;icnCalendar&quot;</span><span class="p">),</span> <span class="n">tag</span><span class="p">:</span><span class="mi">1</span><span class="p">)</span>
+    <span class="nb">self</span><span class="o">.</span><span class="n">tabBarItem</span> <span class="o">=</span> <span class="n">tab_bar_item</span>
+  <span class="k">end</span>
+
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>In the <strong>setupTabBarItem</strong> we are creating a UITabVarItem and passing and empty title and a UIImage with our icon. Run the app:</p></div>
+<div class="paragraph"><p><span class="image">
+<img src="Resources/ch11-ViewControllers/ch11_04_gray_tabitem.png" alt="Chapter 11 gray tab bar item" />
+</span></p></div>
+<div class="paragraph"><p>What happened? The icon is blueish. The UITabBarItem, by default, will put all the images that you passed with a blue gradient, discarding the color information of the image and using the alpha channel (transparency) information to know where to apply the gradient. This is enough for basic apps but we want our shinny custom icons with its full color.</p></div>
+<div class="paragraph"><p>To do this, we should use a new method added in iOS5, type:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">setupTabBarItem</span>
+
+  <span class="n">tab_bar_item</span> <span class="o">=</span> <span class="no">UITabBarItem</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithTitle</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="n">image</span><span class="ss">:nil</span><span class="p">,</span> <span class="n">tag</span><span class="p">:</span><span class="mi">1</span><span class="p">)</span>
+  <span class="n">tab_bar_item</span><span class="o">.</span><span class="n">setFinishedSelectedImage</span><span class="p">(</span><span class="no">UIImage</span><span class="o">.</span><span class="n">imageNamed</span><span class="p">(</span><span class="s2">&quot;icnCalendar&quot;</span><span class="p">),</span> <span class="n">withFinishedUnselectedImage</span><span class="ss">:UIImage</span><span class="o">.</span><span class="n">imageNamed</span><span class="p">(</span><span class="s2">&quot;icnCalendar&quot;</span><span class="p">))</span>
+  <span class="nb">self</span><span class="o">.</span><span class="n">tabBarItem</span> <span class="o">=</span> <span class="n">tab_bar_item</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>As you can see, we are passing a nill image in the Initializer, but then we are setting the <strong>FinishedSelectedImage</strong> and the <strong>FinishedUnselectedImage</strong>. Run the app:</p></div>
+<div class="paragraph"><p><span class="image">
+<img src="Resources/ch11-ViewControllers/ch11_05_calendar_icon.png" alt="Chapter 11 calendar icon" />
+</span></p></div>
+<div class="paragraph"><p>Now our icon is in full color. Lets add their icons to each View Controller. Open the <strong>next_event_view_controller.rb</strong> and add this method:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">setupTabBarItem</span>
+
+  <span class="n">tab_bar_item</span> <span class="o">=</span> <span class="no">UITabBarItem</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithTitle</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="n">image</span><span class="ss">:nil</span><span class="p">,</span> <span class="n">tag</span><span class="p">:</span><span class="mi">1</span><span class="p">)</span>
+  <span class="n">tab_bar_item</span><span class="o">.</span><span class="n">setFinishedSelectedImage</span><span class="p">(</span><span class="no">UIImage</span><span class="o">.</span><span class="n">imageNamed</span><span class="p">(</span><span class="s2">&quot;icnCurrent&quot;</span><span class="p">),</span> <span class="n">withFinishedUnselectedImage</span><span class="ss">:UIImage</span><span class="o">.</span><span class="n">imageNamed</span><span class="p">(</span><span class="s2">&quot;icnCurrent&quot;</span><span class="p">))</span>
+  <span class="nb">self</span><span class="o">.</span><span class="n">tabBarItem</span> <span class="o">=</span> <span class="n">tab_bar_item</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>Call it from the init:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">init</span>
+
+  <span class="k">super</span>
+  <span class="vi">@days_left</span> <span class="o">=</span> <span class="mi">0</span>
+  <span class="nb">self</span><span class="o">.</span><span class="n">title</span> <span class="o">=</span> <span class="s2">&quot;Next Event&quot;</span>
+  <span class="n">setupTabBarItem</span>
+  <span class="nb">self</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>Next, open the <strong>news_view_controller.rb</strong> and add this method:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">class</span> <span class="nc">NewsViewController</span> <span class="o">&lt;</span> <span class="no">UIViewController</span>
+
+  <span class="k">def</span> <span class="nf">init</span>
+
+    <span class="k">super</span>
+    <span class="nb">self</span><span class="o">.</span><span class="n">title</span> <span class="o">=</span> <span class="s2">&quot;News&quot;</span>
+    <span class="n">setupTabBarITem</span>
+    <span class="nb">self</span>
+  <span class="k">end</span>
+
+
+  <span class="k">def</span> <span class="nf">loadView</span>
+
+    <span class="nb">self</span><span class="o">.</span><span class="n">view</span> <span class="o">=</span> <span class="no">UIView</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithFrame</span><span class="p">(</span><span class="no">UIScreen</span><span class="o">.</span><span class="n">mainScreen</span><span class="o">.</span><span class="n">bounds</span><span class="p">)</span>
+    <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">whiteColor</span>
+  <span class="k">end</span>
+
+
+  <span class="k">def</span> <span class="nf">setupTabBarITem</span>
+
+    <span class="n">tab_bar_item</span> <span class="o">=</span> <span class="no">UITabBarItem</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithTitle</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+      <span class="n">image</span><span class="ss">:nil</span><span class="p">,</span> <span class="n">tag</span><span class="p">:</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">tab_bar_item</span><span class="o">.</span><span class="n">setFinishedSelectedImage</span><span class="p">(</span><span class="no">UIImage</span><span class="o">.</span><span class="n">imageNamed</span><span class="p">(</span><span class="s2">&quot;icnNews&quot;</span><span class="p">),</span> <span class="n">withFinishedUnselectedImage</span><span class="ss">:UIImage</span><span class="o">.</span><span class="n">imageNamed</span><span class="p">(</span><span class="s2">&quot;icnNews&quot;</span><span class="p">))</span>
+    <span class="nb">self</span><span class="o">.</span><span class="n">tabBarItem</span> <span class="o">=</span> <span class="n">tab_bar_item</span>
+  <span class="k">end</span>
+
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>Run the app and you should see the three tabs with color icons:</p></div>
+<div class="paragraph"><p><span class="image">
+<img src="Resources/ch11-ViewControllers/ch11_06_all_icons.png" alt="Chapter 11 all icons" />
+</span></p></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_the_uiviewcontroller_lifecycle">The UIViewController lifecycle</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>We have reviewed the lifecycle of view controllers, but now lets watch it in action. We are going to use our CalendarViewController as a playground for this.</p></div>
+<div class="paragraph"><p>First, lets add a <strong>UITextView</strong>. This component allows to have multiline texts on your screen, moreover, it adds a Scroll to the text if the text goes beyond the bounds of the component.</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">viewDidLoad</span>
+
+  <span class="vi">@text_view</span> <span class="o">=</span> <span class="n">text_view_for_messages</span>
+  <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="vi">@text_view</span><span class="p">)</span>
+  <span class="vi">@text_view</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="vi">@text_view</span><span class="o">.</span><span class="n">text</span><span class="si">}</span><span class="s2"> viewDidLoad</span><span class="se">\n</span><span class="s2">&quot;</span>
+<span class="k">end</span>
+
+<span class="k">def</span> <span class="nf">text_view_for_messages</span>
+
+  <span class="n">text_view</span> <span class="o">=</span> <span class="no">UITextView</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithFrame</span><span class="p">(</span><span class="o">[[</span><span class="mi">20</span><span class="p">,</span><span class="mi">40</span><span class="o">]</span><span class="p">,</span> <span class="o">[</span><span class="mi">300</span><span class="p">,</span> <span class="mi">300</span><span class="o">]]</span><span class="p">)</span>
+  <span class="n">text_view</span><span class="o">.</span><span class="n">textColor</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">redColor</span>
+  <span class="n">text_view</span><span class="o">.</span><span class="n">editable</span> <span class="o">=</span> <span class="kp">false</span>
+  <span class="n">text_view</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>We are setting the <strong>editable</strong> property to false, because by default this control allows to the user to type text inside. In this case we only want to put some log messages on it.</p></div>
+<div class="paragraph"><p><span class="image">
+<img src="Resources/ch11-ViewControllers/ch11_07_text_view.png" alt="Chapter 11 text view" />
+</span></p></div>
+<div class="paragraph"><p>Now let&#8217;s add some other methods:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">viewDidAppear</span><span class="p">(</span><span class="n">animated</span><span class="p">)</span>
+
+  <span class="k">super</span>
+  <span class="vi">@text_view</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="vi">@text_view</span><span class="o">.</span><span class="n">text</span><span class="si">}</span><span class="s2"> view did appear</span><span class="se">\n</span><span class="s2">&quot;</span>
+<span class="k">end</span>
+
+
+<span class="k">def</span> <span class="nf">viewDidDisappear</span><span class="p">(</span><span class="n">animated</span><span class="p">)</span>
+
+  <span class="k">super</span>
+  <span class="vi">@text_view</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="vi">@text_view</span><span class="o">.</span><span class="n">text</span><span class="si">}</span><span class="s2"> view did disappear</span><span class="se">\n</span><span class="s2">&quot;</span>
+<span class="k">end</span>
+
+
+<span class="k">def</span> <span class="nf">viewWillAppear</span><span class="p">(</span><span class="n">animated</span><span class="p">)</span>
+
+  <span class="k">super</span>
+  <span class="vi">@text_view</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="vi">@text_view</span><span class="o">.</span><span class="n">text</span><span class="si">}</span><span class="s2"> view will appear</span><span class="se">\n</span><span class="s2">&quot;</span>
+<span class="k">end</span>
+
+
+<span class="k">def</span> <span class="nf">viewWillDisappear</span><span class="p">(</span><span class="n">animated</span><span class="p">)</span>
+
+  <span class="k">super</span>
+  <span class="vi">@text_view</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="vi">@text_view</span><span class="o">.</span><span class="n">text</span><span class="si">}</span><span class="s2"> view will disappear</span><span class="se">\n</span><span class="s2">&quot;</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>Run the app and try changing between tabs and watching the messages in our log text view.</p></div>
+<div class="paragraph"><p>When the app is first opened, this log appears:</p></div>
+<div class="paragraph"><p><span class="image">
+<img src="Resources/ch11-ViewControllers/ch11_08_initial_log.png" alt="Chapter 11 initial log" />
+</span></p></div>
+<div class="paragraph"><p>As you can see, first the <strong>viewDidLoad</strong> is called, then the <strong>viewWillAppear</strong> and finally the <strong>viewDidAppear</strong>. As their name implies, the viewWillAppear method is called before the view is rendered and the viewDidAppear once the views has been rendered.</p></div>
+<div class="paragraph"><p>Now if you change the tab and then come back to the Calendar section, you should see this message:</p></div>
+<div class="paragraph"><p><span class="image">
+<img src="Resources/ch11-ViewControllers/ch11_09_after_tab_log.png" alt="Chapter 11 initial log" />
+</span></p></div>
+<div class="paragraph"><p>As you can see the methods <strong>viewWillDissapear</strong> and <strong>viewDidDissapear</strong> were called when you change tge tab. When you return, the <strong>viewWillAppear</strong> and <strong>viewDidAppear</strong> methods were called again, but the <strong>viewDidLoad</strong> method was never called.</p></div>
+<div class="paragraph"><p>What can we learn from this?</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+The viewDidLoad method is only called once, after the view is loaded into memory. You can use this method to intialize elements that depend of the <strong>view</strong>, such as subviews.
+</p>
+</li>
+<li>
+<p>
+the viewWillAppear method is called before the UIView is rendered, you can use this method to initialize values that need to be refreshed every time the view will be rendered, such as our "days left until next meeting" view that we have in the next event view controller.
+</p>
+</li>
+<li>
+<p>
+the viewDidAppear method is called once the UIView was rendered. You can use this method to setup logic that required that the user is actually viewing the view, such as starting animations in that view.
+</p>
+</li>
+<li>
+<p>
+the viewWillDissapear method is called just before the view dissapears from the screen. You can use it to do logic that require that view is rendered and make no sense to leave it running, such as stoping animations.
+</p>
+</li>
+<li>
+<p>
+the viewDidDissapear method is called after the view dissapeared from the screen.
+</p>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_challenge_5">Challenge</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>Create the viewWillAppear and viewDidAppear methods in the NextEventViewController. Remember that these methods should call <strong>super</strong>. In the viewWillAppear method, initialize the variable <strong>@days_left</strong> with the value returned from the method <strong>@event.days_left_until(@event.date)</strong>.</p></div>
+<div class="paragraph"><p>Now in the <strong>viewDidAppear</strong> update our @days_left_view with that value, remember to call the <strong>setNeedsDisplay</strong>.</p></div>
+<div class="paragraph"><p>You should see the screen updated with the days left until the meeting:</p></div>
+<div class="paragraph"><p><span class="image">
+<img src="Resources/ch11-ViewControllers/ch11_10_challenge.png" alt="Chapter 11 challenge" />
+</span></p></div>
+</div>
+</div>
+<h1 id="_chapter_12_table_views">Chapter 12 - Table Views</h1>
+<div class="paragraph"><p>During this workshop, we are going to work with table views and table views controllers. Tables are a common way to organize information in iOS apps, they provide a nice scroll and a vertical layout that makes them very easy to navigate through for looking information on small screens.</p></div>
+<div class="sect1">
+<h2 id="_setting_up_the_project_2">Setting up the project</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>Unzip the file <strong>ch12_tableviews_resources.zip</strong>, inside you will find our App from the previous chapter plus a new <strong>News</strong> model class that we will review later:</p></div>
+<div class="paragraph"><p><span class="image">
+<img src="Resources/ch12-TableViews/ch12_01_app.png" alt="Chapter 12 app" />
+</span></p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_implementing_the_news_screen">Implementing the News Screen</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>During this exercise, we are going to create our News Screen. This screen will present the lates news of Cocoaheads in a list. This kind of interfaces are well suited for using a <strong>UITableView</strong>.</p></div>
+<div class="paragraph"><p>The easiest way to use a <strong>UITableView</strong> is to use a <strong>UITableViewController</strong>, thus, we are going to do exactly that.</p></div>
+<div class="paragraph"><p>Open the <strong>news_view_controller.rb</strong> file and the first thing we are going to do is to change the Parent class of the file:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">class</span> <span class="nc">NewsViewController</span> <span class="o">&lt;</span> <span class="no">UITableViewController</span>
+
+  <span class="k">def</span> <span class="nf">initWithStyle</span><span class="p">(</span><span class="n">style</span><span class="p">)</span>
+
+    <span class="k">super</span>
+    <span class="nb">self</span><span class="o">.</span><span class="n">title</span> <span class="o">=</span> <span class="s2">&quot;News&quot;</span>
+    <span class="n">setupTabBarItem</span>
+    <span class="nb">self</span>
+  <span class="k">end</span>
+
+
+  <span class="k">def</span> <span class="nf">setupTabBarItem</span>
+
+    <span class="n">tab_bar_item</span> <span class="o">=</span> <span class="no">UITabBarItem</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithTitle</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+      <span class="n">image</span><span class="ss">:nil</span><span class="p">,</span> <span class="n">tag</span><span class="p">:</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">tab_bar_item</span><span class="o">.</span><span class="n">setFinishedSelectedImage</span><span class="p">(</span><span class="no">UIImage</span><span class="o">.</span><span class="n">imageNamed</span><span class="p">(</span><span class="s2">&quot;icnNews&quot;</span><span class="p">),</span> <span class="n">withFinishedUnselectedImage</span><span class="ss">:UIImage</span><span class="o">.</span><span class="n">imageNamed</span><span class="p">(</span><span class="s2">&quot;icnNews&quot;</span><span class="p">))</span>
+    <span class="nb">self</span><span class="o">.</span><span class="n">tabBarItem</span> <span class="o">=</span> <span class="n">tab_bar_item</span>
+  <span class="k">end</span>
+
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>We also removed the <strong>loadView</strong> method. A UITableViewController creates its own view as a UITableView so we don&#8217;t need to create it anymore. Finally, we change our code to use the initializer named <strong>initWithStyle:</strong> This is the initializer method used to create instances of UITableViewController.</p></div>
+<div class="paragraph"><p>Now let&#8217;s call this initializer from the <strong>app_delegate.rb</strong> :</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">appTabBarController</span>
+
+  <span class="n">tab_bar_controller</span> <span class="o">=</span> <span class="no">UITabBarController</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">init</span>
+  <span class="n">tab_bar_controller</span><span class="o">.</span><span class="n">viewControllers</span> <span class="o">=</span> <span class="o">[</span>
+    <span class="no">CalendarViewController</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">init</span><span class="p">,</span>
+    <span class="no">NextEventViewController</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">init</span><span class="p">,</span>
+    <span class="no">NewsViewController</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithStyle</span><span class="p">(</span><span class="no">UITableViewStylePlain</span><span class="p">)</span>
+  <span class="o">]</span>
+  <span class="n">tab_bar_controller</span><span class="o">.</span><span class="n">tabBar</span><span class="o">.</span><span class="n">backgroundImage</span> <span class="o">=</span> <span class="no">UIImage</span><span class="o">.</span><span class="n">imageNamed</span> <span class="s2">&quot;bgTabBar&quot;</span>
+  <span class="n">tab_bar_controller</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>UITableViews support two styles:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+UITableViewStylePlain. A plain table view.
+</p>
+</li>
+<li>
+<p>
+UITableViewStyleGrouped. A Table with sections in distinct group of rows. Like the ones you can find in the <strong>Settings</strong> app of an iPhone.
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Run your app:</p></div>
+<div class="paragraph"><p><span class="image">
+<img src="Resources/ch12-TableViews/ch12_02_empty_table.png" alt="Chapter 12 empty table view" />
+</span></p></div>
+<div class="paragraph"><p>Right now our table is empty, we need to fill it with the latest news.</p></div>
+<div class="paragraph"><p>We have seen that is wise to update data in the <strong>viewWillAppear</strong> method, because that method will be called every time the view is shown. Thus, the user will see the updated news. We have implemented a model class named <strong>News</strong> with a class method called "news_mock". With these in mind we can implement our method to retrieve the news as:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">viewWillAppear</span>
+
+  <span class="n">load_latest_news</span>
+<span class="k">end</span>
+
+
+<span class="k">def</span> <span class="nf">load_latest_news</span>
+
+  <span class="vi">@news</span> <span class="o">=</span> <span class="no">News</span><span class="o">.</span><span class="n">news_mock</span>
+  <span class="nb">self</span><span class="o">.</span><span class="n">tableView</span><span class="o">.</span><span class="n">reloadData</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="sect2">
+<h3 id="_the_plist_files">The plist files</h3>
+<div class="paragraph"><p>From where is the News class taking its data? If you open the class you will see this:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">news_mock</span>
+
+  <span class="n">mock_data</span> <span class="o">=</span> <span class="n">news_mock_data</span>
+  <span class="n">news_mock</span> <span class="o">=</span> <span class="nb">Array</span><span class="o">.</span><span class="n">new</span>
+  <span class="n">mock_data</span><span class="o">.</span><span class="n">each</span> <span class="p">{</span> <span class="o">|</span><span class="n">item</span><span class="o">|</span>
+    <span class="n">news</span> <span class="o">=</span> <span class="no">News</span><span class="o">.</span><span class="n">new</span>
+    <span class="n">news</span><span class="o">.</span><span class="n">title</span> <span class="o">=</span> <span class="n">item</span><span class="o">[</span><span class="s2">&quot;title&quot;</span><span class="o">]</span>
+    <span class="n">news</span><span class="o">.</span><span class="n">brief</span> <span class="o">=</span> <span class="n">item</span><span class="o">[</span><span class="s2">&quot;brief&quot;</span><span class="o">]</span>
+    <span class="n">news</span><span class="o">.</span><span class="n">note</span> <span class="o">=</span> <span class="n">item</span><span class="o">[</span><span class="s2">&quot;index&quot;</span><span class="o">]</span>
+    <span class="n">news</span><span class="o">.</span><span class="n">date</span> <span class="o">=</span> <span class="no">NSDate</span><span class="o">.</span><span class="n">date</span>
+    <span class="n">news_mock</span> <span class="o">&lt;&lt;</span> <span class="n">news</span>
+  <span class="p">}</span>
+  <span class="n">news_mock</span>
+<span class="k">end</span>
+
+<span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">news_mock_data</span>
+
+  <span class="n">mock_data_path</span> <span class="o">=</span> <span class="no">NSBundle</span><span class="o">.</span><span class="n">mainBundle</span><span class="o">.</span><span class="n">pathForResource</span><span class="p">(</span><span class="s2">&quot;news_mock&quot;</span><span class="p">,</span> <span class="n">ofType</span><span class="ss">:&quot;plist&quot;</span><span class="p">)</span>
+  <span class="n">news_mock_data</span> <span class="o">=</span> <span class="no">NSArray</span><span class="o">.</span><span class="n">arrayWithContentsOfFile</span> <span class="n">mock_data_path</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>In the method <strong>self.news_mock_data</strong> we are loading a file called <strong>news_mock.plist</strong>. <strong>plist</strong> files, or Property list files, are are files that store serialized objects. Objective-C supports these files natively. Locate in the resources folder the news_mock.plist file, if you double click it to open it, you will see that the file is opened in Xcode. Xcode provides a UI to edit this kind of files:</p></div>
+<div class="paragraph"><p><span class="image">
+<img src="Resources/ch12-TableViews/ch12_03_plist_editor.png" alt="Chapter 12 plist editor" />
+</span></p></div>
+<div class="paragraph"><p>But if you open the file in a text editor, you will notice that is a simple XML file with a custom format. So it&#8217;s very easy to create this kind of files and to store constants into them.</p></div>
+<div class="paragraph"><p>Another advantage is that plist files are very easy to load from RubyMotion, because the Foundation classes of Objective-C support them. In this case we can load it to an Array with a single line:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="no">NSArray</span><span class="o">.</span><span class="n">arrayWithContentsOfFile</span> <span class="n">mock_data_path</span>
+</pre></div></div></div>
+<div class="paragraph"><p>This is useful in tests. We can add or delete items to our table by just modifying that file.</p></div>
+</div>
+<div class="sect2">
+<h3 id="_implementing_a_table_view_datasource">Implementing a Table View DataSource</h3>
+<div class="paragraph"><p>How do we pass data to our empty table view? As we have seen in the slides, by implementing the methods of UITableViewDataSource. The first step is to tell how many rows should be in the Table View:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">tableView</span><span class="p">(</span><span class="n">tableView</span><span class="p">,</span> <span class="n">numberOfRowsInSection</span><span class="ss">:section</span><span class="p">)</span>
+
+    <span class="vi">@news</span><span class="o">.</span><span class="n">length</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>The content of the rows of a UITableView are called cells and should be subclasses of <strong>UITableViewCell</strong>. So what basically occurs is that the UITableView ask to its DataSource (our NewsViewController) how many rows we want in the table using the <strong>tableView:numberOfRowsInSection:</strong> method. Once we answer that questions, starts to ask us for the cell for each one of the row using this method:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="no">NEWS_CELL_REUSE_ID</span> <span class="o">=</span> <span class="s2">&quot;NewsCellId&quot;</span>
+
+<span class="k">def</span> <span class="nf">tableView</span><span class="p">(</span><span class="n">tableView</span><span class="p">,</span> <span class="n">cellForRowAtIndexPath</span><span class="ss">:indexPath</span><span class="p">)</span>
+
+  <span class="n">cell</span> <span class="o">=</span> <span class="n">tableView</span><span class="o">.</span><span class="n">dequeueReusableCellWithIdentifier</span><span class="p">(</span><span class="no">NEWS_CELL_REUSE_ID</span><span class="p">)</span> <span class="o">||</span> <span class="no">UITableViewCell</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithStyle</span><span class="p">(</span><span class="no">UITableViewCellStyleSubtitle</span><span class="p">,</span> <span class="n">reuseIdentifier</span><span class="p">:</span> <span class="no">NEWS_CELL_REUSE_ID</span><span class="p">)</span>
+  <span class="n">news_item</span> <span class="o">=</span> <span class="vi">@news</span><span class="o">[</span> <span class="n">indexPath</span><span class="o">.</span><span class="n">row</span> <span class="o">]</span>
+  <span class="n">cell</span><span class="o">.</span><span class="n">textLabel</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">news_item</span><span class="o">.</span><span class="n">title</span>
+  <span class="n">cell</span><span class="o">.</span><span class="n">detailTextLabel</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">news_item</span><span class="o">.</span><span class="n">brief</span>
+  <span class="n">cell</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>This method is called for each one of the rows in a Table View. Inside you should build your UITableViewCell and return it. There is a catch, the Table View can reuse the same instance to improve the performance of the table. Remember that this component is used to show many rows, literally you can show thousands of them. That is the reason why we are first trying to retrieve a cached cell:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="n">tableView</span><span class="o">.</span><span class="n">dequeueReusableCellWithIdentifier</span><span class="p">(</span><span class="no">NEWS_CELL_REUSE_ID</span><span class="p">)</span>
+</pre></div></div></div>
+<div class="paragraph"><p>Only if the table view can find a cached cell with that identifier, we build it:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="no">UITableViewCell</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithStyle</span><span class="p">(</span><span class="no">UITableViewCellStyleSubtitle</span><span class="p">,</span> <span class="n">reuseIdentifier</span><span class="p">:</span> <span class="no">NEWS_CELL_REUSE_ID</span><span class="p">)</span>
+</pre></div></div></div>
+<div class="paragraph"><p>After that, we simple set the textLabel and the detailLabel of the cell with the title and the brief of the news item:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="n">news_item</span> <span class="o">=</span> <span class="vi">@news</span><span class="o">[</span> <span class="n">indexPath</span><span class="o">.</span><span class="n">row</span> <span class="o">]</span>
+<span class="n">cell</span><span class="o">.</span><span class="n">textLabel</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">news_item</span><span class="o">.</span><span class="n">title</span>
+<span class="n">cell</span><span class="o">.</span><span class="n">detailTextLabel</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">news_item</span><span class="o">.</span><span class="n">brief</span>
+</pre></div></div></div>
+<div class="paragraph"><p>Run your example and you should see the list of news item:</p></div>
+<div class="paragraph"><p><span class="image">
+<img src="Resources/ch12-TableViews/ch12_04_news_in_table.png" alt="Chapter 12 news in table" />
+</span></p></div>
+</div>
+<div class="sect2">
+<h3 id="_implementing_a_table_view_delegate">Implementing a Table View Delegate</h3>
+<div class="paragraph"><p>The DataSource tells a UITableView which data to display, but a UITableView is more powerful than a simple List. The UITableViewDelegate protocol defines some other methods that you can implement to manage more functionality of the Table View.</p></div>
+<div class="paragraph"><p>We are going to start by handle taps on the rows:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">tableView</span><span class="p">(</span><span class="n">tableView</span><span class="p">,</span> <span class="n">didSelectRowAtIndexPath</span><span class="ss">:indexPath</span><span class="p">)</span>
+
+  <span class="nb">p</span> <span class="s2">&quot;row </span><span class="si">#{</span><span class="n">indexPath</span><span class="o">.</span><span class="n">row</span><span class="si">}</span><span class="s2"> selected&quot;</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>Run the app and tap on a row, you will see the message appearing on the console.</p></div>
+<div class="paragraph"><p>Our next step is to add a header to our table. Remember that we have been using a header image in our other views. To do that implement this method:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">tableView</span><span class="p">(</span><span class="n">tableView</span><span class="p">,</span> <span class="n">viewForHeaderInSection</span><span class="ss">:section</span><span class="p">)</span>
+
+  <span class="n">header_view</span> <span class="o">=</span> <span class="no">UIImageView</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithImage</span><span class="p">(</span><span class="no">UIImage</span><span class="o">.</span><span class="n">imageNamed</span><span class="p">(</span><span class="s2">&quot;bgTitleBar&quot;</span><span class="p">))</span>
+  <span class="n">header_view</span><span class="o">.</span><span class="n">frame</span> <span class="o">=</span> <span class="o">[[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="o">]</span><span class="p">,</span> <span class="o">[</span><span class="mi">320</span><span class="p">,</span> <span class="mi">44</span><span class="o">]]</span>
+  <span class="n">header_view</span><span class="o">.</span><span class="n">setUserInteractionEnabled</span><span class="p">(</span><span class="kp">true</span><span class="p">)</span>
+  <span class="n">header_view</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>Using this <strong>tableView:viewForHeaderInSection:</strong> method, you can add any view as header. In this case we are adding an UIImageView with our header image, we are also setting the <strong>userInteractionEnabled</strong> to true because we will need that to add some buttons to that header later.</p></div>
+<div class="paragraph"><p>To add a header is not enough we need to change the heigth of the header using this other method:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">tableView</span><span class="p">(</span><span class="n">tableView</span><span class="p">,</span> <span class="n">heightForHeaderInSection</span><span class="ss">:section</span><span class="p">)</span>
+
+  <span class="mi">64</span><span class="o">.</span><span class="mi">0</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>Run your app, you should see the header:</p></div>
+<div class="paragraph"><p><span class="image">
+<img src="Resources/ch12-TableViews/ch12_05_header.png" alt="Chapter 12 header" />
+</span></p></div>
+</div>
+<div class="sect2">
+<h3 id="_adding_and_removing_rows">Adding and removing rows</h3>
+<div class="paragraph"><p>One interesting thing about Table Views, is that you can program a lot of interactions with them. It even have animation support to provide a smoother interaction with the user. In this case we are going to implement the logic to delete selected rows and to add new rows.</p></div>
+<div class="paragraph"><p>The first step is to add two buttons to our header:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">deleteButton</span>
+  <span class="n">delete_button</span> <span class="o">=</span> <span class="no">UIButton</span><span class="o">.</span><span class="n">buttonWithType</span><span class="p">(</span><span class="no">UIButtonTypeCustom</span><span class="p">)</span>
+  <span class="n">delete_button</span><span class="o">.</span><span class="n">setTitle</span><span class="p">(</span><span class="s2">&quot;Delete&quot;</span><span class="p">,</span> <span class="n">forState</span><span class="ss">:UIControlStateNormal</span><span class="p">)</span>
+  <span class="n">delete_button</span><span class="o">.</span><span class="n">frame</span> <span class="o">=</span> <span class="o">[[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">12</span><span class="o">]</span><span class="p">,</span> <span class="o">[</span><span class="mi">56</span><span class="p">,</span> <span class="mi">41</span><span class="o">]]</span>
+  <span class="n">delete_button</span><span class="o">.</span><span class="n">setBackgroundImage</span><span class="p">(</span><span class="no">UIImage</span><span class="o">.</span><span class="n">imageNamed</span><span class="p">(</span><span class="s2">&quot;btnBarRed&quot;</span><span class="p">),</span> <span class="n">forState</span><span class="ss">:UIControlStateNormal</span><span class="p">)</span>
+  <span class="n">delete_button</span><span class="o">.</span><span class="n">addTarget</span><span class="p">(</span><span class="nb">self</span><span class="p">,</span>
+    <span class="n">action</span><span class="ss">:&quot;delete_selected_cell&quot;</span><span class="p">,</span>
+    <span class="n">forControlEvents</span><span class="ss">:UIControlEventTouchUpInside</span><span class="p">)</span>
+  <span class="n">delete_button</span>
+<span class="k">end</span>
+
+
+<span class="k">def</span> <span class="nf">addButton</span>
+  <span class="n">add_button</span> <span class="o">=</span> <span class="no">UIButton</span><span class="o">.</span><span class="n">buttonWithType</span><span class="p">(</span><span class="no">UIButtonTypeCustom</span><span class="p">)</span>
+  <span class="n">add_button</span><span class="o">.</span><span class="n">setTitle</span><span class="p">(</span><span class="s2">&quot;Add&quot;</span><span class="p">,</span> <span class="n">forState</span><span class="ss">:UIControlStateNormal</span><span class="p">)</span>
+  <span class="n">add_button</span><span class="o">.</span><span class="n">frame</span> <span class="o">=</span> <span class="o">[[</span><span class="mi">250</span><span class="p">,</span> <span class="mi">12</span><span class="o">]</span><span class="p">,</span> <span class="o">[</span><span class="mi">56</span><span class="p">,</span> <span class="mi">41</span><span class="o">]]</span>
+  <span class="n">add_button</span><span class="o">.</span><span class="n">setBackgroundImage</span><span class="p">(</span><span class="no">UIImage</span><span class="o">.</span><span class="n">imageNamed</span><span class="p">(</span><span class="s2">&quot;btnBarRed&quot;</span><span class="p">),</span> <span class="n">forState</span><span class="ss">:UIControlStateNormal</span><span class="p">)</span>
+  <span class="n">add_button</span><span class="o">.</span><span class="n">addTarget</span><span class="p">(</span><span class="nb">self</span><span class="p">,</span>
+    <span class="n">action</span><span class="ss">:&quot;add_cell&quot;</span><span class="p">,</span>
+    <span class="n">forControlEvents</span><span class="ss">:UIControlEventTouchUpInside</span><span class="p">)</span>
+  <span class="n">add_button</span>
+<span class="k">end</span>
+
+
+<span class="k">def</span> <span class="nf">delete_selected_cell</span>
+
+<span class="k">end</span>
+
+
+<span class="k">def</span> <span class="nf">add_cell</span>
+
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>With this code we are creating our Delete and our Add buttons. Now lets add them to our header:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">tableView</span><span class="p">(</span><span class="n">tableView</span><span class="p">,</span> <span class="n">viewForHeaderInSection</span><span class="ss">:section</span><span class="p">)</span>
+
+  <span class="n">header_view</span> <span class="o">=</span> <span class="no">UIImageView</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithImage</span><span class="p">(</span><span class="no">UIImage</span><span class="o">.</span><span class="n">imageNamed</span><span class="p">(</span><span class="s2">&quot;bgTitleBar&quot;</span><span class="p">))</span>
+  <span class="n">header_view</span><span class="o">.</span><span class="n">frame</span> <span class="o">=</span> <span class="o">[[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="o">]</span><span class="p">,</span> <span class="o">[</span><span class="mi">320</span><span class="p">,</span> <span class="mi">44</span><span class="o">]]</span>
+  <span class="n">header_view</span><span class="o">.</span><span class="n">setUserInteractionEnabled</span><span class="p">(</span><span class="kp">true</span><span class="p">)</span>
+  <span class="n">header_view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="n">deleteButton</span><span class="p">)</span>
+  <span class="n">header_view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="n">addButton</span><span class="p">)</span>
+  <span class="n">header_view</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>Run your example and you should see the buttons:</p></div>
+<div class="paragraph"><p><span class="image">
+<img src="Resources/ch12-TableViews/ch12_05_buttons_header.png" alt="Chapter 12 buttons header" />
+</span></p></div>
+<div class="paragraph"><p>Now let&#8217;s implement the delete functionality:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">delete_selected_cell</span>
+
+  <span class="n">selected_cell_index_path</span> <span class="o">=</span> <span class="nb">self</span><span class="o">.</span><span class="n">tableView</span><span class="o">.</span><span class="n">indexPathForSelectedRow</span>
+
+  <span class="k">if</span> <span class="n">selected_cell_index_path</span>
+
+    <span class="n">news_item</span> <span class="o">=</span> <span class="vi">@news</span><span class="o">[</span><span class="n">selected_cell_index_path</span><span class="o">.</span><span class="n">row</span><span class="o">]</span>
+    <span class="vi">@news</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">news_item</span><span class="p">)</span>
+    <span class="nb">self</span><span class="o">.</span><span class="n">tableView</span><span class="o">.</span><span class="n">deleteRowsAtIndexPaths</span><span class="p">(</span><span class="o">[</span><span class="n">selected_cell_index_path</span><span class="o">]</span><span class="p">,</span>
+      <span class="n">withRowAnimation</span><span class="ss">:UITableViewRowAnimationMiddle</span><span class="p">)</span>
+  <span class="k">end</span>
+
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>First, we are retrieving the indexPath of the current selected cell. If there is actually a selected cell, we are removing the associated news_item from the array. You should be very careful doing this, when you remove cell from a Table View, the Table will ask again for the <strong>tableView:numberOfRowsInSection:</strong> method and it should reflect that are a less number of rows than before the deletion.</p></div>
+<div class="paragraph"><p>Then we are deleting the cell with <strong>deleteRowsAtIndexPaths:withRowAnimation</strong>. This is to have a smoother effect. After we remove the element from the <strong>@news</strong> array we could simple refresh the Table View with</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="vi">@tableView</span><span class="o">.</span><span class="n">reloadData</span>
+</pre></div></div></div>
+<div class="paragraph"><p>And see the row gone, but we wouldn&#8217;t have a nice animation. We are defining the animation to use with the constant <strong>UITableViewRowAnimationMiddle</strong> You can check the UITableView documentation to view more animations that you can use.</p></div>
+<div class="paragraph"><p>Now run your app, select a cell and tap the <strong>Delete</strong> button to watch it dissapear.</p></div>
+<div class="paragraph"><p>Finally, let&#8217;s implement the add functionality:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">add_cell</span>
+
+  <span class="n">random_item</span> <span class="o">=</span> <span class="no">News</span><span class="o">.</span><span class="n">self</span><span class="o">.</span><span class="n">news_mock</span><span class="o">[</span><span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="n">.</span><span class="mi">5</span><span class="p">)</span><span class="o">.</span><span class="n">to_a</span><span class="o">.</span><span class="n">sample</span><span class="o">]</span>
+  <span class="n">index_path</span> <span class="o">=</span> <span class="no">NSIndexPath</span><span class="o">.</span><span class="n">indexPathForRow</span><span class="p">(</span><span class="vi">@news</span><span class="o">.</span><span class="n">length</span><span class="p">,</span> <span class="n">inSection</span><span class="p">:</span><span class="mi">0</span><span class="p">)</span>
+  <span class="vi">@news</span> <span class="o">&lt;&lt;</span> <span class="n">random_item</span>
+  <span class="nb">self</span><span class="o">.</span><span class="n">tableView</span><span class="o">.</span><span class="n">insertRowsAtIndexPaths</span><span class="p">(</span><span class="o">[</span><span class="n">index_path</span><span class="o">]</span><span class="p">,</span>
+    <span class="n">withRowAnimation</span><span class="ss">:UITableViewRowAnimationRight</span><span class="p">)</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>First we are retrieving a randon news item from the original list. Then we are creating a NSIndexPath with the correct row of the new cell (we are adding it at the end of the table). We need to add the news item to our @news array. Remember that is importat to keep the consistency of our DataSource, the Table View will ask it again for the number of rows and for the cell.</p></div>
+<div class="paragraph"><p>Finally, we insert the row with an animation.</p></div>
+<div class="paragraph"><p>Run your app and tap the <strong>Add</strong> button, you should see rows added with an animation to the bottom of the table:</p></div>
+<div class="paragraph"><p><span class="image">
+<img src="Resources/ch12-TableViews/ch12_06_add_row.png" alt="Chapter 12 add row" />
+</span></p></div>
+</div>
+</div>
+</div>
 <h1 id="_chapter_15_notification_center">Chapter 15 - Notification Center</h1>
 <div class="sect1">
 <h2 id="_digital_photo_frame">Digital Photo Frame</h2>
@@ -5901,11 +7101,11 @@ Change the past animation to look like shooting stars, enter and leaving the scr
   <span class="k">end</span>
 <span class="k">end</span>
 </pre></div></div></div>
-<div class="paragraph"><p>Well! Lets build our project (It can take a couple of seconds because the weight of the Cocos2d library):</p></div>
+<div class="paragraph"><p>Well! Lets build our project (It can take a couple of seconds because the weight of the Cocos2D library):</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="nv">$ </span>rake
 </pre></div></div></div>
-<div class="paragraph"><p>The Cocos2d library is now integrated into our project! Easy right?</p></div>
+<div class="paragraph"><p>The Cocos2D library is now integrated into our project! Easy right?</p></div>
 </div>
 <div class="sect2">
 <h3 id="_building_a_game">Building a Game</h3>
@@ -5917,7 +7117,7 @@ Change the past animation to look like shooting stars, enter and leaving the scr
 <div id="footer">
 <div id="footer-text">
 Version 0.1<br />
-Last updated 2012-11-15 20:33:24 CST
+Last updated 2012-11-16 20:09:20 CST
 </div>
 </div>
 </body>

@@ -1,0 +1,377 @@
+Chapter 12 - Table Views
+========================
+
+During this workshop, we are going to work with table views and table views controllers. Tables are a common way to organize information in iOS apps, they provide a nice scroll and a vertical layout that makes them very easy to navigate through for looking information on small screens.
+
+Setting up the project
+----------------------
+Unzip the file *ch12_tableviews_resources.zip*, inside you will find our App from the previous chapter plus a new *News* model class that we will review later:
+
+image:Resources/ch12-TableViews/ch12_01_app.png[Chapter 12 app]
+
+
+Implementing the News Screen
+---------------------------
+
+During this exercise, we are going to create our News Screen. This screen will present the lates news of Cocoaheads in a list. This kind of interfaces are well suited for using a *UITableView*.
+
+The easiest way to use a *UITableView* is to use a *UITableViewController*, thus, we are going to do exactly that.
+
+Open the *news_view_controller.rb* file and the first thing we are going to do is to change the Parent class of the file:
+
+
+[source, ruby]
+-----------------
+class NewsViewController < UITableViewController
+
+  def initWithStyle(style)
+
+    super    
+    self.title = "News"
+    setupTabBarItem
+    self
+  end  
+
+  
+  def setupTabBarItem
+  
+    tab_bar_item = UITabBarItem.alloc.initWithTitle("", 
+      image:nil, tag:1)
+    tab_bar_item.setFinishedSelectedImage(UIImage.imageNamed("icnNews"), withFinishedUnselectedImage:UIImage.imageNamed("icnNews"))
+    self.tabBarItem = tab_bar_item
+  end
+
+end
+----------------
+
+We also removed the *loadView* method. A UITableViewController creates its own view as a UITableView so we don't need to create it anymore. Finally, we change our code to use the initializer named *initWithStyle:* This is the initializer method used to create instances of UITableViewController.
+
+Now let's call this initializer from the *app_delegate.rb* :
+
+
+[source, ruby]
+-------------------
+def appTabBarController
+
+  tab_bar_controller = UITabBarController.alloc.init
+  tab_bar_controller.viewControllers = [
+    CalendarViewController.alloc.init,
+    NextEventViewController.alloc.init,
+    NewsViewController.alloc.initWithStyle(UITableViewStylePlain)
+  ]
+  tab_bar_controller.tabBar.backgroundImage = UIImage.imageNamed "bgTabBar"
+  tab_bar_controller
+end  
+------------------
+
+UITableViews support two styles:
+
+- UITableViewStylePlain. A plain table view.
+- UITableViewStyleGrouped. A Table with sections in distinct group of rows. Like the ones you can find in the *Settings* app of an iPhone.
+
+Run your app:
+
+image:Resources/ch12-TableViews/ch12_02_empty_table.png[Chapter 12 empty table view]
+
+Right now our table is empty, we need to fill it with the latest news.
+
+We have seen that is wise to update data in the *viewWillAppear* method, because that method will be called every time the view is shown. Thus, the user will see the updated news. We have implemented a model class named *News* with a class method called "news_mock". With these in mind we can implement our method to retrieve the news as:
+
+
+[source, ruby]
+------------------
+def viewWillAppear
+
+  load_latest_news    
+end
+
+
+def load_latest_news
+
+  @news = News.news_mock
+  self.tableView.reloadData
+end  
+----------------  
+
+
+
+The plist files
+~~~~~~~~~~~~~~~~~
+
+
+From where is the News class taking its data? If you open the class you will see this:
+
+[source, ruby]
+-----------------
+def self.news_mock
+
+  mock_data = news_mock_data
+  news_mock = Array.new
+  mock_data.each { |item|      
+    news = News.new
+    news.title = item["title"] 
+    news.brief = item["brief"] 
+    news.note = item["index"]
+    news.date = NSDate.date
+    news_mock << news
+  }
+  news_mock
+end
+
+def self.news_mock_data
+
+  mock_data_path = NSBundle.mainBundle.pathForResource("news_mock", ofType:"plist")
+  news_mock_data = NSArray.arrayWithContentsOfFile mock_data_path
+end
+-----------------
+
+In the method *self.news_mock_data* we are loading a file called *news_mock.plist*. *plist* files, or Property list files, are are files that store serialized objects. Objective-C supports these files natively. Locate in the resources folder the news_mock.plist file, if you double click it to open it, you will see that the file is opened in Xcode. Xcode provides a UI to edit this kind of files:
+
+image:Resources/ch12-TableViews/ch12_03_plist_editor.png[Chapter 12 plist editor]
+
+But if you open the file in a text editor, you will notice that is a simple XML file with a custom format. So it's very easy to create this kind of files and to store constants into them.
+
+Another advantage is that plist files are very easy to load from RubyMotion, because the Foundation classes of Objective-C support them. In this case we can load it to an Array with a single line:
+
+[source, ruby]
+-----------------
+NSArray.arrayWithContentsOfFile mock_data_path
+----------------
+
+This is useful in tests. We can add or delete items to our table by just modifying that file.
+
+
+Implementing a Table View DataSource
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+How do we pass data to our empty table view? As we have seen in the slides, by implementing the methods of UITableViewDataSource. The first step is to tell how many rows should be in the Table View:
+
+[source, ruby]
+---------------------
+def tableView(tableView, numberOfRowsInSection:section)
+
+    @news.length
+end
+--------------------
+
+The content of the rows of a UITableView are called cells and should be subclasses of *UITableViewCell*. So what basically occurs is that the UITableView ask to its DataSource (our NewsViewController) how many rows we want in the table using the *tableView:numberOfRowsInSection:* method. Once we answer that questions, starts to ask us for the cell for each one of the row using this method:
+
+
+[source, ruby]
+--------------------
+NEWS_CELL_REUSE_ID = "NewsCellId"
+
+def tableView(tableView, cellForRowAtIndexPath:indexPath)
+
+  cell = tableView.dequeueReusableCellWithIdentifier(NEWS_CELL_REUSE_ID) || UITableViewCell.alloc.initWithStyle(UITableViewCellStyleSubtitle, reuseIdentifier: NEWS_CELL_REUSE_ID)
+  news_item = @news[ indexPath.row ]  
+  cell.textLabel.text = news_item.title
+  cell.detailTextLabel.text = news_item.brief
+  cell
+end
+-------------------  
+
+
+This method is called for each one of the rows in a Table View. Inside you should build your UITableViewCell and return it. There is a catch, the Table View can reuse the same instance to improve the performance of the table. Remember that this component is used to show many rows, literally you can show thousands of them. That is the reason why we are first trying to retrieve a cached cell:
+
+[source, ruby]
+-------------------
+tableView.dequeueReusableCellWithIdentifier(NEWS_CELL_REUSE_ID)
+------------------
+
+Only if the table view can find a cached cell with that identifier, we build it:
+
+[source, ruby]
+-------------------
+UITableViewCell.alloc.initWithStyle(UITableViewCellStyleSubtitle, reuseIdentifier: NEWS_CELL_REUSE_ID)
+-----------------
+
+After that, we simple set the textLabel and the detailLabel of the cell with the title and the brief of the news item:
+
+
+[source, ruby]
+-------------------
+news_item = @news[ indexPath.row ]  
+cell.textLabel.text = news_item.title
+cell.detailTextLabel.text = news_item.brief
+------------------
+
+Run your example and you should see the list of news item:
+
+
+image:Resources/ch12-TableViews/ch12_04_news_in_table.png[Chapter 12 news in table]
+
+
+Implementing a Table View Delegate
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The DataSource tells a UITableView which data to display, but a UITableView is more powerful than a simple List. The UITableViewDelegate protocol defines some other methods that you can implement to manage more functionality of the Table View.
+
+We are going to start by handle taps on the rows:
+
+
+[source, ruby]
+----------------------
+def tableView(tableView, didSelectRowAtIndexPath:indexPath)
+  
+  p "row #{indexPath.row} selected"
+end
+----------------------  
+
+Run the app and tap on a row, you will see the message appearing on the console. 
+
+Our next step is to add a header to our table. Remember that we have been using a header image in our other views. To do that implement this method:
+
+
+[source, ruby]
+---------------------
+def tableView(tableView, viewForHeaderInSection:section)
+
+  header_view = UIImageView.alloc.initWithImage(UIImage.imageNamed("bgTitleBar"))
+  header_view.frame = [[0,0], [320, 44]]    
+  header_view.setUserInteractionEnabled(true)
+  header_view
+end  
+--------------------
+
+Using this *tableView:viewForHeaderInSection:* method, you can add any view as header. In this case we are adding an UIImageView with our header image, we are also setting the *userInteractionEnabled* to true because we will need that to add some buttons to that header later.
+
+To add a header is not enough we need to change the heigth of the header using this other method:
+
+
+[source, ruby]
+--------------------
+def tableView(tableView, heightForHeaderInSection:section)
+
+  64.0
+end   
+-------------------
+
+Run your app, you should see the header:
+
+
+image:Resources/ch12-TableViews/ch12_05_header.png[Chapter 12 header]
+
+
+
+Adding and removing rows
+~~~~~~~~~~~~~~~~~~~~~~~
+
+One interesting thing about Table Views, is that you can program a lot of interactions with them. It even have animation support to provide a smoother interaction with the user. In this case we are going to implement the logic to delete selected rows and to add new rows.
+
+The first step is to add two buttons to our header:
+
+
+[source, ruby]
+---------------------
+def deleteButton
+  delete_button = UIButton.buttonWithType(UIButtonTypeCustom)
+  delete_button.setTitle("Delete", forState:UIControlStateNormal)
+  delete_button.frame = [[10, 12], [56, 41]]
+  delete_button.setBackgroundImage(UIImage.imageNamed("btnBarRed"), forState:UIControlStateNormal)
+  delete_button.addTarget(self, 
+    action:"delete_selected_cell", 
+    forControlEvents:UIControlEventTouchUpInside)
+  delete_button
+end    
+
+
+def addButton
+  add_button = UIButton.buttonWithType(UIButtonTypeCustom)
+  add_button.setTitle("Add", forState:UIControlStateNormal)
+  add_button.frame = [[250, 12], [56, 41]]
+  add_button.setBackgroundImage(UIImage.imageNamed("btnBarRed"), forState:UIControlStateNormal)
+  add_button.addTarget(self, 
+    action:"add_cell", 
+    forControlEvents:UIControlEventTouchUpInside)
+  add_button
+end    
+
+
+def delete_selected_cell
+  
+end
+
+
+def add_cell
+  
+end
+-------------------  
+
+With this code we are creating our Delete and our Add buttons. Now lets add them to our header:
+
+
+[source, ruby]
+----------------------------
+def tableView(tableView, viewForHeaderInSection:section)
+
+  header_view = UIImageView.alloc.initWithImage(UIImage.imageNamed("bgTitleBar"))
+  header_view.frame = [[0,0], [320, 44]]    
+  header_view.setUserInteractionEnabled(true)
+  header_view.addSubview(deleteButton)
+  header_view.addSubview(addButton)
+  header_view
+end  
+---------------------------
+
+Run your example and you should see the buttons:
+
+
+image:Resources/ch12-TableViews/ch12_05_buttons_header.png[Chapter 12 buttons header]
+
+
+Now let's implement the delete functionality:
+
+
+[source, ruby]
+-------------------------
+def delete_selected_cell 
+  
+  selected_cell_index_path = self.tableView.indexPathForSelectedRow 
+   
+  if selected_cell_index_path
+
+    news_item = @news[selected_cell_index_path.row]
+    @news.delete(news_item)    
+    self.tableView.deleteRowsAtIndexPaths([selected_cell_index_path], 
+      withRowAnimation:UITableViewRowAnimationMiddle)
+  end
+
+end
+------------------------
+
+First, we are retrieving the indexPath of the current selected cell. If there is actually a selected cell, we are removing the associated news_item from the array. You should be very careful doing this, when you remove cell from a Table View, the Table will ask again for the *tableView:numberOfRowsInSection:* method and it should reflect that are a less number of rows than before the deletion.
+
+Then we are deleting the cell with *deleteRowsAtIndexPaths:withRowAnimation*. This is to have a smoother effect. After we remove the element from the *@news* array we could simple refresh the Table View with 
+
+[source, ruby]
+------------------------
+@tableView.reloadData
+------------------------
+
+And see the row gone, but we wouldn't have a nice animation. We are defining the animation to use with the constant *UITableViewRowAnimationMiddle* You can check the UITableView documentation to view more animations that you can use.
+
+Now run your app, select a cell and tap the *Delete* button to watch it dissapear.
+
+Finally, let's implement the add functionality:
+
+
+[source, ruby]
+------------------------
+def add_cell   
+
+  random_item = News.self.news_mock[(0..5).to_a.sample]    
+  index_path = NSIndexPath.indexPathForRow(@news.length, inSection:0)
+  @news << random_item
+  self.tableView.insertRowsAtIndexPaths([index_path], 
+    withRowAnimation:UITableViewRowAnimationRight)
+end  
+-----------------------
+
+First we are retrieving a randon news item from the original list. Then we are creating a NSIndexPath with the correct row of the new cell (we are adding it at the end of the table). We need to add the news item to our @news array. Remember that is importat to keep the consistency of our DataSource, the Table View will ask it again for the number of rows and for the cell.
+
+Finally, we insert the row with an animation. 
+
+Run your app and tap the *Add* button, you should see rows added with an animation to the bottom of the table:
+
+
+image:Resources/ch12-TableViews/ch12_06_add_row.png[Chapter 12 add row]
