@@ -1,0 +1,372 @@
+Chapter 11 - View Controllers
+============================
+
+In this chapter we are goint to review some basic concepts abouts the lifecycle of UIViewControllers and we will introduce to *UITabBarController* a special UIViewController that helps you to build Tab-based interfaces.
+
+Setting up the project
+---------------------
+
+Unzip the *ch11_viewcontrollers_resources.zip* file. It contains our Cocoaheads app that we will use a base for this exercise:
+
+
+image:Resources/ch11-ViewControllers/ch11_01_app.png[Chapter 11 app]
+
+
+Creating our TabBarController
+---------------------------
+
+Our first task is to create a *UITabBarController* This component creates a tabbar in the bottom of the application and is used to implement a Tab-based navigation in your apps. You can see it in action in the AppStore app or in the Twitter app.
+
+Tab-based navigation is very useful, it allows your users to have the main sections of your app always at a glance (at the bottom of the screen). But it has a constraint: it can only have up to 5 tabs. So if your app has more than 5 main sections, you should consider other alternatives.
+
+
+
+Creating our missing sections 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+Our Cocoahead apps will have 3 main sections:
+
+- Calendar
+- Next Event
+- News
+
+Until now, we have only created our Next Event screen. So, we are going to start creating the two other sections.
+
+Inside the *controller* folder, create two files:
+
+- *news_view_controller.rb*
+- *calendar_view_controller.rb*
+
+For the first one type this code:
+
+[source, ruby]
+------------------
+class NewsViewController < UIViewController
+
+  def init
+
+    super
+    self.title = "News"
+    self
+  end    
+
+end  
+-----------------
+
+
+For the Calendar View Controller:
+
+[source, ruby]
+-------------------
+class CalendarViewController < UIViewController
+
+  def init
+
+    super
+    self.title = "Calendar"
+    self
+  end    
+
+end  
+-------------------
+
+
+Creating a basic Tab Bar Controller
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Now we can create our Tab Bar Controller. Open the *app_delegate.rb*, as you can see we are creating our NextEventViewController as assigning it to the *window* as its root controller:
+
+[source, ruby]
+-------------------
+next_event_view_controller = NextEventViewController.alloc.init
+@window = UIWindow.alloc.initWithFrame(UIScreen.mainScreen.bounds)
+@window.rootViewController = next_event_view_controller
+@window.makeKeyAndVisible
+-------------------
+
+We need to change that and pass, instead, a Tab Bar Controller. Change that code to this:
+
+[source, ruby]
+-------------------
+@window = UIWindow.alloc.initWithFrame(UIScreen.mainScreen.bounds)
+@window.rootViewController = appTabBarController
+@window.makeKeyAndVisible
+------------------
+
+Now, implement the method:
+
+[source, ruby]
+------------------
+def appTabBarController
+
+  tab_bar_controller = UITabBarController.alloc.init
+  tab_bar_controller.viewControllers = [
+    CalendarViewController.alloc.init,
+    NextEventViewController.alloc.init,
+    NewsViewController.alloc.init
+  ]    
+  tab_bar_controller
+end
+-----------------      
+
+A *UITabBarController* needs an array of UIViewControllers. Each one of them will became a Tab in the *UITabBar*. This Controller will render a *UITabBar* in the bottom of the screen of 44 pixels in heigth. For each UIViewController will put a tab, that is actually a *UITabBarItem*. The Tab Bar Controller will use the *title* property of the UIViewController as the name of the tab.
+
+Run the app, you will see 3 tabs each one labeled with the title of its UIViewController:
+
+
+image:Resources/ch11-ViewControllers/ch11_02_basic_tabbar.png[Chapter 11 basic tab bar]
+
+
+This the most basic tab bar that you can build. But we will customize it to make it look better.
+
+
+Customizing the UITabBar
+~~~~~~~~~~~~~~~~~~~~~~~
+
+Our designer has made a custom tab bar background, you can see it in the resources folder with the name *bgTabBar*. We are going to add it as a custom background for our TabBar:
+
+
+[source, ruby]
+------------------
+def appTabBarController
+
+  tab_bar_controller = UITabBarController.alloc.init
+  tab_bar_controller.viewControllers = [
+    CalendarViewController.alloc.init,
+    NextEventViewController.alloc.init,
+    NewsViewController.alloc.init
+  ]    
+  tab_bar_controller.tabBar.backgroundImage = UIImage.imageNamed "bgTabBar"
+  tab_bar_controller
+end  
+------------------
+
+Run the app:
+
+image:Resources/ch11-ViewControllers/ch11_03_tabbar_background.png[Chapter 11 custom tabbar]
+
+
+Customizing the UITabBarItems
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The designer has also made some cool icons for our tabs, we are going to add them to the tab bar.
+
+As we have said, the *tabs* are instance of *UITabBarItem*. Each UIViewController has a property called *tabBarItem*. We can easilly create our own. Let's try it with the Calendar View Controller.
+
+Open the *calendar_view_controller.rb* file and add this code:
+
+
+[source, ruby]
+---------------------------
+class CalendarViewController < UIViewController
+
+  def init
+
+    super
+    self.title = "Calendar"
+    setupTabBarItem
+    self
+  end
+
+
+  def loadView
+
+    self.view = UIView.alloc.initWithFrame(UIScreen.mainScreen.bounds)
+    self.view.backgroundColor = UIColor.whiteColor
+  end  
+
+
+  def setupTabBarItem  
+
+    tab_bar_item = UITabBarItem.alloc.initWithTitle("", 
+      image:UIImage.imageNamed("icnCalendar"), tag:1)   
+    self.tabBarItem = tab_bar_item
+  end       
+
+end  
+----------------------
+
+In the *setupTabBarItem* we are creating a UITabVarItem and passing and empty title and a UIImage with our icon. Run the app:
+
+image:Resources/ch11-ViewControllers/ch11_04_gray_tabitem.png[Chapter 11 gray tab bar item]
+
+What happened? The icon is blueish. The UITabBarItem, by default, will put all the images that you passed with a blue gradient, discarding the color information of the image and using the alpha channel (transparency) information to know where to apply the gradient. This is enough for basic apps but we want our shinny custom icons with its full color. 
+
+To do this, we should use a new method added in iOS5, type:
+
+
+[source, ruby]
+-----------------------
+def setupTabBarItem
+
+  tab_bar_item = UITabBarItem.alloc.initWithTitle("", 
+    image:nil, tag:1)
+  tab_bar_item.setFinishedSelectedImage(UIImage.imageNamed("icnCalendar"), withFinishedUnselectedImage:UIImage.imageNamed("icnCalendar"))
+  self.tabBarItem = tab_bar_item
+end       
+---------------------
+
+As you can see, we are passing a nill image in the Initializer, but then we are setting the *FinishedSelectedImage* and the *FinishedUnselectedImage*. Run the app:
+
+image:Resources/ch11-ViewControllers/ch11_05_calendar_icon.png[Chapter 11 calendar icon]
+
+Now our icon is in full color. Lets add their icons to each View Controller. Open the *next_event_view_controller.rb* and add this method:
+
+[source, ruby]
+----------------------
+def setupTabBarItem 
+
+  tab_bar_item = UITabBarItem.alloc.initWithTitle("", 
+    image:nil, tag:1)
+  tab_bar_item.setFinishedSelectedImage(UIImage.imageNamed("icnCurrent"), withFinishedUnselectedImage:UIImage.imageNamed("icnCurrent"))
+  self.tabBarItem = tab_bar_item
+end
+---------------------
+
+Call it from the init:
+
+[source, ruby]
+-----------
+def init    
+
+  super
+  @days_left = 0
+  self.title = "Next Event" 
+  setupTabBarItem   
+  self
+end  
+----------
+
+
+Next, open the *news_view_controller.rb* and add this method:
+
+[source, ruby]
+------------------
+class NewsViewController < UIViewController
+
+  def init  
+  
+    super    
+    self.title = "News"
+    setupTabBarITem
+    self
+  end
+
+
+  def loadView
+
+    self.view = UIView.alloc.initWithFrame(UIScreen.mainScreen.bounds)
+    self.view.backgroundColor = UIColor.whiteColor
+  end  
+
+
+  def setupTabBarITem  
+
+    tab_bar_item = UITabBarItem.alloc.initWithTitle("", 
+      image:nil, tag:1)
+    tab_bar_item.setFinishedSelectedImage(UIImage.imageNamed("icnNews"), withFinishedUnselectedImage:UIImage.imageNamed("icnNews"))
+    self.tabBarItem = tab_bar_item
+  end  
+  
+end  
+---------------
+
+Run the app and you should see the three tabs with color icons:
+
+image:Resources/ch11-ViewControllers/ch11_06_all_icons.png[Chapter 11 all icons]
+
+
+The UIViewController lifecycle
+----------------------------
+
+We have reviewed the lifecycle of view controllers, but now lets watch it in action. We are going to use our CalendarViewController as a playground for this.
+
+First, lets add a *UITextView*. This component allows to have multiline texts on your screen, moreover, it adds a Scroll to the text if the text goes beyond the bounds of the component.
+
+[source, ruby]
+-------------------------
+def viewDidLoad
+
+  @text_view = text_view_for_messages
+  self.view.addSubview(@text_view)
+  @text_view.text = "#{@text_view.text} viewDidLoad\n"
+end
+
+def text_view_for_messages
+
+  text_view = UITextView.alloc.initWithFrame([[20,40], [300, 300]])    
+  text_view.textColor = UIColor.redColor
+  text_view.editable = false
+  text_view
+end  
+------------------------
+
+We are setting the *editable* property to false, because by default this control allows to the user to type text inside. In this case we only want to put some log messages on it.  
+
+image:Resources/ch11-ViewControllers/ch11_07_text_view.png[Chapter 11 text view]
+
+Now let's add some other methods:
+
+[source, ruby]
+------------------------
+def viewDidAppear(animated)
+
+  super
+  @text_view.text = "#{@text_view.text} view did appear\n"
+end    
+
+
+def viewDidDisappear(animated)
+
+  super
+  @text_view.text = "#{@text_view.text} view did disappear\n"
+end
+
+
+def viewWillAppear(animated)
+
+  super
+  @text_view.text = "#{@text_view.text} view will appear\n"
+end
+
+
+def viewWillDisappear(animated)
+
+  super
+  @text_view.text = "#{@text_view.text} view will disappear\n"
+end
+------------------------  
+
+Run the app and try changing between tabs and watching the messages in our log text view.
+
+When the app is first opened, this log appears:
+
+image:Resources/ch11-ViewControllers/ch11_08_initial_log.png[Chapter 11 initial log]
+
+As you can see, first the *viewDidLoad* is called, then the *viewWillAppear* and finally the *viewDidAppear*. As their name implies, the viewWillAppear method is called before the view is rendered and the viewDidAppear once the views has been rendered.
+
+Now if you change the tab and then come back to the Calendar section, you should see this message:
+
+image:Resources/ch11-ViewControllers/ch11_09_after_tab_log.png[Chapter 11 initial log]
+
+As you can see the methods *viewWillDissapear* and *viewDidDissapear* were called when you change tge tab. When you return, the *viewWillAppear* and *viewDidAppear* methods were called again, but the *viewDidLoad* method was never called.
+
+What can we learn from this?
+
+- The viewDidLoad method is only called once, after the view is loaded into memory. You can use this method to intialize elements that depend of the *view*, such as subviews.
+- the viewWillAppear method is called before the UIView is rendered, you can use this method to initialize values that need to be refreshed every time the view will be rendered, such as our "days left until next meeting" view that we have in the next event view controller.
+- the viewDidAppear method is called once the UIView was rendered. You can use this method to setup logic that required that the user is actually viewing the view, such as starting animations in that view.
+- the viewWillDissapear method is called just before the view dissapears from the screen. You can use it to do logic that require that view is rendered and make no sense to leave it running, such as stoping animations.
+- the viewDidDissapear method is called after the view dissapeared from the screen.
+
+Challenge
+--------
+Create the viewWillAppear and viewDidAppear methods in the NextEventViewController. Remember that these methods should call *super*. In the viewWillAppear method, initialize the variable *@days_left* with the value returned from the method *@event.days_left_until(@event.date)*.
+
+Now in the *viewDidAppear* update our @days_left_view with that value, remember to call the *setNeedsDisplay*.
+
+You should see the screen updated with the days left until the meeting:
+
+
+image:Resources/ch11-ViewControllers/ch11_10_challenge.png[Chapter 11 challenge]
