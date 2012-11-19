@@ -7105,10 +7105,960 @@ Change the past animation to look like shooting stars, enter and leaving the scr
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="nv">$ </span>rake
 </pre></div></div></div>
+<div class="paragraph"><p>Now please copy the file <strong>RubyMotionSchedule.h</strong> from <strong>Define Deployment Target</strong> into /vendor/Pods/cocos2d/cocos2d, next delete the file <strong>Pods.bridgesupport</strong> that is on /vendor/Pods and finally clean the project:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="nv">$ </span>rake clean
+
+<span class="nv">$ </span>rake
+</pre></div></div></div>
 <div class="paragraph"><p>The Cocos2D library is now integrated into our project! Easy right?</p></div>
 </div>
 <div class="sect2">
 <h3 id="_building_a_game">Building a Game</h3>
+<div class="paragraph"><p>The first thing we need to understand is how the video games work, different from a regular application where the code is executed when an event happen (User interaction, Notification, etc) on video games there is always a loop calling methods for different proposes like refreshing screen, calling the game physics or asking something to the AI. Thankfully in Cocos 2D we have an object that its main responsibility is manage the loop, this class is called <strong>CCDirector</strong></p></div>
+<div class="paragraph"><p>Before start coding please copy the images from <strong>DEFINE DEPLOYMENT PATH</strong> into the project resources folder. Now implement the following on our <strong>AppDelegate</strong>:</p></div>
+<div class="admonitionblock">
+<table><tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">The CCDirector is the responsible for running the game or pausing it, also it can handle when a phone call or text message happen so it can automatically pause the game</td>
+</tr></table>
+</div>
+<div class="admonitionblock">
+<table><tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">The number of times the loop runs per second is called FPS (Frames per second), and it depends on how fast the methods are executed in every loop call</td>
+</tr></table>
+</div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="nv">$ </span><span class="nb">cd </span>app
+
+<span class="nv">$ </span>open app_delegate.rb
+</pre></div></div></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">class</span> <span class="nc">AppDelegate</span>
+
+  <span class="k">def</span> <span class="nf">application</span><span class="p">(</span><span class="n">application</span><span class="p">,</span> <span class="n">didFinishLaunchingWithOptions</span><span class="ss">:launchOptions</span><span class="p">)</span>
+
+    <span class="c1"># Create a window to present our director</span>
+    <span class="vi">@window</span> <span class="o">=</span> <span class="no">UIWindow</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithFrame</span><span class="p">(</span><span class="no">UIScreen</span><span class="o">.</span><span class="n">mainScreen</span><span class="o">.</span><span class="n">bounds</span><span class="p">)</span>
+
+    <span class="c1"># Lets create a Cocos 2D view that will be used by the director</span>
+    <span class="c1"># to present the game scenes</span>
+    <span class="n">gl_view</span> <span class="o">=</span> <span class="no">CCGLView</span><span class="o">.</span><span class="n">viewWithFrame</span><span class="p">(</span><span class="vi">@window</span><span class="o">.</span><span class="n">bounds</span><span class="p">)</span>
+
+
+    <span class="c1"># Get the Director shared instance for customization</span>
+    <span class="vi">@director</span> <span class="o">=</span> <span class="no">CCDirector</span><span class="o">.</span><span class="n">sharedDirector</span>
+
+    <span class="c1"># Specify that we want to run the game in fullscreen</span>
+    <span class="vi">@director</span><span class="o">.</span><span class="n">wantsFullScreenLayout</span> <span class="o">=</span> <span class="kp">true</span>
+
+    <span class="c1"># Tell the director that we want to present the FPS on</span>
+    <span class="c1"># the screen</span>
+    <span class="vi">@director</span><span class="o">.</span><span class="n">displayStats</span> <span class="o">=</span> <span class="kp">true</span>
+
+    <span class="c1"># The prefered speed on our game (FPS)</span>
+    <span class="c1"># Note: This is only a prefered value its not garantied you will</span>
+    <span class="c1"># get that value</span>
+    <span class="vi">@director</span><span class="o">.</span><span class="n">animationInterval</span> <span class="o">=</span> <span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="o">/</span><span class="mi">60</span>
+
+    <span class="c1"># Assign the view used for the director to present the</span>
+    <span class="c1"># game scenes</span>
+    <span class="vi">@director</span><span class="o">.</span><span class="n">view</span> <span class="o">=</span> <span class="n">gl_view</span>
+
+    <span class="c1"># Create a navigation controller to store our game director and</span>
+    <span class="c1"># hide its navigation bar so we can use all the sreen</span>
+    <span class="vi">@navigation_controller</span> <span class="o">=</span> <span class="no">UINavigationController</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithRootViewController</span><span class="p">(</span><span class="vi">@director</span><span class="p">)</span>
+    <span class="vi">@navigation_controller</span><span class="o">.</span><span class="n">navigationBarHidden</span> <span class="o">=</span> <span class="kp">true</span>
+
+    <span class="c1"># Assign the navigation controller to the window</span>
+    <span class="vi">@window</span><span class="o">.</span><span class="n">rootViewController</span> <span class="o">=</span> <span class="vi">@navigation_controller</span>
+    <span class="vi">@window</span><span class="o">.</span><span class="n">makeKeyAndVisible</span>
+
+
+    <span class="c1"># Configuration for our game images, this is very helpful</span>
+    <span class="c1"># when you want to use compressed images or with a different</span>
+    <span class="c1"># pixel format</span>
+    <span class="no">CCTexture2D</span><span class="o">.</span><span class="n">defaultAlphaPixelFormat</span> <span class="o">=</span> <span class="no">KCCTexture2DPixelFormat_RGBA8888</span>
+    <span class="no">CCTexture2D</span><span class="o">.</span><span class="n">PVRImagesHavePremultipliedAlpha</span><span class="p">(</span><span class="kp">true</span><span class="p">)</span>
+
+    <span class="c1"># Configuration for the names of the images that will be</span>
+    <span class="c1"># used on the game</span>
+    <span class="n">file_utils</span> <span class="o">=</span> <span class="no">CCFileUtils</span><span class="o">.</span><span class="n">sharedFileUtils</span>
+    <span class="n">file_utils</span><span class="o">.</span><span class="n">enableFallbackSuffixes</span> <span class="o">=</span> <span class="kp">false</span>
+
+    <span class="c1"># The retina display images will be named with &quot;-hd&quot; instead of</span>
+    <span class="c1"># &quot;@2x&quot;</span>
+    <span class="n">file_utils</span><span class="o">.</span><span class="n">setiPhoneRetinaDisplaySuffix</span> <span class="s2">&quot;-hd&quot;</span>
+
+    <span class="kp">true</span>
+  <span class="k">end</span>
+
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>You should see the following:</p></div>
+<div class="paragraph"><p><strong>IMAGE</strong></p></div>
+<div class="paragraph"><p>If you look closely in the bottom left part of the screen are a bunch of numbers, they are the FPS of our game. The general idea is that our game have consistently 60.0 but you will look as we advance in the exercise that some times it drops, this is normal.</p></div>
+</div>
+<div class="sect2">
+<h3 id="_scenes">Scenes</h3>
+<div class="paragraph"><p>We can understand the <strong>Scenes</strong> as levels on a video game, but also can be used for the initial menus or score boards after. Its main responsibility is to manage all the objects that will appear on the screen when the scene is run. On our game this objects will be the space background, ship and asteroids</p></div>
+<div class="paragraph"><p>Lets create a new scene named <strong>space_scene.rb</strong>:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="nv">$ </span>mkdir scenes
+
+<span class="nv">$ </span><span class="nb">cd </span>scenes
+
+<span class="nv">$ </span>touch space_scene.rb
+</pre></div></div></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">class</span> <span class="nc">SpaceScene</span> <span class="o">&lt;</span> <span class="no">CCScene</span>
+
+ <span class="k">def</span> <span class="nf">init</span>
+
+   <span class="k">if</span> <span class="k">super</span>
+
+
+   <span class="k">end</span>
+
+   <span class="nb">self</span>
+ <span class="k">end</span>
+
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>Now we have a new empty Scene that will allow us to start presenting the game images but before we get to that part we need to tell the <strong>Director</strong> to run this scene, this is do with the following in our <strong>app_delegate.rb</strong> file:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="nv">$ </span><span class="nb">cd</span> ..
+
+<span class="nv">$ </span>open app_delegate.rb
+</pre></div></div></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">application</span><span class="p">(</span><span class="n">application</span><span class="p">,</span> <span class="n">didFinishLaunchingWithOptions</span><span class="ss">:launchOptions</span><span class="p">)</span>
+
+  <span class="c1"># Create a window to present our director</span>
+  <span class="vi">@window</span> <span class="o">=</span> <span class="no">UIWindow</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithFrame</span><span class="p">(</span><span class="no">UIScreen</span><span class="o">.</span><span class="n">mainScreen</span><span class="o">.</span><span class="n">bounds</span><span class="p">)</span>
+
+  <span class="c1"># Lets create a Cocos 2D view that will be used by the director</span>
+  <span class="c1"># to present the game scenes</span>
+  <span class="n">gl_view</span> <span class="o">=</span> <span class="no">CCGLView</span><span class="o">.</span><span class="n">viewWithFrame</span><span class="p">(</span><span class="vi">@window</span><span class="o">.</span><span class="n">bounds</span><span class="p">)</span>
+
+
+  <span class="c1"># Get the Director shared instance for customization</span>
+  <span class="vi">@director</span> <span class="o">=</span> <span class="no">CCDirector</span><span class="o">.</span><span class="n">sharedDirector</span>
+
+  <span class="c1"># Specify that we want to run the game in fullscreen</span>
+  <span class="vi">@director</span><span class="o">.</span><span class="n">wantsFullScreenLayout</span> <span class="o">=</span> <span class="kp">true</span>
+
+  <span class="c1"># Tell the director that we want to present the FPS on</span>
+  <span class="c1"># the screen</span>
+  <span class="vi">@director</span><span class="o">.</span><span class="n">displayStats</span> <span class="o">=</span> <span class="kp">true</span>
+
+  <span class="c1"># The prefered speed on our game (FPS)</span>
+  <span class="c1"># Note: This is only a prefered value its not garantied you will</span>
+  <span class="c1"># get that value</span>
+  <span class="vi">@director</span><span class="o">.</span><span class="n">animationInterval</span> <span class="o">=</span> <span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="o">/</span><span class="mi">60</span>
+
+  <span class="c1"># Assign the view used for the director to present the</span>
+  <span class="c1"># game scenes</span>
+  <span class="vi">@director</span><span class="o">.</span><span class="n">view</span> <span class="o">=</span> <span class="n">gl_view</span>
+
+  <span class="c1"># Create a navigation controller to store our game director and</span>
+  <span class="c1"># hide its navigation bar so we can use all the sreen</span>
+  <span class="vi">@navigation_controller</span> <span class="o">=</span> <span class="no">UINavigationController</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithRootViewController</span><span class="p">(</span><span class="vi">@director</span><span class="p">)</span>
+  <span class="vi">@navigation_controller</span><span class="o">.</span><span class="n">navigationBarHidden</span> <span class="o">=</span> <span class="kp">true</span>
+
+  <span class="c1"># Assign the navigation controller to the window</span>
+  <span class="vi">@window</span><span class="o">.</span><span class="n">rootViewController</span> <span class="o">=</span> <span class="vi">@navigation_controller</span>
+  <span class="vi">@window</span><span class="o">.</span><span class="n">makeKeyAndVisible</span>
+
+
+  <span class="c1"># Configuration for our game images, this is very helpful</span>
+  <span class="c1"># when you want to use compressed images or with a different</span>
+  <span class="c1"># pixel format</span>
+  <span class="no">CCTexture2D</span><span class="o">.</span><span class="n">defaultAlphaPixelFormat</span> <span class="o">=</span> <span class="no">KCCTexture2DPixelFormat_RGBA8888</span>
+  <span class="no">CCTexture2D</span><span class="o">.</span><span class="n">PVRImagesHavePremultipliedAlpha</span><span class="p">(</span><span class="kp">true</span><span class="p">)</span>
+
+  <span class="c1"># Configuration for the names of the images that will be</span>
+  <span class="c1"># used on the game</span>
+  <span class="n">file_utils</span> <span class="o">=</span> <span class="no">CCFileUtils</span><span class="o">.</span><span class="n">sharedFileUtils</span>
+  <span class="n">file_utils</span><span class="o">.</span><span class="n">enableFallbackSuffixes</span> <span class="o">=</span> <span class="kp">false</span>
+
+  <span class="c1"># The retina display images will be named with &quot;-hd&quot; instead of</span>
+  <span class="c1"># &quot;@2x&quot;</span>
+  <span class="n">file_utils</span><span class="o">.</span><span class="n">setiPhoneRetinaDisplaySuffix</span> <span class="s2">&quot;-hd&quot;</span>
+
+  <span class="c1"># Tell the director to present the SpaceScene, it works similar to a</span>
+  <span class="c1"># navigation controller: Push to present &amp; Pop to dismiss</span>
+  <span class="c1">#</span>
+  <span class="c1"># If you look closelly to the initialization of the scene we are using</span>
+  <span class="c1"># the node method, instead of new or alloc init this is because Cocos 2D</span>
+  <span class="c1"># do some memory allocation performance upgrades</span>
+  <span class="vi">@director</span><span class="o">.</span><span class="n">pushScene</span><span class="p">(</span><span class="no">SpaceScene</span><span class="o">.</span><span class="n">node</span><span class="p">)</span>
+
+  <span class="kp">true</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>Now we can start adding graphical elements to our game!</p></div>
+</div>
+<div class="sect2">
+<h3 id="_layers">Layers</h3>
+<div class="paragraph"><p>In Cocos 2D exists some objects to allow us to render graphical components (Sprites, Particles) on the screen, these are named <strong>CCLayers</strong>. But do not exist layers (CALayers) in iOS already?  Yes they are, but this have some differences: One of the more important is that the CCLayers can handle touches too!</p></div>
+<div class="admonitionblock">
+<table><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">A sprite is a two dimensional image that is integrated in a bigger scene and can be moved on-screen or manipulated as a single unit. On short an image ;)</td>
+</tr></table>
+</div>
+<div class="paragraph"><p>Knowing this lets create our first CCLayer named <strong>background_layer</strong>:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="nv">$ </span>mkdir layers
+
+<span class="nv">$ </span><span class="nb">cd </span>layers
+
+<span class="nv">$ </span>touch background_layer.rb
+
+<span class="nv">$ </span>open background_layer.rb
+</pre></div></div></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">class</span> <span class="nc">BackgroundLayer</span> <span class="o">&lt;</span> <span class="no">CCLayer</span>
+
+  <span class="k">def</span> <span class="nf">init</span>
+
+    <span class="k">if</span> <span class="k">super</span>
+
+      <span class="c1"># For testing proposes lets create a CCLabel to present</span>
+      <span class="c1"># some text on the screen</span>
+      <span class="n">label</span> <span class="o">=</span> <span class="no">CCLabelTTF</span><span class="o">.</span><span class="n">labelWithString</span><span class="p">(</span><span class="s1">&#39;Its so cool to make a game&#39;</span><span class="p">,</span>
+                                         <span class="n">fontName</span><span class="ss">:&#39;Marker Felt&#39;</span><span class="p">,</span>
+                                         <span class="n">fontSize</span><span class="p">:</span><span class="mi">24</span><span class="p">)</span>
+
+      <span class="c1"># We need to get the screen size for positioning the label</span>
+      <span class="n">window_size</span> <span class="o">=</span> <span class="no">CCDirector</span><span class="o">.</span><span class="n">sharedDirector</span><span class="o">.</span><span class="n">winSize</span>
+
+      <span class="c1"># Like the CALayers the position is set in reference to the center</span>
+      <span class="c1"># of the label, in this case we want the label to be in the middle</span>
+      <span class="c1"># of the screen</span>
+      <span class="n">label</span><span class="o">.</span><span class="n">position</span> <span class="o">=</span> <span class="no">CGPointMake</span><span class="p">(</span><span class="n">window_size</span><span class="o">.</span><span class="n">width</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">window_size</span><span class="o">.</span><span class="n">height</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+
+      <span class="c1"># Add the label to the Layer</span>
+      <span class="nb">self</span><span class="o">.</span><span class="n">addChild</span><span class="p">(</span><span class="n">label</span><span class="p">)</span>
+    <span class="k">end</span>
+
+    <span class="nb">self</span>
+  <span class="k">end</span>
+
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>Great! Our layer is complete, now lets add it to the scene:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="nv">$ </span><span class="nb">cd</span> ..
+
+<span class="nv">$ </span><span class="nb">cd </span>scenes
+
+<span class="nv">$ </span>open space_scene.rb
+</pre></div></div></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">init</span>
+
+  <span class="k">if</span> <span class="k">super</span>
+
+    <span class="c1"># Create a new instance of a Background Layer</span>
+    <span class="n">background_layer</span> <span class="o">=</span> <span class="no">BackgroundLayer</span><span class="o">.</span><span class="n">node</span>
+
+    <span class="c1"># Add it to the scene</span>
+    <span class="nb">self</span><span class="o">.</span><span class="n">addChild</span><span class="p">(</span><span class="n">background_layer</span><span class="p">)</span>
+  <span class="k">end</span>
+
+  <span class="nb">self</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>If you run the app you should see the following:</p></div>
+<div class="paragraph"><p><strong>Image</strong></p></div>
+<div class="paragraph"><p>Now we have all the necessary structure to make the game run: A director, scene and a layer! Its time to change the label into a space background:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="nv">$ </span><span class="nb">cd</span> ..
+
+<span class="nv">$ </span><span class="nb">cd </span>layers
+
+<span class="nv">$ </span>open background_layer.rb
+</pre></div></div></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">init</span>
+
+  <span class="k">if</span> <span class="k">super</span>
+
+    <span class="c1"># Create a new sprite with our background image</span>
+    <span class="n">background_sprite</span> <span class="o">=</span> <span class="no">CCSprite</span><span class="o">.</span><span class="n">spriteWithFile</span><span class="p">(</span><span class="s1">&#39;bgSpace.png&#39;</span><span class="p">)</span>
+
+    <span class="c1"># We need to get the screen size for positioning the sprite</span>
+    <span class="n">screen_size</span> <span class="o">=</span> <span class="no">CCDirector</span><span class="o">.</span><span class="n">sharedDirector</span><span class="o">.</span><span class="n">winSize</span>
+
+    <span class="c1"># Like the CALayers the position is set in reference to the center</span>
+    <span class="c1"># of the label, in this case we want the sprite to be in the middle</span>
+    <span class="c1"># of the screen</span>
+    <span class="n">background_sprite</span><span class="o">.</span><span class="n">position</span> <span class="o">=</span> <span class="no">CGPointMake</span><span class="p">(</span><span class="n">screen_size</span><span class="o">.</span><span class="n">width</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">screen_size</span><span class="o">.</span><span class="n">height</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+
+    <span class="c1"># Add the sprite to the Layer</span>
+    <span class="nb">self</span><span class="o">.</span><span class="n">addChild</span><span class="p">(</span><span class="n">background_sprite</span><span class="p">)</span>
+  <span class="k">end</span>
+
+  <span class="nb">self</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p><strong>Image</strong></p></div>
+<div class="paragraph"><p>We have a background for the game! Lets do something more fun: adding the space ship into the scene, for this we need to create a new layer called <strong>game_play_layer.rb</strong>:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="nv">$ </span>touch game_play_layer.rb
+</pre></div></div></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">class</span> <span class="nc">GamePlayLayer</span> <span class="o">&lt;</span> <span class="no">CCLayer</span>
+
+  <span class="k">def</span> <span class="nf">init</span>
+
+    <span class="k">if</span> <span class="k">super</span>
+
+      <span class="c1"># Create a new sprite instance for drawing our spaceship</span>
+      <span class="vi">@space_ship_sprite</span> <span class="o">=</span> <span class="no">CCSprite</span><span class="o">.</span><span class="n">spriteWithFile</span><span class="p">(</span><span class="s1">&#39;bgSpaceShip.png&#39;</span><span class="p">)</span>
+
+      <span class="c1"># We need to get the screen size for positioning the sprite</span>
+      <span class="n">screen_size</span> <span class="o">=</span> <span class="no">CCDirector</span><span class="o">.</span><span class="n">sharedDirector</span><span class="o">.</span><span class="n">winSize</span>
+
+      <span class="c1"># Like the CALayers the position is set in reference to the center</span>
+      <span class="c1"># of the label, in this case we want the sprite to be in the middle</span>
+      <span class="c1"># of the screen</span>
+      <span class="vi">@space_ship_sprite</span><span class="o">.</span><span class="n">position</span> <span class="o">=</span> <span class="no">CGPointMake</span><span class="p">(</span><span class="n">screen_size</span><span class="o">.</span><span class="n">width</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">screen_size</span><span class="o">.</span><span class="n">height</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+
+      <span class="c1"># Add the sprite to the Layer</span>
+      <span class="nb">self</span><span class="o">.</span><span class="n">addChild</span><span class="p">(</span><span class="vi">@space_ship_sprite</span><span class="p">)</span>
+
+      <span class="c1"># Enable handle touches on the layer</span>
+      <span class="nb">self</span><span class="o">.</span><span class="n">isTouchEnabled</span> <span class="o">=</span> <span class="kp">true</span>
+    <span class="k">end</span>
+
+    <span class="nb">self</span>
+  <span class="k">end</span>
+
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>Now that we have our space ship layer its time to add it to the scene:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="nv">$ </span><span class="nb">cd</span> ..
+
+<span class="nv">$ </span><span class="nb">cd </span>scenes
+
+<span class="nv">$ </span>open space_scene.rb
+</pre></div></div></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">init</span>
+
+  <span class="k">if</span> <span class="k">super</span>
+
+    <span class="c1"># Create a new instance of a Background Layer</span>
+    <span class="n">background_layer</span> <span class="o">=</span> <span class="no">BackgroundLayer</span><span class="o">.</span><span class="n">node</span>
+
+    <span class="c1"># Add it to the scene</span>
+    <span class="nb">self</span><span class="o">.</span><span class="n">addChild</span><span class="p">(</span><span class="n">background_layer</span><span class="p">)</span>
+
+
+    <span class="c1"># Create a new instance of a Game Play Layer</span>
+    <span class="n">game_play_layer</span> <span class="o">=</span> <span class="no">GamePlayLayer</span><span class="o">.</span><span class="n">node</span>
+
+    <span class="c1"># Add it to the scene</span>
+    <span class="nb">self</span><span class="o">.</span><span class="n">addChild</span><span class="p">(</span><span class="n">game_play_layer</span><span class="p">)</span>
+  <span class="k">end</span>
+
+  <span class="nb">self</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p><strong>Image</strong></p></div>
+<div class="paragraph"><p>Awesome! The next step is to allow the user to move the space ship with his touches on the screen. Lets open again our <strong>game_play_layer.rb</strong> and add the following method:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="nv">$ </span><span class="nb">cd</span> ..
+
+<span class="nv">$ </span><span class="nb">cd </span>layers
+
+<span class="nv">$ </span>open game_play_layer.rb
+</pre></div></div></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="c1"># Method for handling the initial touch of the user</span>
+<span class="c1"># Very similar to the way iOS manage it</span>
+<span class="k">def</span> <span class="nf">ccTouchesBegan</span><span class="p">(</span><span class="n">touches</span><span class="p">,</span> <span class="n">withEvent</span><span class="ss">:event</span><span class="p">)</span>
+
+  <span class="c1"># Get any touch of the user</span>
+  <span class="n">touch</span> <span class="o">=</span> <span class="n">touches</span><span class="o">.</span><span class="n">anyObject</span>
+
+  <span class="c1"># Because we are not using a UIView or anything related</span>
+  <span class="c1"># we need to use a method to convert the touch position</span>
+  <span class="c1"># coordinate space into the layer space</span>
+  <span class="n">touch_location</span> <span class="o">=</span> <span class="nb">self</span><span class="o">.</span><span class="n">convertTouchToNodeSpace</span><span class="p">(</span><span class="n">touch</span><span class="p">)</span>
+
+  <span class="c1"># Move the spaceship to the touch position</span>
+  <span class="vi">@space_ship_sprite</span><span class="o">.</span><span class="n">position</span> <span class="o">=</span> <span class="n">touch_location</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p><strong>Image</strong></p></div>
+<div class="paragraph"><p>Yes it moves! But it does without animation, this is because the sprites does not have implicit animations like a CALayer.</p></div>
+</div>
+<div class="sect2">
+<h3 id="_animations_in_the_space">Animations in the Space</h3>
+<div class="paragraph"><p>The animations in Cocos 2D are called actions, so lets create a action for the ship so it will move to the location of the touch in a animated way:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="c1"># Method for handling the initial touch of the user</span>
+<span class="c1"># Very similar to the way iOS manage it</span>
+<span class="k">def</span> <span class="nf">ccTouchesBegan</span><span class="p">(</span><span class="n">touches</span><span class="p">,</span> <span class="n">withEvent</span><span class="ss">:event</span><span class="p">)</span>
+
+  <span class="c1"># Get any touch of the user</span>
+  <span class="n">touch</span> <span class="o">=</span> <span class="n">touches</span><span class="o">.</span><span class="n">anyObject</span>
+
+  <span class="c1"># Because we are not using a UIView or anything related</span>
+  <span class="c1"># we need to use a method to convert the touch position</span>
+  <span class="c1"># coordinate space into the layer space</span>
+  <span class="n">touch_location</span> <span class="o">=</span> <span class="nb">self</span><span class="o">.</span><span class="n">convertTouchToNodeSpace</span><span class="p">(</span><span class="n">touch</span><span class="p">)</span>
+
+  <span class="c1"># We need to create a MoveBy action for the animated movement</span>
+  <span class="n">action</span> <span class="o">=</span> <span class="no">CCMoveBy</span><span class="o">.</span><span class="n">actionWithDuration</span><span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">5</span><span class="p">,</span>
+                                       <span class="n">position</span><span class="ss">:touch_location</span><span class="p">)</span>
+
+  <span class="c1"># Execute the action in our Space Ship Sprite</span>
+  <span class="vi">@space_ship_sprite</span><span class="o">.</span><span class="n">runAction</span><span class="p">(</span><span class="n">action</span><span class="p">)</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="admonitionblock">
+<table><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">We are not really animating the movement, just making it frame by frame using the game FPS. (Interpolation ;)</td>
+</tr></table>
+</div>
+<div class="paragraph"><p><strong>Image</strong></p></div>
+<div class="paragraph"><p>Upps! What when wrong? The problem is the actions must receive the number of points of movement in a direction, not a exact position! You can try it! Just assign a <strong>CGPoint(100, 100)</strong> to the position parameter of the action.</p></div>
+<div class="paragraph"><p>The fix is the following:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="c1"># Method for handling the initial touch of the user</span>
+<span class="c1"># Very similar to the way iOS manage it</span>
+<span class="k">def</span> <span class="nf">ccTouchesBegan</span><span class="p">(</span><span class="n">touches</span><span class="p">,</span> <span class="n">withEvent</span><span class="ss">:event</span><span class="p">)</span>
+
+  <span class="c1"># Get any touch of the user</span>
+  <span class="n">touch</span> <span class="o">=</span> <span class="n">touches</span><span class="o">.</span><span class="n">anyObject</span>
+
+  <span class="c1"># Because we are not using a UIView or anything related</span>
+  <span class="c1"># we need to use a method to convert the touch position</span>
+  <span class="c1"># coordinate space into the layer space</span>
+  <span class="n">touch_location</span> <span class="o">=</span> <span class="nb">self</span><span class="o">.</span><span class="n">convertTouchToNodeSpace</span><span class="p">(</span><span class="n">touch</span><span class="p">)</span>
+
+  <span class="c1"># Get the current position of the space ship</span>
+  <span class="n">current_location</span> <span class="o">=</span> <span class="vi">@space_ship_sprite</span><span class="o">.</span><span class="n">position</span>
+
+  <span class="c1"># Calculate the difference between the two points</span>
+  <span class="n">location_difference</span> <span class="o">=</span> <span class="no">CGPointMake</span><span class="p">(</span><span class="n">touch_location</span><span class="o">.</span><span class="n">x</span> <span class="o">-</span> <span class="n">current_location</span><span class="o">.</span><span class="n">x</span><span class="p">,</span>
+                                    <span class="n">touch_location</span><span class="o">.</span><span class="n">y</span> <span class="o">-</span> <span class="n">current_location</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
+
+  <span class="c1"># We need to create a MoveBy action for the animated movement</span>
+  <span class="n">action</span> <span class="o">=</span> <span class="no">CCMoveBy</span><span class="o">.</span><span class="n">actionWithDuration</span><span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">5</span><span class="p">,</span>
+                                       <span class="n">position</span><span class="ss">:location_difference</span><span class="p">)</span>
+
+  <span class="c1"># Execute the action in our Space Ship Sprite</span>
+  <span class="vi">@space_ship_sprite</span><span class="o">.</span><span class="n">runAction</span><span class="p">(</span><span class="n">action</span><span class="p">)</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p><strong>Image</strong></p></div>
+<div class="paragraph"><p>Now is working! We are done with the space ship, the next is to add some asteroids flying into the scene.</p></div>
+</div>
+<div class="sect2">
+<h3 id="_ccsprite">CCSprite</h3>
+<div class="paragraph"><p>Now is time to create some asteroids for our game, also its time to learn how to create more complex sprites. Lets begin adding a new class named <strong>asteroid_sprite.rb</strong>:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="nv">$ </span><span class="nb">cd</span> ..
+
+<span class="nv">$ </span>mkdir sprites
+
+<span class="nv">$ </span><span class="nb">cd </span>sprites
+
+<span class="nv">$ </span>touch asteroid_sprite.rb
+</pre></div></div></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">class</span> <span class="nc">AsteroidSprite</span> <span class="o">&lt;</span> <span class="no">CCSprite</span>
+
+  <span class="c1"># This is the designated initializer of the CCSprite</span>
+  <span class="k">def</span> <span class="nf">initWithTexture</span><span class="p">(</span><span class="n">texture</span><span class="p">,</span> <span class="n">rect</span><span class="ss">:rect</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="k">super</span>
+
+      <span class="nb">self</span><span class="o">.</span><span class="n">position</span> <span class="o">=</span> <span class="no">CGPointMake</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+    <span class="k">end</span>
+
+    <span class="nb">self</span>
+
+  <span class="k">end</span>
+
+  <span class="c1"># Method for optimizing the code needed to instantiate</span>
+  <span class="c1"># a new asteroid</span>
+        <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">sprite</span>
+
+    <span class="no">AsteroidSprite</span><span class="o">.</span><span class="n">spriteWithFile</span><span class="p">(</span><span class="s1">&#39;bgAsteroid.png&#39;</span><span class="p">)</span>
+  <span class="k">end</span>
+
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>Lets add our new sprite to the <strong>game_play_layer.rb</strong>:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="nv">$ </span><span class="nb">cd</span> ..
+
+<span class="nv">$ </span><span class="nb">cd </span>layers
+
+<span class="nv">$ </span>open game_play_layer.rb
+</pre></div></div></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">init</span>
+
+  <span class="k">if</span> <span class="k">super</span>
+
+    <span class="c1"># Create a new sprite instance for drawing our spaceship</span>
+    <span class="vi">@space_ship_sprite</span> <span class="o">=</span> <span class="no">CCSprite</span><span class="o">.</span><span class="n">spriteWithFile</span><span class="p">(</span><span class="s1">&#39;bgSpaceShip.png&#39;</span><span class="p">)</span>
+
+    <span class="c1"># We need to get the screen size for positioning the sprite</span>
+    <span class="n">screen_size</span> <span class="o">=</span> <span class="no">CCDirector</span><span class="o">.</span><span class="n">sharedDirector</span><span class="o">.</span><span class="n">winSize</span>
+
+    <span class="c1"># Like the CALayers the position is set in reference to the center</span>
+    <span class="c1"># of the label, in this case we want the sprite to be in the middle</span>
+    <span class="c1"># of the screen</span>
+    <span class="vi">@space_ship_sprite</span><span class="o">.</span><span class="n">position</span> <span class="o">=</span> <span class="no">CGPointMake</span><span class="p">(</span><span class="n">screen_size</span><span class="o">.</span><span class="n">width</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">screen_size</span><span class="o">.</span><span class="n">height</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+
+    <span class="c1"># Add the sprite to the Layer</span>
+    <span class="nb">self</span><span class="o">.</span><span class="n">addChild</span><span class="p">(</span><span class="vi">@space_ship_sprite</span><span class="p">)</span>
+
+    <span class="c1"># Enable handle touches on the layer</span>
+    <span class="nb">self</span><span class="o">.</span><span class="n">isTouchEnabled</span> <span class="o">=</span> <span class="kp">true</span>
+
+    <span class="c1"># Add an asteroid sprite to our layer</span>
+    <span class="nb">self</span><span class="o">.</span><span class="n">addChild</span><span class="p">(</span><span class="no">AsteroidSprite</span><span class="o">.</span><span class="n">sprite</span><span class="p">)</span>
+  <span class="k">end</span>
+
+  <span class="nb">self</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p><strong>Image</strong></p></div>
+<div class="paragraph"><p>Easy right? But we have a problem the asteroid is too big: Imagine five of them flying into the screen, impossible to dodge!</p></div>
+<div class="paragraph"><p>So lets create something more complex, the idea is to have asteroids of different sizes moving across the screen. So lets use some randoms for determinate the size of the asteroid:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="nv">$ </span><span class="nb">cd</span> ..
+
+<span class="nv">$ </span><span class="nb">cd </span>sprites
+
+<span class="nv">$ </span>open asteroid_sprite.rb
+</pre></div></div></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="kp">attr_accessor</span> <span class="ss">:state</span>
+
+<span class="c1"># This is the designated initializer of the CCSprite</span>
+<span class="k">def</span> <span class="nf">initWithTexture</span><span class="p">(</span><span class="n">texture</span><span class="p">,</span> <span class="n">rect</span><span class="ss">:rect</span><span class="p">)</span>
+
+  <span class="k">if</span> <span class="k">super</span>
+    <span class="vi">@state</span> <span class="o">=</span> <span class="ss">:spawning</span>
+
+    <span class="n">spawn</span>
+  <span class="k">end</span>
+
+  <span class="nb">self</span>
+
+<span class="k">end</span>
+
+<span class="c1"># Method that will manage the spawning points, size</span>
+<span class="c1"># and trayectory of the asteroid</span>
+<span class="k">def</span> <span class="nf">spawn</span>
+
+  <span class="c1"># Lets create a Random and generate a number between</span>
+  <span class="c1"># 25 and 75, the maximum and minimum size for the asteroid</span>
+  <span class="n">random</span> <span class="o">=</span> <span class="no">Random</span><span class="o">.</span><span class="n">new</span>
+  <span class="n">sprite_size</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">25</span><span class="o">.</span><span class="n">.</span><span class="mi">75</span><span class="p">)</span>
+
+  <span class="c1"># Scale the sprite according to our new generated size</span>
+  <span class="nb">self</span><span class="o">.</span><span class="n">setScaleX</span><span class="p">(</span><span class="n">sprite_size</span> <span class="o">/</span> <span class="nb">self</span><span class="o">.</span><span class="n">contentSize</span><span class="o">.</span><span class="n">width</span><span class="p">)</span>
+  <span class="nb">self</span><span class="o">.</span><span class="n">setScaleY</span><span class="p">(</span><span class="n">sprite_size</span> <span class="o">/</span> <span class="nb">self</span><span class="o">.</span><span class="n">contentSize</span><span class="o">.</span><span class="n">height</span><span class="p">)</span>
+
+  <span class="nb">self</span><span class="o">.</span><span class="n">position</span> <span class="o">=</span> <span class="no">CGPointMake</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p><strong>IMAGE</strong></p></div>
+<div class="paragraph"><p>Great! Now the size of the asteroid is completely random, to test it run the app multiple times!</p></div>
+<div class="paragraph"><p>For make the illusion that the asteroids are coming from the space we need to set the initial position of it outside the screen and then move it across the screen. Again some randoms we will help us, lets add the following method to our file:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="c1"># Method for calculating positions around the screen</span>
+<span class="k">def</span> <span class="nf">position_outside_screen</span>
+
+  <span class="c1"># Instantiate a new random</span>
+  <span class="n">random</span> <span class="o">=</span> <span class="no">Random</span><span class="o">.</span><span class="n">new</span>
+
+  <span class="c1"># Generate a new random that we will use to determinate</span>
+  <span class="c1"># in which screen side is the point</span>
+  <span class="n">screen_side</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">1</span><span class="o">.</span><span class="n">.</span><span class="mi">4</span><span class="p">)</span>
+
+  <span class="c1"># We need to get the screen size for positioning the sprite</span>
+  <span class="n">screen_size</span> <span class="o">=</span> <span class="no">CCDirector</span><span class="o">.</span><span class="n">sharedDirector</span><span class="o">.</span><span class="n">winSize</span>
+
+  <span class="n">x</span> <span class="o">=</span> <span class="mi">0</span>
+  <span class="n">y</span> <span class="o">=</span> <span class="mi">0</span>
+
+  <span class="c1"># According to the side of the screen generate the coordinates</span>
+  <span class="c1"># also we need to take in count the size of the sprite, so it</span>
+  <span class="c1"># can be completely outside the screen</span>
+
+  <span class="c1"># Top Side</span>
+  <span class="k">if</span> <span class="n">screen_side</span> <span class="o">==</span> <span class="mi">1</span>
+
+    <span class="n">x</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">1</span><span class="o">.</span><span class="n">.screen_size</span><span class="o">.</span><span class="n">width</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="o">-</span><span class="nb">self</span><span class="o">.</span><span class="n">contentSize</span><span class="o">.</span><span class="n">height</span>
+
+  <span class="c1"># Left Side</span>
+  <span class="k">elsif</span> <span class="n">screen_side</span> <span class="o">==</span> <span class="mi">2</span>
+
+    <span class="n">x</span> <span class="o">=</span> <span class="o">-</span><span class="nb">self</span><span class="o">.</span><span class="n">contentSize</span><span class="o">.</span><span class="n">width</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">1</span><span class="o">.</span><span class="n">.screen_size</span><span class="o">.</span><span class="n">height</span><span class="p">)</span>
+
+  <span class="c1"># Right Side</span>
+  <span class="k">elsif</span> <span class="n">screen_side</span> <span class="o">==</span> <span class="mi">3</span>
+
+    <span class="n">x</span> <span class="o">=</span> <span class="mi">320</span> <span class="o">+</span> <span class="nb">self</span><span class="o">.</span><span class="n">contentSize</span><span class="o">.</span><span class="n">width</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">1</span><span class="o">.</span><span class="n">.screen_size</span><span class="o">.</span><span class="n">height</span><span class="p">)</span>
+
+  <span class="c1"># Bottom Side</span>
+  <span class="k">else</span>
+
+    <span class="n">x</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">1</span><span class="o">.</span><span class="n">.screen_size</span><span class="o">.</span><span class="n">width</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="mi">480</span> <span class="o">+</span> <span class="nb">self</span><span class="o">.</span><span class="n">contentSize</span><span class="o">.</span><span class="n">height</span>
+
+  <span class="k">end</span>
+
+  <span class="no">CGPointMake</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>Now lets use this method for assign an initial position to our asteroid and create an action for its movement across the screen:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="c1"># Method that will manage the spawning points, size</span>
+<span class="c1"># and trayectory of the asteroid</span>
+<span class="k">def</span> <span class="nf">spawn</span>
+
+  <span class="c1"># Lets create a Random and generate a number between</span>
+  <span class="c1"># 25 and 75, the maximum and minimum size for the asteroid</span>
+  <span class="n">random</span> <span class="o">=</span> <span class="no">Random</span><span class="o">.</span><span class="n">new</span>
+  <span class="n">sprite_size</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">25</span><span class="o">.</span><span class="n">.</span><span class="mi">75</span><span class="p">)</span>
+
+  <span class="c1"># Scale the sprite according to our new generated size</span>
+  <span class="nb">self</span><span class="o">.</span><span class="n">setScaleX</span><span class="p">(</span><span class="n">sprite_size</span> <span class="o">/</span> <span class="nb">self</span><span class="o">.</span><span class="n">contentSize</span><span class="o">.</span><span class="n">width</span><span class="p">)</span>
+  <span class="nb">self</span><span class="o">.</span><span class="n">setScaleY</span><span class="p">(</span><span class="n">sprite_size</span> <span class="o">/</span> <span class="nb">self</span><span class="o">.</span><span class="n">contentSize</span><span class="o">.</span><span class="n">height</span><span class="p">)</span>
+
+
+  <span class="c1"># Generate an initial and final position for the asteroid</span>
+  <span class="n">initial_position</span> <span class="o">=</span> <span class="n">position_outside_screen</span>
+  <span class="n">final_position</span> <span class="o">=</span> <span class="n">position_outside_screen</span>
+
+  <span class="c1"># Calculate the difference between the two positions</span>
+  <span class="n">position_difference</span> <span class="o">=</span> <span class="no">CGPointMake</span><span class="p">(</span><span class="n">final_position</span><span class="o">.</span><span class="n">x</span> <span class="o">-</span> <span class="n">initial_position</span><span class="o">.</span><span class="n">x</span><span class="p">,</span>
+                                    <span class="n">final_position</span><span class="o">.</span><span class="n">y</span> <span class="o">-</span> <span class="n">initial_position</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
+
+
+  <span class="c1"># Lets use another random that we will use for the movement speed</span>
+  <span class="n">action_speed</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">1</span><span class="o">.</span><span class="n">.</span><span class="mi">5</span><span class="p">)</span>
+
+  <span class="c1"># Create a Move By Action for its movement across the screen</span>
+  <span class="n">action</span> <span class="o">=</span> <span class="no">CCMoveBy</span><span class="o">.</span><span class="n">actionWithDuration</span><span class="p">(</span><span class="n">action_speed</span><span class="p">,</span>
+                                       <span class="n">position</span><span class="ss">:position_difference</span><span class="p">)</span>
+
+  <span class="c1"># Assign the initial position</span>
+  <span class="nb">self</span><span class="o">.</span><span class="n">position</span> <span class="o">=</span> <span class="n">initial_position</span>
+
+  <span class="c1"># Run the movement action</span>
+  <span class="nb">self</span><span class="o">.</span><span class="n">runAction</span><span class="p">(</span><span class="n">action</span><span class="p">)</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p><strong>IMAGE</strong></p></div>
+<div class="paragraph"><p>You should see the asteroid fly across the screen! If you don&#8217;t please run it a couple of times remember we are using randoms! (The asteroid can fly too fast or in the edges of the screen, this is part of the magic ;)</p></div>
+<div class="paragraph"><p>But the asteroids does not move like that! They rotate:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="c1"># Method that will manage the spawning points, size</span>
+<span class="c1"># and trayectory of the asteroid</span>
+<span class="k">def</span> <span class="nf">spawn</span>
+
+  <span class="c1"># Lets create a Random and generate a number between</span>
+  <span class="c1"># 25 and 75, the maximum and minimum size for the asteroid</span>
+  <span class="n">random</span> <span class="o">=</span> <span class="no">Random</span><span class="o">.</span><span class="n">new</span>
+  <span class="n">sprite_size</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">25</span><span class="o">.</span><span class="n">.</span><span class="mi">75</span><span class="p">)</span>
+
+  <span class="c1"># Scale the sprite according to our new generated size</span>
+  <span class="nb">self</span><span class="o">.</span><span class="n">setScaleX</span><span class="p">(</span><span class="n">sprite_size</span> <span class="o">/</span> <span class="nb">self</span><span class="o">.</span><span class="n">contentSize</span><span class="o">.</span><span class="n">width</span><span class="p">)</span>
+  <span class="nb">self</span><span class="o">.</span><span class="n">setScaleY</span><span class="p">(</span><span class="n">sprite_size</span> <span class="o">/</span> <span class="nb">self</span><span class="o">.</span><span class="n">contentSize</span><span class="o">.</span><span class="n">height</span><span class="p">)</span>
+
+
+  <span class="c1"># Generate an initial and final position for the asteroid</span>
+  <span class="n">initial_position</span> <span class="o">=</span> <span class="n">position_outside_screen</span>
+  <span class="n">final_position</span> <span class="o">=</span> <span class="n">position_outside_screen</span>
+
+  <span class="c1"># Calculate the difference between the two positions</span>
+  <span class="n">position_difference</span> <span class="o">=</span> <span class="no">CGPointMake</span><span class="p">(</span><span class="n">final_position</span><span class="o">.</span><span class="n">x</span> <span class="o">-</span> <span class="n">initial_position</span><span class="o">.</span><span class="n">x</span><span class="p">,</span>
+                                    <span class="n">final_position</span><span class="o">.</span><span class="n">y</span> <span class="o">-</span> <span class="n">initial_position</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
+
+
+  <span class="c1"># Lets use another random that we will use for the movement speed</span>
+  <span class="n">action_speed</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">4</span><span class="o">.</span><span class="n">.</span><span class="mi">7</span><span class="p">)</span>
+
+  <span class="c1"># Create a Move By Action for its movement across the screen</span>
+  <span class="n">action</span> <span class="o">=</span> <span class="no">CCMoveBy</span><span class="o">.</span><span class="n">actionWithDuration</span><span class="p">(</span><span class="n">action_speed</span><span class="p">,</span>
+                                       <span class="n">position</span><span class="ss">:position_difference</span><span class="p">)</span>
+
+  <span class="c1"># Assign the initial position</span>
+  <span class="nb">self</span><span class="o">.</span><span class="n">position</span> <span class="o">=</span> <span class="n">initial_position</span>
+
+  <span class="c1"># Run the movement action</span>
+  <span class="nb">self</span><span class="o">.</span><span class="n">runAction</span><span class="p">(</span><span class="n">action</span><span class="p">)</span>
+
+  <span class="c1"># Create a spinning action with the same speed that the movement one</span>
+  <span class="c1"># also because we want it to spin a couple of times set the angle</span>
+  <span class="c1"># to 1000 degrees</span>
+  <span class="n">spinning_action</span> <span class="o">=</span> <span class="no">CCRotateTo</span><span class="o">.</span><span class="n">actionWithDuration</span><span class="p">(</span><span class="n">action_speed</span><span class="p">,</span>
+                                                  <span class="n">angle</span><span class="p">:</span><span class="mi">1000</span><span class="p">)</span>
+
+  <span class="c1"># Run the spinning action</span>
+  <span class="nb">self</span><span class="o">.</span><span class="n">runAction</span><span class="p">(</span><span class="n">spinning_action</span><span class="p">)</span>
+
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p><strong>Image</strong></p></div>
+<div class="paragraph"><p>Last part! We need to change the status of the sprite to <strong>:ended</strong> when the movement action ends:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="c1"># Method that will manage the spawning points, size</span>
+<span class="c1"># and trayectory of the asteroid</span>
+<span class="k">def</span> <span class="nf">spawn</span>
+
+  <span class="c1"># Lets create a Random and generate a number between</span>
+  <span class="c1"># 25 and 75, the maximum and minimum size for the asteroid</span>
+  <span class="n">random</span> <span class="o">=</span> <span class="no">Random</span><span class="o">.</span><span class="n">new</span>
+  <span class="n">sprite_size</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">25</span><span class="o">.</span><span class="n">.</span><span class="mi">75</span><span class="p">)</span>
+
+  <span class="c1"># Scale the sprite according to our new generated size</span>
+  <span class="nb">self</span><span class="o">.</span><span class="n">setScaleX</span><span class="p">(</span><span class="n">sprite_size</span> <span class="o">/</span> <span class="nb">self</span><span class="o">.</span><span class="n">contentSize</span><span class="o">.</span><span class="n">width</span><span class="p">)</span>
+  <span class="nb">self</span><span class="o">.</span><span class="n">setScaleY</span><span class="p">(</span><span class="n">sprite_size</span> <span class="o">/</span> <span class="nb">self</span><span class="o">.</span><span class="n">contentSize</span><span class="o">.</span><span class="n">height</span><span class="p">)</span>
+
+
+  <span class="c1"># Generate an initial and final position for the asteroid</span>
+  <span class="n">initial_position</span> <span class="o">=</span> <span class="n">position_outside_screen</span>
+  <span class="n">final_position</span> <span class="o">=</span> <span class="n">position_outside_screen</span>
+
+  <span class="c1"># Assign the initial position</span>
+  <span class="nb">self</span><span class="o">.</span><span class="n">position</span> <span class="o">=</span> <span class="n">initial_position</span>
+
+  <span class="c1"># Calculate the difference between the two positions</span>
+  <span class="n">position_difference</span> <span class="o">=</span> <span class="no">CGPointMake</span><span class="p">(</span><span class="n">final_position</span><span class="o">.</span><span class="n">x</span> <span class="o">-</span> <span class="n">initial_position</span><span class="o">.</span><span class="n">x</span><span class="p">,</span>
+                                    <span class="n">final_position</span><span class="o">.</span><span class="n">y</span> <span class="o">-</span> <span class="n">initial_position</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
+
+
+  <span class="c1"># Lets use another random that we will use for the movement speed</span>
+  <span class="n">action_speed</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">1</span><span class="o">.</span><span class="n">.</span><span class="mi">5</span><span class="p">)</span>
+
+  <span class="c1"># Create a Move By Action for its movement across the screen</span>
+  <span class="n">action</span> <span class="o">=</span> <span class="no">CCMoveBy</span><span class="o">.</span><span class="n">actionWithDuration</span><span class="p">(</span><span class="n">action_speed</span><span class="p">,</span>
+                                       <span class="n">position</span><span class="ss">:position_difference</span><span class="p">)</span>
+
+  <span class="c1"># Instantiate a Call Function to excecute a method when the movement</span>
+  <span class="c1"># action finished</span>
+  <span class="n">finish_callback_action</span> <span class="o">=</span> <span class="no">CCCallFuncND</span><span class="o">.</span><span class="n">actionWithTarget</span><span class="p">(</span><span class="nb">self</span><span class="p">,</span>
+                                                         <span class="n">selector</span><span class="ss">:&#39;movement_action_ended&#39;</span><span class="p">,</span>
+                                                         <span class="n">data</span><span class="ss">:nil</span><span class="p">)</span>
+
+  <span class="c1"># Chain the both actions using a sequence</span>
+  <span class="n">movement_action_sequence</span> <span class="o">=</span> <span class="no">CCSequence</span><span class="o">.</span><span class="n">actionsWithArray</span><span class="p">(</span><span class="o">[</span><span class="n">action</span><span class="p">,</span> <span class="n">finish_callback_action</span><span class="o">]</span><span class="p">)</span>
+
+  <span class="c1"># Run the movement action sequence</span>
+  <span class="nb">self</span><span class="o">.</span><span class="n">runAction</span><span class="p">(</span><span class="n">movement_action_sequence</span><span class="p">)</span>
+
+
+  <span class="c1"># Create a spinning action with the same speed that the movement one</span>
+  <span class="c1"># also because we want it to spin a couple of times set the angle</span>
+  <span class="c1"># to 1000 degrees</span>
+  <span class="n">spinning_action</span> <span class="o">=</span> <span class="no">CCRotateTo</span><span class="o">.</span><span class="n">actionWithDuration</span><span class="p">(</span><span class="n">action_speed</span><span class="p">,</span>
+                                                  <span class="n">angle</span><span class="p">:</span><span class="mi">1000</span><span class="p">)</span>
+
+  <span class="c1"># Run the spinning action</span>
+  <span class="nb">self</span><span class="o">.</span><span class="n">runAction</span><span class="p">(</span><span class="n">spinning_action</span><span class="p">)</span>
+
+<span class="k">end</span>
+
+<span class="c1"># Action Movement Callback Method</span>
+<span class="k">def</span> <span class="nf">movement_action_ended</span>
+
+  <span class="vi">@state</span> <span class="o">=</span> <span class="ss">:ended</span>
+
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>Now our asteroid sprite is finished! So for the game makes sense it should be multiple asteroids flying across the screen right? Thats next!</p></div>
+</div>
+<div class="sect2">
+<h3 id="_fps_asteroid">FPS + Asteroid</h3>
+<div class="paragraph"><p>Do you remember that at the beginning of the exercise we talk about that the director executes a method multiple times a second to let us do some work like talk to the AI, Physics or refreshing the screen? Lets use this method for maintain a constant number of asteroids on the screen: creating them and then when it movement finishes destroy them.</p></div>
+<div class="paragraph"><p>Lets open again our <strong>GamePlayLayer</strong> and subscribe to the loop notification:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="nv">$ </span><span class="nb">cd</span> ..
+
+<span class="nv">$ </span><span class="nb">cd </span>layers
+
+<span class="nv">$ </span>open game_play_layer.rb
+</pre></div></div></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">init</span>
+
+  <span class="k">if</span> <span class="k">super</span>
+
+    <span class="c1"># Create a new sprite instance for drawing our spaceship</span>
+    <span class="vi">@space_ship_sprite</span> <span class="o">=</span> <span class="no">CCSprite</span><span class="o">.</span><span class="n">spriteWithFile</span><span class="p">(</span><span class="s1">&#39;bgSpaceShip.png&#39;</span><span class="p">)</span>
+
+    <span class="c1"># We need to get the screen size for positioning the sprite</span>
+    <span class="n">screen_size</span> <span class="o">=</span> <span class="no">CCDirector</span><span class="o">.</span><span class="n">sharedDirector</span><span class="o">.</span><span class="n">winSize</span>
+
+    <span class="c1"># Like the CALayers the position is set in reference to the center</span>
+    <span class="c1"># of the label, in this case we want the sprite to be in the middle</span>
+    <span class="c1"># of the screen</span>
+    <span class="vi">@space_ship_sprite</span><span class="o">.</span><span class="n">position</span> <span class="o">=</span> <span class="no">CGPointMake</span><span class="p">(</span><span class="n">screen_size</span><span class="o">.</span><span class="n">width</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">screen_size</span><span class="o">.</span><span class="n">height</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+
+    <span class="c1"># Add the sprite to the Layer</span>
+    <span class="nb">self</span><span class="o">.</span><span class="n">addChild</span><span class="p">(</span><span class="vi">@space_ship_sprite</span><span class="p">)</span>
+
+    <span class="c1"># Enable handle touches on the layer</span>
+    <span class="nb">self</span><span class="o">.</span><span class="n">isTouchEnabled</span> <span class="o">=</span> <span class="kp">true</span>
+
+    <span class="c1">#Create an array for storing our asteroid sprites</span>
+    <span class="vi">@asteroids</span> <span class="o">=</span> <span class="no">NSMutableArray</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">init</span>
+
+    <span class="c1"># Subscribe to the loop call</span>
+    <span class="n">scheduleUpdate</span>
+
+  <span class="k">end</span>
+
+  <span class="nb">self</span>
+<span class="k">end</span>
+
+<span class="c1"># Loop callback method</span>
+<span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="n">time</span><span class="p">)</span>
+
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="admonitionblock">
+<table><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">Please take a closer look to the code because we remove the add of the initial asteroid sprite and add an array for storing the asteroid sprites</td>
+</tr></table>
+</div>
+<div class="paragraph"><p>Now is time to add some asteroids to our game, implement the following on the <strong>update</strong> method:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="c1"># Loop callback method</span>
+<span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="n">time</span><span class="p">)</span>
+
+  <span class="n">spawn_asteroids</span>
+<span class="k">end</span>
+
+
+<span class="k">def</span> <span class="nf">spawn_asteroids</span>
+
+  <span class="c1"># Delete the asteroids that are on ended state</span>
+  <span class="vi">@asteroids</span><span class="o">.</span><span class="n">delete_if</span> <span class="p">{</span> <span class="o">|</span> <span class="n">asteroid</span> <span class="o">|</span>
+
+    <span class="c1"># If the asteroid is on ended state</span>
+    <span class="k">if</span> <span class="n">asteroid</span><span class="o">.</span><span class="n">state</span> <span class="o">==</span> <span class="ss">:ended</span>
+
+      <span class="c1"># Remove from the layer also</span>
+      <span class="nb">self</span><span class="o">.</span><span class="n">removeChild</span><span class="p">(</span><span class="n">asteroid</span><span class="p">,</span> <span class="n">cleanup</span><span class="ss">:true</span><span class="p">)</span>
+
+      <span class="kp">true</span>
+    <span class="k">end</span>
+  <span class="p">}</span>
+
+  <span class="c1"># Calculate the number of asteroids missing, taking</span>
+  <span class="c1"># in count that we should have 20 moving around</span>
+  <span class="n">missing_asteroids</span> <span class="o">=</span> <span class="mi">20</span> <span class="o">-</span> <span class="vi">@asteroids</span><span class="o">.</span><span class="n">count</span>
+
+  <span class="c1"># Iterate to create the missing asteroids</span>
+  <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mi">0</span><span class="o">.</span><span class="n">.missing_asteroids</span> <span class="o">-</span> <span class="mi">1</span>
+
+    <span class="c1"># Create an asteroid sprite</span>
+    <span class="n">asteroid_sprite</span> <span class="o">=</span> <span class="no">AsteroidSprite</span><span class="o">.</span><span class="n">sprite</span>
+
+    <span class="c1"># Add it to the layer and to the array</span>
+    <span class="nb">self</span><span class="o">.</span><span class="n">addChild</span><span class="p">(</span><span class="n">asteroid_sprite</span><span class="p">)</span>
+    <span class="vi">@asteroids</span><span class="o">.</span><span class="n">addObject</span><span class="p">(</span><span class="n">asteroid_sprite</span><span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p><strong>IMAGE</strong></p></div>
+<div class="paragraph"><p>Awesome! Now the scene is complete, but is something missing right? Detect when the ship crashes with an asteroid!</p></div>
+</div>
+<div class="sect2">
+<h3 id="_please_don_8217_t_crash">Please don&#8217;t crash!</h3>
+<div class="paragraph"><p>The last part of our exercise is to detect when the asteroid crashes with our space ship! For this lets add the following method:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="c1"># Loop callback method</span>
+<span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="n">time</span><span class="p">)</span>
+
+  <span class="n">spawn_asteroids</span>
+  <span class="n">check_for_collisions</span>
+<span class="k">end</span>
+
+<span class="k">def</span> <span class="nf">check_for_collisions</span>
+
+  <span class="c1"># Iterate all the asteroids in the scene</span>
+  <span class="vi">@asteroids</span><span class="o">.</span><span class="n">each</span> <span class="p">{</span> <span class="o">|</span> <span class="n">asteroid</span> <span class="o">|</span>
+
+    <span class="c1"># If any asteroid frame intersect the space ship frame</span>
+    <span class="c1"># is a collision</span>
+    <span class="k">if</span> <span class="no">CGRectIntersectsRect</span><span class="p">(</span><span class="n">asteroid</span><span class="o">.</span><span class="n">boundingBox</span><span class="p">,</span> <span class="vi">@space_ship_sprite</span><span class="o">.</span><span class="n">boundingBox</span><span class="p">)</span>
+
+      <span class="c1"># Create a new sprite instance for our explosion</span>
+      <span class="n">explosion_sprite</span> <span class="o">=</span> <span class="no">CCSprite</span><span class="o">.</span><span class="n">spriteWithFile</span><span class="p">(</span><span class="s1">&#39;bgBoom.jpeg&#39;</span><span class="p">)</span>
+
+      <span class="c1"># Set the sprite in the same exact position of the</span>
+      <span class="c1"># space ship</span>
+      <span class="n">explosion_sprite</span><span class="o">.</span><span class="n">position</span> <span class="o">=</span> <span class="vi">@space_ship_sprite</span><span class="o">.</span><span class="n">position</span>
+
+      <span class="c1"># Add the explosion sprite into our layer</span>
+      <span class="nb">self</span><span class="o">.</span><span class="n">addChild</span><span class="p">(</span><span class="n">explosion_sprite</span><span class="p">)</span>
+
+      <span class="c1"># Pause the game</span>
+      <span class="no">CCDirector</span><span class="o">.</span><span class="n">sharedDirector</span><span class="o">.</span><span class="n">pause</span>
+    <span class="k">end</span>
+  <span class="p">}</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p><strong>IMAGE</strong></p></div>
+<div class="paragraph"><p>Great! Now our little game is complete, if the user crashes into an asteroid the space ship explodes and the game is ended</p></div>
+<div class="admonitionblock">
+<table><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">Even if you are a master moving your ship sometimes it will crash without touching any asteroid, this is because collision detection is more like an art and it depends on more advanced techniques like physics or sprite sheets to be pixel perfect. But that subjects are not in the scope of this course :'(</td>
+</tr></table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_challenges_6">Challenges</h3>
+<div class="olist arabic"><ol class="arabic">
+<li>
+<p>
+Add a "Game Over" scene to the game when a collision happen, remember that the CCDirector can push new scenes into the screen
+</p>
+</li>
+<li>
+<p>
+Detect when the user touches an asteroid so you can remove it from the screen, clearing the way for our space ship to move
+</p>
+</li>
+</ol></div>
 </div>
 </div>
 </div>

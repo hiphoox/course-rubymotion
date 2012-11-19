@@ -68,8 +68,1032 @@ Well! Lets build our project (It can take a couple of seconds because the weight
 $ rake
 ------------
 
+Now please copy the file **RubyMotionSchedule.h** from **Define Deployment Target** into /vendor/Pods/cocos2d/cocos2d, next delete the file **Pods.bridgesupport** that is on /vendor/Pods and finally clean the project:
+
+[source, sh]
+------------
+$ rake clean
+
+$ rake
+------------
+
+
 The Cocos2D library is now integrated into our project! Easy right?
 
 
 Building a Game
 ~~~~~~~~~~~~~~~
+
+The first thing we need to understand is how the video games work, different from a regular application where the code is executed when an event happen (User interaction, Notification, etc) on video games there is always a loop calling methods for different proposes like refreshing screen, calling the game physics or asking something to the AI. Thankfully in Cocos 2D we have an object that its main responsibility is manage the loop, this class is called **CCDirector**
+
+Before start coding please copy the images from **DEFINE DEPLOYMENT PATH** into the project resources folder. Now implement the following on our **AppDelegate**:
+
+NOTE: The CCDirector is the responsible for running the game or pausing it, also it can handle when a phone call or text message happen so it can automatically pause the game
+
+NOTE: The number of times the loop runs per second is called FPS (Frames per second), and it depends on how fast the methods are executed in every loop call
+
+[source, sh]
+------------
+$ cd app
+
+$ open app_delegate.rb
+------------
+
+[source, ruby]
+--------------
+class AppDelegate
+
+  def application(application, didFinishLaunchingWithOptions:launchOptions)
+
+    # Create a window to present our director
+    @window = UIWindow.alloc.initWithFrame(UIScreen.mainScreen.bounds)
+
+    # Lets create a Cocos 2D view that will be used by the director
+    # to present the game scenes
+    gl_view = CCGLView.viewWithFrame(@window.bounds)
+
+
+    # Get the Director shared instance for customization
+    @director = CCDirector.sharedDirector
+
+    # Specify that we want to run the game in fullscreen
+    @director.wantsFullScreenLayout = true
+
+    # Tell the director that we want to present the FPS on
+    # the screen
+    @director.displayStats = true
+
+    # The prefered speed on our game (FPS)
+    # Note: This is only a prefered value its not garantied you will
+    # get that value
+    @director.animationInterval = 1.0/60
+
+    # Assign the view used for the director to present the
+    # game scenes
+    @director.view = gl_view
+
+    # Create a navigation controller to store our game director and
+    # hide its navigation bar so we can use all the sreen
+    @navigation_controller = UINavigationController.alloc.initWithRootViewController(@director)
+    @navigation_controller.navigationBarHidden = true
+
+    # Assign the navigation controller to the window
+    @window.rootViewController = @navigation_controller
+    @window.makeKeyAndVisible
+
+
+    # Configuration for our game images, this is very helpful
+    # when you want to use compressed images or with a different
+    # pixel format
+    CCTexture2D.defaultAlphaPixelFormat = KCCTexture2DPixelFormat_RGBA8888
+    CCTexture2D.PVRImagesHavePremultipliedAlpha(true)
+
+    # Configuration for the names of the images that will be
+    # used on the game
+    file_utils = CCFileUtils.sharedFileUtils
+    file_utils.enableFallbackSuffixes = false
+    
+    # The retina display images will be named with "-hd" instead of
+    # "@2x"
+    file_utils.setiPhoneRetinaDisplaySuffix "-hd"
+    
+    true
+  end
+
+end
+--------------
+
+You should see the following:
+
+**IMAGE**
+
+If you look closely in the bottom left part of the screen are a bunch of numbers, they are the FPS of our game. The general idea is that our game have consistently 60.0 but you will look as we advance in the exercise that some times it drops, this is normal.
+
+Scenes
+~~~~~~
+We can understand the **Scenes** as levels on a video game, but also can be used for the initial menus or score boards after. Its main responsibility is to manage all the objects that will appear on the screen when the scene is run. On our game this objects will be the space background, ship and asteroids
+
+Lets create a new scene named **space_scene.rb**:
+
+[source, sh]
+------------
+$ mkdir scenes
+
+$ cd scenes
+
+$ touch space_scene.rb
+------------
+
+[source, ruby]
+--------------
+class SpaceScene < CCScene
+
+ def init
+
+   if super
+
+
+   end
+
+   self
+ end
+
+end
+--------------
+
+Now we have a new empty Scene that will allow us to start presenting the game images but before we get to that part we need to tell the **Director** to run this scene, this is do with the following in our **app_delegate.rb** file:
+
+[source, sh]
+------------
+$ cd ..
+
+$ open app_delegate.rb
+------------
+
+[source, ruby]
+--------------
+def application(application, didFinishLaunchingWithOptions:launchOptions)
+
+  # Create a window to present our director
+  @window = UIWindow.alloc.initWithFrame(UIScreen.mainScreen.bounds)
+
+  # Lets create a Cocos 2D view that will be used by the director
+  # to present the game scenes
+  gl_view = CCGLView.viewWithFrame(@window.bounds)
+
+
+  # Get the Director shared instance for customization
+  @director = CCDirector.sharedDirector
+
+  # Specify that we want to run the game in fullscreen
+  @director.wantsFullScreenLayout = true
+
+  # Tell the director that we want to present the FPS on
+  # the screen
+  @director.displayStats = true
+
+  # The prefered speed on our game (FPS)
+  # Note: This is only a prefered value its not garantied you will
+  # get that value
+  @director.animationInterval = 1.0/60
+
+  # Assign the view used for the director to present the
+  # game scenes
+  @director.view = gl_view
+
+  # Create a navigation controller to store our game director and
+  # hide its navigation bar so we can use all the sreen
+  @navigation_controller = UINavigationController.alloc.initWithRootViewController(@director)
+  @navigation_controller.navigationBarHidden = true
+
+  # Assign the navigation controller to the window
+  @window.rootViewController = @navigation_controller
+  @window.makeKeyAndVisible
+
+
+  # Configuration for our game images, this is very helpful
+  # when you want to use compressed images or with a different
+  # pixel format
+  CCTexture2D.defaultAlphaPixelFormat = KCCTexture2DPixelFormat_RGBA8888
+  CCTexture2D.PVRImagesHavePremultipliedAlpha(true)
+
+  # Configuration for the names of the images that will be
+  # used on the game
+  file_utils = CCFileUtils.sharedFileUtils
+  file_utils.enableFallbackSuffixes = false
+  
+  # The retina display images will be named with "-hd" instead of
+  # "@2x"
+  file_utils.setiPhoneRetinaDisplaySuffix "-hd"
+ 
+  # Tell the director to present the SpaceScene, it works similar to a
+  # navigation controller: Push to present & Pop to dismiss
+  #
+  # If you look closelly to the initialization of the scene we are using
+  # the node method, instead of new or alloc init this is because Cocos 2D
+  # do some memory allocation performance upgrades 
+  @director.pushScene(SpaceScene.node)
+
+  true
+end
+--------------
+
+Now we can start adding graphical elements to our game!
+
+Layers
+~~~~~~
+In Cocos 2D exists some objects to allow us to render graphical components (Sprites, Particles) on the screen, these are named **CCLayers**. But do not exist layers (CALayers) in iOS already?  Yes they are, but this have some differences: One of the more important is that the CCLayers can handle touches too!
+
+IMPORTANT: A sprite is a two dimensional image that is integrated in a bigger scene and can be moved on-screen or manipulated as a single unit. On short an image ;)
+
+Knowing this lets create our first CCLayer named **background_layer**:
+
+[source, sh]
+------------
+$ mkdir layers
+
+$ cd layers
+
+$ touch background_layer.rb
+
+$ open background_layer.rb
+------------
+
+[source, ruby]
+--------------
+class BackgroundLayer < CCLayer
+
+  def init
+
+    if super
+
+      # For testing proposes lets create a CCLabel to present 
+      # some text on the screen
+      label = CCLabelTTF.labelWithString('Its so cool to make a game', 
+                                         fontName:'Marker Felt', 
+                                         fontSize:24)
+
+      # We need to get the screen size for positioning the label 
+      window_size = CCDirector.sharedDirector.winSize
+
+      # Like the CALayers the position is set in reference to the center
+      # of the label, in this case we want the label to be in the middle
+      # of the screen
+      label.position = CGPointMake(window_size.width / 2, window_size.height / 2)
+
+      # Add the label to the Layer
+      self.addChild(label)
+    end
+
+    self
+  end
+
+end
+--------------
+
+Great! Our layer is complete, now lets add it to the scene:
+
+[source, sh]
+------------
+$ cd ..
+
+$ cd scenes
+
+$ open space_scene.rb
+------------
+
+[source, ruby]
+--------------
+def init
+
+  if super
+
+    # Create a new instance of a Background Layer
+    background_layer = BackgroundLayer.node
+
+    # Add it to the scene
+    self.addChild(background_layer)
+  end
+
+  self
+end
+--------------
+
+If you run the app you should see the following:
+
+**Image**
+
+Now we have all the necessary structure to make the game run: A director, scene and a layer! Its time to change the label into a space background:
+
+[source, sh]
+------------
+$ cd ..
+
+$ cd layers
+
+$ open background_layer.rb
+------------
+
+
+[source, ruby]
+--------------
+def init
+
+  if super
+
+    # Create a new sprite with our background image
+    background_sprite = CCSprite.spriteWithFile('bgSpace.png')
+
+    # We need to get the screen size for positioning the sprite 
+    screen_size = CCDirector.sharedDirector.winSize
+
+    # Like the CALayers the position is set in reference to the center
+    # of the label, in this case we want the sprite to be in the middle
+    # of the screen
+    background_sprite.position = CGPointMake(screen_size.width / 2, screen_size.height / 2)
+    
+    # Add the sprite to the Layer
+    self.addChild(background_sprite)
+  end
+
+  self
+end
+--------------
+
+**Image**
+
+We have a background for the game! Lets do something more fun: adding the space ship into the scene, for this we need to create a new layer called **game_play_layer.rb**:
+
+[source, sh]
+------------
+$ touch game_play_layer.rb
+------------
+
+[source, ruby]
+--------------
+class GamePlayLayer < CCLayer
+
+  def init
+
+    if super
+
+      # Create a new sprite instance for drawing our spaceship
+      @space_ship_sprite = CCSprite.spriteWithFile('bgSpaceShip.png')
+
+      # We need to get the screen size for positioning the sprite 
+      screen_size = CCDirector.sharedDirector.winSize
+
+      # Like the CALayers the position is set in reference to the center
+      # of the label, in this case we want the sprite to be in the middle
+      # of the screen
+      @space_ship_sprite.position = CGPointMake(screen_size.width / 2, screen_size.height / 2)
+      
+      # Add the sprite to the Layer
+      self.addChild(@space_ship_sprite)
+
+      # Enable handle touches on the layer
+      self.isTouchEnabled = true
+    end
+
+    self
+  end
+
+end
+--------------
+
+Now that we have our space ship layer its time to add it to the scene:
+
+[source, sh]
+------------
+$ cd ..
+
+$ cd scenes
+
+$ open space_scene.rb
+------------
+
+[source, ruby]
+--------------
+def init
+
+  if super
+
+    # Create a new instance of a Background Layer
+    background_layer = BackgroundLayer.node
+
+    # Add it to the scene
+    self.addChild(background_layer)
+
+
+    # Create a new instance of a Game Play Layer
+    game_play_layer = GamePlayLayer.node
+
+    # Add it to the scene
+    self.addChild(game_play_layer)
+  end
+
+  self
+end
+--------------
+
+**Image**
+
+Awesome! The next step is to allow the user to move the space ship with his touches on the screen. Lets open again our **game_play_layer.rb** and add the following method:
+
+[source, sh]
+--------------
+$ cd ..
+
+$ cd layers
+
+$ open game_play_layer.rb
+--------------
+
+[source, ruby]
+--------------
+# Method for handling the initial touch of the user
+# Very similar to the way iOS manage it
+def ccTouchesBegan(touches, withEvent:event)
+
+  # Get any touch of the user
+  touch = touches.anyObject
+
+  # Because we are not using a UIView or anything related
+  # we need to use a method to convert the touch position 
+  # coordinate space into the layer space
+  touch_location = self.convertTouchToNodeSpace(touch) 
+
+  # Move the spaceship to the touch position
+  @space_ship_sprite.position = touch_location
+end
+--------------
+
+**Image**
+
+Yes it moves! But it does without animation, this is because the sprites does not have implicit animations like a CALayer.
+
+Animations in the Space
+~~~~~~~~~~~~~~~~~~~~~~~
+The animations in Cocos 2D are called actions, so lets create a action for the ship so it will move to the location of the touch in a animated way:
+
+[source, ruby]
+--------------
+# Method for handling the initial touch of the user
+# Very similar to the way iOS manage it
+def ccTouchesBegan(touches, withEvent:event)
+
+  # Get any touch of the user
+  touch = touches.anyObject
+
+  # Because we are not using a UIView or anything related
+  # we need to use a method to convert the touch position 
+  # coordinate space into the layer space
+  touch_location = self.convertTouchToNodeSpace(touch)
+
+  # We need to create a MoveBy action for the animated movement
+  action = CCMoveBy.actionWithDuration(0.5, 
+                                       position:touch_location)
+
+  # Execute the action in our Space Ship Sprite
+  @space_ship_sprite.runAction(action)
+end
+--------------
+
+IMPORTANT: We are not really animating the movement, just making it frame by frame using the game FPS. (Interpolation ;)
+
+**Image**
+
+Upps! What when wrong? The problem is the actions must receive the number of points of movement in a direction, not a exact position! You can try it! Just assign a **CGPoint(100, 100)** to the position parameter of the action.
+
+The fix is the following:
+
+[source, ruby]
+--------------
+# Method for handling the initial touch of the user
+# Very similar to the way iOS manage it
+def ccTouchesBegan(touches, withEvent:event)
+
+  # Get any touch of the user
+  touch = touches.anyObject
+
+  # Because we are not using a UIView or anything related
+  # we need to use a method to convert the touch position 
+  # coordinate space into the layer space
+  touch_location = self.convertTouchToNodeSpace(touch)
+
+  # Get the current position of the space ship
+  current_location = @space_ship_sprite.position
+
+  # Calculate the difference between the two points
+  location_difference = CGPointMake(touch_location.x - current_location.x,
+                                    touch_location.y - current_location.y)
+
+  # We need to create a MoveBy action for the animated movement
+  action = CCMoveBy.actionWithDuration(0.5, 
+                                       position:location_difference)
+
+  # Execute the action in our Space Ship Sprite
+  @space_ship_sprite.runAction(action)
+end
+--------------
+
+**Image**
+
+Now is working! We are done with the space ship, the next is to add some asteroids flying into the scene.
+
+
+CCSprite
+~~~~~~~~
+Now is time to create some asteroids for our game, also its time to learn how to create more complex sprites. Lets begin adding a new class named **asteroid_sprite.rb**:
+
+[source, sh]
+------------
+$ cd ..
+
+$ mkdir sprites
+
+$ cd sprites
+
+$ touch asteroid_sprite.rb
+------------
+
+[source, ruby]
+--------------
+class AsteroidSprite < CCSprite
+
+  # This is the designated initializer of the CCSprite
+  def initWithTexture(texture, rect:rect)
+    
+    if super
+
+      self.position = CGPointMake(100, 100)
+    end
+
+    self
+
+  end
+
+  # Method for optimizing the code needed to instantiate
+  # a new asteroid
+	def self.sprite
+
+    AsteroidSprite.spriteWithFile('bgAsteroid.png')
+  end
+
+end
+--------------
+
+Lets add our new sprite to the **game_play_layer.rb**:
+
+[source, sh]
+------------
+$ cd ..
+
+$ cd layers
+
+$ open game_play_layer.rb
+------------
+
+[source, ruby]
+--------------
+def init
+
+  if super
+
+    # Create a new sprite instance for drawing our spaceship
+    @space_ship_sprite = CCSprite.spriteWithFile('bgSpaceShip.png')
+
+    # We need to get the screen size for positioning the sprite 
+    screen_size = CCDirector.sharedDirector.winSize
+
+    # Like the CALayers the position is set in reference to the center
+    # of the label, in this case we want the sprite to be in the middle
+    # of the screen
+    @space_ship_sprite.position = CGPointMake(screen_size.width / 2, screen_size.height / 2)
+
+    # Add the sprite to the Layer
+    self.addChild(@space_ship_sprite)
+
+    # Enable handle touches on the layer
+    self.isTouchEnabled = true
+
+    # Add an asteroid sprite to our layer
+    self.addChild(AsteroidSprite.sprite)
+  end
+
+  self
+end
+--------------
+
+**Image**
+
+Easy right? But we have a problem the asteroid is too big: Imagine five of them flying into the screen, impossible to dodge!
+
+So lets create something more complex, the idea is to have asteroids of different sizes moving across the screen. So lets use some randoms for determinate the size of the asteroid:
+
+[source, sh]
+------------
+$ cd ..
+
+$ cd sprites
+
+$ open asteroid_sprite.rb
+------------
+
+[source, ruby]
+--------------
+attr_accessor :state
+
+# This is the designated initializer of the CCSprite
+def initWithTexture(texture, rect:rect)
+  
+  if super
+    @state = :spawning
+
+    spawn
+  end
+
+  self
+
+end
+
+# Method that will manage the spawning points, size 
+# and trayectory of the asteroid
+def spawn 
+
+  # Lets create a Random and generate a number between
+  # 25 and 75, the maximum and minimum size for the asteroid
+  random = Random.new
+  sprite_size = random.rand(25..75)
+
+  # Scale the sprite according to our new generated size 
+  self.setScaleX(sprite_size / self.contentSize.width)
+  self.setScaleY(sprite_size / self.contentSize.height)
+
+  self.position = CGPointMake(100, 100)
+end
+--------------
+
+**IMAGE**
+
+Great! Now the size of the asteroid is completely random, to test it run the app multiple times!
+
+For make the illusion that the asteroids are coming from the space we need to set the initial position of it outside the screen and then move it across the screen. Again some randoms we will help us, lets add the following method to our file:
+
+[source, ruby]
+--------------
+# Method for calculating positions around the screen
+def position_outside_screen
+
+  # Instantiate a new random
+  random = Random.new
+
+  # Generate a new random that we will use to determinate
+  # in which screen side is the point
+  screen_side = random.rand(1..4)
+
+  # We need to get the screen size for positioning the sprite 
+  screen_size = CCDirector.sharedDirector.winSize
+
+  x = 0
+  y = 0
+
+  # According to the side of the screen generate the coordinates
+  # also we need to take in count the size of the sprite, so it 
+  # can be completely outside the screen
+
+  # Top Side
+  if screen_side == 1
+
+    x = random.rand(1..screen_size.width)
+    y = -self.contentSize.height
+
+  # Left Side
+  elsif screen_side == 2
+    
+    x = -self.contentSize.width
+    y = random.rand(1..screen_size.height)
+
+  # Right Side     
+  elsif screen_side == 3
+
+    x = 320 + self.contentSize.width
+    y = random.rand(1..screen_size.height)
+    
+  # Bottom Side
+  else 
+
+    x = random.rand(1..screen_size.width)
+    y = 480 + self.contentSize.height
+
+  end
+
+  CGPointMake(x, y)
+end
+--------------
+
+Now lets use this method for assign an initial position to our asteroid and create an action for its movement across the screen: 
+
+[source, ruby]
+--------------
+# Method that will manage the spawning points, size 
+# and trayectory of the asteroid
+def spawn 
+
+  # Lets create a Random and generate a number between
+  # 25 and 75, the maximum and minimum size for the asteroid
+  random = Random.new
+  sprite_size = random.rand(25..75)
+
+  # Scale the sprite according to our new generated size 
+  self.setScaleX(sprite_size / self.contentSize.width)
+  self.setScaleY(sprite_size / self.contentSize.height)
+
+
+  # Generate an initial and final position for the asteroid
+  initial_position = position_outside_screen
+  final_position = position_outside_screen
+
+  # Calculate the difference between the two positions
+  position_difference = CGPointMake(final_position.x - initial_position.x,
+                                    final_position.y - initial_position.y)
+
+
+  # Lets use another random that we will use for the movement speed
+  action_speed = random.rand(1..5)
+  
+  # Create a Move By Action for its movement across the screen
+  action = CCMoveBy.actionWithDuration(action_speed, 
+                                       position:position_difference)
+
+  # Assign the initial position
+  self.position = initial_position
+  
+  # Run the movement action
+  self.runAction(action)
+end
+--------------
+
+**IMAGE**
+
+You should see the asteroid fly across the screen! If you don't please run it a couple of times remember we are using randoms! (The asteroid can fly too fast or in the edges of the screen, this is part of the magic ;)
+
+But the asteroids does not move like that! They rotate:
+
+[source, ruby]
+--------------
+# Method that will manage the spawning points, size 
+# and trayectory of the asteroid
+def spawn 
+
+  # Lets create a Random and generate a number between
+  # 25 and 75, the maximum and minimum size for the asteroid
+  random = Random.new
+  sprite_size = random.rand(25..75)
+
+  # Scale the sprite according to our new generated size 
+  self.setScaleX(sprite_size / self.contentSize.width)
+  self.setScaleY(sprite_size / self.contentSize.height)
+
+
+  # Generate an initial and final position for the asteroid
+  initial_position = position_outside_screen
+  final_position = position_outside_screen
+
+  # Calculate the difference between the two positions
+  position_difference = CGPointMake(final_position.x - initial_position.x,
+                                    final_position.y - initial_position.y)
+
+
+  # Lets use another random that we will use for the movement speed
+  action_speed = random.rand(4..7)
+  
+  # Create a Move By Action for its movement across the screen
+  action = CCMoveBy.actionWithDuration(action_speed, 
+                                       position:position_difference)
+
+  # Assign the initial position
+  self.position = initial_position
+  
+  # Run the movement action
+  self.runAction(action)
+
+  # Create a spinning action with the same speed that the movement one
+  # also because we want it to spin a couple of times set the angle 
+  # to 1000 degrees    
+  spinning_action = CCRotateTo.actionWithDuration(action_speed, 
+                                                  angle:1000)
+
+  # Run the spinning action
+  self.runAction(spinning_action)
+
+end
+--------------
+
+**Image**
+
+Last part! We need to change the status of the sprite to **:ended** when the movement action ends:
+
+[source, ruby]
+--------------
+# Method that will manage the spawning points, size 
+# and trayectory of the asteroid
+def spawn 
+
+  # Lets create a Random and generate a number between
+  # 25 and 75, the maximum and minimum size for the asteroid
+  random = Random.new
+  sprite_size = random.rand(25..75)
+
+  # Scale the sprite according to our new generated size 
+  self.setScaleX(sprite_size / self.contentSize.width)
+  self.setScaleY(sprite_size / self.contentSize.height)
+
+
+  # Generate an initial and final position for the asteroid
+  initial_position = position_outside_screen
+  final_position = position_outside_screen
+
+  # Assign the initial position
+  self.position = initial_position
+
+  # Calculate the difference between the two positions
+  position_difference = CGPointMake(final_position.x - initial_position.x,
+                                    final_position.y - initial_position.y)
+
+
+  # Lets use another random that we will use for the movement speed
+  action_speed = random.rand(1..5)
+  
+  # Create a Move By Action for its movement across the screen
+  action = CCMoveBy.actionWithDuration(action_speed, 
+                                       position:position_difference)
+
+  # Instantiate a Call Function to excecute a method when the movement 
+  # action finished
+  finish_callback_action = CCCallFuncND.actionWithTarget(self, 
+                                                         selector:'movement_action_ended', 
+                                                         data:nil)
+
+  # Chain the both actions using a sequence
+  movement_action_sequence = CCSequence.actionsWithArray([action, finish_callback_action])
+    
+  # Run the movement action sequence
+  self.runAction(movement_action_sequence)
+
+
+  # Create a spinning action with the same speed that the movement one
+  # also because we want it to spin a couple of times set the angle 
+  # to 1000 degrees    
+  spinning_action = CCRotateTo.actionWithDuration(action_speed, 
+                                                  angle:1000)
+
+  # Run the spinning action
+  self.runAction(spinning_action)
+
+end
+
+# Action Movement Callback Method
+def movement_action_ended
+
+  @state = :ended
+  
+end
+--------------
+
+Now our asteroid sprite is finished! So for the game makes sense it should be multiple asteroids flying across the screen right? Thats next!
+
+FPS + Asteroid
+~~~~~~~~~~~~~~
+Do you remember that at the beginning of the exercise we talk about that the director executes a method multiple times a second to let us do some work like talk to the AI, Physics or refreshing the screen? Lets use this method for maintain a constant number of asteroids on the screen: creating them and then when it movement finishes destroy them.
+
+Lets open again our **GamePlayLayer** and subscribe to the loop notification:
+
+[source, sh]
+------------
+$ cd ..
+
+$ cd layers
+
+$ open game_play_layer.rb
+------------
+
+[source, ruby]
+--------------
+def init
+
+  if super
+
+    # Create a new sprite instance for drawing our spaceship
+    @space_ship_sprite = CCSprite.spriteWithFile('bgSpaceShip.png')
+
+    # We need to get the screen size for positioning the sprite 
+    screen_size = CCDirector.sharedDirector.winSize
+
+    # Like the CALayers the position is set in reference to the center
+    # of the label, in this case we want the sprite to be in the middle
+    # of the screen
+    @space_ship_sprite.position = CGPointMake(screen_size.width / 2, screen_size.height / 2)
+
+    # Add the sprite to the Layer
+    self.addChild(@space_ship_sprite)
+
+    # Enable handle touches on the layer
+    self.isTouchEnabled = true
+
+    #Create an array for storing our asteroid sprites
+    @asteroids = NSMutableArray.alloc.init
+
+    # Subscribe to the loop call
+    scheduleUpdate
+  
+  end
+
+  self
+end
+
+# Loop callback method
+def update(time)
+
+end
+--------------
+
+IMPORTANT: Please take a closer look to the code because we remove the add of the initial asteroid sprite and add an array for storing the asteroid sprites
+
+Now is time to add some asteroids to our game, implement the following on the **update** method:
+
+[source, ruby]
+--------------
+# Loop callback method
+def update(time)
+
+  spawn_asteroids
+end
+
+
+def spawn_asteroids
+
+  # Delete the asteroids that are on ended state
+  @asteroids.delete_if { | asteroid |
+
+    # If the asteroid is on ended state
+    if asteroid.state == :ended
+
+      # Remove from the layer also
+      self.removeChild(asteroid, cleanup:true)
+
+      true        
+    end
+  }
+
+  # Calculate the number of asteroids missing, taking
+  # in count that we should have 20 moving around
+  missing_asteroids = 20 - @asteroids.count
+  
+  # Iterate to create the missing asteroids
+  for i in 0..missing_asteroids - 1
+
+    # Create an asteroid sprite
+    asteroid_sprite = AsteroidSprite.sprite
+
+    # Add it to the layer and to the array
+    self.addChild(asteroid_sprite)
+    @asteroids.addObject(asteroid_sprite)
+  end
+end
+--------------
+
+**IMAGE**
+
+Awesome! Now the scene is complete, but is something missing right? Detect when the ship crashes with an asteroid!
+
+Please don't crash!
+~~~~~~~~~~~~~~~~~~~
+The last part of our exercise is to detect when the asteroid crashes with our space ship! For this lets add the following method:
+
+[source, ruby]
+--------------
+# Loop callback method
+def update(time)
+
+  spawn_asteroids
+  check_for_collisions
+end
+
+def check_for_collisions
+
+  # Iterate all the asteroids in the scene
+  @asteroids.each { | asteroid |
+
+    # If any asteroid frame intersect the space ship frame
+    # is a collision
+    if CGRectIntersectsRect(asteroid.boundingBox, @space_ship_sprite.boundingBox)
+    
+      # Create a new sprite instance for our explosion
+      explosion_sprite = CCSprite.spriteWithFile('bgBoom.jpeg')
+     
+      # Set the sprite in the same exact position of the 
+      # space ship
+      explosion_sprite.position = @space_ship_sprite.position
+
+      # Add the explosion sprite into our layer
+      self.addChild(explosion_sprite)
+
+      # Pause the game
+      CCDirector.sharedDirector.pause
+    end
+  }
+end
+--------------
+
+**IMAGE**
+
+Great! Now our little game is complete, if the user crashes into an asteroid the space ship explodes and the game is ended
+
+IMPORTANT: Even if you are a master moving your ship sometimes it will crash without touching any asteroid, this is because collision detection is more like an art and it depends on more advanced techniques like physics or sprite sheets to be pixel perfect. But that subjects are not in the scope of this course :'(
+
+Challenges
+~~~~~~~~~~
+. Add a "Game Over" scene to the game when a collision happen, remember that the CCDirector can push new scenes into the screen
+
+. Detect when the user touches an asteroid so you can remove it from the screen, clearing the way for our space ship to move
