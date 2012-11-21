@@ -20,9 +20,7 @@ include::ch05-CocoaOverview.asciidoc[]
 
 = Day 2
 
-include::ch06-Delegation.asciidoc[]
-
-include::ch07-MapKit.asciidoc[]
+include::ch06-Delegate-ch07-MapKit.asciidoc[]
 
 include::ch08-UIViews.asciidoc[]
 

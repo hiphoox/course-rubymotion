@@ -2542,18 +2542,18 @@ Assigning a <strong>UIViewController</strong> as the <strong>rootViewController<
 </div>
 </div>
 <h1 id="_day_2">Day 2</h1>
-<h1 id="_chapter_07_mapkit">Chapter 07 - MapKit</h1>
+<h1 id="_chapter_06_delegate_amp_chapter_07_mapkit">Chapter 06 - Delegate &amp; Chapter 07 - MapKit</h1>
 <div class="paragraph"><p>In this chapter we are going to review some concepts about delegation in CocoaTouch and how to use maps.</p></div>
 <div class="sect1">
 <h2 id="_preparing_the_app">Preparing the app</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>Open the file <strong>ch07_mapkit_resources.zip</strong> and unzip it. Inside there is our Cocoaheads app. Run it with the <strong>rake</strong> command. You will see the main screen with the details of an event:</p></div>
 <div class="paragraph"><p><span class="image">
-<img src="Resources/ch07-MapKit/ch07_01_app.png" alt="Chapter 7 app" />
+<img src="Resources/ch06-Delegate-ch07-MapKit/ch07_01_app.png" alt="Chapter 7 app" />
 </span></p></div>
 <div class="paragraph"><p>When you tap on the <strong>View Map</strong> button a view that will contain the map appears:</p></div>
 <div class="paragraph"><p><span class="image">
-<img src="Resources/ch07-MapKit/ch07_02_map.png" alt="Chapter 7 empty map view" />
+<img src="Resources/ch06-Delegate-ch07-MapKit/ch07_02_map.png" alt="Chapter 7 empty map view" />
 </span></p></div>
 <div class="paragraph"><p>Now open the Rakefile and examine the configuration. In this lab we are going to use the Location functionalities of CocoaTouch and the Maps. In order to do this we have to import some frameworks:</p></div>
 <div class="listingblock">
@@ -2637,7 +2637,7 @@ WiFi hotspots.
 <div class="paragraph"><p>If an error occurs, the second method <strong>locationManager:didFailWithError</strong> will be called.</p></div>
 <div class="paragraph"><p>Run the example, and try changing the simulator location in the Debug menu using the Location option. There are some predifined locations and you can specify a custom one by entering its latitude and longitude:</p></div>
 <div class="paragraph"><p><span class="image">
-<img src="Resources/ch07-MapKit/ch07_03_location.png" alt="Chapter 7 location" />
+<img src="Resources/ch06-Delegate-ch07-MapKit/ch07_03_location.png" alt="Chapter 7 location" />
 </span></p></div>
 </div>
 <div class="sect2">
@@ -2675,7 +2675,7 @@ MKMapTypeHybrid. Displays a satellite image of the area with road and road name 
 </pre></div></div></div>
 <div class="paragraph"><p>Run your app, you should see a small map view in the middle</p></div>
 <div class="paragraph"><p><span class="image">
-<img src="Resources/ch07-MapKit/ch07_04_smallmap.png" alt="Chapter 7 small map" />
+<img src="Resources/ch06-Delegate-ch07-MapKit/ch07_04_smallmap.png" alt="Chapter 7 small map" />
 </span></p></div>
 </div>
 <div class="sect2">
@@ -2702,7 +2702,7 @@ MKMapTypeHybrid. Displays a satellite image of the area with road and road name 
 </pre></div></div></div>
 <div class="paragraph"><p>Run your example, you should see something like this:</p></div>
 <div class="paragraph"><p><span class="image">
-<img src="Resources/ch07-MapKit/ch07_05_bigmap.png" alt="Chapter 7 big map" />
+<img src="Resources/ch06-Delegate-ch07-MapKit/ch07_05_bigmap.png" alt="Chapter 7 big map" />
 </span></p></div>
 <div class="paragraph"><p>The next step is to show a Pin in the location of the next meeting and to center the map near that spot. First, we are going to center the map around the event location. You can see that this View Controller has an instance variable named <strong>event</strong> of type <strong>Event</strong>. This class has a location attribute, with the latitude and longitude of the venue. We are going to use that property to extract the location around the map will be centered.</p></div>
 <div class="paragraph"><p><strong>MapKit</strong> uses a special structure called <strong>MKCoordinateRegion</strong> that has a <strong>CLLocationCoordinate2D</strong> - a structure which latitude and longitude values - and a <strong>MKCoordinateSpan</strong>, that represents the amount of map to display in the vertical and horizontal space. You can see this Span as the zoom that the map will have.</p></div>
@@ -2721,7 +2721,7 @@ MKMapTypeHybrid. Displays a satellite image of the area with road and road name 
 </pre></div></div></div>
 <div class="paragraph"><p>Run the app and you should see that the maps is centered and zoomed in around San José, California (the event has as its location the Apple HQ in Cupertino.):</p></div>
 <div class="paragraph"><p><span class="image">
-<img src="Resources/ch07-MapKit/ch07_06_mapregion.png" alt="Chapter 7 map region" />
+<img src="Resources/ch06-Delegate-ch07-MapKit/ch07_06_mapregion.png" alt="Chapter 7 map region" />
 </span></p></div>
 <div class="paragraph"><p>Finally, we are going to add a Pin -Annotations in MapKit terms. in the venue location. To add an Annotation in Objective-C you must create a class that explicitly implements the MKAnnotation protocol. In RubyMotion you only need to create a class with the same methods defined in the protocol. These methods are:</p></div>
 <div class="ulist"><ul>
@@ -2788,7 +2788,7 @@ subtitle. Optional, returns an NSString with the subtitle of the annotation.
 </pre></div></div></div>
 <div class="paragraph"><p>Run the example and you should see a red pin in the event&#8217;s location, if you tap on it you will see the title and subtitle displayed inside a callout:</p></div>
 <div class="paragraph"><p><span class="image">
-<img src="Resources/ch07-MapKit/ch07_07_annotation.png" alt="Chapter 7 map annotation" />
+<img src="Resources/ch06-Delegate-ch07-MapKit/ch07_07_annotation.png" alt="Chapter 7 map annotation" />
 </span></p></div>
 <div class="paragraph"><p>If you see the annotation displayed correctly, you have finished this lab.</p></div>
 </div>
@@ -2800,7 +2800,7 @@ subtitle. Optional, returns an NSString with the subtitle of the annotation.
 </pre></div></div></div>
 <div class="paragraph"><p>Your challenge is to implement the logic to change the map type. A tip that will help you: with <strong>segmented_control.selectedSegmentIndex</strong> you can access the current button selected index. Using this you&#8217;ll be able to determine which map type you should set to the <strong>@map_view_for_event.type</strong> variable.</p></div>
 <div class="paragraph"><p><span class="image">
-<img src="Resources/ch07-MapKit/ch07_08_challenge.png" alt="Chapter 7 map challenge" />
+<img src="Resources/ch06-Delegate-ch07-MapKit/ch07_08_challenge.png" alt="Chapter 7 map challenge" />
 </span></p></div>
 </div>
 </div>
@@ -7691,7 +7691,12 @@ Change the past animation to look like shooting stars, enter and leaving the scr
 <span class="k">end</span>
 </pre></div></div></div>
 <div class="paragraph"><p>You should see the following:</p></div>
-<div class="paragraph"><p><strong>IMAGE</strong></p></div>
+<div class="imageblock">
+<div class="content">
+<img src="Resources/ch25-ThirdPartyLibraries/ch25_Cocos2DInitialApplication.png" alt="Initial Cocos 2D Application" />
+</div>
+<div class="title">Figure 70. Initial Cocos 2D Application</div>
+</div>
 <div class="paragraph"><p>If you look closely in the bottom left part of the screen are a bunch of numbers, they are the FPS of our game. The general idea is that our game have consistently 60.0 but you will look as we advance in the exercise that some times it drops, this is normal.</p></div>
 </div>
 <div class="sect2">
@@ -7869,7 +7874,12 @@ Change the past animation to look like shooting stars, enter and leaving the scr
 <span class="k">end</span>
 </pre></div></div></div>
 <div class="paragraph"><p>If you run the app you should see the following:</p></div>
-<div class="paragraph"><p><strong>Image</strong></p></div>
+<div class="imageblock">
+<div class="content">
+<img src="Resources/ch25-ThirdPartyLibraries/ch25_Cocos2DLayer.png" alt="Cocos 2D Layer" />
+</div>
+<div class="title">Figure 71. Cocos 2D Layer</div>
+</div>
 <div class="paragraph"><p>Now we have all the necessary structure to make the game run: A director, scene and a layer! Its time to change the label into a space background:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="nv">$ </span><span class="nb">cd</span> ..
@@ -7901,7 +7911,12 @@ Change the past animation to look like shooting stars, enter and leaving the scr
   <span class="nb">self</span>
 <span class="k">end</span>
 </pre></div></div></div>
-<div class="paragraph"><p><strong>Image</strong></p></div>
+<div class="imageblock">
+<div class="content">
+<img src="Resources/ch25-ThirdPartyLibraries/ch25_BackgroundLayer.png" alt="Background Layer" />
+</div>
+<div class="title">Figure 72. Background Layer</div>
+</div>
 <div class="paragraph"><p>We have a background for the game! Lets do something more fun: adding the space ship into the scene, for this we need to create a new layer called <strong>game_play_layer.rb</strong>:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="nv">$ </span>touch game_play_layer.rb
@@ -7966,7 +7981,12 @@ Change the past animation to look like shooting stars, enter and leaving the scr
   <span class="nb">self</span>
 <span class="k">end</span>
 </pre></div></div></div>
-<div class="paragraph"><p><strong>Image</strong></p></div>
+<div class="imageblock">
+<div class="content">
+<img src="Resources/ch25-ThirdPartyLibraries/ch25_StaticSpaceShip.png" alt="Static Space Ship" />
+</div>
+<div class="title">Figure 73. Static Space Ship</div>
+</div>
 <div class="paragraph"><p>Awesome! The next step is to allow the user to move the space ship with his touches on the screen. Lets open again our <strong>game_play_layer.rb</strong> and add the following method:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="nv">$ </span><span class="nb">cd</span> ..
@@ -7992,7 +8012,12 @@ Change the past animation to look like shooting stars, enter and leaving the scr
   <span class="vi">@space_ship_sprite</span><span class="o">.</span><span class="n">position</span> <span class="o">=</span> <span class="n">touch_location</span>
 <span class="k">end</span>
 </pre></div></div></div>
-<div class="paragraph"><p><strong>Image</strong></p></div>
+<div class="imageblock">
+<div class="content">
+<img src="Resources/ch25-ThirdPartyLibraries/ch25_JumpingSpaceShip.png" alt="Jumping Space Ship" />
+</div>
+<div class="title">Figure 74. Jumping Space Ship</div>
+</div>
 <div class="paragraph"><p>Yes it moves! But it does without animation, this is because the sprites does not have implicit animations like a CALayer.</p></div>
 </div>
 <div class="sect2">
@@ -8027,7 +8052,12 @@ Change the past animation to look like shooting stars, enter and leaving the scr
 <td class="content">We are not really animating the movement, just making it frame by frame using the game FPS. (Interpolation ;)</td>
 </tr></table>
 </div>
-<div class="paragraph"><p><strong>Image</strong></p></div>
+<div class="imageblock">
+<div class="content">
+<img src="Resources/ch25-ThirdPartyLibraries/ch25_SpaceShipOutsideScreen.png" alt="Space Ship Outside Screen" />
+</div>
+<div class="title">Figure 75. Space Ship Outside Screen</div>
+</div>
 <div class="paragraph"><p>Upps! What when wrong? The problem is the actions must receive the number of points of movement in a direction, not a exact position! You can try it! Just assign a <strong>CGPoint(100, 100)</strong> to the position parameter of the action.</p></div>
 <div class="paragraph"><p>The fix is the following:</p></div>
 <div class="listingblock">
@@ -8058,7 +8088,12 @@ Change the past animation to look like shooting stars, enter and leaving the scr
   <span class="vi">@space_ship_sprite</span><span class="o">.</span><span class="n">runAction</span><span class="p">(</span><span class="n">action</span><span class="p">)</span>
 <span class="k">end</span>
 </pre></div></div></div>
-<div class="paragraph"><p><strong>Image</strong></p></div>
+<div class="imageblock">
+<div class="content">
+<img src="Resources/ch25-ThirdPartyLibraries/ch25_MovingSpaceShip.png" alt="Moving Space Ship" />
+</div>
+<div class="title">Figure 76. Moving Space Ship</div>
+</div>
 <div class="paragraph"><p>Now is working! We are done with the space ship, the next is to add some asteroids flying into the scene.</p></div>
 </div>
 <div class="sect2">
@@ -8557,7 +8592,7 @@ Detect when the user touches an asteroid so you can remove it from the screen, c
 <div id="footer">
 <div id="footer-text">
 Version 0.1<br />
-Last updated 2012-11-20 12:38:47 CST
+Last updated 2012-11-21 12:38:36 CST
 </div>
 </div>
 </body>

@@ -1,5 +1,5 @@
-Chapter 07 - MapKit
-===================
+Chapter 06 - Delegate & Chapter 07 - MapKit
+===========================================
 
 In this chapter we are going to review some concepts about delegation in CocoaTouch and how to use maps.
 
@@ -8,11 +8,11 @@ Preparing the app
 
 Open the file *ch07_mapkit_resources.zip* and unzip it. Inside there is our Cocoaheads app. Run it with the *rake* command. You will see the main screen with the details of an event:
 
-image:Resources/ch07-MapKit/ch07_01_app.png[Chapter 7 app]
+image:Resources/ch06-Delegate-ch07-MapKit/ch07_01_app.png[Chapter 7 app]
 
 When you tap on the *View Map* button a view that will contain the map appears:
 
-image:Resources/ch07-MapKit/ch07_02_map.png[Chapter 7 empty map view]
+image:Resources/ch06-Delegate-ch07-MapKit/ch07_02_map.png[Chapter 7 empty map view]
 
 Now open the Rakefile and examine the configuration. In this lab we are going to use the Location functionalities of CocoaTouch and the Maps. In order to do this we have to import some frameworks:
 
@@ -115,7 +115,7 @@ If an error occurs, the second method *locationManager:didFailWithError* will be
 
 Run the example, and try changing the simulator location in the Debug menu using the Location option. There are some predifined locations and you can specify a custom one by entering its latitude and longitude:
 
-image:Resources/ch07-MapKit/ch07_03_location.png[Chapter 7 location]
+image:Resources/ch06-Delegate-ch07-MapKit/ch07_03_location.png[Chapter 7 location]
 
 Creating a small Map
 ~~~~~~~~~~~~~~~~~~~
@@ -149,7 +149,7 @@ self.view.addSubview( mapViewForEvent )
 
 Run your app, you should see a small map view in the middle
 
-image:Resources/ch07-MapKit/ch07_04_smallmap.png[Chapter 7 small map]
+image:Resources/ch06-Delegate-ch07-MapKit/ch07_04_smallmap.png[Chapter 7 small map]
 
 Creating a map with annotations
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -185,7 +185,7 @@ end
 
 Run your example, you should see something like this:
 
-image:Resources/ch07-MapKit/ch07_05_bigmap.png[Chapter 7 big map]
+image:Resources/ch06-Delegate-ch07-MapKit/ch07_05_bigmap.png[Chapter 7 big map]
 
 
 The next step is to show a Pin in the location of the next meeting and to center the map near that spot. First, we are going to center the map around the event location. You can see that this View Controller has an instance variable named *event* of type *Event*. This class has a location attribute, with the latitude and longitude of the venue. We are going to use that property to extract the location around the map will be centered.
@@ -215,7 +215,7 @@ Now, add this region to the *@map_view_for_event* in the *viewDidLoad* method:
 
 Run the app and you should see that the maps is centered and zoomed in around San José, California (the event has as its location the Apple HQ in Cupertino.):
 
-image:Resources/ch07-MapKit/ch07_06_mapregion.png[Chapter 7 map region]
+image:Resources/ch06-Delegate-ch07-MapKit/ch07_06_mapregion.png[Chapter 7 map region]
 
 
 Finally, we are going to add a Pin -Annotations in MapKit terms. in the venue location. To add an Annotation in Objective-C you must create a class that explicitly implements the MKAnnotation protocol. In RubyMotion you only need to create a class with the same methods defined in the protocol. These methods are:
@@ -283,7 +283,7 @@ In the *viewDidLoad* method, add the annotation to the map:
 
 Run the example and you should see a red pin in the event's location, if you tap on it you will see the title and subtitle displayed inside a callout:
 
-image:Resources/ch07-MapKit/ch07_07_annotation.png[Chapter 7 map annotation]
+image:Resources/ch06-Delegate-ch07-MapKit/ch07_07_annotation.png[Chapter 7 map annotation]
 
 If you see the annotation displayed correctly, you have finished this lab.
 
@@ -302,4 +302,4 @@ def switch_map_type(segmented_control)
 Your challenge is to implement the logic to change the map type. A tip that will help you: with *segmented_control.selectedSegmentIndex* you can access the current button selected index. Using this you'll be able to determine which map type you should set to the *@map_view_for_event.type* variable.
 
 
-image:Resources/ch07-MapKit/ch07_08_challenge.png[Chapter 7 map challenge]
+image:Resources/ch06-Delegate-ch07-MapKit/ch07_08_challenge.png[Chapter 7 map challenge]
