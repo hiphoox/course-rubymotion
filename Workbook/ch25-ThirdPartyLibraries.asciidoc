@@ -672,7 +672,8 @@ def init
 end
 --------------
 
-**Image**
+.Big Asteroid
+image::Resources/ch25-ThirdPartyLibraries/ch25_BigAsteroid.png[Big Asteroid]
 
 Easy right? But we have a problem the asteroid is too big: Imagine five of them flying into the screen, impossible to dodge!
 
@@ -721,7 +722,8 @@ def spawn
 end
 --------------
 
-**IMAGE**
+.Random Size Asteroid
+image::Resources/ch25-ThirdPartyLibraries/ch25_RandomSizeAsteroid.png[Random Size Asteroid]
 
 Great! Now the size of the asteroid is completely random, to test it run the app multiple times!
 
@@ -821,7 +823,8 @@ def spawn
 end
 --------------
 
-**IMAGE**
+.Flying Asteroid
+image::Resources/ch25-ThirdPartyLibraries/ch25_FlyingAsteroid.png[Flying Asteroid]
 
 You should see the asteroid fly across the screen! If you don't please run it a couple of times remember we are using randoms! (The asteroid can fly too fast or in the edges of the screen, this is part of the magic ;)
 
@@ -877,7 +880,8 @@ def spawn
 end
 --------------
 
-**Image**
+.Spinning Asteroid
+image::Resources/ch25-ThirdPartyLibraries/ch25_SpinningAsteroid.png[Spinning Asteroid]
 
 Last part! We need to change the status of the sprite to **:ended** when the movement action ends:
 
@@ -1050,7 +1054,8 @@ def spawn_asteroids
 end
 --------------
 
-**IMAGE**
+.Multiple Asteroids
+image::Resources/ch25-ThirdPartyLibraries/ch25_MultipleAsteroids.png[Multiple Asteroids]
 
 Awesome! Now the scene is complete, but is something missing right? Detect when the ship crashes with an asteroid!
 
@@ -1093,7 +1098,8 @@ def check_for_collisions
 end
 --------------
 
-**IMAGE**
+.Please Don't Crash
+image::Resources/ch25-ThirdPartyLibraries/ch25_PleaseDontCrash.png[Please Don't Crash]
 
 Great! Now our little game is complete, if the user crashes into an asteroid the space ship explodes and the game is ended
 

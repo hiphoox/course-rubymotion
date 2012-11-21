@@ -1450,7 +1450,12 @@ asciidoc.install();
   <span class="nb">self</span>
 <span class="k">end</span>
 </pre></div></div></div>
-<div class="paragraph"><p><strong>Image</strong></p></div>
+<div class="imageblock">
+<div class="content">
+<img src="Resources/ch25-ThirdPartyLibraries/ch25_BigAsteroid.png" alt="Big Asteroid" />
+</div>
+<div class="title">Figure 8. Big Asteroid</div>
+</div>
 <div class="paragraph"><p>Easy right? But we have a problem the asteroid is too big: Imagine five of them flying into the screen, impossible to dodge!</p></div>
 <div class="paragraph"><p>So lets create something more complex, the idea is to have asteroids of different sizes moving across the screen. So lets use some randoms for determinate the size of the asteroid:</p></div>
 <div class="listingblock">
@@ -1492,7 +1497,12 @@ asciidoc.install();
   <span class="nb">self</span><span class="o">.</span><span class="n">position</span> <span class="o">=</span> <span class="no">CGPointMake</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
 <span class="k">end</span>
 </pre></div></div></div>
-<div class="paragraph"><p><strong>IMAGE</strong></p></div>
+<div class="imageblock">
+<div class="content">
+<img src="Resources/ch25-ThirdPartyLibraries/ch25_RandomSizeAsteroid.png" alt="Random Size Asteroid" />
+</div>
+<div class="title">Figure 9. Random Size Asteroid</div>
+</div>
 <div class="paragraph"><p>Great! Now the size of the asteroid is completely random, to test it run the app multiple times!</p></div>
 <div class="paragraph"><p>For make the illusion that the asteroids are coming from the space we need to set the initial position of it outside the screen and then move it across the screen. Again some randoms we will help us, lets add the following method to our file:</p></div>
 <div class="listingblock">
@@ -1584,7 +1594,12 @@ asciidoc.install();
   <span class="nb">self</span><span class="o">.</span><span class="n">runAction</span><span class="p">(</span><span class="n">action</span><span class="p">)</span>
 <span class="k">end</span>
 </pre></div></div></div>
-<div class="paragraph"><p><strong>IMAGE</strong></p></div>
+<div class="imageblock">
+<div class="content">
+<img src="Resources/ch25-ThirdPartyLibraries/ch25_FlyingAsteroid.png" alt="Flying Asteroid" />
+</div>
+<div class="title">Figure 10. Flying Asteroid</div>
+</div>
 <div class="paragraph"><p>You should see the asteroid fly across the screen! If you don&#8217;t please run it a couple of times remember we are using randoms! (The asteroid can fly too fast or in the edges of the screen, this is part of the magic ;)</p></div>
 <div class="paragraph"><p>But the asteroids does not move like that! They rotate:</p></div>
 <div class="listingblock">
@@ -1635,7 +1650,12 @@ asciidoc.install();
 
 <span class="k">end</span>
 </pre></div></div></div>
-<div class="paragraph"><p><strong>Image</strong></p></div>
+<div class="imageblock">
+<div class="content">
+<img src="Resources/ch25-ThirdPartyLibraries/ch25_SpinningAsteroid.png" alt="Spinning Asteroid" />
+</div>
+<div class="title">Figure 11. Spinning Asteroid</div>
+</div>
 <div class="paragraph"><p>Last part! We need to change the status of the sprite to <strong>:ended</strong> when the movement action ends:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="c1"># Method that will manage the spawning points, size</span>
@@ -1801,7 +1821,12 @@ asciidoc.install();
   <span class="k">end</span>
 <span class="k">end</span>
 </pre></div></div></div>
-<div class="paragraph"><p><strong>IMAGE</strong></p></div>
+<div class="imageblock">
+<div class="content">
+<img src="Resources/ch25-ThirdPartyLibraries/ch25_MultipleAsteroids.png" alt="Multiple Asteroids" />
+</div>
+<div class="title">Figure 12. Multiple Asteroids</div>
+</div>
 <div class="paragraph"><p>Awesome! Now the scene is complete, but is something missing right? Detect when the ship crashes with an asteroid!</p></div>
 </div>
 <div class="sect2">
@@ -1840,7 +1865,12 @@ asciidoc.install();
   <span class="p">}</span>
 <span class="k">end</span>
 </pre></div></div></div>
-<div class="paragraph"><p><strong>IMAGE</strong></p></div>
+<div class="imageblock">
+<div class="content">
+<img src="Resources/ch25-ThirdPartyLibraries/ch25_PleaseDontCrash.png" alt="Please Don't Crash" />
+</div>
+<div class="title">Figure 13. Please Don&#8217;t Crash</div>
+</div>
 <div class="paragraph"><p>Great! Now our little game is complete, if the user crashes into an asteroid the space ship explodes and the game is ended</p></div>
 <div class="admonitionblock">
 <table><tr>
@@ -1872,7 +1902,7 @@ Detect when the user touches an asteroid so you can remove it from the screen, c
 <div id="footnotes"><hr /></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2012-11-20 19:37:00 CST
+Last updated 2012-11-21 13:16:00 CST
 </div>
 </div>
 </body>
