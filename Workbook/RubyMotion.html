@@ -4853,6 +4853,19 @@ Drag a UITextView and in the <strong>Attributes</strong> inspector unselect the 
 <div class="paragraph"><p>As you can see, the navigation controller adds a smooth transition to navigate and a a back button to go back to return to the previous view controller.</p></div>
 </div>
 </div>
+<div class="sect1">
+<h2 id="_challenge_6">Challenge</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>We&#8217;ve been using the bgTitle.png header image as our navigation bar background. But it looks weird, the navigation bar should have a height of 44 px. and the image is 64 px. that is why the <strong>Cancel</strong> and <strong>Save</strong> buttons look like they are too aligned to the top of the view. Our designer has corrected this situation and created a <strong>bgNavigationBar.png</strong> image of 44 px. Replace it.</p></div>
+<div class="paragraph"><p>In the news_detail_view_controller.rb we need to change the default <strong>back</strong> button. Our designer has made an asset to replace it: <strong>btnBack.png</strong>. Create a UIButton with that image and replace the leftItem of <strong>navigationItemo</strong> with that button. The button should call a method called <strong>back</strong>. We have seen that with the method <strong>pushViewController:animated:</strong> we push views to the Navigation Controller View&#8217;s stack, research the method needed to pop them form the stack. That is the method that you should call in the <strong>back</strong> method:</p></div>
+<div class="imageblock">
+<div class="content">
+<img src="Resources/ch14-NavigationController/ch14_08_detail.png" alt="Back Button" />
+</div>
+<div class="title">Figure 33. Back Button</div>
+</div>
+</div>
+</div>
 <h1 id="_chapter_15_notification_center">Chapter 15 - Notification Center</h1>
 <div class="sect1">
 <h2 id="_digital_photo_frame">Digital Photo Frame</h2>
@@ -4919,14 +4932,14 @@ Drag a UITextView and in the <strong>Attributes</strong> inspector unselect the 
 <div class="content">
 <img src="resources/ch15-Notifications/ch15_PictureFrame.png" alt="Picture Frame" />
 </div>
-<div class="title">Figure 33. Picture Frame</div>
+<div class="title">Figure 34. Picture Frame</div>
 </div>
 <div class="paragraph"><p>Now Rotate the simulator or the device.</p></div>
 <div class="imageblock">
 <div class="content">
 <img src="resources/ch15-Notifications/ch15_LandscapeFrame.png" alt="Landscape Frame" />
 </div>
-<div class="title">Figure 34. Landscape Frame</div>
+<div class="title">Figure 35. Landscape Frame</div>
 </div>
 <div class="paragraph"><p>What just happened here? Everything indicates that the image did not adjust accordingly to the orientation.
 It may be useful if the device can tell us when it rotates so we can act in response; guess what actually it tell us, we just have to listen carefully or in this case subscribe our view controller to this notification.</p></div>
@@ -4982,7 +4995,7 @@ It may be useful if the device can tell us when it rotates so we can act in resp
 <div class="content">
 <img src="resources/ch15-Notifications/ch15_LandscapePicture.png" alt="Landscape Picture" />
 </div>
-<div class="title">Figure 35. Landscape Picture</div>
+<div class="title">Figure 36. Landscape Picture</div>
 </div>
 </div>
 <div class="sect2">
@@ -5074,7 +5087,7 @@ UIViewAutoresizingFlexibleBottomMargin
 <div class="content">
 <img src="resources/ch15-Notifications/ch15_PhotoFrameApp.png" alt="Photo Frame App" />
 </div>
-<div class="title">Figure 36. Photo Frame App</div>
+<div class="title">Figure 37. Photo Frame App</div>
 </div>
 </div>
 <div class="sect2">
@@ -5104,7 +5117,7 @@ Add a label that indicates the level of the battery, green when its above 10% an
 <div class="content">
 <img src="resources/ch19-Multitouch/ch19_Kanji.png" alt="Kanji" />
 </div>
-<div class="title">Figure 37. Kanji</div>
+<div class="title">Figure 38. Kanji</div>
 </div>
 <div class="sect2">
 <h3 id="_preparing_the_canvas">Preparing the Canvas</h3>
@@ -5220,7 +5233,7 @@ Add a label that indicates the level of the battery, green when its above 10% an
 <div class="content">
 <img src="resources/ch19-Multitouch/ch19_InitialApplication.png" alt="Initial Application" />
 </div>
-<div class="title">Figure 38. Initial Application</div>
+<div class="title">Figure 39. Initial Application</div>
 </div>
 </div>
 <div class="sect2">
@@ -5400,7 +5413,7 @@ The drawing on a UIView using Core Graphics its not additive, what this means is
 <div class="content">
 <img src="resources/ch19-Multitouch/ch19_InitialTouches.png" alt="Initial Touches" />
 </div>
-<div class="title">Figure 39. Initial Touches</div>
+<div class="title">Figure 40. Initial Touches</div>
 </div>
 <div class="paragraph"><p>Great! Now we are really seeing where the user touches began, lets continue adding the touch movements:</p></div>
 <div class="admonitionblock">
@@ -5434,7 +5447,7 @@ The drawing on a UIView using Core Graphics its not additive, what this means is
 <div class="content">
 <img src="resources/ch19-Multitouch/ch19_InitialLines.png" alt="Initial Lines" />
 </div>
-<div class="title">Figure 40. Initial Lines</div>
+<div class="title">Figure 41. Initial Lines</div>
 </div>
 <div class="paragraph"><p>Now we are drawing the initial touches and the movement in the screen, it looks like a line but if we move the finger faster will become more like a dotted line right? No problem we will fix that later</p></div>
 </div>
@@ -5446,7 +5459,7 @@ The drawing on a UIView using Core Graphics its not additive, what this means is
 <div class="content">
 <img src="resources/ch19-Multitouch/ch19_StartingPoints.png" alt="Starting Points" />
 </div>
-<div class="title">Figure 41. Starting Points</div>
+<div class="title">Figure 42. Starting Points</div>
 </div>
 <div class="paragraph"><p>The first thing we can do is to have an array of the trace starting coordinates, that will enable us to evaluate if the touch was on the beginning. Lets do a little experiment to test this part:</p></div>
 <div class="listingblock">
@@ -5648,7 +5661,7 @@ The drawing on a UIView using Core Graphics its not additive, what this means is
 <div class="content">
 <img src="resources/ch19-Multitouch/ch19_StartTrace3.png" alt="Start Trace #3" />
 </div>
-<div class="title">Figure 42. Start Trace #3</div>
+<div class="title">Figure 43. Start Trace #3</div>
 </div>
 <div class="paragraph"><p>Is working now! Is more easy for the user to touch the start of the trace, so lets continue adding the all the Kanji Traces:</p></div>
 <div class="listingblock">
@@ -5757,7 +5770,7 @@ The drawing on a UIView using Core Graphics its not additive, what this means is
 <div class="content">
 <img src="resources/ch19-Multitouch/ch19_AllStartingTraces.png" alt="All Starting Traces" />
 </div>
-<div class="title">Figure 43. All Starting Traces</div>
+<div class="title">Figure 44. All Starting Traces</div>
 </div>
 <div class="paragraph"><p>Yes! We can start painting on any trace now, so lets continue adding a method to our <strong>KanjiTrace</strong> for evaluate if the user is following the line and assigning a score for the drawing:</p></div>
 <div class="listingblock">
@@ -5838,7 +5851,7 @@ The drawing on a UIView using Core Graphics its not additive, what this means is
 <div class="content">
 <img src="resources/ch19-Multitouch/ch19_PaintedTrace.png" alt="Painted Trace" />
 </div>
-<div class="title">Figure 44. Painted Trace</div>
+<div class="title">Figure 45. Painted Trace</div>
 </div>
 </div>
 <div class="sect2">
@@ -5902,7 +5915,7 @@ The drawing on a UIView using Core Graphics its not additive, what this means is
 <div class="content">
 <img src="resources/ch19-Multitouch/ch19_ScoreBoard.png" alt="Score Board" />
 </div>
-<div class="title">Figure 45. Score Board</div>
+<div class="title">Figure 46. Score Board</div>
 </div>
 <div class="paragraph"><p>The last part of the exercise consist of analyzing the score of all the traces and according to that change the images of the cups. Making a little scoreboard!</p></div>
 <div class="listingblock">
@@ -5972,7 +5985,7 @@ The drawing on a UIView using Core Graphics its not additive, what this means is
 <div class="content">
 <img src="resources/ch19-Multitouch/ch19_HighScore.png" alt="High Score" />
 </div>
-<div class="title">Figure 46. High Score</div>
+<div class="title">Figure 47. High Score</div>
 </div>
 <div class="paragraph"><p>Now is finished! It looks like it will need some animations for the cups to look amazing, in the next chapters we will see how to make animations</p></div>
 </div>
@@ -6109,7 +6122,7 @@ The current implementation is drawing every point into the view, the challenge i
 <div class="content">
 <img src="resources/ch20-CALayers/ch20_REPL1.png" alt="Initial Run" />
 </div>
-<div class="title">Figure 47. Initial Run</div>
+<div class="title">Figure 48. Initial Run</div>
 </div>
 </div>
 <div class="sect2">
@@ -6135,7 +6148,7 @@ The current implementation is drawing every point into the view, the challenge i
 <div class="content">
 <img src="resources/ch20-CALayers/ch20_REPL2.png" alt="Yellow Square" />
 </div>
-<div class="title">Figure 48. Yellow Square</div>
+<div class="title">Figure 49. Yellow Square</div>
 </div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="o">(</span><span class="c">#&lt;UIView:0x000000)&gt; layer.position = CGPointMake(100, 100)</span>
@@ -6144,7 +6157,7 @@ The current implementation is drawing every point into the view, the challenge i
 <div class="content">
 <img src="resources/ch20-CALayers/ch20_REPL3.png" alt="Yellow Square in a Different Position" />
 </div>
-<div class="title">Figure 49. Yellow Square in a Different Position</div>
+<div class="title">Figure 50. Yellow Square in a Different Position</div>
 </div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="o">(</span><span class="c">#&lt;UIView:0x000000)&gt; layer.cornerRadius = 20</span>
@@ -6153,7 +6166,7 @@ The current implementation is drawing every point into the view, the challenge i
 <div class="content">
 <img src="resources/ch20-CALayers/ch20_REPL4.png" alt="Yellow Square with Rounded Corners" />
 </div>
-<div class="title">Figure 50. Yellow Square with Rounded Corners</div>
+<div class="title">Figure 51. Yellow Square with Rounded Corners</div>
 </div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="o">(</span><span class="c">#&lt;UIView:0x000000)&gt; layer.borderWidth = 10</span>
@@ -6163,7 +6176,7 @@ The current implementation is drawing every point into the view, the challenge i
 <div class="content">
 <img src="resources/ch20-CALayers/ch20_REPL5.png" alt="Yellow Square with Border" />
 </div>
-<div class="title">Figure 51. Yellow Square with Border</div>
+<div class="title">Figure 52. Yellow Square with Border</div>
 </div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="o">(</span><span class="c">#&lt;UIView:0x000000)&gt; layer.shadowRadius = 5.0</span>
@@ -6174,7 +6187,7 @@ The current implementation is drawing every point into the view, the challenge i
 <div class="content">
 <img src="resources/ch20-CALayers/ch20_REPL6.png" alt="Yellow Square with Shadow" />
 </div>
-<div class="title">Figure 52. Yellow Square with Shadow</div>
+<div class="title">Figure 53. Yellow Square with Shadow</div>
 </div>
 <div class="paragraph"><p>They are two things important in this part, the first is that you can manipulate the appearance in more ways using a CALayer than a UIView like the Rounded Corners, Shadows, etc. Also if you look closely you must see that when you change some properties of the layer it animates it self, we will look into more deeply later on.</p></div>
 </div>
@@ -6228,7 +6241,7 @@ The current implementation is drawing every point into the view, the challenge i
 <div class="content">
 <img src="resources/ch20-CALayers/ch20_GradientBackground.png" alt="Background with Gradient" />
 </div>
-<div class="title">Figure 53. Background with Gradient</div>
+<div class="title">Figure 54. Background with Gradient</div>
 </div>
 <div class="paragraph"><p>Easy right? We create a nice background for our app using a gradient. Lets continue adding some grass into the composition:</p></div>
 <div class="paragraph"><p>Please copy the <strong>Determine deployment target</strong> into our app resources folder, after that add the following method to our <strong>LayerViewController</strong> class</p></div>
@@ -6261,7 +6274,7 @@ The current implementation is drawing every point into the view, the challenge i
 <div class="content">
 <img src="resources/ch20-CALayers/ch20_GrassLayer.png" alt="Grass Layer" />
 </div>
-<div class="title">Figure 54. Grass Layer</div>
+<div class="title">Figure 55. Grass Layer</div>
 </div>
 <div class="paragraph"><p>Great! Now you see that we are compositing two layers together and learn that you can also include an Image as a content. But how about drawing custom figures? Add the following to the <strong>LayerViewController</strong> class:</p></div>
 <div class="listingblock">
@@ -6331,7 +6344,7 @@ The current implementation is drawing every point into the view, the challenge i
 <div class="content">
 <img src="resources/ch20-CALayers/ch20_SunLayer.png" alt="Sun Layer" />
 </div>
-<div class="title">Figure 55. Sun Layer</div>
+<div class="title">Figure 56. Sun Layer</div>
 </div>
 </div>
 <div class="sect2">
@@ -6458,7 +6471,7 @@ Then the resulting matrix property values and times is executed, giving the effe
 <div class="content">
 <img src="resources/ch20-CALayers/ch20_AnimatedLayer.png" alt="Sun Layer" />
 </div>
-<div class="title">Figure 56. Animated Layer</div>
+<div class="title">Figure 57. Animated Layer</div>
 </div>
 </div>
 <div class="sect2">
@@ -6563,7 +6576,7 @@ Repeat the animation indefinitely
 <div class="content">
 <img src="resources/ch21-CoreAnimation/ch21_AnimationBlinkToStart.png" alt="Animation Blinking to Start" />
 </div>
-<div class="title">Figure 57. Animation Blinking to Start</div>
+<div class="title">Figure 58. Animation Blinking to Start</div>
 </div>
 <div class="paragraph"><p>Uh? What happen? The sun move to the position we touch, but at the end of the animation it return to its initial value. This happens because the animation is independent of the layer that is running into, it will move the layer to the touch position but at the end if you don&#8217;t change the layer property it will return to the initial state.</p></div>
 <div class="paragraph"><p>Try the following:</p></div>
@@ -6601,7 +6614,7 @@ Repeat the animation indefinitely
 <div class="content">
 <img src="resources/ch21-CoreAnimation/ch21_AnimationComplete.png" alt="Animation Complete" />
 </div>
-<div class="title">Figure 58. Animation Complete</div>
+<div class="title">Figure 59. Animation Complete</div>
 </div>
 <div class="paragraph"><p>Now it works as expected! The animation is pretty slow because we set to it 1 second, try changing it for more fun.</p></div>
 <div class="admonitionblock">
@@ -6648,7 +6661,7 @@ Repeat the animation indefinitely
 <div class="content">
 <img src="resources/ch21-CoreAnimation/ch21_AnimationReturningToStartingPoint.png" alt="Animation Returning to Starting Point" />
 </div>
-<div class="title">Figure 59. Animation Returning to Starting Point</div>
+<div class="title">Figure 60. Animation Returning to Starting Point</div>
 </div>
 <div class="paragraph"><p>If we want to make that cycle of moving and returning happen 100 times?</p></div>
 <div class="listingblock">
@@ -6686,7 +6699,7 @@ Repeat the animation indefinitely
 <div class="content">
 <img src="resources/ch21-CoreAnimation/ch21_AnimationLoop.png" alt="Animation Loop" />
 </div>
-<div class="title">Figure 60. Animation Loop</div>
+<div class="title">Figure 61. Animation Loop</div>
 </div>
 <div class="paragraph"><p>What about combining two animations: a spinning one with the moving one</p></div>
 <div class="listingblock">
@@ -6739,7 +6752,7 @@ Repeat the animation indefinitely
 <div class="content">
 <img src="resources/ch21-CoreAnimation/ch21_AnimationSpinning.png" alt="Animation Spinning and Moving" />
 </div>
-<div class="title">Figure 61. Animation Spinning and Moving</div>
+<div class="title">Figure 62. Animation Spinning and Moving</div>
 </div>
 </div>
 </div>
@@ -6800,7 +6813,7 @@ Repeat the animation indefinitely
 <div class="content">
 <img src="resources/ch21-CoreAnimation/ch21_SunAndClouds.png" alt="Sun & Clouds" />
 </div>
-<div class="title">Figure 62. Sun &amp; Clouds</div>
+<div class="title">Figure 63. Sun &amp; Clouds</div>
 </div>
 <div class="paragraph"><p>Pretty but not amazing!, Now lets add some animation to the clouds:</p></div>
 <div class="listingblock">
@@ -6885,7 +6898,7 @@ Repeat the animation indefinitely
 <div class="content">
 <img src="resources/ch21-CoreAnimation/ch21_AnimationClouds.png" alt="Cloud Animation" />
 </div>
-<div class="title">Figure 63. Cloud Animation</div>
+<div class="title">Figure 64. Cloud Animation</div>
 </div>
 <div class="paragraph"><p>Yes, it looks kind of good. But the animation is too linear the clouds does not look like the real life, what we can do is adding some easing with a timing function. The objective is when the cloud appear on the screen go faster and then it decelerate until its finished. This kind of easing is called EasyOut:</p></div>
 <div class="paragraph"><p>Lets apply it to the code:</p></div>
@@ -6970,7 +6983,7 @@ Repeat the animation indefinitely
 <div class="content">
 <img src="resources/ch21-CoreAnimation/ch21_AnimationCloudsWithEasing.png" alt="Cloud Animation with Easing" />
 </div>
-<div class="title">Figure 64. Cloud Animation with Easing</div>
+<div class="title">Figure 65. Cloud Animation with Easing</div>
 </div>
 <div class="paragraph"><p>Subtle right? Thats the idea! It now looks more that the wind blows stronger at the first and then it slows down. But what is really happening?</p></div>
 <div class="paragraph"><p>Do you remember the part of the interpolation? We were saying in that moment that it is the calculus between the initial value and the final every millisecond of the sequence. It means that if we move 3 points during 3 seconds, it will move one point per second right?</p></div>
@@ -6980,7 +6993,7 @@ Repeat the animation indefinitely
 <div class="content">
 <img src="resources/ch21-CoreAnimation/ch21_Easings.png" alt="iOS Easings" />
 </div>
-<div class="title">Figure 65. iOS Easings</div>
+<div class="title">Figure 66. iOS Easings</div>
 </div>
 <div class="paragraph"><p>Also if you don&#8217;t like anyone, you can implement your custom timing function.</p></div>
 </div>
@@ -7042,7 +7055,7 @@ Repeat the animation indefinitely
 <div class="content">
 <img src="resources/ch21-CoreAnimation/ch21_SunStraightAnimation.png" alt="Sun Straight Animation" />
 </div>
-<div class="title">Figure 66. Sun Straight Animation</div>
+<div class="title">Figure 67. Sun Straight Animation</div>
 </div>
 <div class="paragraph"><p>We are improving! But the sun does not move in a straight line, so lets change does points into an arc:</p></div>
 <div class="listingblock">
@@ -7081,7 +7094,7 @@ Repeat the animation indefinitely
 <div class="content">
 <img src="resources/ch21-CoreAnimation/ch21_SunArcAnimation.png" alt="Sun Arc Animation" />
 </div>
-<div class="title">Figure 67. Sun Arc Animation</div>
+<div class="title">Figure 68. Sun Arc Animation</div>
 </div>
 <div class="paragraph"><p>Great! Now this is working, but how about combining the translation animation with a spinning one? (CABasicAnimation &amp; CAKeyframeAnimation):</p></div>
 <div class="listingblock">
@@ -7245,7 +7258,7 @@ Repeat the animation indefinitely
 <div class="content">
 <img src="resources/ch21-CoreAnimation/ch21_SunSunsetAnimation.png" alt="Sun Sunset Animation" />
 </div>
-<div class="title">Figure 68. Sun Sunset Animation</div>
+<div class="title">Figure 69. Sun Sunset Animation</div>
 </div>
 <div class="paragraph"><p>It looks pretty good! But we are missing the night part right? Thats the next part of the exercise</p></div>
 </div>
@@ -7518,7 +7531,7 @@ Repeat the animation indefinitely
 <div class="content">
 <img src="resources/ch21-CoreAnimation/ch21_SunAndMoonAnimation.png" alt="Sun & Moon Animation" />
 </div>
-<div class="title">Figure 69. Sun &amp; Moon Animation</div>
+<div class="title">Figure 70. Sun &amp; Moon Animation</div>
 </div>
 </div>
 </div>
@@ -7638,7 +7651,13 @@ Change the past animation to look like shooting stars, enter and leaving the scr
 
     <span class="c1"># Lets create a Cocos 2D view that will be used by the director</span>
     <span class="c1"># to present the game scenes</span>
-    <span class="n">gl_view</span> <span class="o">=</span> <span class="no">CCGLView</span><span class="o">.</span><span class="n">viewWithFrame</span><span class="p">(</span><span class="vi">@window</span><span class="o">.</span><span class="n">bounds</span><span class="p">)</span>
+    <span class="n">gl_view</span> <span class="o">=</span> <span class="no">CCGLView</span><span class="o">.</span><span class="n">viewWithFrame</span><span class="p">(</span><span class="vi">@window</span><span class="o">.</span><span class="n">bounds</span><span class="p">,</span>
+                                     <span class="n">pixelFormat</span><span class="p">:</span> <span class="no">KEAGLColorFormatRGBA8</span><span class="p">,</span>
+                                     <span class="n">depthFormat</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+                                     <span class="n">preserveBackbuffer</span><span class="p">:</span> <span class="kp">false</span><span class="p">,</span>
+                                     <span class="n">sharegroup</span><span class="p">:</span> <span class="kp">nil</span><span class="p">,</span>
+                                     <span class="n">multiSampling</span><span class="p">:</span> <span class="kp">false</span><span class="p">,</span>
+                                     <span class="n">numberOfSamples</span><span class="p">:</span> <span class="mi">0</span><span class="p">)</span>
 
 
     <span class="c1"># Get the Director shared instance for customization</span>
@@ -7695,7 +7714,7 @@ Change the past animation to look like shooting stars, enter and leaving the scr
 <div class="content">
 <img src="Resources/ch25-ThirdPartyLibraries/ch25_Cocos2DInitialApplication.png" alt="Initial Cocos 2D Application" />
 </div>
-<div class="title">Figure 70. Initial Cocos 2D Application</div>
+<div class="title">Figure 71. Initial Cocos 2D Application</div>
 </div>
 <div class="paragraph"><p>If you look closely in the bottom left part of the screen are a bunch of numbers, they are the FPS of our game. The general idea is that our game have consistently 60.0 but you will look as we advance in the exercise that some times it drops, this is normal.</p></div>
 </div>
@@ -7878,7 +7897,7 @@ Change the past animation to look like shooting stars, enter and leaving the scr
 <div class="content">
 <img src="Resources/ch25-ThirdPartyLibraries/ch25_Cocos2DLayer.png" alt="Cocos 2D Layer" />
 </div>
-<div class="title">Figure 71. Cocos 2D Layer</div>
+<div class="title">Figure 72. Cocos 2D Layer</div>
 </div>
 <div class="paragraph"><p>Now we have all the necessary structure to make the game run: A director, scene and a layer! Its time to change the label into a space background:</p></div>
 <div class="listingblock">
@@ -7915,7 +7934,7 @@ Change the past animation to look like shooting stars, enter and leaving the scr
 <div class="content">
 <img src="Resources/ch25-ThirdPartyLibraries/ch25_BackgroundLayer.png" alt="Background Layer" />
 </div>
-<div class="title">Figure 72. Background Layer</div>
+<div class="title">Figure 73. Background Layer</div>
 </div>
 <div class="paragraph"><p>We have a background for the game! Lets do something more fun: adding the space ship into the scene, for this we need to create a new layer called <strong>game_play_layer.rb</strong>:</p></div>
 <div class="listingblock">
@@ -7985,7 +8004,7 @@ Change the past animation to look like shooting stars, enter and leaving the scr
 <div class="content">
 <img src="Resources/ch25-ThirdPartyLibraries/ch25_StaticSpaceShip.png" alt="Static Space Ship" />
 </div>
-<div class="title">Figure 73. Static Space Ship</div>
+<div class="title">Figure 74. Static Space Ship</div>
 </div>
 <div class="paragraph"><p>Awesome! The next step is to allow the user to move the space ship with his touches on the screen. Lets open again our <strong>game_play_layer.rb</strong> and add the following method:</p></div>
 <div class="listingblock">
@@ -8016,7 +8035,7 @@ Change the past animation to look like shooting stars, enter and leaving the scr
 <div class="content">
 <img src="Resources/ch25-ThirdPartyLibraries/ch25_JumpingSpaceShip.png" alt="Jumping Space Ship" />
 </div>
-<div class="title">Figure 74. Jumping Space Ship</div>
+<div class="title">Figure 75. Jumping Space Ship</div>
 </div>
 <div class="paragraph"><p>Yes it moves! But it does without animation, this is because the sprites does not have implicit animations like a CALayer.</p></div>
 </div>
@@ -8037,7 +8056,7 @@ Change the past animation to look like shooting stars, enter and leaving the scr
   <span class="n">touch_location</span> <span class="o">=</span> <span class="nb">self</span><span class="o">.</span><span class="n">convertTouchToNodeSpace</span><span class="p">(</span><span class="n">touch</span><span class="p">)</span>
 
   <span class="c1"># We need to create a MoveBy action for the animated movement</span>
-  <span class="n">action</span> <span class="o">=</span> <span class="no">CCMoveBy</span><span class="o">.</span><span class="n">actionWithDuration</span><span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">5</span><span class="p">,</span>
+  <span class="n">action</span> <span class="o">=</span> <span class="no">CCMoveBy</span><span class="o">.</span><span class="n">actionWithDuration</span><span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">3</span><span class="p">,</span>
                                        <span class="n">position</span><span class="ss">:touch_location</span><span class="p">)</span>
 
   <span class="c1"># Execute the action in our Space Ship Sprite</span>
@@ -8056,7 +8075,7 @@ Change the past animation to look like shooting stars, enter and leaving the scr
 <div class="content">
 <img src="Resources/ch25-ThirdPartyLibraries/ch25_SpaceShipOutsideScreen.png" alt="Space Ship Outside Screen" />
 </div>
-<div class="title">Figure 75. Space Ship Outside Screen</div>
+<div class="title">Figure 76. Space Ship Outside Screen</div>
 </div>
 <div class="paragraph"><p>Upps! What when wrong? The problem is the actions must receive the number of points of movement in a direction, not a exact position! You can try it! Just assign a <strong>CGPoint(100, 100)</strong> to the position parameter of the action.</p></div>
 <div class="paragraph"><p>The fix is the following:</p></div>
@@ -8081,7 +8100,7 @@ Change the past animation to look like shooting stars, enter and leaving the scr
                                     <span class="n">touch_location</span><span class="o">.</span><span class="n">y</span> <span class="o">-</span> <span class="n">current_location</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
 
   <span class="c1"># We need to create a MoveBy action for the animated movement</span>
-  <span class="n">action</span> <span class="o">=</span> <span class="no">CCMoveBy</span><span class="o">.</span><span class="n">actionWithDuration</span><span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">5</span><span class="p">,</span>
+  <span class="n">action</span> <span class="o">=</span> <span class="no">CCMoveBy</span><span class="o">.</span><span class="n">actionWithDuration</span><span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">3</span><span class="p">,</span>
                                        <span class="n">position</span><span class="ss">:location_difference</span><span class="p">)</span>
 
   <span class="c1"># Execute the action in our Space Ship Sprite</span>
@@ -8092,7 +8111,7 @@ Change the past animation to look like shooting stars, enter and leaving the scr
 <div class="content">
 <img src="Resources/ch25-ThirdPartyLibraries/ch25_MovingSpaceShip.png" alt="Moving Space Ship" />
 </div>
-<div class="title">Figure 76. Moving Space Ship</div>
+<div class="title">Figure 77. Moving Space Ship</div>
 </div>
 <div class="paragraph"><p>Now is working! We are done with the space ship, the next is to add some asteroids flying into the scene.</p></div>
 </div>
@@ -8169,7 +8188,12 @@ Change the past animation to look like shooting stars, enter and leaving the scr
   <span class="nb">self</span>
 <span class="k">end</span>
 </pre></div></div></div>
-<div class="paragraph"><p><strong>Image</strong></p></div>
+<div class="imageblock">
+<div class="content">
+<img src="Resources/ch25-ThirdPartyLibraries/ch25_BigAsteroid.png" alt="Big Asteroid" />
+</div>
+<div class="title">Figure 78. Big Asteroid</div>
+</div>
 <div class="paragraph"><p>Easy right? But we have a problem the asteroid is too big: Imagine five of them flying into the screen, impossible to dodge!</p></div>
 <div class="paragraph"><p>So lets create something more complex, the idea is to have asteroids of different sizes moving across the screen. So lets use some randoms for determinate the size of the asteroid:</p></div>
 <div class="listingblock">
@@ -8211,7 +8235,12 @@ Change the past animation to look like shooting stars, enter and leaving the scr
   <span class="nb">self</span><span class="o">.</span><span class="n">position</span> <span class="o">=</span> <span class="no">CGPointMake</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
 <span class="k">end</span>
 </pre></div></div></div>
-<div class="paragraph"><p><strong>IMAGE</strong></p></div>
+<div class="imageblock">
+<div class="content">
+<img src="Resources/ch25-ThirdPartyLibraries/ch25_RandomSizeAsteroid.png" alt="Random Size Asteroid" />
+</div>
+<div class="title">Figure 79. Random Size Asteroid</div>
+</div>
 <div class="paragraph"><p>Great! Now the size of the asteroid is completely random, to test it run the app multiple times!</p></div>
 <div class="paragraph"><p>For make the illusion that the asteroids are coming from the space we need to set the initial position of it outside the screen and then move it across the screen. Again some randoms we will help us, lets add the following method to our file:</p></div>
 <div class="listingblock">
@@ -8303,7 +8332,12 @@ Change the past animation to look like shooting stars, enter and leaving the scr
   <span class="nb">self</span><span class="o">.</span><span class="n">runAction</span><span class="p">(</span><span class="n">action</span><span class="p">)</span>
 <span class="k">end</span>
 </pre></div></div></div>
-<div class="paragraph"><p><strong>IMAGE</strong></p></div>
+<div class="imageblock">
+<div class="content">
+<img src="Resources/ch25-ThirdPartyLibraries/ch25_FlyingAsteroid.png" alt="Flying Asteroid" />
+</div>
+<div class="title">Figure 80. Flying Asteroid</div>
+</div>
 <div class="paragraph"><p>You should see the asteroid fly across the screen! If you don&#8217;t please run it a couple of times remember we are using randoms! (The asteroid can fly too fast or in the edges of the screen, this is part of the magic ;)</p></div>
 <div class="paragraph"><p>But the asteroids does not move like that! They rotate:</p></div>
 <div class="listingblock">
@@ -8354,7 +8388,12 @@ Change the past animation to look like shooting stars, enter and leaving the scr
 
 <span class="k">end</span>
 </pre></div></div></div>
-<div class="paragraph"><p><strong>Image</strong></p></div>
+<div class="imageblock">
+<div class="content">
+<img src="Resources/ch25-ThirdPartyLibraries/ch25_SpinningAsteroid.png" alt="Spinning Asteroid" />
+</div>
+<div class="title">Figure 81. Spinning Asteroid</div>
+</div>
 <div class="paragraph"><p>Last part! We need to change the status of the sprite to <strong>:ended</strong> when the movement action ends:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="c1"># Method that will manage the spawning points, size</span>
@@ -8505,8 +8544,8 @@ Change the past animation to look like shooting stars, enter and leaving the scr
   <span class="p">}</span>
 
   <span class="c1"># Calculate the number of asteroids missing, taking</span>
-  <span class="c1"># in count that we should have 20 moving around</span>
-  <span class="n">missing_asteroids</span> <span class="o">=</span> <span class="mi">20</span> <span class="o">-</span> <span class="vi">@asteroids</span><span class="o">.</span><span class="n">count</span>
+  <span class="c1"># in count that we should have 15 moving around</span>
+  <span class="n">missing_asteroids</span> <span class="o">=</span> <span class="mi">15</span> <span class="o">-</span> <span class="vi">@asteroids</span><span class="o">.</span><span class="n">count</span>
 
   <span class="c1"># Iterate to create the missing asteroids</span>
   <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mi">0</span><span class="o">.</span><span class="n">.missing_asteroids</span> <span class="o">-</span> <span class="mi">1</span>
@@ -8520,7 +8559,12 @@ Change the past animation to look like shooting stars, enter and leaving the scr
   <span class="k">end</span>
 <span class="k">end</span>
 </pre></div></div></div>
-<div class="paragraph"><p><strong>IMAGE</strong></p></div>
+<div class="imageblock">
+<div class="content">
+<img src="Resources/ch25-ThirdPartyLibraries/ch25_MultipleAsteroids.png" alt="Multiple Asteroids" />
+</div>
+<div class="title">Figure 82. Multiple Asteroids</div>
+</div>
 <div class="paragraph"><p>Awesome! Now the scene is complete, but is something missing right? Detect when the ship crashes with an asteroid!</p></div>
 </div>
 <div class="sect2">
@@ -8559,7 +8603,12 @@ Change the past animation to look like shooting stars, enter and leaving the scr
   <span class="p">}</span>
 <span class="k">end</span>
 </pre></div></div></div>
-<div class="paragraph"><p><strong>IMAGE</strong></p></div>
+<div class="imageblock">
+<div class="content">
+<img src="Resources/ch25-ThirdPartyLibraries/ch25_PleaseDontCrash.png" alt="Please Don't Crash" />
+</div>
+<div class="title">Figure 83. Please Don&#8217;t Crash</div>
+</div>
 <div class="paragraph"><p>Great! Now our little game is complete, if the user crashes into an asteroid the space ship explodes and the game is ended</p></div>
 <div class="admonitionblock">
 <table><tr>
@@ -8592,7 +8641,7 @@ Detect when the user touches an asteroid so you can remove it from the screen, c
 <div id="footer">
 <div id="footer-text">
 Version 0.1<br />
-Last updated 2012-11-21 12:38:36 CST
+Last updated 2012-11-21 13:23:12 CST
 </div>
 </div>
 </body>

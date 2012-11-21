@@ -110,7 +110,13 @@ class AppDelegate
 
     # Lets create a Cocos 2D view that will be used by the director
     # to present the game scenes
-    gl_view = CCGLView.viewWithFrame(@window.bounds)
+    gl_view = CCGLView.viewWithFrame(@window.bounds,
+                                     pixelFormat: KEAGLColorFormatRGBA8,
+                                     depthFormat: 0,
+                                     preserveBackbuffer: false,
+                                     sharegroup: nil,
+                                     multiSampling: false,
+                                     numberOfSamples: 0)
 
 
     # Get the Director shared instance for customization
@@ -536,7 +542,7 @@ def ccTouchesBegan(touches, withEvent:event)
   touch_location = self.convertTouchToNodeSpace(touch)
 
   # We need to create a MoveBy action for the animated movement
-  action = CCMoveBy.actionWithDuration(0.5, 
+  action = CCMoveBy.actionWithDuration(0.3, 
                                        position:touch_location)
 
   # Execute the action in our Space Ship Sprite
@@ -575,7 +581,7 @@ def ccTouchesBegan(touches, withEvent:event)
                                     touch_location.y - current_location.y)
 
   # We need to create a MoveBy action for the animated movement
-  action = CCMoveBy.actionWithDuration(0.5, 
+  action = CCMoveBy.actionWithDuration(0.3, 
                                        position:location_difference)
 
   # Execute the action in our Space Ship Sprite
@@ -1038,8 +1044,8 @@ def spawn_asteroids
   }
 
   # Calculate the number of asteroids missing, taking
-  # in count that we should have 20 moving around
-  missing_asteroids = 20 - @asteroids.count
+  # in count that we should have 15 moving around
+  missing_asteroids = 15 - @asteroids.count
   
   # Iterate to create the missing asteroids
   for i in 0..missing_asteroids - 1

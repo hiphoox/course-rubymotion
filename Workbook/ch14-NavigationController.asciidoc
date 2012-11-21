@@ -241,7 +241,15 @@ image::Resources/ch14-NavigationController/ch14_07_detail.png[Detail Controller]
 As you can see, the navigation controller adds a smooth transition to navigate and a a back button to go back to return to the previous view controller.
 
 
+Challenge
+--------
 
+We've been using the bgTitle.png header image as our navigation bar background. But it looks weird, the navigation bar should have a height of 44 px. and the image is 64 px. that is why the *Cancel* and *Save* buttons look like they are too aligned to the top of the view. Our designer has corrected this situation and created a *bgNavigationBar.png* image of 44 px. Replace it.
+
+In the news_detail_view_controller.rb we need to change the default *back* button. Our designer has made an asset to replace it: *btnBack.png*. Create a UIButton with that image and replace the leftItem of *navigationItemo* with that button. The button should call a method called *back*. We have seen that with the method *pushViewController:animated:* we push views to the Navigation Controller View's stack, research the method needed to pop them form the stack. That is the method that you should call in the *back* method:
+
+.Back Button
+image::Resources/ch14-NavigationController/ch14_08_detail.png[Back Button]
 
 
 
