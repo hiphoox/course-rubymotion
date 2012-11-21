@@ -36,6 +36,10 @@ include::ch11-ViewControllers.asciidoc[]
 
 include::ch12-TableViews.asciidoc[]
 
+include::ch13-CustomCells.asciidoc[]
+
+include::ch14-NavigationController.asciidoc[]
+
 include::ch15-Notifications.asciidoc[]
 
 = Day 4

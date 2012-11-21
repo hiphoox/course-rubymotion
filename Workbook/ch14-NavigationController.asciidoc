@@ -1,0 +1,249 @@
+Chapter 14 - Navigation Controllers
+=================================
+
+Last chapter we added custom cells to our news table. In this chapter we will add navigation to it. Our table view is showing us a list of news items, and that's it. We need to add a way to navigate from that list to the full detail of the news item.
+
+We will do that using a navigation controller.
+
+
+Setting up the project.
+-----------------------
+
+As usual, we will begin by setting up our project. Uncompress the *ch14-navigationcontrollers_resource.zip*. You will the project as we finished in chapter 13 and the Xcode project we did in chapter 10. 
+
+.Current Application
+image::Resources/ch14-NavigationController/ch14_01_app.png[Current Application]
+
+
+Creating our Navigation Controller
+---------------------------------
+
+The first step is to present the NewsViewController inside a Navigation Controller. Open the file *app_delegate.rb*. In the method *appTabBarController* is where we are creating our Tab Bar and its view controller. Change it so the third tab will present a Navigation Controller with the NewsViewController in it:
+
+[source, ruby]
+-------------------
+def appTabBarController
+
+  tab_bar_controller = UITabBarController.alloc.init
+  tab_bar_controller.viewControllers = [
+    CalendarViewController.alloc.init,
+    NextEventViewController.alloc.init,
+    UINavigationController.alloc.initWithRootViewController(NewsViewController.alloc.initWithStyle(UITableViewStylePlain)) 
+  ]
+  tab_bar_controller.tabBar.backgroundImage = UIImage.imageNamed "bgTabBar"
+  tab_bar_controller
+end
+------------------
+
+
+Remember that a UINavigationController mantains a stack of view controllers. Thus, we should initialize the controller with a *root* that will be the first controller to be presented.
+
+Run the app
+
+.Navigation Controller
+image::Resources/ch14-NavigationController/ch14_02_navcontrol.png[Navigation Controller]
+
+Customizing the Navigation Bar
+-----------------------------
+
+We have two problems:
+1. The Table header looks weird below the Navigation Bar.
+2. The Navigation Bar has its default blueish color that does not match the look and feel of the app.
+
+To solve thess problems we will remove the table header and customize the Navigation Bar.
+
+First, delete these methods from the NewsViewController class:
+
+[source, ruby]
+-----------------
+def tableView(tableView, viewForHeaderInSection:section)
+
+  buttonsView
+end  
+
+
+def tableView(tableView, heightForHeaderInSection:section)
+
+  64.0
+end  
+----------------  
+
+Now let's add our background image to the navigation bar:
+
+[source, ruby]
+--------------------
+def setupNavigationBar
+
+  self.navigationController.navigationBar.setBackgroundImage(UIImage.imageNamed("bgTitleBar"), 
+    forBarMetrics:UIBarMetricsDefault)    
+end    
+-------------------
+
+
+For the Navigation Bar we can specify a background images for two different types of metrics:
+
+- UIBarMetricsDefault. Portrait mode, thus the image for the iPhone should have a width of 320px.
+- UIBarMetricsLandscapePhone. Landscape mode, the image must have 480px. of width.
+
+
+Call this method from the *viewDidLoad* method:
+
+[source, ruby]
+-------------
+def viewDidLoad
+
+  setupNavigationBar
+end
+-------------  
+
+Run the app:
+
+.Navigation Bar
+image::Resources/ch14-NavigationController/ch14_03_navbar.png[Navigation Bar]
+
+
+Our final step is to add the Add and Delete buttons to the bar. A Navigation Bar can only have two buttons, one to the left and one to right. Moreover, the buttons should be instances of *UIBarButtonItem* not of UIButton. If you remember, we have code a deleteButton and an addButton methods that build UIButtons. We can use this buttons as a base to generate our Bar Button Items:
+
+[source, ruby]
+------------------
+def setupNavigationBar
+
+  self.navigationController.navigationBar.setBackgroundImage(UIImage.imageNamed("bgTitleBar"), 
+    forBarMetrics:UIBarMetricsDefault)   
+  right_button_item = UIBarButtonItem.alloc.initWithCustomView(addButton)
+  self.navigationItem.setRightBarButtonItem(right_button_item)
+  left_button_item = UIBarButtonItem.alloc.initWithCustomView(deleteButton)
+  self.navigationItem.setLeftBarButtonItem(left_button_item)   
+end
+-----------------
+
+Your app should show the buttons on the Navigation Bar:
+
+.Navigation Bar Button Items
+image::Resources/ch14-NavigationController/ch14_04_barbuttons.png[Navigation Bar Button Items]
+
+
+Creating the News Detail Controller
+----------------------------------
+
+We have setup our Navigation Controller, now we are going to create the controller to which we are going to navigate to. This controller will show the full text of the news item. We are going to use the Interface Builder to create the View of this controller.
+
+Open the CocoaheadsViews.xcodeproj. Add a new file, in the Wizard select a View with the name *NewsItemDetailView*:
+
+.View Creation
+image::Resources/ch14-NavigationController/ch14_05_view_creation.png[View Creation]
+
+
+Setup the view in the Interface Builder as usual:
+
+- Select the File's Owner and in the Identity Inspector to UIViewController. Now Control + click on the File's Owner to display its outlets, link the *view* outlet to the View.
+
+- Select the view, in the *Attributes* inspector set its size to *Retina 3.5" full screen*. In the *File* inspector unselect the *Use Autolayout* option.
+
+We will display 3 things in our View: the title of the news item, the image and the full text of the news item.
+
+- Drag a UILabel to the view, in the *Attributes* inspector set its font to Hoefler of 20 points and its alignment to *Center*, set its tag to 1. In the *Size* inspector, set the frame to x:25, y:13, width:275 and height:44. 
+
+- Drag a UIImageView, set its Frame to x:20, y:67, width:80 and height:80. Set its tag to 2 in the *Attributes* inspector.
+
+- Drag a UITextView and in the *Attributes* inspector unselect the *Editable* option and set its tag to 3. In the *Size* inspector set its frame to x:113, y:63, width:187 and height:310. 
+
+.Interface Builder
+image::Resources/ch14-NavigationController/ch14_06_interface_builder.png[Interface Builder]
+
+Our View is ready. Copy the NewsItemDetailView.xib file into the *resources* folder of the RubyMotion project.
+
+Back in our RubyMotion Project, create a file in the *controllers* folder named *news_item_view_controller.rb*. This controller is very simple: it receives a news item and displays it:
+
+[source, ruby]
+-----------------
+class NewsItemViewController < UIViewController
+
+  attr_accessor :news_item
+
+  TITLE_LABEL_TAG = 1
+
+  IMAGE_VIEW_TAG = 2
+
+  NOTE_TEXTVIEW_TAG = 3
+
+  def viewDidLoad
+
+    setup_title_label
+    setup_image_view
+    setup_note_text_view    
+  end
+
+  
+  def setup_title_label
+
+    title_label = self.view.viewWithTag(TITLE_LABEL_TAG)   
+    title_label.text = @news_item.title  
+  end  
+
+
+  def setup_image_view
+
+    if @news_item.image
+
+      image_view = self.view.viewWithTag(IMAGE_VIEW_TAG)
+      image_view.image = UIImage.imageNamed @news_item.image      
+    end  
+  end  
+
+
+  def setup_note_text_view
+
+    note_text_view = self.view.viewWithTag(NOTE_TEXTVIEW_TAG)
+    note_text_view.text = @news_item.note
+    unless @news_item.image
+      note_text_view.frame = [[20,63], [280, 310]]
+    end  
+  end  
+
+end  
+----------------
+
+
+Now let's go back to our NewsViewController, let's change the implementation of our method:
+
+[source, ruby]
+--------------------
+def tableView(tableView, didSelectRowAtIndexPath:indexPath)
+
+  p "row #{indexPath.row} selected"
+end
+-------------------
+
+Now when the user taps on a News item we will navigate to our detail view controller to show the full text. We accomplish that using the *pushViewController:animated:* method:
+
+[source, ruby]
+-------------------
+def tableView(tableView, didSelectRowAtIndexPath:indexPath)
+      
+  news_item = @news[indexPath.row]    
+  news_item_controller = NewsItemViewController.alloc.initWithNibName("NewsItemDetailView", 
+    bundle:nil)
+  news_item_controller.news_item = news_item
+  self.navigationController.pushViewController(news_item_controller, 
+    animated:true)
+end
+-----------------  
+
+
+Try it, when you tap on a news item, this view should be displayed:
+
+
+.Detail Controller
+image::Resources/ch14-NavigationController/ch14_07_detail.png[Detail Controller]
+
+
+As you can see, the navigation controller adds a smooth transition to navigate and a a back button to go back to return to the previous view controller.
+
+
+
+
+
+
+
+

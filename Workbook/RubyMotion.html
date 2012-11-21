@@ -4365,6 +4365,494 @@ UITableViewStyleGrouped. A Table with sections in distinct group of rows. Like t
 </div>
 </div>
 </div>
+<h1 id="_chapter_13_custom_cells">Chapter 13 - Custom Cells</h1>
+<div class="paragraph"><p>In the last chapter we build our News section using a <strong>UITableView</strong>. In this section we are going to improve that section using Custom Cells. Our Designer has send us an improved design to display our news.</p></div>
+<div class="paragraph"><p>We used a standard <strong>UITableViewCell</strong> to display the news item information, both when you need something more customizable, you must create a subclass of <strong>UITableViewCell</strong>. You will find when developing iOS apps that is a very common task.</p></div>
+<div class="sect1">
+<h2 id="_setting_up_the_project_3">Setting up the project</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>Unzip the file <strong>ch13-custom_cells_resources</strong>, run the app and you will see that we have the app as we leave it in last chapter.</p></div>
+<div class="imageblock">
+<div class="content">
+<img src="Resources/ch13-CustomCells/ch13_01_app.png" alt="Current Application" />
+</div>
+<div class="title">Figure 19. Current Application</div>
+</div>
+<div class="paragraph"><p>We will use it as a base for this workshop.</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_creating_a_subclass_of_uitableviewcell">Creating a subclass of UITableViewCell</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>In the <strong>views</strong> folder create a file called <strong>news_table_view_cell.rb</strong> with this code:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">class</span> <span class="nc">NewsTableViewCell</span> <span class="o">&lt;</span> <span class="no">UITableViewCell</span>
+
+  <span class="kp">attr_accessor</span> <span class="ss">:title</span><span class="p">,</span> <span class="ss">:subtitle</span><span class="p">,</span> <span class="ss">:image_name</span>
+
+  <span class="no">NEWS_CELL_REUSE_ID</span> <span class="o">=</span> <span class="s2">&quot;NewsTableViewCell&quot;</span>
+
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>We are creating a UITableViewCell subclass named <strong>NewsTableViewCell</strong> with three properties: title, subtitle, and image_name. Those are the data that our cell is going to display. We are also adding a constant to store the reuse identifier of the cell.</p></div>
+<div class="paragraph"><p>If you remember, in the last chapter we were creating the cell in the NewsViewController, specifically in the <strong>tableView:cellForRowAtIndexPath:</strong> method. Now we are going to put that logic inside our cell. Thus, decoupling it from our View Controller. Add this method to the NewsTableViewCell:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">cellForNewsItem</span><span class="p">(</span><span class="n">news_item</span><span class="p">,</span> <span class="n">inTableView</span><span class="ss">:tableView</span><span class="p">)</span>
+
+  <span class="n">cell</span> <span class="o">=</span> <span class="n">tableView</span><span class="o">.</span><span class="n">dequeueReusableCellWithIdentifier</span><span class="p">(</span><span class="no">NEWS_CELL_REUSE_ID</span><span class="p">)</span> <span class="o">||</span> <span class="no">NewsTableViewCell</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithStyle</span><span class="p">(</span><span class="no">UITableViewCellStyleDefault</span><span class="p">,</span> <span class="n">reuseIdentifier</span><span class="ss">:NEWS_CELL_REUSE_ID</span><span class="p">)</span>
+  <span class="n">cell</span><span class="o">.</span><span class="n">title</span> <span class="o">=</span> <span class="n">news_item</span><span class="o">.</span><span class="n">title</span>
+  <span class="n">cell</span><span class="o">.</span><span class="n">subtitle</span> <span class="o">=</span> <span class="n">news_item</span><span class="o">.</span><span class="n">brief</span>
+  <span class="n">cell</span><span class="o">.</span><span class="n">image_name</span> <span class="o">=</span> <span class="n">news_item</span><span class="o">.</span><span class="n">image</span>
+  <span class="n">cell</span><span class="o">.</span><span class="n">selectionStyle</span> <span class="o">=</span> <span class="no">UITableViewCellSelectionStyleNone</span>
+  <span class="n">cell</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>We are dequeuing our cell from the table view, in case there is no cell already queue we create it. And the we are extracting the news item information from the <strong>news_item</strong> object passed as argument and fill our cell with it.</p></div>
+<div class="paragraph"><p>Now, in the <strong>NewsViewController</strong>, change the method <strong>tableView:cellForRowAtIndexPath:</strong> to this:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">tableView</span><span class="p">(</span><span class="n">tableView</span><span class="p">,</span> <span class="n">cellForRowAtIndexPath</span><span class="ss">:indexPath</span><span class="p">)</span>
+
+  <span class="n">news_item</span> <span class="o">=</span> <span class="vi">@news</span><span class="o">[</span><span class="n">indexPath</span><span class="o">.</span><span class="n">row</span><span class="o">]</span>
+  <span class="no">NewsTableViewCell</span><span class="o">.</span><span class="n">cellForNewsItem</span><span class="p">(</span><span class="n">news_item</span><span class="p">,</span> <span class="n">inTableView</span><span class="ss">:tableView</span><span class="p">)</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>Run your app.</p></div>
+<div class="imageblock">
+<div class="content">
+<img src="Resources/ch13-CustomCells/ch13_02_empty_cell.png" alt="Empty Cell" />
+</div>
+<div class="title">Figure 20. Empty Cell</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_adding_visual_components">Adding visual components</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>The table is empty. Why? Because we need to create the components of our cell to display the data. A UITableViewCell is an UIView. We have seen that we can create custom view and take advantage of the <strong>drawRect:</strong> method to draw visual components inside our view. Althought we can do the same inside a cell, is better to use composition of UIViews with the <strong>addSubview</strong> method, remember that a cell is reused for all rows in a table so we need to be able to refresh the components without the need of calling <strong>setNeedDisplay</strong>.</p></div>
+<div class="paragraph"><p>UIView has a method called <strong>layoutSubviews</strong> that method can be used to create and layout its subviews. We are going to use it to display the news item information:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">layoutSubviews</span>
+
+  <span class="k">if</span> <span class="vi">@background_image</span><span class="o">.</span><span class="n">nil?</span>
+
+    <span class="vi">@background_image</span> <span class="o">=</span> <span class="n">imageViewWithBackground</span>
+    <span class="nb">self</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="vi">@background_image</span><span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">def</span> <span class="nf">imageViewWithBackground</span>
+
+<span class="no">UIImageView</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithImage</span><span class="p">(</span><span class="no">UIImage</span><span class="o">.</span><span class="n">imageNamed</span><span class="p">(</span><span class="s2">&quot;bgNewsCell&quot;</span><span class="p">))</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>We are adding an image as a background. Notice that we are checking if the <strong>@background_image</strong> does not exist already. Why? Remember that there is only one instance of the cell in our table and we don&#8217;t want to add N background images, is enough to add it once.</p></div>
+<div class="paragraph"><p>Run the app.</p></div>
+<div class="imageblock">
+<div class="content">
+<img src="Resources/ch13-CustomCells/ch13_03_cell_background.png" alt="Cell Background" />
+</div>
+<div class="title">Figure 21. Cell Background</div>
+</div>
+<div class="paragraph"><p>It really looks bad. Our designer has gave us a background image with a height of 200px. And the default height of a Cell is of 44px. That is the reason that the images overlaps. Let&#8217;s fix it. Open the NewsViewController and we are going to add another <strong>UITableViewDelegate</strong> method to define a new cell height:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">tableView</span><span class="p">(</span><span class="n">tableView</span><span class="p">,</span> <span class="n">heightForRowAtIndexPath</span><span class="ss">:indexPath</span><span class="p">)</span>
+
+  <span class="mi">200</span><span class="o">.</span><span class="mi">0</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>Now you&#8217;ll see all the cells with their correct background:</p></div>
+<div class="imageblock">
+<div class="content">
+<img src="Resources/ch13-CustomCells/ch13_04_cell_height.png" alt="Cell Height" />
+</div>
+<div class="title">Figure 22. Cell Height</div>
+</div>
+<div class="paragraph"><p>It&#8217;s time to add more components. We are going to start with the title:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">layoutSubviews</span>
+
+  <span class="k">if</span> <span class="vi">@background_image</span><span class="o">.</span><span class="n">nil?</span>
+    <span class="vi">@background_image</span> <span class="o">=</span> <span class="n">imageViewWithBackground</span>
+    <span class="nb">self</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="vi">@background_image</span><span class="p">)</span>
+  <span class="k">end</span>
+  <span class="vi">@title_label</span> <span class="o">=</span> <span class="n">labelWithTitle</span>
+  <span class="nb">self</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="vi">@title_label</span><span class="p">)</span>
+<span class="k">end</span>
+
+
+<span class="k">def</span> <span class="nf">labelWithTitle</span>
+
+  <span class="n">title_label</span> <span class="o">=</span> <span class="no">UILabel</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithFrame</span><span class="p">(</span><span class="o">[[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="o">]</span><span class="p">,</span> <span class="o">[</span><span class="mi">300</span><span class="p">,</span> <span class="mi">40</span><span class="o">]]</span><span class="p">)</span>
+  <span class="n">title_label</span><span class="o">.</span><span class="n">font</span> <span class="o">=</span> <span class="no">UIFont</span><span class="o">.</span><span class="n">fontWithName</span><span class="p">(</span><span class="s2">&quot;Helvetica&quot;</span><span class="p">,</span> <span class="n">size</span><span class="p">:</span><span class="mi">24</span><span class="p">)</span>
+  <span class="n">title_label</span><span class="o">.</span><span class="n">textColor</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">redColor</span>
+  <span class="n">title_label</span><span class="o">.</span><span class="n">adjustsFontSizeToFitWidth</span> <span class="o">=</span> <span class="kp">true</span>
+  <span class="n">title_label</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="vi">@title</span>
+  <span class="n">title_label</span><span class="o">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">clearColor</span>
+  <span class="n">title_label</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>We are inserting a label with the title in Red color. Run your app:</p></div>
+<div class="imageblock">
+<div class="content">
+<img src="Resources/ch13-CustomCells/ch13_05_cell_title.png" alt="Cell Title" />
+</div>
+<div class="title">Figure 23. Cell Title</div>
+</div>
+<div class="paragraph"><p>Wow, the titles are all messed up. Again, there is only one instance of the cell and if you just add views to it, you will end with a lot of subviews. We can do two thing to fix this:
+- Do not create a UILabel every time, just once and modify it later for each news title.
+- Remove the previous UILabel.</p></div>
+<div class="paragraph"><p>We are going to do the second option. Create this method:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">removePreviousViews</span>
+
+  <span class="k">if</span> <span class="vi">@title_label</span>
+    <span class="vi">@title_label</span><span class="o">.</span><span class="n">removeFromSuperview</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>And call it from <strong>layoutSubviews</strong>:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">layoutSubviews</span>
+
+  <span class="n">removePreviousViews</span>
+
+  <span class="k">if</span> <span class="vi">@background_image</span><span class="o">.</span><span class="n">nil?</span>
+
+    <span class="vi">@background_image</span> <span class="o">=</span> <span class="n">imageViewWithBackground</span>
+    <span class="nb">self</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="vi">@background_image</span><span class="p">)</span>
+  <span class="k">end</span>
+
+  <span class="vi">@title_label</span> <span class="o">=</span> <span class="n">labelWithTitle</span>
+  <span class="nb">self</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="vi">@title_label</span><span class="p">)</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>Run the app, now the titles do not overlap:</p></div>
+<div class="imageblock">
+<div class="content">
+<img src="Resources/ch13-CustomCells/ch13_06_cell_title_right.png" alt="Cell Titles" />
+</div>
+<div class="title">Figure 24. Cell Titles</div>
+</div>
+<div class="paragraph"><p>Now we can add the other data: the subtitle and the image (if any) on the news item:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">imageViewWithNewsImage</span>
+
+  <span class="n">news_image_view</span> <span class="o">=</span> <span class="no">UIImageView</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithImage</span><span class="p">(</span><span class="no">UIImage</span><span class="o">.</span><span class="n">imageNamed</span><span class="p">(</span><span class="vi">@image_name</span><span class="p">))</span>
+  <span class="n">news_image_view</span><span class="o">.</span><span class="n">frame</span> <span class="o">=</span> <span class="p">(</span><span class="o">[[</span><span class="mi">10</span><span class="p">,</span><span class="mi">60</span><span class="o">]</span><span class="p">,</span> <span class="o">[</span><span class="mi">115</span><span class="p">,</span><span class="mi">115</span><span class="o">]]</span><span class="p">)</span>
+  <span class="n">news_image_view</span>
+<span class="k">end</span>
+
+<span class="k">def</span> <span class="nf">labelWithSubtitle</span>
+
+  <span class="k">unless</span> <span class="vi">@image_name</span><span class="o">.</span><span class="n">empty?</span>
+
+    <span class="n">subtitle_label</span> <span class="o">=</span> <span class="no">UILabel</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithFrame</span><span class="p">(</span><span class="o">[[</span><span class="mi">140</span><span class="p">,</span> <span class="mi">60</span><span class="o">]</span><span class="p">,</span> <span class="o">[</span><span class="mi">170</span><span class="p">,</span> <span class="mi">115</span><span class="o">]]</span><span class="p">)</span>
+  <span class="k">else</span>
+
+    <span class="n">subtitle_label</span> <span class="o">=</span> <span class="no">UILabel</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithFrame</span><span class="p">(</span><span class="o">[[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">60</span><span class="o">]</span><span class="p">,</span> <span class="o">[</span><span class="mi">300</span><span class="p">,</span> <span class="mi">115</span><span class="o">]]</span><span class="p">)</span>
+  <span class="k">end</span>
+
+  <span class="n">subtitle_label</span><span class="o">.</span><span class="n">font</span> <span class="o">=</span> <span class="no">UIFont</span><span class="o">.</span><span class="n">fontWithName</span><span class="p">(</span><span class="s2">&quot;Helvetica&quot;</span><span class="p">,</span> <span class="n">size</span><span class="p">:</span><span class="mi">18</span><span class="p">)</span>
+  <span class="n">subtitle_label</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="vi">@subtitle</span>
+  <span class="n">subtitle_label</span><span class="o">.</span><span class="n">numberOfLines</span> <span class="o">=</span> <span class="mi">4</span>
+  <span class="n">subtitle_label</span><span class="o">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">clearColor</span>
+  <span class="n">subtitle_label</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>Now update the <strong>layoutSubviews</strong> to call these methods. Notice that we are only adding the image view if the news item has an image. Not all news items have an associated image:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">layoutSubviews</span>
+
+  <span class="n">removePreviousViews</span>
+
+  <span class="k">if</span> <span class="vi">@background_image</span><span class="o">.</span><span class="n">nil?</span>
+
+    <span class="vi">@background_image</span> <span class="o">=</span> <span class="n">imageViewWithBackground</span>
+    <span class="nb">self</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="vi">@background_image</span><span class="p">)</span>
+  <span class="k">end</span>
+
+  <span class="k">unless</span> <span class="vi">@image_name</span><span class="o">.</span><span class="n">empty?</span>
+
+    <span class="vi">@image_view</span> <span class="o">=</span> <span class="n">imageViewWithNewsImage</span>
+    <span class="nb">self</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="vi">@image_view</span><span class="p">)</span>
+  <span class="k">end</span>
+
+  <span class="vi">@title_label</span> <span class="o">=</span> <span class="n">labelWithTitle</span>
+  <span class="vi">@subtitle_label</span> <span class="o">=</span> <span class="n">labelWithSubtitle</span>
+  <span class="nb">self</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="vi">@title_label</span><span class="p">)</span>
+  <span class="nb">self</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="vi">@subtitle_label</span><span class="p">)</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>And, finally, update the <strong>removePreviousViews</strong>:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">removePreviousViews</span>
+
+  <span class="k">if</span> <span class="vi">@title_label</span>
+    <span class="vi">@title_label</span><span class="o">.</span><span class="n">removeFromSuperview</span>
+  <span class="k">end</span>
+
+  <span class="k">if</span> <span class="vi">@image_view</span>
+    <span class="vi">@image_view</span><span class="o">.</span><span class="n">removeFromSuperview</span>
+  <span class="k">end</span>
+
+  <span class="k">if</span> <span class="vi">@subtitle_label</span>
+    <span class="vi">@subtitle_label</span><span class="o">.</span><span class="n">removeFromSuperview</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>Run your app, now we have a custom cell to display our news items:</p></div>
+<div class="imageblock">
+<div class="content">
+<img src="Resources/ch13-CustomCells/ch13_07_final_app.png" alt="Custom Cell Completed" />
+</div>
+<div class="title">Figure 25. Custom Cell Completed</div>
+</div>
+</div>
+</div>
+<h1 id="_chapter_14_navigation_controllers">Chapter 14 - Navigation Controllers</h1>
+<div class="paragraph"><p>Last chapter we added custom cells to our news table. In this chapter we will add navigation to it. Our table view is showing us a list of news items, and that&#8217;s it. We need to add a way to navigate from that list to the full detail of the news item.</p></div>
+<div class="paragraph"><p>We will do that using a navigation controller.</p></div>
+<div class="sect1">
+<h2 id="_setting_up_the_project_4">Setting up the project.</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>As usual, we will begin by setting up our project. Uncompress the <strong>ch14-navigationcontrollers_resource.zip</strong>. You will the project as we finished in chapter 13 and the Xcode project we did in chapter 10.</p></div>
+<div class="imageblock">
+<div class="content">
+<img src="Resources/ch14-NavigationController/ch14_01_app.png" alt="Current Application" />
+</div>
+<div class="title">Figure 26. Current Application</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_creating_our_navigation_controller">Creating our Navigation Controller</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>The first step is to present the NewsViewController inside a Navigation Controller. Open the file <strong>app_delegate.rb</strong>. In the method <strong>appTabBarController</strong> is where we are creating our Tab Bar and its view controller. Change it so the third tab will present a Navigation Controller with the NewsViewController in it:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">appTabBarController</span>
+
+  <span class="n">tab_bar_controller</span> <span class="o">=</span> <span class="no">UITabBarController</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">init</span>
+  <span class="n">tab_bar_controller</span><span class="o">.</span><span class="n">viewControllers</span> <span class="o">=</span> <span class="o">[</span>
+    <span class="no">CalendarViewController</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">init</span><span class="p">,</span>
+    <span class="no">NextEventViewController</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">init</span><span class="p">,</span>
+    <span class="no">UINavigationController</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithRootViewController</span><span class="p">(</span><span class="no">NewsViewController</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithStyle</span><span class="p">(</span><span class="no">UITableViewStylePlain</span><span class="p">))</span>
+  <span class="o">]</span>
+  <span class="n">tab_bar_controller</span><span class="o">.</span><span class="n">tabBar</span><span class="o">.</span><span class="n">backgroundImage</span> <span class="o">=</span> <span class="no">UIImage</span><span class="o">.</span><span class="n">imageNamed</span> <span class="s2">&quot;bgTabBar&quot;</span>
+  <span class="n">tab_bar_controller</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>Remember that a UINavigationController mantains a stack of view controllers. Thus, we should initialize the controller with a <strong>root</strong> that will be the first controller to be presented.</p></div>
+<div class="paragraph"><p>Run the app</p></div>
+<div class="imageblock">
+<div class="content">
+<img src="Resources/ch14-NavigationController/ch14_02_navcontrol.png" alt="Navigation Controller" />
+</div>
+<div class="title">Figure 27. Navigation Controller</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_customizing_the_navigation_bar">Customizing the Navigation Bar</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>We have two problems:
+1. The Table header looks weird below the Navigation Bar.
+2. The Navigation Bar has its default blueish color that does not match the look and feel of the app.</p></div>
+<div class="paragraph"><p>To solve thess problems we will remove the table header and customize the Navigation Bar.</p></div>
+<div class="paragraph"><p>First, delete these methods from the NewsViewController class:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">tableView</span><span class="p">(</span><span class="n">tableView</span><span class="p">,</span> <span class="n">viewForHeaderInSection</span><span class="ss">:section</span><span class="p">)</span>
+
+  <span class="n">buttonsView</span>
+<span class="k">end</span>
+
+
+<span class="k">def</span> <span class="nf">tableView</span><span class="p">(</span><span class="n">tableView</span><span class="p">,</span> <span class="n">heightForHeaderInSection</span><span class="ss">:section</span><span class="p">)</span>
+
+  <span class="mi">64</span><span class="o">.</span><span class="mi">0</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>Now let&#8217;s add our background image to the navigation bar:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">setupNavigationBar</span>
+
+  <span class="nb">self</span><span class="o">.</span><span class="n">navigationController</span><span class="o">.</span><span class="n">navigationBar</span><span class="o">.</span><span class="n">setBackgroundImage</span><span class="p">(</span><span class="no">UIImage</span><span class="o">.</span><span class="n">imageNamed</span><span class="p">(</span><span class="s2">&quot;bgTitleBar&quot;</span><span class="p">),</span>
+    <span class="n">forBarMetrics</span><span class="ss">:UIBarMetricsDefault</span><span class="p">)</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>For the Navigation Bar we can specify a background images for two different types of metrics:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+UIBarMetricsDefault. Portrait mode, thus the image for the iPhone should have a width of 320px.
+</p>
+</li>
+<li>
+<p>
+UIBarMetricsLandscapePhone. Landscape mode, the image must have 480px. of width.
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Call this method from the <strong>viewDidLoad</strong> method:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">viewDidLoad</span>
+
+  <span class="n">setupNavigationBar</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>Run the app:</p></div>
+<div class="imageblock">
+<div class="content">
+<img src="Resources/ch14-NavigationController/ch14_03_navbar.png" alt="Navigation Bar" />
+</div>
+<div class="title">Figure 28. Navigation Bar</div>
+</div>
+<div class="paragraph"><p>Our final step is to add the Add and Delete buttons to the bar. A Navigation Bar can only have two buttons, one to the left and one to right. Moreover, the buttons should be instances of <strong>UIBarButtonItem</strong> not of UIButton. If you remember, we have code a deleteButton and an addButton methods that build UIButtons. We can use this buttons as a base to generate our Bar Button Items:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">setupNavigationBar</span>
+
+  <span class="nb">self</span><span class="o">.</span><span class="n">navigationController</span><span class="o">.</span><span class="n">navigationBar</span><span class="o">.</span><span class="n">setBackgroundImage</span><span class="p">(</span><span class="no">UIImage</span><span class="o">.</span><span class="n">imageNamed</span><span class="p">(</span><span class="s2">&quot;bgTitleBar&quot;</span><span class="p">),</span>
+    <span class="n">forBarMetrics</span><span class="ss">:UIBarMetricsDefault</span><span class="p">)</span>
+  <span class="n">right_button_item</span> <span class="o">=</span> <span class="no">UIBarButtonItem</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithCustomView</span><span class="p">(</span><span class="n">addButton</span><span class="p">)</span>
+  <span class="nb">self</span><span class="o">.</span><span class="n">navigationItem</span><span class="o">.</span><span class="n">setRightBarButtonItem</span><span class="p">(</span><span class="n">right_button_item</span><span class="p">)</span>
+  <span class="n">left_button_item</span> <span class="o">=</span> <span class="no">UIBarButtonItem</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithCustomView</span><span class="p">(</span><span class="n">deleteButton</span><span class="p">)</span>
+  <span class="nb">self</span><span class="o">.</span><span class="n">navigationItem</span><span class="o">.</span><span class="n">setLeftBarButtonItem</span><span class="p">(</span><span class="n">left_button_item</span><span class="p">)</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>Your app should show the buttons on the Navigation Bar:</p></div>
+<div class="imageblock">
+<div class="content">
+<img src="Resources/ch14-NavigationController/ch14_04_barbuttons.png" alt="Navigation Bar Button Items" />
+</div>
+<div class="title">Figure 29. Navigation Bar Button Items</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_creating_the_news_detail_controller">Creating the News Detail Controller</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>We have setup our Navigation Controller, now we are going to create the controller to which we are going to navigate to. This controller will show the full text of the news item. We are going to use the Interface Builder to create the View of this controller.</p></div>
+<div class="paragraph"><p>Open the CocoaheadsViews.xcodeproj. Add a new file, in the Wizard select a View with the name <strong>NewsItemDetailView</strong>:</p></div>
+<div class="imageblock">
+<div class="content">
+<img src="Resources/ch14-NavigationController/ch14_05_view_creation.png" alt="View Creation" />
+</div>
+<div class="title">Figure 30. View Creation</div>
+</div>
+<div class="paragraph"><p>Setup the view in the Interface Builder as usual:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+Select the File&#8217;s Owner and in the Identity Inspector to UIViewController. Now Control + click on the File&#8217;s Owner to display its outlets, link the <strong>view</strong> outlet to the View.
+</p>
+</li>
+<li>
+<p>
+Select the view, in the <strong>Attributes</strong> inspector set its size to <strong>Retina 3.5" full screen</strong>. In the <strong>File</strong> inspector unselect the <strong>Use Autolayout</strong> option.
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>We will display 3 things in our View: the title of the news item, the image and the full text of the news item.</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+Drag a UILabel to the view, in the <strong>Attributes</strong> inspector set its font to Hoefler of 20 points and its alignment to <strong>Center</strong>, set its tag to 1. In the <strong>Size</strong> inspector, set the frame to x:25, y:13, width:275 and height:44.
+</p>
+</li>
+<li>
+<p>
+Drag a UIImageView, set its Frame to x:20, y:67, width:80 and height:80. Set its tag to 2 in the <strong>Attributes</strong> inspector.
+</p>
+</li>
+<li>
+<p>
+Drag a UITextView and in the <strong>Attributes</strong> inspector unselect the <strong>Editable</strong> option and set its tag to 3. In the <strong>Size</strong> inspector set its frame to x:113, y:63, width:187 and height:310.
+</p>
+</li>
+</ul></div>
+<div class="imageblock">
+<div class="content">
+<img src="Resources/ch14-NavigationController/ch14_06_interface_builder.png" alt="Interface Builder" />
+</div>
+<div class="title">Figure 31. Interface Builder</div>
+</div>
+<div class="paragraph"><p>Our View is ready. Copy the NewsItemDetailView.xib file into the <strong>resources</strong> folder of the RubyMotion project.</p></div>
+<div class="paragraph"><p>Back in our RubyMotion Project, create a file in the <strong>controllers</strong> folder named <strong>news_item_view_controller.rb</strong>. This controller is very simple: it receives a news item and displays it:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">class</span> <span class="nc">NewsItemViewController</span> <span class="o">&lt;</span> <span class="no">UIViewController</span>
+
+  <span class="kp">attr_accessor</span> <span class="ss">:news_item</span>
+
+  <span class="no">TITLE_LABEL_TAG</span> <span class="o">=</span> <span class="mi">1</span>
+
+  <span class="no">IMAGE_VIEW_TAG</span> <span class="o">=</span> <span class="mi">2</span>
+
+  <span class="no">NOTE_TEXTVIEW_TAG</span> <span class="o">=</span> <span class="mi">3</span>
+
+  <span class="k">def</span> <span class="nf">viewDidLoad</span>
+
+    <span class="n">setup_title_label</span>
+    <span class="n">setup_image_view</span>
+    <span class="n">setup_note_text_view</span>
+  <span class="k">end</span>
+
+
+  <span class="k">def</span> <span class="nf">setup_title_label</span>
+
+    <span class="n">title_label</span> <span class="o">=</span> <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">viewWithTag</span><span class="p">(</span><span class="no">TITLE_LABEL_TAG</span><span class="p">)</span>
+    <span class="n">title_label</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="vi">@news_item</span><span class="o">.</span><span class="n">title</span>
+  <span class="k">end</span>
+
+
+  <span class="k">def</span> <span class="nf">setup_image_view</span>
+
+    <span class="k">if</span> <span class="vi">@news_item</span><span class="o">.</span><span class="n">image</span>
+
+      <span class="n">image_view</span> <span class="o">=</span> <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">viewWithTag</span><span class="p">(</span><span class="no">IMAGE_VIEW_TAG</span><span class="p">)</span>
+      <span class="n">image_view</span><span class="o">.</span><span class="n">image</span> <span class="o">=</span> <span class="no">UIImage</span><span class="o">.</span><span class="n">imageNamed</span> <span class="vi">@news_item</span><span class="o">.</span><span class="n">image</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+
+
+  <span class="k">def</span> <span class="nf">setup_note_text_view</span>
+
+    <span class="n">note_text_view</span> <span class="o">=</span> <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">viewWithTag</span><span class="p">(</span><span class="no">NOTE_TEXTVIEW_TAG</span><span class="p">)</span>
+    <span class="n">note_text_view</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="vi">@news_item</span><span class="o">.</span><span class="n">note</span>
+    <span class="k">unless</span> <span class="vi">@news_item</span><span class="o">.</span><span class="n">image</span>
+      <span class="n">note_text_view</span><span class="o">.</span><span class="n">frame</span> <span class="o">=</span> <span class="o">[[</span><span class="mi">20</span><span class="p">,</span><span class="mi">63</span><span class="o">]</span><span class="p">,</span> <span class="o">[</span><span class="mi">280</span><span class="p">,</span> <span class="mi">310</span><span class="o">]]</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>Now let&#8217;s go back to our NewsViewController, let&#8217;s change the implementation of our method:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">tableView</span><span class="p">(</span><span class="n">tableView</span><span class="p">,</span> <span class="n">didSelectRowAtIndexPath</span><span class="ss">:indexPath</span><span class="p">)</span>
+
+  <span class="nb">p</span> <span class="s2">&quot;row </span><span class="si">#{</span><span class="n">indexPath</span><span class="o">.</span><span class="n">row</span><span class="si">}</span><span class="s2"> selected&quot;</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>Now when the user taps on a News item we will navigate to our detail view controller to show the full text. We accomplish that using the <strong>pushViewController:animated:</strong> method:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">tableView</span><span class="p">(</span><span class="n">tableView</span><span class="p">,</span> <span class="n">didSelectRowAtIndexPath</span><span class="ss">:indexPath</span><span class="p">)</span>
+
+  <span class="n">news_item</span> <span class="o">=</span> <span class="vi">@news</span><span class="o">[</span><span class="n">indexPath</span><span class="o">.</span><span class="n">row</span><span class="o">]</span>
+  <span class="n">news_item_controller</span> <span class="o">=</span> <span class="no">NewsItemViewController</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithNibName</span><span class="p">(</span><span class="s2">&quot;NewsItemDetailView&quot;</span><span class="p">,</span>
+    <span class="n">bundle</span><span class="ss">:nil</span><span class="p">)</span>
+  <span class="n">news_item_controller</span><span class="o">.</span><span class="n">news_item</span> <span class="o">=</span> <span class="n">news_item</span>
+  <span class="nb">self</span><span class="o">.</span><span class="n">navigationController</span><span class="o">.</span><span class="n">pushViewController</span><span class="p">(</span><span class="n">news_item_controller</span><span class="p">,</span>
+    <span class="n">animated</span><span class="ss">:true</span><span class="p">)</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>Try it, when you tap on a news item, this view should be displayed:</p></div>
+<div class="imageblock">
+<div class="content">
+<img src="Resources/ch14-NavigationController/ch14_07_detail.png" alt="Detail Controller" />
+</div>
+<div class="title">Figure 32. Detail Controller</div>
+</div>
+<div class="paragraph"><p>As you can see, the navigation controller adds a smooth transition to navigate and a a back button to go back to return to the previous view controller.</p></div>
+</div>
+</div>
 <h1 id="_chapter_15_notification_center">Chapter 15 - Notification Center</h1>
 <div class="sect1">
 <h2 id="_digital_photo_frame">Digital Photo Frame</h2>
@@ -4431,14 +4919,14 @@ UITableViewStyleGrouped. A Table with sections in distinct group of rows. Like t
 <div class="content">
 <img src="resources/ch15-Notifications/ch15_PictureFrame.png" alt="Picture Frame" />
 </div>
-<div class="title">Figure 19. Picture Frame</div>
+<div class="title">Figure 33. Picture Frame</div>
 </div>
 <div class="paragraph"><p>Now Rotate the simulator or the device.</p></div>
 <div class="imageblock">
 <div class="content">
 <img src="resources/ch15-Notifications/ch15_LandscapeFrame.png" alt="Landscape Frame" />
 </div>
-<div class="title">Figure 20. Landscape Frame</div>
+<div class="title">Figure 34. Landscape Frame</div>
 </div>
 <div class="paragraph"><p>What just happened here? Everything indicates that the image did not adjust accordingly to the orientation.
 It may be useful if the device can tell us when it rotates so we can act in response; guess what actually it tell us, we just have to listen carefully or in this case subscribe our view controller to this notification.</p></div>
@@ -4494,7 +4982,7 @@ It may be useful if the device can tell us when it rotates so we can act in resp
 <div class="content">
 <img src="resources/ch15-Notifications/ch15_LandscapePicture.png" alt="Landscape Picture" />
 </div>
-<div class="title">Figure 21. Landscape Picture</div>
+<div class="title">Figure 35. Landscape Picture</div>
 </div>
 </div>
 <div class="sect2">
@@ -4586,7 +5074,7 @@ UIViewAutoresizingFlexibleBottomMargin
 <div class="content">
 <img src="resources/ch15-Notifications/ch15_PhotoFrameApp.png" alt="Photo Frame App" />
 </div>
-<div class="title">Figure 22. Photo Frame App</div>
+<div class="title">Figure 36. Photo Frame App</div>
 </div>
 </div>
 <div class="sect2">
@@ -4616,7 +5104,7 @@ Add a label that indicates the level of the battery, green when its above 10% an
 <div class="content">
 <img src="resources/ch19-Multitouch/ch19_Kanji.png" alt="Kanji" />
 </div>
-<div class="title">Figure 23. Kanji</div>
+<div class="title">Figure 37. Kanji</div>
 </div>
 <div class="sect2">
 <h3 id="_preparing_the_canvas">Preparing the Canvas</h3>
@@ -4732,7 +5220,7 @@ Add a label that indicates the level of the battery, green when its above 10% an
 <div class="content">
 <img src="resources/ch19-Multitouch/ch19_InitialApplication.png" alt="Initial Application" />
 </div>
-<div class="title">Figure 24. Initial Application</div>
+<div class="title">Figure 38. Initial Application</div>
 </div>
 </div>
 <div class="sect2">
@@ -4912,7 +5400,7 @@ The drawing on a UIView using Core Graphics its not additive, what this means is
 <div class="content">
 <img src="resources/ch19-Multitouch/ch19_InitialTouches.png" alt="Initial Touches" />
 </div>
-<div class="title">Figure 25. Initial Touches</div>
+<div class="title">Figure 39. Initial Touches</div>
 </div>
 <div class="paragraph"><p>Great! Now we are really seeing where the user touches began, lets continue adding the touch movements:</p></div>
 <div class="admonitionblock">
@@ -4946,7 +5434,7 @@ The drawing on a UIView using Core Graphics its not additive, what this means is
 <div class="content">
 <img src="resources/ch19-Multitouch/ch19_InitialLines.png" alt="Initial Lines" />
 </div>
-<div class="title">Figure 26. Initial Lines</div>
+<div class="title">Figure 40. Initial Lines</div>
 </div>
 <div class="paragraph"><p>Now we are drawing the initial touches and the movement in the screen, it looks like a line but if we move the finger faster will become more like a dotted line right? No problem we will fix that later</p></div>
 </div>
@@ -4958,7 +5446,7 @@ The drawing on a UIView using Core Graphics its not additive, what this means is
 <div class="content">
 <img src="resources/ch19-Multitouch/ch19_StartingPoints.png" alt="Starting Points" />
 </div>
-<div class="title">Figure 27. Starting Points</div>
+<div class="title">Figure 41. Starting Points</div>
 </div>
 <div class="paragraph"><p>The first thing we can do is to have an array of the trace starting coordinates, that will enable us to evaluate if the touch was on the beginning. Lets do a little experiment to test this part:</p></div>
 <div class="listingblock">
@@ -5160,7 +5648,7 @@ The drawing on a UIView using Core Graphics its not additive, what this means is
 <div class="content">
 <img src="resources/ch19-Multitouch/ch19_StartTrace3.png" alt="Start Trace #3" />
 </div>
-<div class="title">Figure 28. Start Trace #3</div>
+<div class="title">Figure 42. Start Trace #3</div>
 </div>
 <div class="paragraph"><p>Is working now! Is more easy for the user to touch the start of the trace, so lets continue adding the all the Kanji Traces:</p></div>
 <div class="listingblock">
@@ -5269,7 +5757,7 @@ The drawing on a UIView using Core Graphics its not additive, what this means is
 <div class="content">
 <img src="resources/ch19-Multitouch/ch19_AllStartingTraces.png" alt="All Starting Traces" />
 </div>
-<div class="title">Figure 29. All Starting Traces</div>
+<div class="title">Figure 43. All Starting Traces</div>
 </div>
 <div class="paragraph"><p>Yes! We can start painting on any trace now, so lets continue adding a method to our <strong>KanjiTrace</strong> for evaluate if the user is following the line and assigning a score for the drawing:</p></div>
 <div class="listingblock">
@@ -5350,7 +5838,7 @@ The drawing on a UIView using Core Graphics its not additive, what this means is
 <div class="content">
 <img src="resources/ch19-Multitouch/ch19_PaintedTrace.png" alt="Painted Trace" />
 </div>
-<div class="title">Figure 30. Painted Trace</div>
+<div class="title">Figure 44. Painted Trace</div>
 </div>
 </div>
 <div class="sect2">
@@ -5414,7 +5902,7 @@ The drawing on a UIView using Core Graphics its not additive, what this means is
 <div class="content">
 <img src="resources/ch19-Multitouch/ch19_ScoreBoard.png" alt="Score Board" />
 </div>
-<div class="title">Figure 31. Score Board</div>
+<div class="title">Figure 45. Score Board</div>
 </div>
 <div class="paragraph"><p>The last part of the exercise consist of analyzing the score of all the traces and according to that change the images of the cups. Making a little scoreboard!</p></div>
 <div class="listingblock">
@@ -5484,7 +5972,7 @@ The drawing on a UIView using Core Graphics its not additive, what this means is
 <div class="content">
 <img src="resources/ch19-Multitouch/ch19_HighScore.png" alt="High Score" />
 </div>
-<div class="title">Figure 32. High Score</div>
+<div class="title">Figure 46. High Score</div>
 </div>
 <div class="paragraph"><p>Now is finished! It looks like it will need some animations for the cups to look amazing, in the next chapters we will see how to make animations</p></div>
 </div>
@@ -5621,7 +6109,7 @@ The current implementation is drawing every point into the view, the challenge i
 <div class="content">
 <img src="resources/ch20-CALayers/ch20_REPL1.png" alt="Initial Run" />
 </div>
-<div class="title">Figure 33. Initial Run</div>
+<div class="title">Figure 47. Initial Run</div>
 </div>
 </div>
 <div class="sect2">
@@ -5647,7 +6135,7 @@ The current implementation is drawing every point into the view, the challenge i
 <div class="content">
 <img src="resources/ch20-CALayers/ch20_REPL2.png" alt="Yellow Square" />
 </div>
-<div class="title">Figure 34. Yellow Square</div>
+<div class="title">Figure 48. Yellow Square</div>
 </div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="o">(</span><span class="c">#&lt;UIView:0x000000)&gt; layer.position = CGPointMake(100, 100)</span>
@@ -5656,7 +6144,7 @@ The current implementation is drawing every point into the view, the challenge i
 <div class="content">
 <img src="resources/ch20-CALayers/ch20_REPL3.png" alt="Yellow Square in a Different Position" />
 </div>
-<div class="title">Figure 35. Yellow Square in a Different Position</div>
+<div class="title">Figure 49. Yellow Square in a Different Position</div>
 </div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="o">(</span><span class="c">#&lt;UIView:0x000000)&gt; layer.cornerRadius = 20</span>
@@ -5665,7 +6153,7 @@ The current implementation is drawing every point into the view, the challenge i
 <div class="content">
 <img src="resources/ch20-CALayers/ch20_REPL4.png" alt="Yellow Square with Rounded Corners" />
 </div>
-<div class="title">Figure 36. Yellow Square with Rounded Corners</div>
+<div class="title">Figure 50. Yellow Square with Rounded Corners</div>
 </div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="o">(</span><span class="c">#&lt;UIView:0x000000)&gt; layer.borderWidth = 10</span>
@@ -5675,7 +6163,7 @@ The current implementation is drawing every point into the view, the challenge i
 <div class="content">
 <img src="resources/ch20-CALayers/ch20_REPL5.png" alt="Yellow Square with Border" />
 </div>
-<div class="title">Figure 37. Yellow Square with Border</div>
+<div class="title">Figure 51. Yellow Square with Border</div>
 </div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="o">(</span><span class="c">#&lt;UIView:0x000000)&gt; layer.shadowRadius = 5.0</span>
@@ -5686,7 +6174,7 @@ The current implementation is drawing every point into the view, the challenge i
 <div class="content">
 <img src="resources/ch20-CALayers/ch20_REPL6.png" alt="Yellow Square with Shadow" />
 </div>
-<div class="title">Figure 38. Yellow Square with Shadow</div>
+<div class="title">Figure 52. Yellow Square with Shadow</div>
 </div>
 <div class="paragraph"><p>They are two things important in this part, the first is that you can manipulate the appearance in more ways using a CALayer than a UIView like the Rounded Corners, Shadows, etc. Also if you look closely you must see that when you change some properties of the layer it animates it self, we will look into more deeply later on.</p></div>
 </div>
@@ -5740,7 +6228,7 @@ The current implementation is drawing every point into the view, the challenge i
 <div class="content">
 <img src="resources/ch20-CALayers/ch20_GradientBackground.png" alt="Background with Gradient" />
 </div>
-<div class="title">Figure 39. Background with Gradient</div>
+<div class="title">Figure 53. Background with Gradient</div>
 </div>
 <div class="paragraph"><p>Easy right? We create a nice background for our app using a gradient. Lets continue adding some grass into the composition:</p></div>
 <div class="paragraph"><p>Please copy the <strong>Determine deployment target</strong> into our app resources folder, after that add the following method to our <strong>LayerViewController</strong> class</p></div>
@@ -5773,7 +6261,7 @@ The current implementation is drawing every point into the view, the challenge i
 <div class="content">
 <img src="resources/ch20-CALayers/ch20_GrassLayer.png" alt="Grass Layer" />
 </div>
-<div class="title">Figure 40. Grass Layer</div>
+<div class="title">Figure 54. Grass Layer</div>
 </div>
 <div class="paragraph"><p>Great! Now you see that we are compositing two layers together and learn that you can also include an Image as a content. But how about drawing custom figures? Add the following to the <strong>LayerViewController</strong> class:</p></div>
 <div class="listingblock">
@@ -5843,7 +6331,7 @@ The current implementation is drawing every point into the view, the challenge i
 <div class="content">
 <img src="resources/ch20-CALayers/ch20_SunLayer.png" alt="Sun Layer" />
 </div>
-<div class="title">Figure 41. Sun Layer</div>
+<div class="title">Figure 55. Sun Layer</div>
 </div>
 </div>
 <div class="sect2">
@@ -5970,7 +6458,7 @@ Then the resulting matrix property values and times is executed, giving the effe
 <div class="content">
 <img src="resources/ch20-CALayers/ch20_AnimatedLayer.png" alt="Sun Layer" />
 </div>
-<div class="title">Figure 42. Animated Layer</div>
+<div class="title">Figure 56. Animated Layer</div>
 </div>
 </div>
 <div class="sect2">
@@ -6075,7 +6563,7 @@ Repeat the animation indefinitely
 <div class="content">
 <img src="resources/ch21-CoreAnimation/ch21_AnimationBlinkToStart.png" alt="Animation Blinking to Start" />
 </div>
-<div class="title">Figure 43. Animation Blinking to Start</div>
+<div class="title">Figure 57. Animation Blinking to Start</div>
 </div>
 <div class="paragraph"><p>Uh? What happen? The sun move to the position we touch, but at the end of the animation it return to its initial value. This happens because the animation is independent of the layer that is running into, it will move the layer to the touch position but at the end if you don&#8217;t change the layer property it will return to the initial state.</p></div>
 <div class="paragraph"><p>Try the following:</p></div>
@@ -6113,7 +6601,7 @@ Repeat the animation indefinitely
 <div class="content">
 <img src="resources/ch21-CoreAnimation/ch21_AnimationComplete.png" alt="Animation Complete" />
 </div>
-<div class="title">Figure 44. Animation Complete</div>
+<div class="title">Figure 58. Animation Complete</div>
 </div>
 <div class="paragraph"><p>Now it works as expected! The animation is pretty slow because we set to it 1 second, try changing it for more fun.</p></div>
 <div class="admonitionblock">
@@ -6160,7 +6648,7 @@ Repeat the animation indefinitely
 <div class="content">
 <img src="resources/ch21-CoreAnimation/ch21_AnimationReturningToStartingPoint.png" alt="Animation Returning to Starting Point" />
 </div>
-<div class="title">Figure 45. Animation Returning to Starting Point</div>
+<div class="title">Figure 59. Animation Returning to Starting Point</div>
 </div>
 <div class="paragraph"><p>If we want to make that cycle of moving and returning happen 100 times?</p></div>
 <div class="listingblock">
@@ -6198,7 +6686,7 @@ Repeat the animation indefinitely
 <div class="content">
 <img src="resources/ch21-CoreAnimation/ch21_AnimationLoop.png" alt="Animation Loop" />
 </div>
-<div class="title">Figure 46. Animation Loop</div>
+<div class="title">Figure 60. Animation Loop</div>
 </div>
 <div class="paragraph"><p>What about combining two animations: a spinning one with the moving one</p></div>
 <div class="listingblock">
@@ -6251,7 +6739,7 @@ Repeat the animation indefinitely
 <div class="content">
 <img src="resources/ch21-CoreAnimation/ch21_AnimationSpinning.png" alt="Animation Spinning and Moving" />
 </div>
-<div class="title">Figure 47. Animation Spinning and Moving</div>
+<div class="title">Figure 61. Animation Spinning and Moving</div>
 </div>
 </div>
 </div>
@@ -6312,7 +6800,7 @@ Repeat the animation indefinitely
 <div class="content">
 <img src="resources/ch21-CoreAnimation/ch21_SunAndClouds.png" alt="Sun & Clouds" />
 </div>
-<div class="title">Figure 48. Sun &amp; Clouds</div>
+<div class="title">Figure 62. Sun &amp; Clouds</div>
 </div>
 <div class="paragraph"><p>Pretty but not amazing!, Now lets add some animation to the clouds:</p></div>
 <div class="listingblock">
@@ -6397,7 +6885,7 @@ Repeat the animation indefinitely
 <div class="content">
 <img src="resources/ch21-CoreAnimation/ch21_AnimationClouds.png" alt="Cloud Animation" />
 </div>
-<div class="title">Figure 49. Cloud Animation</div>
+<div class="title">Figure 63. Cloud Animation</div>
 </div>
 <div class="paragraph"><p>Yes, it looks kind of good. But the animation is too linear the clouds does not look like the real life, what we can do is adding some easing with a timing function. The objective is when the cloud appear on the screen go faster and then it decelerate until its finished. This kind of easing is called EasyOut:</p></div>
 <div class="paragraph"><p>Lets apply it to the code:</p></div>
@@ -6482,7 +6970,7 @@ Repeat the animation indefinitely
 <div class="content">
 <img src="resources/ch21-CoreAnimation/ch21_AnimationCloudsWithEasing.png" alt="Cloud Animation with Easing" />
 </div>
-<div class="title">Figure 50. Cloud Animation with Easing</div>
+<div class="title">Figure 64. Cloud Animation with Easing</div>
 </div>
 <div class="paragraph"><p>Subtle right? Thats the idea! It now looks more that the wind blows stronger at the first and then it slows down. But what is really happening?</p></div>
 <div class="paragraph"><p>Do you remember the part of the interpolation? We were saying in that moment that it is the calculus between the initial value and the final every millisecond of the sequence. It means that if we move 3 points during 3 seconds, it will move one point per second right?</p></div>
@@ -6492,7 +6980,7 @@ Repeat the animation indefinitely
 <div class="content">
 <img src="resources/ch21-CoreAnimation/ch21_Easings.png" alt="iOS Easings" />
 </div>
-<div class="title">Figure 51. iOS Easings</div>
+<div class="title">Figure 65. iOS Easings</div>
 </div>
 <div class="paragraph"><p>Also if you don&#8217;t like anyone, you can implement your custom timing function.</p></div>
 </div>
@@ -6554,7 +7042,7 @@ Repeat the animation indefinitely
 <div class="content">
 <img src="resources/ch21-CoreAnimation/ch21_SunStraightAnimation.png" alt="Sun Straight Animation" />
 </div>
-<div class="title">Figure 52. Sun Straight Animation</div>
+<div class="title">Figure 66. Sun Straight Animation</div>
 </div>
 <div class="paragraph"><p>We are improving! But the sun does not move in a straight line, so lets change does points into an arc:</p></div>
 <div class="listingblock">
@@ -6593,7 +7081,7 @@ Repeat the animation indefinitely
 <div class="content">
 <img src="resources/ch21-CoreAnimation/ch21_SunArcAnimation.png" alt="Sun Arc Animation" />
 </div>
-<div class="title">Figure 53. Sun Arc Animation</div>
+<div class="title">Figure 67. Sun Arc Animation</div>
 </div>
 <div class="paragraph"><p>Great! Now this is working, but how about combining the translation animation with a spinning one? (CABasicAnimation &amp; CAKeyframeAnimation):</p></div>
 <div class="listingblock">
@@ -6757,7 +7245,7 @@ Repeat the animation indefinitely
 <div class="content">
 <img src="resources/ch21-CoreAnimation/ch21_SunSunsetAnimation.png" alt="Sun Sunset Animation" />
 </div>
-<div class="title">Figure 54. Sun Sunset Animation</div>
+<div class="title">Figure 68. Sun Sunset Animation</div>
 </div>
 <div class="paragraph"><p>It looks pretty good! But we are missing the night part right? Thats the next part of the exercise</p></div>
 </div>
@@ -7030,7 +7518,7 @@ Repeat the animation indefinitely
 <div class="content">
 <img src="resources/ch21-CoreAnimation/ch21_SunAndMoonAnimation.png" alt="Sun & Moon Animation" />
 </div>
-<div class="title">Figure 55. Sun &amp; Moon Animation</div>
+<div class="title">Figure 69. Sun &amp; Moon Animation</div>
 </div>
 </div>
 </div>
@@ -8069,7 +8557,7 @@ Detect when the user touches an asteroid so you can remove it from the screen, c
 <div id="footer">
 <div id="footer-text">
 Version 0.1<br />
-Last updated 2012-11-16 20:09:20 CST
+Last updated 2012-11-20 12:38:47 CST
 </div>
 </div>
 </body>

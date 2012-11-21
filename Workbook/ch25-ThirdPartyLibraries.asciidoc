@@ -165,7 +165,8 @@ end
 
 You should see the following:
 
-**IMAGE**
+.Initial Cocos 2D Application
+image::Resources/ch25-ThirdPartyLibraries/ch25_Cocos2DInitialApplication.png[Initial Cocos 2D Application]
 
 If you look closely in the bottom left part of the screen are a bunch of numbers, they are the FPS of our game. The general idea is that our game have consistently 60.0 but you will look as we advance in the exercise that some times it drops, this is normal.
 
@@ -361,7 +362,8 @@ end
 
 If you run the app you should see the following:
 
-**Image**
+.Cocos 2D Layer
+image::Resources/ch25-ThirdPartyLibraries/ch25_Cocos2DLayer.png[Cocos 2D Layer]
 
 Now we have all the necessary structure to make the game run: A director, scene and a layer! Its time to change the label into a space background:
 
@@ -400,7 +402,8 @@ def init
 end
 --------------
 
-**Image**
+.Background Layer
+image::Resources/ch25-ThirdPartyLibraries/ch25_BackgroundLayer.png[Background Layer]
 
 We have a background for the game! Lets do something more fun: adding the space ship into the scene, for this we need to create a new layer called **game_play_layer.rb**:
 
@@ -476,7 +479,8 @@ def init
 end
 --------------
 
-**Image**
+.Static Space Ship
+image::Resources/ch25-ThirdPartyLibraries/ch25_StaticSpaceShip.png[Static Space Ship]
 
 Awesome! The next step is to allow the user to move the space ship with his touches on the screen. Lets open again our **game_play_layer.rb** and add the following method:
 
@@ -508,7 +512,8 @@ def ccTouchesBegan(touches, withEvent:event)
 end
 --------------
 
-**Image**
+.Jumping Space Ship
+image::Resources/ch25-ThirdPartyLibraries/ch25_JumpingSpaceShip.png[Jumping Space Ship]
 
 Yes it moves! But it does without animation, this is because the sprites does not have implicit animations like a CALayer.
 
@@ -541,7 +546,8 @@ end
 
 IMPORTANT: We are not really animating the movement, just making it frame by frame using the game FPS. (Interpolation ;)
 
-**Image**
+.Space Ship Outside Screen
+image::Resources/ch25-ThirdPartyLibraries/ch25_SpaceShipOutsideScreen.png[Space Ship Outside Screen]
 
 Upps! What when wrong? The problem is the actions must receive the number of points of movement in a direction, not a exact position! You can try it! Just assign a **CGPoint(100, 100)** to the position parameter of the action.
 
@@ -577,7 +583,8 @@ def ccTouchesBegan(touches, withEvent:event)
 end
 --------------
 
-**Image**
+.Moving Space Ship
+image::Resources/ch25-ThirdPartyLibraries/ch25_MovingSpaceShip.png[Moving Space Ship]
 
 Now is working! We are done with the space ship, the next is to add some asteroids flying into the scene.
 
