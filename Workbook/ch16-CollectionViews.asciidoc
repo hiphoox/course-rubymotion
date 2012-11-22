@@ -1,0 +1,957 @@
+Chapter 16 - Collection Views
+=============================
+
+Photo Album
+-----------
+
+In this chapter we are going to build our photo album, because there is no reason to have only a photo frame when we can have an entire album.
+
+For this propose we have to build a more serious interface, so we can show our photo album to anyone and even better say that we have built it.
+
+For our photo album we'll have two sections, our photo frame in the first one and the photo album in the second 
+
+Let start creating our project, run the rake command an name it "PhotoAlbum"
+
+[source, sh]
+--------------------------------------
+$ motion create PhotoAlbum
+--------------------------------------
+
+
+Album View Controller 
+---------------------
+
+We are going to begin with the controller that will hold the entire application, so create an file named album_view_controller.rb and the following code:
+
+[source, ruby]
+----------------------------------------------------------------
+class AlbumViewController < UIViewController
+
+  def loadView
+    super ()
+  end  
+
+end
+----------------------------------------------------------------
+
+Also in your **appdelegate.rb** file set it as rootViewController
+
+[source, ruby]
+----------------------------------------------------------------
+class AppDelegate
+
+  def application(application, didFinishLaunchingWithOptions:launchOptions)
+    @window = UIWindow.alloc.initWithFrame(UIScreen.mainScreen.bounds)
+    @window.rootViewController = AlbumViewController.alloc.init
+    @window.makeKeyAndVisible
+    true
+  end
+
+end
+----------------------------------------------------------------
+
+When you see the loadView method you should guess that we are going to use a nib file to build our application, open your Xcode and in the menu select file>new>file select user interface and choose the empty template then click on next and chose iPhone family give the name "AlbumView" to the file and save it to your resources folder of your application.
+
+
+.Create xib file
+image::Resources/ch16-CollectionViews/image1.png[AlbumView Nib file]
+
+Now in your xib editor select a UIView from the right bottom list and drag it to the grid.
+
+.Adding UIView
+image::Resources/ch16-CollectionViews/image2.png[Adding UIView]
+
+Now select the view an in the attributes inspector set size to retina 3.5 full screen and save the file
+
+.Adding UIView
+image::Resources/ch16-CollectionViews/image3.png[Adding UIView]
+
+But of course we need to set the nib file to the view controller, modify the loadView method as follow:
+
+[source, ruby]
+----------------------------------------------------------------
+def loadView
+
+  super ()
+  views = NSBundle.mainBundle.loadNibNamed "AlbumView", owner:self, options:nil
+  self.view = views[0]
+end
+----------------------------------------------------------------
+
+Now run your project, and you may not notice a difference, so open you xib editor (Xcode) and change the background color to red in the attributes inspector, save your file an run your application again.
+
+.Change color
+image::Resources/ch16-CollectionViews/image4.png[Change color from nib]
+
+.Change color
+image::Resources/ch16-CollectionViews/image5.png[UIView from xib]
+
+Now its a good idea to add a menu bar, so we can choose from "photo frame" and "gallery frame" please return the background color to white, and add an UITableView to the view that will serve as a menu.
+
+
+.Adding UITableView
+image::Resources/ch16-CollectionViews/image6.png[UITableView]
+
+Once you added the UITableView, you need to set it's tag number to "1" in the inspector view so we can a have reference to that view.
+
+Open the file **album_view_controller.rb** and add reference to the tableView also its' delegate and dataSource.
+
+[source, ruby]
+----------------------------------------------------------------
+class AlbumViewController < UIViewController
+
+  MENU_TABLE_VIEW_TAG = 1
+  
+  #Method that returns the sections of menu 
+  def menuSections
+
+    bugs = ["Photo Frame", "Album"]
+  end
+  
+
+  #Table View Data Source 
+  def numberOfSectionsInTableView(tableView)
+
+    1
+  end
+
+ 
+  def tableView(tableView,numberOfRowsInSection:section)
+
+    menuSections.count
+  end
+
+
+  #Table View Delegate 
+  CELLID = "CELLID"  
+
+  def tableView(tableView, cellForRowAtIndexPath:indexPath)
+
+    cell = tableView.dequeueReusableCellWithIdentifier(CELLID) || 
+
+    begin 
+      cell = UITableViewCell.alloc.initWithStyle(UITableViewCellStyleDefault, reuseIdentifier:CELLID)
+      cell
+    end
+
+    cell.textLabel.text = menuSections[indexPath.row]
+    cell
+  end
+  
+
+  def loadView
+
+    super () 
+    views = NSBundle.mainBundle.loadNibNamed "AlbumView", owner:self, options:nil
+    self.view = views[0]
+    @tableView = self.view.viewWithTag( MENU_TABLE_VIEW_TAG )
+    @tableView.dataSource = @tableView.delegate = self                  
+  end
+
+end
+----------------------------------------------------------------
+
+You'll will notice a method named *menuSections* that returns an array with the name of the sections, feel free to run the application. 
+
+.Application menu
+image::Resources/ch16-CollectionViews/image7.png[Application menu]
+
+We definitely need to change the appearance of the menu's cell, we can use a NIB File for this purpose, the elements that we are going to use are the following:
+
+- BackGroundView (UIIView)
+- MenuIcon (UIImageView)
+- TitleLabel (UILabel)
+- CellSeparator (UIImageView)
+
+Form your Xcode select file>new>file select user interface and choose the empty template then click on next and chose iPhone family give the name "MenuCellView" to the file and save it to your resources folder of your application, then add a UITableViewCell to editor.
+
+.Adding Custom Cell
+image::Resources/ch16-CollectionViews/image8.png[Adding Custom Cell]
+
+From Xcode we should set custom class to the UITableViewCell and Cell identifier, we can change this on the identity inspector, put the custom class as *MenuCell* finally in the attributes inspector set the reuse identifier as *MenuCellView*
+
+.Set Custom Class
+image::Resources/ch16-CollectionViews/customClass.png[Setting custom class]
+
+.Set Reusable Identifier
+image::Resources/ch16-CollectionViews/reuseID.png[Setting reuse identifier]
+
+Well now we need a class in ruby witch match the one that we set on the interface builder, inside your app folder create a file named *menu_cell.rb* and add the following code to it.
+
+[source, ruby]
+----------------------------------------------------------------
+class MenuCell < UITableViewCell
+
+  CELL_ICON_IMAGE = 3
+  CELL_TITLE_LABEL = 4
+  CELL_SEPARATOR_IMAGE = 5
+
+  def customizeUnSelectedCell(sectionName)    self.backgroundView.backgroundColor = UIColor.colorWithPatternImage(UIImage.imageNamed("bgGreyTexture"))
+    titleLabel = self.viewWithTag( CELL_TITLE_LABEL)
+    titleLabel.text = sectionName
+    titleLabel.textColor = UIColor.lightGrayColor
+    separatorImageView = self.viewWithTag(CELL_SEPARATOR_IMAGE)
+    separatorImageView.image = UIImage.imageNamed("separatorLine") 
+  end
+
+
+  def customizeSelectedCell(sectionName)
+
+    self.backgroundView.backgroundColor = UIColor.colorWithPatternImage(UIImage.imageNamed("bgGreyTextureEnabled"))
+    titleLabel = self.viewWithTag( CELL_TITLE_LABEL)
+    titleLabel.text = sectionName
+    titleLabel.textColor = UIColor.whiteColor
+    separatorImageView = self.viewWithTag(CELL_SEPARATOR_IMAGE)
+    separatorImageView.image = UIImage.imageNamed("separatorLine") 
+  end
+end
+----------------------------------------------------------------
+
+
+Now its time to add the elements to the cell View, first at all you need to add a UIView so it will serve as backgroundView, set its background color to gray.
+
+.Adding UIView
+image::Resources/ch16-CollectionViews/image9.png[Adding UIView]
+
+But how the cell possibly know that the previous inserted view its it own backgroundView, it couldn't. But don't worry not everything it's lost, select the UITableViewCell element and open the connections inspector, and connect the backgroundView property to the UIView  
+
+.Connecting Background 
+image::Resources/ch16-CollectionViews/image10.png[Connecting Background Property]
+
+Now it's time to add the missing elements, add an UIImageView that will serve as icon and set its tag to number 3, also we need and UILabel for the section name set its tag to 4 at last add another UIImageView that will serve as tableDivider set its tag to 5
+
+.Custom Cell
+image::Resources/ch16-CollectionViews/image11.png[Custom Cell]
+
+
+Now we need to tell to the table view that use our custom cell instead of its own, for this propose we need to change the *tableView(tableView, cellForRowAtIndexPath:indexPath)* with the following code also we have to register this NIB file in the view load method
+
+[source, ruby]
+----------------------------------------------------------------
+#Table View Delegate 
+def tableView(tableView, cellForRowAtIndexPath:indexPath)
+    
+  # Check for a reusable cell first, use that if it exists
+  cell = tableView.dequeueReusableCellWithIdentifier('MenuCellView')
+
+  #if the cell has selected customize with select style otherwise customize with unselected style
+  if @selectedRows[indexPath.row]
+
+    cell.customizeSelectedCell(menuSections[indexPath.row])
+  else
+
+    cell.customizeUnSelectedCell(menuSections[indexPath.row])
+  end
+
+  cell
+end
+
+
+def viewDidLoad
+
+  super()
+  # Load the NIB file
+  nib = UINib.nibWithNibName('MenuCellView', bundle:nil)
+  # Register this NIB which contains the cell
+  @tableView.registerNib(nib, forCellReuseIdentifier:'MenuCellView')
+end
+----------------------------------------------------------------
+
+Also we need to implement the delegate method that takes responsibility when a cell its selected *tableView tableView,didSelectRowAtIndexPath:indexPath* , in this method we need to set the selected style to the current selected cell, and deselect the previous that was selected, we are going to take advantage of a ruby hash to store the cell that is currently selected. 
+Notice that in the *viewDidLoad* method we set segment that we want to be selected when the application launch 
+
+[source, ruby]
+----------------------------------------------------------------
+#return height for the current cell
+def tableView tableView,heightForRowAtIndexPath:indexPath
+
+  85
+end
+
+
+def tableView tableView,didSelectRowAtIndexPath:indexPath
+
+  #if we tap in the selected row do nothing
+  if @currentSection == indexPath.row
+
+    return
+  end
+
+  cell = tableView.cellForRowAtIndexPath indexPath
+  #customize selected cell
+  cell.customizeSelectedCell(menuSections[indexPath.row])
+  
+#clean all previous cells
+  @selectedRows.each_key {|key| 
+    @selectedRows[key] = false 
+  }
+
+  if indexPath.row == 0
+
+    loadFrameView
+
+  elsif indexPath.row == 1
+
+    loadCollectionView 
+  end
+    
+  removePreviousLayer
+
+  #set selected cell
+  @selectedRows[indexPath.row] = true
+  tableView.reloadData
+end
+
+
+def loadView
+
+  super ()
+  @selectedRows = Hash.new
+  #Load the nib file  
+  views = NSBundle.mainBundle.loadNibNamed "AlbumView", owner:self, options:nil
+  #Assing the first View from the nib file
+  self.view = views[0]
+  @tableView = self.view.viewWithTag( MENU_TABLE_VIEW_TAG )
+  @tableView.backgroundColor = UIColor.colorWithPatternImage(UIImage.imageNamed("bgGreyTexture"))
+  @tableView.dataSource = @tableView.delegate = self
+  loadFrameView 
+  @tableView.reloadData               
+end
+----------------------------------------------------------------
+
+Now its time to bring back our photo frame from the chapter 15, copy the file **photo_frame_view_controller.rb** to the app folder and add the following method at the end of the of the **album_view_controller.rb** file, also copy the **photo_frame_utilities.rb** to the same folder.
+
+[source, ruby]
+----------------------------------------------------------------
+def loadFrameView
+
+  #avoid to create the same instance of the controllers more than once
+  if !@photoFrameViewController && !@photoFrameNavigationViewController
+
+    @photoFrameViewController = PhotoFrameViewController.alloc.init
+    @photoFrameNavigationViewController = UINavigationController.alloc.initWithRootViewController(@photoFrameViewController)
+  end
+
+  @photoFrameNavigationViewController.view.frame = self.view.bounds
+  view.addSubview(@photoFrameNavigationViewController.view)
+  #set the current section
+  @selectedRows[0] = true
+  @currentSection = 0
+end
+----------------------------------------------------------------               
+
+
+Save your changes and run your application with the rake command:
+
+[source, sh]
+---------------------------------
+$ rake
+---------------------------------
+
+You should see the wild cat from the previous chapter but with a top blue bar
+
+.Navigation Bar
+image::Resources/ch16-CollectionViews/image12.png[Navigation Bar]
+
+But where did our menu go? , don't worry it's still there but we need a mechanism to show them again, now open your  **photo_frame_view_controller.rb** and add the following code
+
+[source, ruby]
+----------------------------------------------------------------
+def viewDidDisappear(animated)
+
+  @buttonWithImage.addTarget(self, action: :'showMenu:',forControlEvents:UIControlEventTouchUpInside)
+end
+
+
+def showMenu(sender)
+
+  frameView = self.navigationController.view.frame
+  frameView.origin.x = 78
+  self.navigationController.view.frame = frameView
+  @buttonWithImage.addTarget(self, action: :'hideMenu:',forControlEvents:UIControlEventTouchUpInside) 
+end
+
+
+def hideMenu(sender)
+
+  frameView = self.navigationController.view.frame
+  frameView.origin.x = 0
+  self.navigationController.view.frame = frameView
+  @buttonWithImage.addTarget(self, action: :'showMenu:',forControlEvents:UIControlEventTouchUpInside) 
+end  
+
+
+def styleNavigationBar
+
+  self.navigationController.navigationBar.setBackgroundImage UIImage.imageNamed("navBar.png") ,forBarMetrics: UIToolbarPositionAny
+  @buttonWithImage = menuButtonItem
+  @buttonWithImage.addTarget(self, action: :'showMenu:',forControlEvents:UIControlEventTouchUpInside)
+  barButton = UIBarButtonItem.alloc.initWithCustomView(@buttonWithImage)
+  self.navigationItem.leftBarButtonItem = barButton 
+end
+----------------------------------------------------------------
+
+Also replace the **viewDidLoad** method with the following code
+
+[source, ruby]
+----------------------------------------------------------------
+def viewDidLoad
+
+  UIApplication.sharedApplication.setStatusBarHidden(true ,animated:false)
+  @imageView = photoUIImageView;
+  frameView = frameUIImageView;
+  view.addSubview(frameView)
+  view.addSubview(@imageView) 
+  styleNavigationBar
+end
+----------------------------------------------------------------
+
+You will need an UITabBarButton for show and hide the menu, open your **photo_frame_utilities.rb** and add the following method that return an UIButton
+
+[source, ruby]
+----------------------------------------------------------------
+def menuButtonItem
+
+  buttonWithImage = UIButton.buttonWithType UIButtonTypeCustom
+  buttonWithImage.setFrame CGRectMake(0.0, 0.0, 40.0, 35.0)
+  buttonWithImage.setImage UIImage.imageNamed("icnMenuEnabled"), forState:UIControlStateSelected
+  buttonWithImage.setImage UIImage.imageNamed("icnMenuEnabled"), forState:UIControlStateHighlighted
+  buttonWithImage.setImage UIImage.imageNamed("icnMenuDisabled"), forState:UIControlStateNormal
+  buttonWithImage
+end
+----------------------------------------------------------------
+
+Save and run your application with the rake command, you should see a quite more beautiful navigation bar and the button should show and hide the menu, notice that the first row of the application its selected.
+
+
+.Hide Menu
+image::Resources/ch16-CollectionViews/image13.png[Hide Menu]
+
+.Show Menu
+image::Resources/ch16-CollectionViews/image14.png[Show Menu]
+
+
+Collection View
+~~~~~~~~~~~~~~~
+For this section of the album we need a grid to present a set of photos, but I have good news for you, since iOS 6 we have a component "UICollectionView" that resolves this approach quite well.
+
+Create a file named *album_collection_view_controller.rb* and add the following code:
+
+[source, ruby]
+----------------------------------------------------------------
+class PhotoCollectionViewController < UICollectionViewController
+  
+  def loadView         
+  end
+  
+end
+----------------------------------------------------------------
+
+We are going to use a Nib file also for this controller, from your Xcode select file>new>file select user interface and choose the empty template then click on next and chose iPhone family give the name "AlbumCollectionView" to the file and save it to your resources folder of your application.
+
+The next step its add an UICollectionView to the editor.
+
+.Adding a collection view
+image::Resources/ch16-CollectionViews/image15.png[Adding a collection view] 
+
+Now we are going to tell to our UICollectionViewController that its collection view comes from an nib file, add the following code to the **loadView** method also add the methods that customize the Navigation Bar
+
+[source, ruby]
+----------------------------------------------------------------
+def loadView
+
+  views = NSBundle.mainBundle.loadNibNamed "AlbumCollectionView", owner:self, options:nil
+  #Assign the first View from the nib file
+  self.collectionView = views[0]                 
+end
+
+
+def viewDidDisappear(animated)
+
+  @buttonWithImage.addTarget(self, action: :'showMenu:',forControlEvents:UIControlEventTouchUpInside)
+end
+
+
+def showMenu(sender)
+
+  frameView = self.navigationController.view.frame
+  frameView.origin.x = 78
+  self.navigationController.view.frame = frameView
+  @buttonWithImage.addTarget(self, action: :'hideMenu:',forControlEvents:UIControlEventTouchUpInside) 
+end
+
+
+def hideMenu(sender)
+
+  frameView = self.navigationController.view.frame
+  frameView.origin.x = 0
+  self.navigationController.view.frame = frameView
+  @buttonWithImage.addTarget(self, action: :'showMenu:',forControlEvents:UIControlEventTouchUpInside) 
+end  
+
+
+def styleNavigationBar
+
+  self.navigationController.navigationBar.setBackgroundImage UIImage.imageNamed("navBar.png") ,forBarMetrics: UIToolbarPositionAny
+  @buttonWithImage = menuButtonItem
+  @buttonWithImage.addTarget(self, action: :'showMenu:',forControlEvents:UIControlEventTouchUpInside)
+  barButton = UIBarButtonItem.alloc.initWithCustomView(@buttonWithImage)
+  self.navigationItem.leftBarButtonItem = barButton 
+end
+----------------------------------------------------------------
+
+If we want to see our collection view we need to make some modifications to **album_view_controller.rb** file in order to load the appropriate controller for each menu section, the first step its create a navigation controller that loads the collection view, just add the following method at the end of your file
+
+[source, ruby]
+----------------------------------------------------------------
+def loadCollectionView
+
+  #avoid to create the same instance of the controllers more than once
+  if !@photoCollectionViewControllerr && !@photoCollectionNavigationViewController
+
+    @photoCollectionViewController = PhotoCollectionViewController.alloc.init
+    @photoCollectionNavigationViewController = UINavigationController.alloc.initWithRootViewController(@photoCollectionViewController)
+  end
+
+  @photoCollectionNavigationViewController.view.frame = self.view.bounds
+  view.addSubview(@photoCollectionNavigationViewController.view)
+  #set the current section
+  @selectedRows[1] = true
+  @currentSection = 1
+end
+----------------------------------------------------------------
+
+Also we need to modify the **loadFrameView** method in order to have the same behavior
+
+[source, ruby]
+----------------------------------------------------------------
+def loadFrameView
+
+  #avoid to create the same instance of the controllers more than once
+  if !@photoFrameViewController && !@photoFrameNavigationViewController
+
+    @photoFrameViewController = PhotoFrameViewController.alloc.init
+    @photoFrameNavigationViewController = UINavigationController.alloc.initWithRootViewController(@photoFrameViewController)
+  end
+
+  @photoFrameNavigationViewController.view.frame = self.view.bounds
+  view.addSubview(@photoFrameNavigationViewController.view)
+  #set the current section
+  @selectedRows[0] = true
+  @currentSection = 0
+end
+----------------------------------------------------------------
+
+Now modify the delegate method when a row is selected, for switch views
+
+[source, ruby]
+----------------------------------------------------------------
+def tableView tableView,didSelectRowAtIndexPath:indexPath  
+
+  #if we tap in the selected row do nothing
+  if @currentSection == indexPath.row
+
+    return
+  end
+
+  cell = tableView.cellForRowAtIndexPath indexPath
+  #customize selected cell
+  customizeSelectedCell(cell,indexPath)
+  
+#clean all previous cells
+  @selectedRows.each_key {|key| 
+    @selectedRows[key] = false 
+  }
+
+  if indexPath.row == 0
+
+    loadFrameView
+
+  elsif indexPath.row == 1
+
+    loadCollectionView 
+  end
+    
+  removePreviousLayer
+
+  #set selected cell
+  @selectedRows[indexPath.row] = true
+  tableView.reloadData
+end
+----------------------------------------------------------------
+
+We are almost done with the **album_view_controller.rb** file, please modify the loadView method and add the **removePreviousLayer** method
+
+[source, ruby]
+----------------------------------------------------------------
+def removePreviousLayer
+
+  views = self.view.subviews
+  previousView = views[1]
+  previousView.removeFromSuperview
+end
+
+
+def loadView
+
+  @selectedRows = Hash.new
+  #Load the nib file  
+  views = NSBundle.mainBundle.loadNibNamed "AlbumView", owner:self, options:nil
+  #Assignee the first View from the nib file
+  self.view = views[0]
+  @tableView = self.view.viewWithTag( MENU_TABLE_VIEW_TAG )
+  @tableView.backgroundColor = UIColor.colorWithPatternImage(UIImage.imageNamed("bgGreyTexture"))
+  @tableView.dataSource = @tableView.delegate = self
+  loadFrameView 
+  @tableView.reloadData               
+end
+----------------------------------------------------------------
+
+Now run the rake command and you will be able to switch between sections.
+
+
+Collection View - Adding Content
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Until here you have done a magnificent work, the next step its populate the Collection View 
+and for this part we are going to add content, in order to do so we should study the components of a UIViewCollection
+
+UICollectionView
+~~~~~~~~~~~~~~~~
+
+This its the main view in which the content its presented, and not necessarily needs to fill all the screen
+
+UICollectionViewCell
+~~~~~~~~~~~~~~~~~~~~
+
+Similarly with a cell from a UITableView it takes the responsibility of present content.
+
+Supplementary Views
+~~~~~~~~~~~~~~~~~~~ 
+
+When we have extra information that we don't want to be displayed in the cells we can take advantage of it
+
+Decoration View
+~~~~~~~~~~~~~~~
+
+We have another helpful view for decoration purposes outside of the cells
+
+
+NOTE: We also have non visual elements that help us laying the content
+
+
+UICollectionViewLayout
+~~~~~~~~~~~~~~~~~~~~~~ 
+
+UICollectionView does not have a clue of how the cells should be displayed, instead it uses a UICollectionViewLayout class to handle it.
+It uses a set delegates methods to position every single cell on the collectionView
+
+CollectionView Data Source
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+We can start adding the data source for our collection view, open your *album_collection_view_controller.rb* file and modified the *loadView* method additionally add a method that return a set of images names for our album
+
+[source, ruby]
+----------------------------------------------------------------
+def loadView
+
+    views = NSBundle.mainBundle.loadNibNamed "AlbumCollectionView", owner:self, options:nil
+    #Assign the first View from the nib file
+    self.collectionView = views[0]
+    #Set Data Source
+    self.collectionView.dataSource = self
+    styleNavigationBar              
+end
+
+def phothos
+
+  bugs = ["me.png", "misa.png", "juan.png" , "juwe.png"]
+end
+----------------------------------------------------------------
+
+Now we should continue with the data source methods
+
+[source, ruby]
+----------------------------------------------------------------
+#UICollectionView Datasource
+
+def collectionView(collectionView, numberOfItemsInSection:section)
+
+  phothos.count
+end
+
+def numberOfSectionsInCollectionView(collectionView)
+
+  1
+end
+----------------------------------------------------------------
+
+Now run your application with the rake command, you should see four white cell's in the album section.
+
+.Collection View Cells
+image::Resources/ch16-CollectionViews/image16.png[Collection View Cells]
+
+Well we don't want that white cell's instead we want to show our photos, for this propose we can use a nib file, open your Xcode and in the menu select file>new>file select user interface and choose the empty template then click on next and chose iPhone family give the name "PhotoCollectionCellView" to the file and save it to your resources folder of your application. 
+
+We should follow the same process as we did for UITableViewCell, set custom class to the UICollectionViewCell and Cell identifier, we can change this on the identity inspector, put the custom class as **CollectionViewCell** finally in the attributes inspector set the reuse identifier as **PhotoCollectionCellView** 
+
+.Collection View Custom Class
+image::Resources/ch16-CollectionViews/collectionCustomClass.png[Collection View Custom Class]
+
+.Collection View Cells Reuse Identifier
+image::Resources/ch16-CollectionViews/image17.png[Collection View Cells Reuse Identifier]
+
+Now we have to add the image component to the xib file, add an UIImageView that will be our component for display the photo.
+
+It's time to see our album photo come to live, run the app with rake command:
+
+.Plain Collection View
+image::Resources/ch16-CollectionViews/image18.png[Plain Collection View]
+
+I know I know it looks awful we still need add the delegate layout methods in your **album_collection_view_controller.rb** add the following code, also in the **viewDidLoad** method change the background color.
+
+[source, ruby]
+----------------------------------------------------------------
+#UICollectionView Delegate
+
+def collectionView(collectionView , layout:collectionViewLayout,sizeForItemAtIndexPath:indexPath)
+ 
+  CGSizeMake(120, 120)
+end
+
+
+def collectionView(collectionView, layout:collectionViewLayout,insetForSectionAtIndex:section)  
+
+  UIEdgeInsetsMake(5, 12, 5, 0) 
+end
+
+
+def viewDidLoad
+
+  super()
+  # Load the NIB file
+  nib = UINib.nibWithNibName('PhotoCollectionCellView', bundle:nil)
+  # Register this NIB which contains the cell
+  self.collectionView.registerNib(nib, forCellWithReuseIdentifier:'PhotoCollectionCellView')
+  self.collectionView.backgroundColor = UIColor.colorWithPatternImage(UIImage.imageNamed("bgTile"))
+end
+----------------------------------------------------------------
+
+.Collection View
+image::Resources/ch16-CollectionViews/image19.png[Collection View]
+
+AutoLayout
+~~~~~~~~~~
+
+In this section of the workbook we are going to add a new section *"Camera"* , It would be nice if we can capture images in our own app.
+
+
+Camera Controls
+~~~~~~~~~~~~~~~
+Let's start creating a new file *album_camera_view_controller.rb* in our app folder:
+
+[source, ruby]
+----------------------------------------------------------------
+class CameraViewController < UIViewController
+
+  def loadView
+
+    views = NSBundle.mainBundle.loadNibNamed "CameraView", owner:self, options:nil
+    #Assign the first View from the nib file
+    self.collectionView = views[0]        
+  end
+  
+end
+----------------------------------------------------------------
+
+For this chapter we are going to use a new feature that comes in iOS6 *AutoLayout*, as we have seen on chapter 15 Auto Rotation help us to handle size of the components when the device rotates, we let the view take care of everything by setting its autoresizing masks, but when the arrival of the new iDevices "iPhone 5" we may need another set of constrains to maintain the visual look in our apps.
+
+Now its time to create the nib file for the view of this section, open Xcode and in the menu select file>new>file select user interface and choose the empty template then click on next and chose iPhone family give the name "CameraView" to the file and save it to your resources folder of your application.
+
+Once you created the file add an UIView to the editor, also add two buttons one with the legend "take" and another with "choose".
+
+.AutoLayout 
+image::Resources/ch16-CollectionViews/image20.png[AutoLayout]
+
+
+We must agree that it's good idea to have the same width for the buttons, we ca use autoLayout for this propose and Interface Builder has a shortcut menu in the bottom-right corner:
+
+.Interface Builder menu
+image::Resources/ch16-CollectionViews/image21.png[Interface Builder menu]
+
+Now if we want buttons have same width, we first should select both buttons by holding the 'command' key and select the center item of the interface builder menu and select equals width, a new constrain it's added to buttons.
+
+.Equal Width
+image::Resources/ch16-CollectionViews/image22.png[Width]
+
+I'm sure that you want to see this in action, wait no more and open **album_view_controller.rb** file and add the following method that will load our Camera View
+
+[source, ruby]
+----------------------------------------------------------------
+def loadCameraView
+
+  #avoid to create the same instance of the controllers more than once
+  if !@cameraViewController && !@cameraNavigationViewController
+
+    @cameraViewController = CameraViewController.alloc.init
+    @cameraNavigationViewController = UINavigationController.alloc.initWithRootViewController(@cameraViewController)
+  end
+
+  @cameraNavigationViewController.view.frame = self.view.bounds
+  view.addSubview(@cameraNavigationViewController.view)
+  #set the current section
+  @selectedRows[2] = true
+  @currentSection = 2
+end
+----------------------------------------------------------------
+
+And now in the same file change the following methods:
+
+[source, ruby]
+----------------------------------------------------------------
+#Method that returns the sections of menu 
+def menuSections
+
+  sections = ["Frame", "Album","Camera"]
+end
+
+
+def tableView tableView,didSelectRowAtIndexPath:indexPath
+    
+  #if we tap in the selected row do nothing
+  if @currentSection == indexPath.row
+
+    return
+  end
+
+  cell = tableView.cellForRowAtIndexPath indexPath
+  #customize selected cell
+  cell.customizeSelectedCell(menuSections[indexPath.row])
+  #clean all previous cells
+  @selectedRows.each_key {|key| 
+    @selectedRows[key] = false 
+  }
+
+  if indexPath.row == 0
+
+    loadFrameView
+
+  elsif indexPath.row == 1
+
+    loadCollectionView
+  
+  elsif indexPath.row == 2
+
+    loadCameraView   
+  end
+    
+  removePreviousLayer
+
+  #set selected cell
+  @selectedRows[indexPath.row] = true
+  tableView.reloadData
+end
+----------------------------------------------------------------
+
+We have done with the album view controller, now we are going customize Navigation Bar and provide the mechanism to dismiss the camera controller, open your **album_camera_view_controller.rb** and add the following code:
+
+[source, ruby]
+----------------------------------------------------------------
+def loadView
+
+  views = NSBundle.mainBundle.loadNibNamed "CameraView", owner:self, options:nil
+  #Assign the first View from the nib file
+  self.view = views[0]
+  styleNavigationBar        
+end
+
+
+def viewDidLoad
+
+  super()
+  self.view.backgroundColor = UIColor.colorWithPatternImage(UIImage.imageNamed("bgTile"))
+end
+  
+
+def viewDidDisappear(animated)
+
+  @buttonWithImage.addTarget(self, action: :'showMenu:',forControlEvents:UIControlEventTouchUpInside)
+end
+
+
+def showMenu(sender)
+
+  frameView = self.navigationController.view.frame
+  frameView.origin.x = 78
+  self.navigationController.view.frame = frameView
+  @buttonWithImage.addTarget(self, action: :'hideMenu:',forControlEvents:UIControlEventTouchUpInside) 
+end
+
+
+def hideMenu(sender)
+
+  frameView = self.navigationController.view.frame
+  frameView.origin.x = 0
+  self.navigationController.view.frame = frameView
+  @buttonWithImage.addTarget(self, action: :'showMenu:',forControlEvents:UIControlEventTouchUpInside) 
+end  
+
+
+def styleNavigationBar
+
+  self.navigationController.navigationBar.setBackgroundImage UIImage.imageNamed("navBar.png") ,forBarMetrics: UIToolbarPositionAny
+  @buttonWithImage = menuButtonItem
+  @buttonWithImage.addTarget(self, action: :'showMenu:',forControlEvents:UIControlEventTouchUpInside)
+  barButton = UIBarButtonItem.alloc.initWithCustomView(@buttonWithImage)
+  self.navigationItem.leftBarButtonItem = barButton 
+end
+----------------------------------------------------------------
+
+Save you changes and run the the application with the rake command, feel free to rotate the device in the new section that we just added:
+
+.Camera Portrait
+image::Resources/ch16-CollectionViews/image23.png[Camera Portrait]
+
+.Camera Landscape
+image::Resources/ch16-CollectionViews/image24.png[Camera Landscape]
+
+Now we have our buttons in the same with even if we rotate the device, but we need to add more visual elements to the camera section:
+
+- UIImageView (image placeholder)*set its background color to white*
+- UITextField (image name)
+- UILabel (label)
+
+Open your *CameraView.xib* file and add the missing elements, we want for this section that the UImageView and the UILabel always be left aligned we can achieve this by selecting the Interface Menu the most left item and select left edges.
+
+.Left Edges
+image::Resources/ch16-CollectionViews/image25.png[Camera Portrait]
+
+Save your changes and run application with the rake command, take a very especial look to the landscape orientation
+
+.UIImageView 
+image::Resources/ch16-CollectionViews/image26.png[UIImageView]
+
+What went wrong for this part? actually nothing, UIImageView are just following orders, we can change this by selecting the UIImageView and make it bigger, but this of course its not enough, while the UIImageView its selected choose the center button of the Interface Builder Menu and select *Top Space to SuperView* and *Bottom Space to SuperView*
+
+.Top Space
+image::Resources/ch16-CollectionViews/image27.png[Top Space]
+
+Now the UIImageView are going to resize depending on the size of the its superview,doing so we have a unwanted constrain "UIImageView Vertical Size" as we may know one can no be serve two masters, for this reason we have to eliminate one, on the left section under UIIMageView remove  *Height constrain* 'Height (423) - Image View', save your changes an run the app.
+
+.Remove Constrain
+image::Resources/ch16-CollectionViews/image28.png[Remove Constrain]
+
+Challenge - Collection View
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Choose another set of photos and modify the **collectionView(collectionView , layout:collectionViewLayout,sizeForItemAtIndexPath:indexPath)** and return the proportional size for each photo
+
+
+Challenge - Auto Layout
+~~~~~~~~~~~~~~~~~~~~~~~
+
+Add another set of constrains to UIImageView and UITextLabel in order to keep the visual appeal on landscape orientation
+
+.Constrains landscape
+image::Resources/ch16-CollectionViews/image29.png[Constrains landscape]
+
+

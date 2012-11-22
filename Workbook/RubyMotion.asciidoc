@@ -40,7 +40,11 @@ include::ch14-NavigationController.asciidoc[]
 
 include::ch15-Notifications.asciidoc[]
 
+include::ch16-CollectionViews.asciidoc[]
+
 = Day 4
+
+include::ch17-Camera.asciidoc[]
 
 include::ch19-Multitouch.asciidoc[]
 
