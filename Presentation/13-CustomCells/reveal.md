@@ -1,7 +1,7 @@
-# Custome Cells
+# Custom Cells
 
 <slide>
-## Custome Cells
+## Custom Cells
 
 ![](customcells.png "Custome Cells") 
 
@@ -80,7 +80,7 @@ Create an offscreen image context.
 
 
 <slide>
-## Custome Cells
+## Custom Cells
 
 ![](customcells.png "Custome Cells") 
 

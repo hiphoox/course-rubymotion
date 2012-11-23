@@ -10,7 +10,7 @@
 <slide>
 ## Web Services
 
-![](webservices.pdf "WebServices") 
+![](webservicesflow.png "WebServices") 
 
 </slide>
 
@@ -29,7 +29,7 @@
                                     returningResponse:&response,
                                                 error:&error)
 
-![](NSURL.pdf "NSURL")
+![](nsurl.png "NSURL")
 
 </slide>
 
