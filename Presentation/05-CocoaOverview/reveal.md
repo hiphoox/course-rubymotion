@@ -1,7 +1,7 @@
 # Cocoa Overview
 
 <slide>
-# Cocoa Introduction
+# Cocoa Overview
 
 ![](cocoa.png "Cocoa") 
 
@@ -223,7 +223,7 @@ Sometimes you will need to overwrite the Objective-C initializers from Ruby
 </slide>
 
 <slide>
-# Cocoa Introduction
+# Cocoa Overview
 
 ![](cocoa.png "Objective-C") 
 

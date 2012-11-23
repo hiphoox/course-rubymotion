@@ -135,7 +135,7 @@ Every view controller has a ***view*** property.
 ![](viewcontrollers.png "ViewControllers") 
 
 [Chapters](../reveal.html) | 
-[DataSources](../12-DataSources/reveal.html)
+[DataSources](../12-TableViews/reveal.html)
 
 </slide>
 

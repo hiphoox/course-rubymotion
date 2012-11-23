@@ -117,4 +117,7 @@ In the subclass of your Navigation Controller
 
 ![](navigationcontroller.png "Navigation Controllers") 
 
+[Chapters](../reveal.html) | 
+[Notifications](../15-Notifications/reveal.html)
+
 </slide>

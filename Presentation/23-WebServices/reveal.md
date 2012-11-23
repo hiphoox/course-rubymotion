@@ -3,7 +3,7 @@
 <slide>
 ## WebServices
 
-![](tableview.png "WebServices") 
+![](webservices.png "WebServices") 
 
 </slide>
 
@@ -128,6 +128,9 @@ Code
 <slide>
 ## WebServices
 
-![](tableview.png "WebServices") 
+![](webservices.png "WebServices") 
+
+[Chapters](../reveal.html) | 
+[CoreData](../24-CoreData/reveal.html)
 
 </slide>

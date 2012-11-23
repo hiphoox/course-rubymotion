@@ -167,4 +167,7 @@ Processing touches
 
 ![](multitouch.png "Multitouch") 
 
+[Chapters](../reveal.html) | 
+[File System](../20-CALayers/reveal.html)
+
 </slide>

@@ -1,7 +1,7 @@
 # iOS Overview
 
 <slide>
-# iOS Architecture
+# iOS Overview
 
 ![iOS](ios.png "iOS") 
 
@@ -57,7 +57,7 @@
 </slide>
 
 <slide>
-# iOS Architecture
+# iOS Overview
 
 ![iOS](ios.png "iOS") 
 

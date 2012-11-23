@@ -191,4 +191,7 @@ In your TableViewController subclass:
 
 ![](tableview.png "TableViews") 
 
+[Chapters](../reveal.html) | 
+[Custom Cells](../13-CustomCells/reveal.html)
+
 </slide>

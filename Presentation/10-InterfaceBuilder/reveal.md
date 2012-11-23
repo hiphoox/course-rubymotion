@@ -17,4 +17,7 @@
 
 ![](interfacebuilder.png "Interface Builder") 
 
+[Chapters](../reveal.html) | 
+[UIViewControllers](../11-ViewControllers/reveal.html)
+
 </slide>
