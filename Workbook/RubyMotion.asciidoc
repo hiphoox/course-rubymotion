@@ -56,6 +56,8 @@ include::ch21-CoreAnimation.asciidoc[]
 
 include::ch22-Settings.asciidoc[]
 
+include::ch23-WebServices.asciidoc[]
+
 include::ch25-ThirdPartyLibraries.asciidoc[]
 
 include::ch26-Concurrency.asciidoc[]

@@ -1,0 +1,314 @@
+Chapter 23 - Web Services
+=========================
+
+The ability to consume remote web services form mobile apps is a core component of today's applications. Normally you will connect to web services to perform tasks like synchonize data, to authenticate users, to consume a third party API (think in stuff like the Facebook API or the Instagram API).
+
+We have been working with local data in our Cocoaheads app. In this exercise we are going to learn how to consume remote web services.
+
+
+Setting Up the Project
+----------------------
+
+
+Unzip the file *ch23-WebServices_resources.zip*. You will find the project as we finished it in chapter 22. During this workshop we'll need a webapp with our services. This webapp is included in the folder *web_services*. Normally the instructor will run the webapp in its computer and he will provide you with the correct URL to invoke, but you can run the webapp by yourself using the Ruby framwework *Sinatra*. Please, refer to Appendix A for instructions on how to to that.
+
+.Current Application
+image::Resources/ch23-WebServices/ch23_01_app.png[Current Application]
+
+
+The Task
+--------
+
+We have implemented a *News* section using a UITableViewController. This section retrieves the array of news from the *News* model class, which in turn takes its data from a *plist* file. In this chapter we are going to improve this section by getting the news list from an external web service.
+
+
+
+Consuming a web service
+~~~~~~~~~~~~~~~~~~~~~~~
+
+
+Open the *News* class. Add this class method:
+
+[source, ruby]
+----------------
+def self.latest_news(completion_block)  
+
+end
+----------------
+
+The method will receive a block in which it will respond the result of the web service invocation.
+
+Now add a constant at the beginning of the class with the URL of the web server. The instructor should give you this URL. In this example we will consume a local service:
+
+
+*NEWS_SERVICE_BASE_URL = "http://localhost:4567"*
+
+Then, in the *self.laters_news* method we are going to build first a NSURL instance that points to the service:
+
+[source, ruby]
+---------------
+def self.latest_news(completion_block)  
+
+    news_url = NSURL.URLWithString("#{NEWS_SERVICE_BASE_URL}/news.json")
+end    
+---------------    
+
+Next, we need to build an instance of *NSMutableURLRequest*:
+
+[source, ruby]
+--------------
+def self.latest_news(completion_block) 
+ 
+    news_url = NSURL.URLWithString("#{NEWS_SERVICE_BASE_URL}/news.json")
+    request = NSMutableURLRequest.requestWithURL(news_url)
+    request.setTimeoutInterval(30)
+    request.setHTTPMethod("GET")
+--------------
+
+As you can see we can define some *attributes* of our request, such as the time out in seconds and the HTTP method to use.
+
+Now we are ready to send the request to the web service. Web services work using an approach of *Request-Reply*. We send the request to a given web service and wait. Once the Web Service finished, it will reply with an answer. During that time the only we can do is to wait, we don't have control of the remote service. Here we have two options: 
+
+- Block the whole app execution until the web service responds.
+- Send the request and forget about it, not blocking the app execution. Once the service responds we process the result.
+
+The correct way to handle web services is to use the second option. *NSURLConnection*, the class of CocoaTouch to send requests to web services, can handle both options. But the first option that blocks the whole app, is not even worth to reviewed. So we will stick with the second one:
+
+[source, ruby]
+--------------
+def self.latest_news(completion_block)  
+  news_url = NSURL.URLWithString("#{NEWS_SERVICE_BASE_URL}/news.json")
+  request = NSMutableURLRequest.requestWithURL(news_url)
+  request.setTimeoutInterval(30)
+  request.setHTTPMethod("GET")
+  
+  queue = NSOperationQueue.alloc.init
+  NSURLConnection.sendAsynchronousRequest(request,
+    queue: queue,
+    completionHandler: lambda do |response, data, error|
+      
+    end
+  )
+end
+-------------
+
+We send and *Asynchronous* request to the service using a *NSOperationQueue*. This block of code will be executed in a background Queue defined by the NSOperationQueue. This is a way to handle background tasks. We will review more about this topic in Chapter 26. Once the web service has a result, either a succesful response, a timeout or an error, the *completionHandler* block in invoked. This block receives three parameters:
+
+- response: An object with an instance of *NSURLResponse*.
+- data: The response returned by the service as a *NSData* object.
+- error: An *NSError* with the error, if any, returned by the service.
+
+We can now process the result. Our service returns an Array of *News* items in JSON format. We need to parse that JSON using the class *NSJSONSerialization*. This class parses JSON data into *NSArray*, for JSON arrays, and into *NSDictionary* for JSON objects. Thus, we need to convert from this *NSDictionary*s to instances of *News*:
+
+
+[source, ruby]
+-------------
+NSURLConnection.sendAsynchronousRequest(request,
+                                        queue: queue,
+  completionHandler: lambda do |response, data, error|
+
+    if (data.nil? && error.nil?)
+      p "No news were found in the server"
+      completion_block.call([], nil)
+    elsif(error.nil?)
+      
+      error_ptr = Pointer.new(:object)
+      news = NSJSONSerialization.JSONObjectWithData(data, options:0, error:error_ptr)
+      unless news
+        raise error_ptr[0]
+      end          
+      completion_block.call(news_hashes_to_news(news), nil)                  
+    elsif(!error.nil?)
+      p "Error: #{error}"
+      completion_block.call([],"There was an error connecting to the server.")
+    end
+  end
+)
+------------    
+
+We have three possible results:
+
+- If the server returned and empty result, we return an empty array.
+
+- If there is no error and the data object is not nil, the service returned the news. We parse them from JSON and the we use the method *news_hashes_to_news* to convert the news hashes to instances of *News*. As you can see we are invoking the *completion_block* parameter of our method to return the result: an Array of *News* item. The second parameter of the *completion_block* is an Error message, we return an empty error in this case.
+
+- If there was an error, we return an error message.
+
+Next, we need the implementation of *news_hashes_to_news*:
+
+[source, ruby]
+-------------
+def self.news_hashes_to_news(news_hashes)
+
+  news_array = Array.new
+  
+  news_hashes.each { |item|
+    
+    news = News.new
+    news.title = item["title"] 
+    news.brief = item["brief"] 
+    news.note = item["text"]
+    news.image = item["image"]
+    news.date = NSDate.date
+    news_array << news
+  } 
+  
+  news_array
+end
+-------------
+
+We are ready to invoke the service from the *NewsViewController* Open the file *news_view_controller.rb*. We are going to send the request to the service, and once the service responds we will update the *UITableView* with the news. We should indicate to the user that we are waiting a result from the service. A normal approach is to render a Spinner in the screen. In Cocoa Touch we use the *UIActivityIndicatorView* to do that. 
+
+Our first task it to write an method that shows the UIActivityIndicatorView:
+
+[source, ruby]
+-------------
+def setupActivityIndicatorView
+
+  @activityIndicator = UIActivityIndicatorView.alloc.initWithActivityIndicatorStyle(UIActivityIndicatorViewStyleGray)
+  @activityIndicator.center = CGPointMake(320/2, 100)
+  @activityIndicator.hidesWhenStopped = true
+  self.view.addSubview(@activityIndicator)
+  @activityIndicator.startAnimating
+end    
+-------------  
+
+We add it to the View and then invoke *startAnimating*, that message will start the spinning animation of our Activity Indicator.
+
+Now we are ready to invoke the remote service:
+
+[source, ruby]
+-------------
+def load_latest_news
+  setupActivityIndicatorView        
+  
+  News.latest_news(lambda do|news, error|      
+  
+  @activityIndicator.stopAnimating
+    if error.nil?      
+  
+      refreshTableWithNews news 
+    else 
+      
+      showErrorMessage error
+    end  
+  end 
+  )    
+end
+
+
+def refreshTableWithNews(news)
+
+  @news = news     
+  self.tableView.reloadData
+end  
+
+
+def showErrorMessage(error)
+
+  p "Error #{error}"
+end
+------------
+
+We first show our Activity Indicator, the we invoke the *latest_news* method and pass a block as a parameter. If there was no error, we refresh the table view with the news. If there was an error we pass it to the *showErrorMessage* that prints it on the console.
+
+Call this method from the *viewWillAppear:* method:
+
+[source, ruby]
+------------
+def viewWillAppear(animated)
+
+  super
+  @news = []
+  load_latest_news    
+end
+-----------
+
+Now run your app, remember that the web service should be running:
+
+.Activity Indicator
+image::Resources/ch23-WebServices/ch23_02_activityindicator.png[Activity Indicator]
+
+
+You will see the Activity Indicator and if you touch the screen, you'll see that the Table is refreshed with the latest news from the service. Why is the table view not refreshed automatically? Because we are running this operation in a background task. And the UI should be updated only in the Main thread. Let's fix this:
+
+
+[source, ruby]
+-----------
+def load_latest_news
+  setupActivityIndicatorView        
+  
+  News.latest_news(lambda do|news, error|      
+    
+    @activityIndicator.stopAnimating
+    
+    if error.nil?      
+      
+      self.performSelectorOnMainThread("refreshTableWithNews:", withObject:news, waitUntilDone:false)         
+    else 
+      
+      showErrorMessage(error)
+    end  
+  end 
+  )    
+end
+-----------
+
+By using the *performSelectorOnMainThread:withObject:waitUntilDone* message, we are executing the *refreshTableWithNews* method on the Main Thread, the one that handles the UI. Now the TableView will be refreshed immediately after the service responds:
+
+.News Table View  
+image::Resources/ch23-WebServices/ch23_03_table.png[News Table View]
+
+
+We are done with this task, if you have time you could do the challenges.
+
+
+
+Challenges
+---------
+
+Implement the *showErrorMessage* method. This method should show an UIAlertView with the message. Call this method from the *load_latest_news*, remember to execute it from the Main Thread, since it updates the UI. To test it, change in *NEWS* the url of the web service to an non existing one, such as:
+
+NEWS_SERVICE_BASE_URL = "http://dontexists:4567"
+
+.Error Message
+image::Resources/ch23-WebServices/ch23_04_error.png[Error Message]
+
+
+As you can see, if there are news or if there is an error, the UIActivityIndicator remains on the screen until you touch it. Why? because we are not calling the its *stopAnimating* method from the Main Thread, correct this.
+
+.Activity Indicator Stopped
+image::Resources/ch23-WebServices/ch23_05_activitystopped.png[Activity Indicator Stopped]
+
+
+
+Appendix A: Starting the web server
+-----------------------------------
+
+The web services are implemented using the Ruby framework *Sinatra*. If you want to run them in your local computer, you should follow these steps:
+
+Prerequisites:
+
+1. You need a Ruby environment. The simplest way to install is to do it with http://rvm.io Follow the instructions on the site to install it.
+2. You need Ruby Gems, follow this https://rvm.io/rubies/rubygems/ instructions to install them.
+
+Steps:
+1. Install Sinatra:
+
+
+[source, sh]
+----------------
+$ gem install sinatra
+----------------
+
+Run the server:
+
+[source, sh]
+----------------
+$ ruby -rubygems app.rb
+---------------- 
+
+In the console you will see the port in which the server is running. Use this port in your app. The server is *localhost*. In this case the complete url is *http://localhost:4567*
+
+.Sinatra Console
+image::Resources/ch23-WebServices/ch23_06_console.png[Sinatra Console]

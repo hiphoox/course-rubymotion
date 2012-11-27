@@ -8640,6 +8640,311 @@ Change the past animation to look like shooting stars, enter and leaving the scr
 object with key <strong>loggedUser</strong> from the User Defaults and set as a <strong>false</strong> the Boolean with key <strong>isUserLogged</strong>. Call this method from the <strong>sign_out</strong> method in NextViewController</p></div>
 </div>
 </div>
+<h1 id="_chapter_23_web_services">Chapter 23 - Web Services</h1>
+<div class="paragraph"><p>The ability to consume remote web services form mobile apps is a core component of today&#8217;s applications. Normally you will connect to web services to perform tasks like synchonize data, to authenticate users, to consume a third party API (think in stuff like the Facebook API or the Instagram API).</p></div>
+<div class="paragraph"><p>We have been working with local data in our Cocoaheads app. In this exercise we are going to learn how to consume remote web services.</p></div>
+<div class="sect1">
+<h2 id="_setting_up_the_project_6">Setting Up the Project</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>Unzip the file <strong>ch23-WebServices_resources.zip</strong>. You will find the project as we finished it in chapter 22. During this workshop we&#8217;ll need a webapp with our services. This webapp is included in the folder <strong>web_services</strong>. Normally the instructor will run the webapp in its computer and he will provide you with the correct URL to invoke, but you can run the webapp by yourself using the Ruby framwework <strong>Sinatra</strong>. Please, refer to Appendix A for instructions on how to to that.</p></div>
+<div class="imageblock">
+<div class="content">
+<img src="Resources/ch23-WebServices/ch23_01_app.png" alt="Current Application" />
+</div>
+<div class="title">Figure 105. Current Application</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_the_task_2">The Task</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>We have implemented a <strong>News</strong> section using a UITableViewController. This section retrieves the array of news from the <strong>News</strong> model class, which in turn takes its data from a <strong>plist</strong> file. In this chapter we are going to improve this section by getting the news list from an external web service.</p></div>
+<div class="sect2">
+<h3 id="_consuming_a_web_service">Consuming a web service</h3>
+<div class="paragraph"><p>Open the <strong>News</strong> class. Add this class method:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">latest_news</span><span class="p">(</span><span class="n">completion_block</span><span class="p">)</span>
+
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>The method will receive a block in which it will respond the result of the web service invocation.</p></div>
+<div class="paragraph"><p>Now add a constant at the beginning of the class with the URL of the web server. The instructor should give you this URL. In this example we will consume a local service:</p></div>
+<div class="paragraph"><p><strong>NEWS_SERVICE_BASE_URL = "http://localhost:4567"</strong></p></div>
+<div class="paragraph"><p>Then, in the <strong>self.laters_news</strong> method we are going to build first a NSURL instance that points to the service:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">latest_news</span><span class="p">(</span><span class="n">completion_block</span><span class="p">)</span>
+
+    <span class="n">news_url</span> <span class="o">=</span> <span class="no">NSURL</span><span class="o">.</span><span class="n">URLWithString</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">#{</span><span class="no">NEWS_SERVICE_BASE_URL</span><span class="si">}</span><span class="s2">/news.json&quot;</span><span class="p">)</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>Next, we need to build an instance of <strong>NSMutableURLRequest</strong>:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">latest_news</span><span class="p">(</span><span class="n">completion_block</span><span class="p">)</span>
+
+    <span class="n">news_url</span> <span class="o">=</span> <span class="no">NSURL</span><span class="o">.</span><span class="n">URLWithString</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">#{</span><span class="no">NEWS_SERVICE_BASE_URL</span><span class="si">}</span><span class="s2">/news.json&quot;</span><span class="p">)</span>
+    <span class="n">request</span> <span class="o">=</span> <span class="no">NSMutableURLRequest</span><span class="o">.</span><span class="n">requestWithURL</span><span class="p">(</span><span class="n">news_url</span><span class="p">)</span>
+    <span class="n">request</span><span class="o">.</span><span class="n">setTimeoutInterval</span><span class="p">(</span><span class="mi">30</span><span class="p">)</span>
+    <span class="n">request</span><span class="o">.</span><span class="n">setHTTPMethod</span><span class="p">(</span><span class="s2">&quot;GET&quot;</span><span class="p">)</span>
+</pre></div></div></div>
+<div class="paragraph"><p>As you can see we can define some <strong>attributes</strong> of our request, such as the time out in seconds and the HTTP method to use.</p></div>
+<div class="paragraph"><p>Now we are ready to send the request to the web service. Web services work using an approach of <strong>Request-Reply</strong>. We send the request to a given web service and wait. Once the Web Service finished, it will reply with an answer. During that time the only we can do is to wait, we don&#8217;t have control of the remote service. Here we have two options:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+Block the whole app execution until the web service responds.
+</p>
+</li>
+<li>
+<p>
+Send the request and forget about it, not blocking the app execution. Once the service responds we process the result.
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>The correct way to handle web services is to use the second option. <strong>NSURLConnection</strong>, the class of CocoaTouch to send requests to web services, can handle both options. But the first option that blocks the whole app, is not even worth to reviewed. So we will stick with the second one:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">latest_news</span><span class="p">(</span><span class="n">completion_block</span><span class="p">)</span>
+  <span class="n">news_url</span> <span class="o">=</span> <span class="no">NSURL</span><span class="o">.</span><span class="n">URLWithString</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">#{</span><span class="no">NEWS_SERVICE_BASE_URL</span><span class="si">}</span><span class="s2">/news.json&quot;</span><span class="p">)</span>
+  <span class="n">request</span> <span class="o">=</span> <span class="no">NSMutableURLRequest</span><span class="o">.</span><span class="n">requestWithURL</span><span class="p">(</span><span class="n">news_url</span><span class="p">)</span>
+  <span class="n">request</span><span class="o">.</span><span class="n">setTimeoutInterval</span><span class="p">(</span><span class="mi">30</span><span class="p">)</span>
+  <span class="n">request</span><span class="o">.</span><span class="n">setHTTPMethod</span><span class="p">(</span><span class="s2">&quot;GET&quot;</span><span class="p">)</span>
+
+  <span class="n">queue</span> <span class="o">=</span> <span class="no">NSOperationQueue</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">init</span>
+  <span class="no">NSURLConnection</span><span class="o">.</span><span class="n">sendAsynchronousRequest</span><span class="p">(</span><span class="n">request</span><span class="p">,</span>
+    <span class="n">queue</span><span class="p">:</span> <span class="n">queue</span><span class="p">,</span>
+    <span class="n">completionHandler</span><span class="p">:</span> <span class="nb">lambda</span> <span class="k">do</span> <span class="o">|</span><span class="n">response</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">error</span><span class="o">|</span>
+
+    <span class="k">end</span>
+  <span class="p">)</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>We send and <strong>Asynchronous</strong> request to the service using a <strong>NSOperationQueue</strong>. This block of code will be executed in a background Queue defined by the NSOperationQueue. This is a way to handle background tasks. We will review more about this topic in Chapter 26. Once the web service has a result, either a succesful response, a timeout or an error, the <strong>completionHandler</strong> block in invoked. This block receives three parameters:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+response: An object with an instance of <strong>NSURLResponse</strong>.
+</p>
+</li>
+<li>
+<p>
+data: The response returned by the service as a <strong>NSData</strong> object.
+</p>
+</li>
+<li>
+<p>
+error: An <strong>NSError</strong> with the error, if any, returned by the service.
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>We can now process the result. Our service returns an Array of <strong>News</strong> items in JSON format. We need to parse that JSON using the class <strong>NSJSONSerialization</strong>. This class parses JSON data into <strong>NSArray</strong>, for JSON arrays, and into <strong>NSDictionary</strong> for JSON objects. Thus, we need to convert from this <strong>NSDictionary*s to instances of *News</strong>:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="no">NSURLConnection</span><span class="o">.</span><span class="n">sendAsynchronousRequest</span><span class="p">(</span><span class="n">request</span><span class="p">,</span>
+                                        <span class="n">queue</span><span class="p">:</span> <span class="n">queue</span><span class="p">,</span>
+  <span class="n">completionHandler</span><span class="p">:</span> <span class="nb">lambda</span> <span class="k">do</span> <span class="o">|</span><span class="n">response</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">error</span><span class="o">|</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">nil?</span> <span class="o">&amp;&amp;</span> <span class="n">error</span><span class="o">.</span><span class="n">nil?</span><span class="p">)</span>
+      <span class="nb">p</span> <span class="s2">&quot;No news were found in the server&quot;</span>
+      <span class="n">completion_block</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="o">[]</span><span class="p">,</span> <span class="kp">nil</span><span class="p">)</span>
+    <span class="k">elsif</span><span class="p">(</span><span class="n">error</span><span class="o">.</span><span class="n">nil?</span><span class="p">)</span>
+
+      <span class="n">error_ptr</span> <span class="o">=</span> <span class="no">Pointer</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">:object</span><span class="p">)</span>
+      <span class="n">news</span> <span class="o">=</span> <span class="no">NSJSONSerialization</span><span class="o">.</span><span class="n">JSONObjectWithData</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">options</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span> <span class="n">error</span><span class="ss">:error_ptr</span><span class="p">)</span>
+      <span class="k">unless</span> <span class="n">news</span>
+        <span class="k">raise</span> <span class="n">error_ptr</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span>
+      <span class="k">end</span>
+      <span class="n">completion_block</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="n">news_hashes_to_news</span><span class="p">(</span><span class="n">news</span><span class="p">),</span> <span class="kp">nil</span><span class="p">)</span>
+    <span class="k">elsif</span><span class="p">(</span><span class="o">!</span><span class="n">error</span><span class="o">.</span><span class="n">nil?</span><span class="p">)</span>
+      <span class="nb">p</span> <span class="s2">&quot;Error: </span><span class="si">#{</span><span class="n">error</span><span class="si">}</span><span class="s2">&quot;</span>
+      <span class="n">completion_block</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="o">[]</span><span class="p">,</span><span class="s2">&quot;There was an error connecting to the server.&quot;</span><span class="p">)</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="p">)</span>
+</pre></div></div></div>
+<div class="paragraph"><p>We have three possible results:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+If the server returned and empty result, we return an empty array.
+</p>
+</li>
+<li>
+<p>
+If there is no error and the data object is not nil, the service returned the news. We parse them from JSON and the we use the method <strong>news_hashes_to_news</strong> to convert the news hashes to instances of <strong>News</strong>. As you can see we are invoking the <strong>completion_block</strong> parameter of our method to return the result: an Array of <strong>News</strong> item. The second parameter of the <strong>completion_block</strong> is an Error message, we return an empty error in this case.
+</p>
+</li>
+<li>
+<p>
+If there was an error, we return an error message.
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Next, we need the implementation of <strong>news_hashes_to_news</strong>:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">news_hashes_to_news</span><span class="p">(</span><span class="n">news_hashes</span><span class="p">)</span>
+
+  <span class="n">news_array</span> <span class="o">=</span> <span class="nb">Array</span><span class="o">.</span><span class="n">new</span>
+
+  <span class="n">news_hashes</span><span class="o">.</span><span class="n">each</span> <span class="p">{</span> <span class="o">|</span><span class="n">item</span><span class="o">|</span>
+
+    <span class="n">news</span> <span class="o">=</span> <span class="no">News</span><span class="o">.</span><span class="n">new</span>
+    <span class="n">news</span><span class="o">.</span><span class="n">title</span> <span class="o">=</span> <span class="n">item</span><span class="o">[</span><span class="s2">&quot;title&quot;</span><span class="o">]</span>
+    <span class="n">news</span><span class="o">.</span><span class="n">brief</span> <span class="o">=</span> <span class="n">item</span><span class="o">[</span><span class="s2">&quot;brief&quot;</span><span class="o">]</span>
+    <span class="n">news</span><span class="o">.</span><span class="n">note</span> <span class="o">=</span> <span class="n">item</span><span class="o">[</span><span class="s2">&quot;text&quot;</span><span class="o">]</span>
+    <span class="n">news</span><span class="o">.</span><span class="n">image</span> <span class="o">=</span> <span class="n">item</span><span class="o">[</span><span class="s2">&quot;image&quot;</span><span class="o">]</span>
+    <span class="n">news</span><span class="o">.</span><span class="n">date</span> <span class="o">=</span> <span class="no">NSDate</span><span class="o">.</span><span class="n">date</span>
+    <span class="n">news_array</span> <span class="o">&lt;&lt;</span> <span class="n">news</span>
+  <span class="p">}</span>
+
+  <span class="n">news_array</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>We are ready to invoke the service from the <strong>NewsViewController</strong> Open the file <strong>news_view_controller.rb</strong>. We are going to send the request to the service, and once the service responds we will update the <strong>UITableView</strong> with the news. We should indicate to the user that we are waiting a result from the service. A normal approach is to render a Spinner in the screen. In Cocoa Touch we use the <strong>UIActivityIndicatorView</strong> to do that.</p></div>
+<div class="paragraph"><p>Our first task it to write an method that shows the UIActivityIndicatorView:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">setupActivityIndicatorView</span>
+
+  <span class="vi">@activityIndicator</span> <span class="o">=</span> <span class="no">UIActivityIndicatorView</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithActivityIndicatorStyle</span><span class="p">(</span><span class="no">UIActivityIndicatorViewStyleGray</span><span class="p">)</span>
+  <span class="vi">@activityIndicator</span><span class="o">.</span><span class="n">center</span> <span class="o">=</span> <span class="no">CGPointMake</span><span class="p">(</span><span class="mi">320</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+  <span class="vi">@activityIndicator</span><span class="o">.</span><span class="n">hidesWhenStopped</span> <span class="o">=</span> <span class="kp">true</span>
+  <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="vi">@activityIndicator</span><span class="p">)</span>
+  <span class="vi">@activityIndicator</span><span class="o">.</span><span class="n">startAnimating</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>We add it to the View and then invoke <strong>startAnimating</strong>, that message will start the spinning animation of our Activity Indicator.</p></div>
+<div class="paragraph"><p>Now we are ready to invoke the remote service:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">load_latest_news</span>
+  <span class="n">setupActivityIndicatorView</span>
+
+  <span class="no">News</span><span class="o">.</span><span class="n">latest_news</span><span class="p">(</span><span class="nb">lambda</span> <span class="k">do</span><span class="o">|</span><span class="n">news</span><span class="p">,</span> <span class="n">error</span><span class="o">|</span>
+
+  <span class="vi">@activityIndicator</span><span class="o">.</span><span class="n">stopAnimating</span>
+    <span class="k">if</span> <span class="n">error</span><span class="o">.</span><span class="n">nil?</span>
+
+      <span class="n">refreshTableWithNews</span> <span class="n">news</span>
+    <span class="k">else</span>
+
+      <span class="n">showErrorMessage</span> <span class="n">error</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+  <span class="p">)</span>
+<span class="k">end</span>
+
+
+<span class="k">def</span> <span class="nf">refreshTableWithNews</span><span class="p">(</span><span class="n">news</span><span class="p">)</span>
+
+  <span class="vi">@news</span> <span class="o">=</span> <span class="n">news</span>
+  <span class="nb">self</span><span class="o">.</span><span class="n">tableView</span><span class="o">.</span><span class="n">reloadData</span>
+<span class="k">end</span>
+
+
+<span class="k">def</span> <span class="nf">showErrorMessage</span><span class="p">(</span><span class="n">error</span><span class="p">)</span>
+
+  <span class="nb">p</span> <span class="s2">&quot;Error </span><span class="si">#{</span><span class="n">error</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>We first show our Activity Indicator, the we invoke the <strong>latest_news</strong> method and pass a block as a parameter. If there was no error, we refresh the table view with the news. If there was an error we pass it to the <strong>showErrorMessage</strong> that prints it on the console.</p></div>
+<div class="paragraph"><p>Call this method from the <strong>viewWillAppear:</strong> method:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">viewWillAppear</span><span class="p">(</span><span class="n">animated</span><span class="p">)</span>
+
+  <span class="k">super</span>
+  <span class="vi">@news</span> <span class="o">=</span> <span class="o">[]</span>
+  <span class="n">load_latest_news</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>Now run your app, remember that the web service should be running:</p></div>
+<div class="imageblock">
+<div class="content">
+<img src="Resources/ch23-WebServices/ch23_02_activityindicator.png" alt="Activity Indicator" />
+</div>
+<div class="title">Figure 106. Activity Indicator</div>
+</div>
+<div class="paragraph"><p>You will see the Activity Indicator and if you touch the screen, you&#8217;ll see that the Table is refreshed with the latest news from the service. Why is the table view not refreshed automatically? Because we are running this operation in a background task. And the UI should be updated only in the Main thread. Let&#8217;s fix this:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">load_latest_news</span>
+  <span class="n">setupActivityIndicatorView</span>
+
+  <span class="no">News</span><span class="o">.</span><span class="n">latest_news</span><span class="p">(</span><span class="nb">lambda</span> <span class="k">do</span><span class="o">|</span><span class="n">news</span><span class="p">,</span> <span class="n">error</span><span class="o">|</span>
+
+    <span class="vi">@activityIndicator</span><span class="o">.</span><span class="n">stopAnimating</span>
+
+    <span class="k">if</span> <span class="n">error</span><span class="o">.</span><span class="n">nil?</span>
+
+      <span class="nb">self</span><span class="o">.</span><span class="n">performSelectorOnMainThread</span><span class="p">(</span><span class="s2">&quot;refreshTableWithNews:&quot;</span><span class="p">,</span> <span class="n">withObject</span><span class="ss">:news</span><span class="p">,</span> <span class="n">waitUntilDone</span><span class="ss">:false</span><span class="p">)</span>
+    <span class="k">else</span>
+
+      <span class="n">showErrorMessage</span><span class="p">(</span><span class="n">error</span><span class="p">)</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+  <span class="p">)</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>By using the <strong>performSelectorOnMainThread:withObject:waitUntilDone</strong> message, we are executing the <strong>refreshTableWithNews</strong> method on the Main Thread, the one that handles the UI. Now the TableView will be refreshed immediately after the service responds:</p></div>
+<div class="imageblock">
+<div class="content">
+<img src="Resources/ch23-WebServices/ch23_03_table.png" alt="News Table View" />
+</div>
+<div class="title">Figure 107. News Table View</div>
+</div>
+<div class="paragraph"><p>We are done with this task, if you have time you could do the challenges.</p></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_challenges_7">Challenges</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>Implement the <strong>showErrorMessage</strong> method. This method should show an UIAlertView with the message. Call this method from the <strong>load_latest_news</strong>, remember to execute it from the Main Thread, since it updates the UI. To test it, change in <strong>NEWS</strong> the url of the web service to an non existing one, such as:</p></div>
+<div class="paragraph"><p>NEWS_SERVICE_BASE_URL = "http://dontexists:4567"</p></div>
+<div class="imageblock">
+<div class="content">
+<img src="Resources/ch23-WebServices/ch23_04_error.png" alt="Error Message" />
+</div>
+<div class="title">Figure 108. Error Message</div>
+</div>
+<div class="paragraph"><p>As you can see, if there are news or if there is an error, the UIActivityIndicator remains on the screen until you touch it. Why? because we are not calling the its <strong>stopAnimating</strong> method from the Main Thread, correct this.</p></div>
+<div class="imageblock">
+<div class="content">
+<img src="Resources/ch23-WebServices/ch23_05_activitystopped.png" alt="Activity Indicator Stopped" />
+</div>
+<div class="title">Figure 109. Activity Indicator Stopped</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_appendix_a_starting_the_web_server">Appendix A: Starting the web server</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>The web services are implemented using the Ruby framework <strong>Sinatra</strong>. If you want to run them in your local computer, you should follow these steps:</p></div>
+<div class="paragraph"><p>Prerequisites:</p></div>
+<div class="olist arabic"><ol class="arabic">
+<li>
+<p>
+You need a Ruby environment. The simplest way to install is to do it with <a href="http://rvm.io">http://rvm.io</a> Follow the instructions on the site to install it.
+</p>
+</li>
+<li>
+<p>
+You need Ruby Gems, follow this <a href="https://rvm.io/rubies/rubygems/">https://rvm.io/rubies/rubygems/</a> instructions to install them.
+</p>
+</li>
+</ol></div>
+<div class="paragraph"><p>Steps:
+1. Install Sinatra:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="nv">$ </span>gem install sinatra
+</pre></div></div></div>
+<div class="paragraph"><p>Run the server:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="nv">$ </span>ruby -rubygems app.rb
+</pre></div></div></div>
+<div class="paragraph"><p>In the console you will see the port in which the server is running. Use this port in your app. The server is <strong>localhost</strong>. In this case the complete url is <strong>http://localhost:4567</strong></p></div>
+<div class="imageblock">
+<div class="content">
+<img src="Resources/ch23-WebServices/ch23_06_console.png" alt="Sinatra Console" />
+</div>
+<div class="title">Figure 110. Sinatra Console</div>
+</div>
+</div>
+</div>
 <h1 id="_chapter_25_third_party_libraries">Chapter 25 - Third Party Libraries</h1>
 <div class="paragraph"><p>Integrating Third Party Libraries (Even if they are in Objective-C ;) into our project is pretty simple using CocoaPods. For this application lets make a simple game called asteroids using a library called Cocos2D</p></div>
 <div class="sect1">
@@ -8801,7 +9106,7 @@ object with key <strong>loggedUser</strong> from the User Defaults and set as a 
 <div class="content">
 <img src="Resources/ch25-ThirdPartyLibraries/ch25_Cocos2DInitialApplication.png" alt="Initial Cocos 2D Application" />
 </div>
-<div class="title">Figure 105. Initial Cocos 2D Application</div>
+<div class="title">Figure 111. Initial Cocos 2D Application</div>
 </div>
 <div class="paragraph"><p>If you look closely in the bottom left part of the screen are a bunch of numbers, they are the FPS of our game. The general idea is that our game have consistently 60.0 but you will look as we advance in the exercise that some times it drops, this is normal.</p></div>
 </div>
@@ -8984,7 +9289,7 @@ object with key <strong>loggedUser</strong> from the User Defaults and set as a 
 <div class="content">
 <img src="Resources/ch25-ThirdPartyLibraries/ch25_Cocos2DLayer.png" alt="Cocos 2D Layer" />
 </div>
-<div class="title">Figure 106. Cocos 2D Layer</div>
+<div class="title">Figure 112. Cocos 2D Layer</div>
 </div>
 <div class="paragraph"><p>Now we have all the necessary structure to make the game run: A director, scene and a layer! Its time to change the label into a space background:</p></div>
 <div class="listingblock">
@@ -9021,7 +9326,7 @@ object with key <strong>loggedUser</strong> from the User Defaults and set as a 
 <div class="content">
 <img src="Resources/ch25-ThirdPartyLibraries/ch25_BackgroundLayer.png" alt="Background Layer" />
 </div>
-<div class="title">Figure 107. Background Layer</div>
+<div class="title">Figure 113. Background Layer</div>
 </div>
 <div class="paragraph"><p>We have a background for the game! Lets do something more fun: adding the space ship into the scene, for this we need to create a new layer called <strong>game_play_layer.rb</strong>:</p></div>
 <div class="listingblock">
@@ -9091,7 +9396,7 @@ object with key <strong>loggedUser</strong> from the User Defaults and set as a 
 <div class="content">
 <img src="Resources/ch25-ThirdPartyLibraries/ch25_StaticSpaceShip.png" alt="Static Space Ship" />
 </div>
-<div class="title">Figure 108. Static Space Ship</div>
+<div class="title">Figure 114. Static Space Ship</div>
 </div>
 <div class="paragraph"><p>Awesome! The next step is to allow the user to move the space ship with his touches on the screen. Lets open again our <strong>game_play_layer.rb</strong> and add the following method:</p></div>
 <div class="listingblock">
@@ -9122,7 +9427,7 @@ object with key <strong>loggedUser</strong> from the User Defaults and set as a 
 <div class="content">
 <img src="Resources/ch25-ThirdPartyLibraries/ch25_JumpingSpaceShip.png" alt="Jumping Space Ship" />
 </div>
-<div class="title">Figure 109. Jumping Space Ship</div>
+<div class="title">Figure 115. Jumping Space Ship</div>
 </div>
 <div class="paragraph"><p>Yes it moves! But it does without animation, this is because the sprites does not have implicit animations like a CALayer.</p></div>
 </div>
@@ -9162,7 +9467,7 @@ object with key <strong>loggedUser</strong> from the User Defaults and set as a 
 <div class="content">
 <img src="Resources/ch25-ThirdPartyLibraries/ch25_SpaceShipOutsideScreen.png" alt="Space Ship Outside Screen" />
 </div>
-<div class="title">Figure 110. Space Ship Outside Screen</div>
+<div class="title">Figure 116. Space Ship Outside Screen</div>
 </div>
 <div class="paragraph"><p>Upps! What when wrong? The problem is the actions must receive the number of points of movement in a direction, not a exact position! You can try it! Just assign a <strong>CGPoint(100, 100)</strong> to the position parameter of the action.</p></div>
 <div class="paragraph"><p>The fix is the following:</p></div>
@@ -9198,7 +9503,7 @@ object with key <strong>loggedUser</strong> from the User Defaults and set as a 
 <div class="content">
 <img src="Resources/ch25-ThirdPartyLibraries/ch25_MovingSpaceShip.png" alt="Moving Space Ship" />
 </div>
-<div class="title">Figure 111. Moving Space Ship</div>
+<div class="title">Figure 117. Moving Space Ship</div>
 </div>
 <div class="paragraph"><p>Now is working! We are done with the space ship, the next is to add some asteroids flying into the scene.</p></div>
 </div>
@@ -9279,7 +9584,7 @@ object with key <strong>loggedUser</strong> from the User Defaults and set as a 
 <div class="content">
 <img src="Resources/ch25-ThirdPartyLibraries/ch25_BigAsteroid.png" alt="Big Asteroid" />
 </div>
-<div class="title">Figure 112. Big Asteroid</div>
+<div class="title">Figure 118. Big Asteroid</div>
 </div>
 <div class="paragraph"><p>Easy right? But we have a problem the asteroid is too big: Imagine five of them flying into the screen, impossible to dodge!</p></div>
 <div class="paragraph"><p>So lets create something more complex, the idea is to have asteroids of different sizes moving across the screen. So lets use some randoms for determinate the size of the asteroid:</p></div>
@@ -9326,7 +9631,7 @@ object with key <strong>loggedUser</strong> from the User Defaults and set as a 
 <div class="content">
 <img src="Resources/ch25-ThirdPartyLibraries/ch25_RandomSizeAsteroid.png" alt="Random Size Asteroid" />
 </div>
-<div class="title">Figure 113. Random Size Asteroid</div>
+<div class="title">Figure 119. Random Size Asteroid</div>
 </div>
 <div class="paragraph"><p>Great! Now the size of the asteroid is completely random, to test it run the app multiple times!</p></div>
 <div class="paragraph"><p>For make the illusion that the asteroids are coming from the space we need to set the initial position of it outside the screen and then move it across the screen. Again some randoms we will help us, lets add the following method to our file:</p></div>
@@ -9423,7 +9728,7 @@ object with key <strong>loggedUser</strong> from the User Defaults and set as a 
 <div class="content">
 <img src="Resources/ch25-ThirdPartyLibraries/ch25_FlyingAsteroid.png" alt="Flying Asteroid" />
 </div>
-<div class="title">Figure 114. Flying Asteroid</div>
+<div class="title">Figure 120. Flying Asteroid</div>
 </div>
 <div class="paragraph"><p>You should see the asteroid fly across the screen! If you don&#8217;t please run it a couple of times remember we are using randoms! (The asteroid can fly too fast or in the edges of the screen, this is part of the magic ;)</p></div>
 <div class="paragraph"><p>But the asteroids does not move like that! They rotate:</p></div>
@@ -9479,7 +9784,7 @@ object with key <strong>loggedUser</strong> from the User Defaults and set as a 
 <div class="content">
 <img src="Resources/ch25-ThirdPartyLibraries/ch25_SpinningAsteroid.png" alt="Spinning Asteroid" />
 </div>
-<div class="title">Figure 115. Spinning Asteroid</div>
+<div class="title">Figure 121. Spinning Asteroid</div>
 </div>
 <div class="paragraph"><p>Last part! We need to change the status of the sprite to <strong>:ended</strong> when the movement action ends:</p></div>
 <div class="listingblock">
@@ -9650,7 +9955,7 @@ object with key <strong>loggedUser</strong> from the User Defaults and set as a 
 <div class="content">
 <img src="Resources/ch25-ThirdPartyLibraries/ch25_MultipleAsteroids.png" alt="Multiple Asteroids" />
 </div>
-<div class="title">Figure 116. Multiple Asteroids</div>
+<div class="title">Figure 122. Multiple Asteroids</div>
 </div>
 <div class="paragraph"><p>Awesome! Now the scene is complete, but is something missing right? Detect when the ship crashes with an asteroid!</p></div>
 </div>
@@ -9694,7 +9999,7 @@ object with key <strong>loggedUser</strong> from the User Defaults and set as a 
 <div class="content">
 <img src="Resources/ch25-ThirdPartyLibraries/ch25_PleaseDontCrash.png" alt="Please Don't Crash" />
 </div>
-<div class="title">Figure 117. Please Don&#8217;t Crash</div>
+<div class="title">Figure 123. Please Don&#8217;t Crash</div>
 </div>
 <div class="paragraph"><p>Great! Now our little game is complete, if the user crashes into an asteroid the space ship explodes and the game is ended</p></div>
 <div class="admonitionblock">
@@ -9707,7 +10012,7 @@ object with key <strong>loggedUser</strong> from the User Defaults and set as a 
 </div>
 </div>
 <div class="sect2">
-<h3 id="_challenges_7">Challenges</h3>
+<h3 id="_challenges_8">Challenges</h3>
 <div class="olist arabic"><ol class="arabic">
 <li>
 <p>
@@ -10835,7 +11140,7 @@ Some Cocoa Frameworks and 3rd Party are not multi-thread
 <div class="paragraph"><p>Our Image Filtering application is now complete!</p></div>
 </div>
 <div class="sect2">
-<h3 id="_challenges_8">Challenges</h3>
+<h3 id="_challenges_9">Challenges</h3>
 <div class="olist arabic"><ol class="arabic">
 <li>
 <p>
@@ -10856,7 +11161,7 @@ Add some buttons to our Application for increasing and decreasing the Intensity 
 <div id="footer">
 <div id="footer-text">
 Version 0.1<br />
-Last updated 2012-11-27 13:41:14 CST
+Last updated 2012-11-27 13:53:56 CST
 </div>
 </div>
 </body>
