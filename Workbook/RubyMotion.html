@@ -8507,6 +8507,139 @@ Change the past animation to look like shooting stars, enter and leaving the scr
 </div>
 </div>
 <h1 id="_day_5">Day 5</h1>
+<h1 id="_chapter_22_settings">Chapter 22 - Settings</h1>
+<div class="paragraph"><p>In this chapter we are going to learn how to use <strong>NSUserDefaults</strong> to store values in our app.</p></div>
+<div class="sect1">
+<h2 id="_setting_up_the_project_5">Setting up the project</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>We are going to use the <strong>Cocoaheads</strong> app as an example. Unzip the file <strong>ch22-Settings_resources.zip</strong>. You will find the project as we finished it in chapter 14.</p></div>
+<div class="imageblock">
+<div class="content">
+<img src="Resources/ch22-Settings/ch22_01_app.png" alt="Current Application" />
+</div>
+<div class="title">Figure 103. Current Application</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_the_task">The Task</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>As you may remember, we have build a <strong>Login</strong> view controller: <strong>sign_in_view_controller.rb</strong>. We want to add the functionality to store the username of the logged user. Also we want to change the login button of the the <strong>next_event_view_controller.rb</strong> to a logout button when the user is logged in.</p></div>
+<div class="sect2">
+<h3 id="_storing_the_logged_user">Storing the logged user</h3>
+<div class="paragraph"><p>First, we will create a Model to add this functionality. In the <strong>models</strong> folder create a file named <strong>user.rb</strong> and declare the <strong>User</strong> class:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">class</span> <span class="nc">User</span>
+  <span class="kp">attr_accessor</span><span class="p">:</span> <span class="n">username</span>
+
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>iOS creates a default <strong>NSUserDefaults</strong> per user, but when an app writes data to it, it is sandboxed. Thus, other apps can not acces that data.</p></div>
+<div class="paragraph"><p>To work with NSUserDefaults we ask for this default instance, with the method <strong>standardUserDefaults</strong>. In the <strong>User</strong> class add this method</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">logIn</span>
+
+  <span class="no">NSUserDefaults</span><span class="o">.</span><span class="n">standardUserDefaults</span><span class="o">.</span><span class="n">setObject</span><span class="p">(</span><span class="nb">self</span><span class="o">.</span><span class="n">username</span><span class="p">,</span>
+    <span class="n">forKey</span><span class="ss">:&quot;loggedUser&quot;</span><span class="p">)</span>
+
+  <span class="no">NSUserDefaults</span><span class="o">.</span><span class="n">standardUserDefaults</span><span class="o">.</span><span class="n">setBool</span><span class="p">(</span><span class="kp">true</span><span class="p">,</span>
+    <span class="n">forKey</span><span class="ss">:&quot;isUserLogged&quot;</span><span class="p">)</span>
+  <span class="no">NSUserDefaults</span><span class="o">.</span><span class="n">standardUserDefaults</span><span class="o">.</span><span class="n">synchronize</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>As you can see we are storing two things: the first one is a String with the username of the user and the second one is a Boolean to set that there is a user logged in the app. As you can see is very similar as working with Hashes. We pass a value and a String that is the key. Finally, we call <strong>synchronize</strong>. NSUserDefaults caches the values in memory and periodically flushes them to its persistent store on disk. You can force this flush by calling directly to <strong>synchronize</strong>. Althought, you should do this only on those times where your app needs that the data is persisted immediately and you can not wait until the automatic flush.</p></div>
+<div class="paragraph"><p>Now, lets create our user and call this method on our <strong>LoginViewController</strong> class:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">login_user</span>
+
+  <span class="n">user</span> <span class="o">=</span> <span class="no">User</span><span class="o">.</span><span class="n">new</span>
+  <span class="n">user</span><span class="o">.</span><span class="n">username</span> <span class="o">=</span> <span class="vi">@email_textfield</span><span class="o">.</span><span class="n">text</span>
+  <span class="n">user</span><span class="o">.</span><span class="n">logIn</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>And call this method from the <strong>sign_in</strong>:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">sign_in</span>
+
+  <span class="k">if</span> <span class="n">isFormValid</span>
+    <span class="n">close</span>
+    <span class="n">login_user</span>
+  <span class="k">else</span>
+    <span class="n">showAlert</span><span class="p">(</span><span class="s2">&quot;Error&quot;</span><span class="p">,</span> <span class="n">title</span><span class="ss">:&quot;Please, fill all the fields.&quot;</span><span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>Run your app and login with a user.</p></div>
+</div>
+<div class="sect2">
+<h3 id="_reading_from_user_defaults">Reading from User Defaults</h3>
+<div class="paragraph"><p>So, we are saving the user information on User Defaults. Now we need to read it. Open the <strong>User</strong> class and add this class method:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">isLogged?</span>
+
+  <span class="no">NSUserDefaults</span><span class="o">.</span><span class="n">standardUserDefaults</span><span class="o">.</span><span class="n">boolForKey</span><span class="p">(</span><span class="s2">&quot;isUserLogged&quot;</span><span class="p">)</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>Now we can add the behaviour to our <strong>next_event_view_controller.rb</strong>. First, in the <strong>viewDidLoad</strong> store the Sign In button in an instance variable:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">viewDidLoad</span>
+
+  <span class="k">super</span>
+
+  <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="n">imageViewWithHeader</span><span class="p">)</span>
+  <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="n">imageViewWithBackground</span><span class="p">)</span>
+  <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="n">imageViewWithTitleBackground</span><span class="p">)</span>
+  <span class="vi">@next_event_name_label</span> <span class="o">=</span> <span class="n">labelWithNextEventName</span>
+  <span class="vi">@days_left_view</span> <span class="o">=</span> <span class="n">viewWithDaysLeft</span>
+  <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="vi">@next_event_name_label</span><span class="p">)</span>
+  <span class="vi">@event</span> <span class="o">=</span> <span class="no">Event</span><span class="o">.</span><span class="n">mock_event</span>
+  <span class="vi">@button_for_sign_in</span> <span class="o">=</span> <span class="n">buttonForSignIn</span>
+  <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="vi">@button_for_sign_in</span><span class="p">)</span>
+  <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="n">buttonForSignUp</span><span class="p">)</span>
+  <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="vi">@days_left_view</span><span class="p">)</span>
+  <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="n">buttonToChangeDaysLeft</span><span class="p">)</span>
+
+  <span class="vi">@next_event_name_label</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="vi">@event</span><span class="o">.</span><span class="n">name</span>
+
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>Now add the method to change the button. We check if the user is logged, and then we change the title of the button. We also need to remove the selector that was called when the user taps on the button, because is pointing to the <strong>sign_in</strong> method. Finally we add a new selector pointing to a <strong>sign_out</strong> method.</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">changeSignInButtonIfUserIsLogged</span>
+
+  <span class="k">if</span> <span class="no">User</span><span class="o">.</span><span class="n">isLogged?</span>
+    <span class="vi">@button_for_sign_in</span><span class="o">.</span><span class="n">setTitle</span><span class="p">(</span><span class="s2">&quot;Logout&quot;</span><span class="p">,</span>
+      <span class="n">forState</span><span class="ss">:UIControlStateNormal</span><span class="p">)</span>
+    <span class="vi">@button_for_sign_in</span><span class="o">.</span><span class="n">removeTarget</span><span class="p">(</span><span class="nb">self</span><span class="p">,</span>
+      <span class="n">action</span><span class="ss">:&quot;sign_in&quot;</span><span class="p">,</span>
+      <span class="n">forControlEvents</span><span class="ss">:UIControlEventTouchUpInside</span><span class="p">)</span>
+    <span class="vi">@button_for_sign_in</span><span class="o">.</span><span class="n">addTarget</span><span class="p">(</span><span class="nb">self</span><span class="p">,</span>
+      <span class="n">action</span><span class="ss">:&#39;sign_out:&#39;</span><span class="p">,</span>
+      <span class="n">forControlEvents</span><span class="ss">:UIControlEventTouchUpInside</span><span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">def</span> <span class="nf">sign_out</span>
+
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>Now if you run your app, since the NSUserDefaults has stored that a user has logged in, you should see that the button has the string <strong>Logout</strong> in its title:</p></div>
+<div class="imageblock">
+<div class="content">
+<img src="Resources/ch22-Settings/ch22_02_logout.png" alt="Application Logout" />
+</div>
+<div class="title">Figure 104. Application Logout</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_challenges_6">Challenges</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>In the <strong>User</strong> class, implement a method called <strong>logout</strong> that method should remove the
+object with key <strong>loggedUser</strong> from the User Defaults and set as a <strong>false</strong> the Boolean with key <strong>isUserLogged</strong>. Call this method from the <strong>sign_out</strong> method in NextViewController</p></div>
+</div>
+</div>
 <h1 id="_chapter_25_third_party_libraries">Chapter 25 - Third Party Libraries</h1>
 <div class="paragraph"><p>Integrating Third Party Libraries (Even if they are in Objective-C ;) into our project is pretty simple using CocoaPods. For this application lets make a simple game called asteroids using a library called Cocos2D</p></div>
 <div class="sect1">
@@ -8668,7 +8801,7 @@ Change the past animation to look like shooting stars, enter and leaving the scr
 <div class="content">
 <img src="Resources/ch25-ThirdPartyLibraries/ch25_Cocos2DInitialApplication.png" alt="Initial Cocos 2D Application" />
 </div>
-<div class="title">Figure 103. Initial Cocos 2D Application</div>
+<div class="title">Figure 105. Initial Cocos 2D Application</div>
 </div>
 <div class="paragraph"><p>If you look closely in the bottom left part of the screen are a bunch of numbers, they are the FPS of our game. The general idea is that our game have consistently 60.0 but you will look as we advance in the exercise that some times it drops, this is normal.</p></div>
 </div>
@@ -8851,7 +8984,7 @@ Change the past animation to look like shooting stars, enter and leaving the scr
 <div class="content">
 <img src="Resources/ch25-ThirdPartyLibraries/ch25_Cocos2DLayer.png" alt="Cocos 2D Layer" />
 </div>
-<div class="title">Figure 104. Cocos 2D Layer</div>
+<div class="title">Figure 106. Cocos 2D Layer</div>
 </div>
 <div class="paragraph"><p>Now we have all the necessary structure to make the game run: A director, scene and a layer! Its time to change the label into a space background:</p></div>
 <div class="listingblock">
@@ -8888,7 +9021,7 @@ Change the past animation to look like shooting stars, enter and leaving the scr
 <div class="content">
 <img src="Resources/ch25-ThirdPartyLibraries/ch25_BackgroundLayer.png" alt="Background Layer" />
 </div>
-<div class="title">Figure 105. Background Layer</div>
+<div class="title">Figure 107. Background Layer</div>
 </div>
 <div class="paragraph"><p>We have a background for the game! Lets do something more fun: adding the space ship into the scene, for this we need to create a new layer called <strong>game_play_layer.rb</strong>:</p></div>
 <div class="listingblock">
@@ -8958,7 +9091,7 @@ Change the past animation to look like shooting stars, enter and leaving the scr
 <div class="content">
 <img src="Resources/ch25-ThirdPartyLibraries/ch25_StaticSpaceShip.png" alt="Static Space Ship" />
 </div>
-<div class="title">Figure 106. Static Space Ship</div>
+<div class="title">Figure 108. Static Space Ship</div>
 </div>
 <div class="paragraph"><p>Awesome! The next step is to allow the user to move the space ship with his touches on the screen. Lets open again our <strong>game_play_layer.rb</strong> and add the following method:</p></div>
 <div class="listingblock">
@@ -8989,7 +9122,7 @@ Change the past animation to look like shooting stars, enter and leaving the scr
 <div class="content">
 <img src="Resources/ch25-ThirdPartyLibraries/ch25_JumpingSpaceShip.png" alt="Jumping Space Ship" />
 </div>
-<div class="title">Figure 107. Jumping Space Ship</div>
+<div class="title">Figure 109. Jumping Space Ship</div>
 </div>
 <div class="paragraph"><p>Yes it moves! But it does without animation, this is because the sprites does not have implicit animations like a CALayer.</p></div>
 </div>
@@ -9029,7 +9162,7 @@ Change the past animation to look like shooting stars, enter and leaving the scr
 <div class="content">
 <img src="Resources/ch25-ThirdPartyLibraries/ch25_SpaceShipOutsideScreen.png" alt="Space Ship Outside Screen" />
 </div>
-<div class="title">Figure 108. Space Ship Outside Screen</div>
+<div class="title">Figure 110. Space Ship Outside Screen</div>
 </div>
 <div class="paragraph"><p>Upps! What when wrong? The problem is the actions must receive the number of points of movement in a direction, not a exact position! You can try it! Just assign a <strong>CGPoint(100, 100)</strong> to the position parameter of the action.</p></div>
 <div class="paragraph"><p>The fix is the following:</p></div>
@@ -9065,7 +9198,7 @@ Change the past animation to look like shooting stars, enter and leaving the scr
 <div class="content">
 <img src="Resources/ch25-ThirdPartyLibraries/ch25_MovingSpaceShip.png" alt="Moving Space Ship" />
 </div>
-<div class="title">Figure 109. Moving Space Ship</div>
+<div class="title">Figure 111. Moving Space Ship</div>
 </div>
 <div class="paragraph"><p>Now is working! We are done with the space ship, the next is to add some asteroids flying into the scene.</p></div>
 </div>
@@ -9146,7 +9279,7 @@ Change the past animation to look like shooting stars, enter and leaving the scr
 <div class="content">
 <img src="Resources/ch25-ThirdPartyLibraries/ch25_BigAsteroid.png" alt="Big Asteroid" />
 </div>
-<div class="title">Figure 110. Big Asteroid</div>
+<div class="title">Figure 112. Big Asteroid</div>
 </div>
 <div class="paragraph"><p>Easy right? But we have a problem the asteroid is too big: Imagine five of them flying into the screen, impossible to dodge!</p></div>
 <div class="paragraph"><p>So lets create something more complex, the idea is to have asteroids of different sizes moving across the screen. So lets use some randoms for determinate the size of the asteroid:</p></div>
@@ -9193,7 +9326,7 @@ Change the past animation to look like shooting stars, enter and leaving the scr
 <div class="content">
 <img src="Resources/ch25-ThirdPartyLibraries/ch25_RandomSizeAsteroid.png" alt="Random Size Asteroid" />
 </div>
-<div class="title">Figure 111. Random Size Asteroid</div>
+<div class="title">Figure 113. Random Size Asteroid</div>
 </div>
 <div class="paragraph"><p>Great! Now the size of the asteroid is completely random, to test it run the app multiple times!</p></div>
 <div class="paragraph"><p>For make the illusion that the asteroids are coming from the space we need to set the initial position of it outside the screen and then move it across the screen. Again some randoms we will help us, lets add the following method to our file:</p></div>
@@ -9290,7 +9423,7 @@ Change the past animation to look like shooting stars, enter and leaving the scr
 <div class="content">
 <img src="Resources/ch25-ThirdPartyLibraries/ch25_FlyingAsteroid.png" alt="Flying Asteroid" />
 </div>
-<div class="title">Figure 112. Flying Asteroid</div>
+<div class="title">Figure 114. Flying Asteroid</div>
 </div>
 <div class="paragraph"><p>You should see the asteroid fly across the screen! If you don&#8217;t please run it a couple of times remember we are using randoms! (The asteroid can fly too fast or in the edges of the screen, this is part of the magic ;)</p></div>
 <div class="paragraph"><p>But the asteroids does not move like that! They rotate:</p></div>
@@ -9346,7 +9479,7 @@ Change the past animation to look like shooting stars, enter and leaving the scr
 <div class="content">
 <img src="Resources/ch25-ThirdPartyLibraries/ch25_SpinningAsteroid.png" alt="Spinning Asteroid" />
 </div>
-<div class="title">Figure 113. Spinning Asteroid</div>
+<div class="title">Figure 115. Spinning Asteroid</div>
 </div>
 <div class="paragraph"><p>Last part! We need to change the status of the sprite to <strong>:ended</strong> when the movement action ends:</p></div>
 <div class="listingblock">
@@ -9517,7 +9650,7 @@ Change the past animation to look like shooting stars, enter and leaving the scr
 <div class="content">
 <img src="Resources/ch25-ThirdPartyLibraries/ch25_MultipleAsteroids.png" alt="Multiple Asteroids" />
 </div>
-<div class="title">Figure 114. Multiple Asteroids</div>
+<div class="title">Figure 116. Multiple Asteroids</div>
 </div>
 <div class="paragraph"><p>Awesome! Now the scene is complete, but is something missing right? Detect when the ship crashes with an asteroid!</p></div>
 </div>
@@ -9561,7 +9694,7 @@ Change the past animation to look like shooting stars, enter and leaving the scr
 <div class="content">
 <img src="Resources/ch25-ThirdPartyLibraries/ch25_PleaseDontCrash.png" alt="Please Don't Crash" />
 </div>
-<div class="title">Figure 115. Please Don&#8217;t Crash</div>
+<div class="title">Figure 117. Please Don&#8217;t Crash</div>
 </div>
 <div class="paragraph"><p>Great! Now our little game is complete, if the user crashes into an asteroid the space ship explodes and the game is ended</p></div>
 <div class="admonitionblock">
@@ -9574,7 +9707,7 @@ Change the past animation to look like shooting stars, enter and leaving the scr
 </div>
 </div>
 <div class="sect2">
-<h3 id="_challenges_6">Challenges</h3>
+<h3 id="_challenges_7">Challenges</h3>
 <div class="olist arabic"><ol class="arabic">
 <li>
 <p>
@@ -10702,7 +10835,7 @@ Some Cocoa Frameworks and 3rd Party are not multi-thread
 <div class="paragraph"><p>Our Image Filtering application is now complete!</p></div>
 </div>
 <div class="sect2">
-<h3 id="_challenges_7">Challenges</h3>
+<h3 id="_challenges_8">Challenges</h3>
 <div class="olist arabic"><ol class="arabic">
 <li>
 <p>
@@ -10723,7 +10856,7 @@ Add some buttons to our Application for increasing and decreasing the Intensity 
 <div id="footer">
 <div id="footer-text">
 Version 0.1<br />
-Last updated 2012-11-27 00:07:52 CST
+Last updated 2012-11-27 13:41:14 CST
 </div>
 </div>
 </body>

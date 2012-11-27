@@ -1,0 +1,161 @@
+Chapter 22 - Settings
+=====================
+
+In this chapter we are going to learn how to use *NSUserDefaults* to store values in our app.
+
+
+
+Setting up the project
+---------------------
+
+We are going to use the *Cocoaheads* app as an example. Unzip the file *ch22-Settings_resources.zip*. You will find the project as we finished it in chapter 14.
+
+.Current Application
+image::Resources/ch22-Settings/ch22_01_app.png[Current Application]
+
+
+The Task
+---------
+
+As you may remember, we have build a *Login* view controller: *sign_in_view_controller.rb*. We want to add the functionality to store the username of the logged user. Also we want to change the login button of the the *next_event_view_controller.rb* to a logout button when the user is logged in.
+
+
+Storing the logged user
+~~~~~~~~~~~~~~~~~~~~~~~
+
+First, we will create a Model to add this functionality. In the *models* folder create a file named *user.rb* and declare the *User* class:
+
+
+[source, ruby]
+--------
+class User
+  attr_accessor: username
+
+end  
+-------
+
+
+iOS creates a default *NSUserDefaults* per user, but when an app writes data to it, it is sandboxed. Thus, other apps can not acces that data.
+
+To work with NSUserDefaults we ask for this default instance, with the method *standardUserDefaults*. In the *User* class add this method
+
+[source, ruby]
+-------------------
+def logIn
+
+  NSUserDefaults.standardUserDefaults.setObject(self.username, 
+    forKey:"loggedUser")
+
+  NSUserDefaults.standardUserDefaults.setBool(true, 
+    forKey:"isUserLogged")
+  NSUserDefaults.standardUserDefaults.synchronize
+end
+------------------
+
+As you can see we are storing two things: the first one is a String with the username of the user and the second one is a Boolean to set that there is a user logged in the app. As you can see is very similar as working with Hashes. We pass a value and a String that is the key. Finally, we call *synchronize*. NSUserDefaults caches the values in memory and periodically flushes them to its persistent store on disk. You can force this flush by calling directly to *synchronize*. Althought, you should do this only on those times where your app needs that the data is persisted immediately and you can not wait until the automatic flush.
+
+Now, lets create our user and call this method on our *LoginViewController* class:
+
+[source, ruby]
+----------
+def login_user
+
+  user = User.new
+  user.username = @email_textfield.text
+  user.logIn
+end  
+---------
+
+And call this method from the *sign_in*:
+
+[source, ruby]
+---------
+def sign_in
+
+  if isFormValid 
+    close
+    login_user
+  else
+    showAlert("Error", title:"Please, fill all the fields.")
+  end  
+end  
+--------
+
+Run your app and login with a user.
+
+
+Reading from User Defaults
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+So, we are saving the user information on User Defaults. Now we need to read it. Open the *User* class and add this class method:
+
+[source, ruby]
+---------
+def self.isLogged?
+
+  NSUserDefaults.standardUserDefaults.boolForKey("isUserLogged")        
+end  
+---------
+
+
+Now we can add the behaviour to our *next_event_view_controller.rb*. First, in the *viewDidLoad* store the Sign In button in an instance variable:
+
+[source, ruby]
+---------
+def viewDidLoad
+    
+  super
+  
+  self.view.addSubview(imageViewWithHeader)
+  self.view.addSubview(imageViewWithBackground)
+  self.view.addSubview(imageViewWithTitleBackground)
+  @next_event_name_label = labelWithNextEventName
+  @days_left_view = viewWithDaysLeft
+  self.view.addSubview(@next_event_name_label)
+  @event = Event.mock_event
+  @button_for_sign_in = buttonForSignIn
+  self.view.addSubview(@button_for_sign_in)
+  self.view.addSubview(buttonForSignUp)
+  self.view.addSubview(@days_left_view)
+  self.view.addSubview(buttonToChangeDaysLeft)
+  
+  @next_event_name_label.text = @event.name
+
+end
+---------
+
+Now add the method to change the button. We check if the user is logged, and then we change the title of the button. We also need to remove the selector that was called when the user taps on the button, because is pointing to the *sign_in* method. Finally we add a new selector pointing to a *sign_out* method.
+
+[source, ruby]
+--------------
+def changeSignInButtonIfUserIsLogged
+
+  if User.isLogged?
+    @button_for_sign_in.setTitle("Logout", 
+      forState:UIControlStateNormal)
+    @button_for_sign_in.removeTarget(self, 
+      action:"sign_in", 
+      forControlEvents:UIControlEventTouchUpInside)
+    @button_for_sign_in.addTarget(self, 
+      action:'sign_out:', 
+      forControlEvents:UIControlEventTouchUpInside)
+  end  
+end  
+
+def sign_out
+
+end
+--------------  
+
+Now if you run your app, since the NSUserDefaults has stored that a user has logged in, you should see that the button has the string *Logout* in its title:
+
+.Application Logout
+image::Resources/ch22-Settings/ch22_02_logout.png[Application Logout]
+
+
+
+Challenges
+----------
+
+In the *User* class, implement a method called *logout* that method should remove the 
+object with key *loggedUser* from the User Defaults and set as a *false* the Boolean with key *isUserLogged*. Call this method from the *sign_out* method in NextViewController
