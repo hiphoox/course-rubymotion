@@ -1,0 +1,1178 @@
+Chapter 26 - Concurrency
+========================
+
+When we create an app some times we need to implement some operations that take to long time in executing like unzip a file, retrieve images on a web server or encryption. There is not a problem on the long time, the problem is that we run such operations on the main thread: Because the main thread is responsible for refreshing the User Interface and if we hang it executing a long time operation the app will look unresponsive because is unable for updating the Interface
+
+The main solution to this problem is run the long time operations on a another thread right? Yes it does, but adds a lot more constrains to our code like: 
+
+. For changing anything on the User Interface we still need to do it on the main thread
+. Some Cocoa Frameworks and 3rd Party are not multi-thread
+
+In this exercise we will tackle that extra complexity using two Multi-threading technologies available in iOS: **Gran Central Dispatch** and **NSOperation**
+
+
+The Operation That Takes Too Long
+---------------------------------
+We proudly announce that in this exercise we will make another Photo Filter app! (Like they are not enough of them in the store yet ;)
+
+For this purpose also we need to use the Image Framework available in iOS called **Core Image** that will provide the Filters in a more easy way that implement them ourselves
+
+So lets start building our app!
+
+
+Rubystagram
+~~~~~~~~~~~
+Lets begin creating our project, running this on the terminal
+
+[source, sh]
+------------
+$ motion create Rubystagram
+
+$ cd app
+------------
+
+And now lets create a new view controller named **PhotoViewController**:
+
+[source, sh]
+------------
+$ mkdir controllers
+
+$ cd controllers
+
+$ touch photo_view_controller.rb
+
+$ open photo_view_controller.rb
+------------
+
+We need to add the ability to this controller to take photos from the camera or choose one from the photo library, please insert the following lines to it:
+
+[source, ruby]
+--------------
+class PhotoViewController < UIViewController
+
+  def loadView
+
+    # Create a new view for our controller and add a nice
+    # background color
+    self.view = UIView.alloc.init
+    self.view.backgroundColor = UIColor.colorWithRed(0.157, green:0.165, blue:0.180, alpha:1.0)
+
+    # Layout the image picker for the user to take
+    # or select a photo
+    layout_image_picker_controller
+  end
+
+
+  def layout_image_picker_controller
+
+    # We need a instance of the UIImagePickerController
+    @image_picker_controller = UIImagePickerController.alloc.init
+
+
+    # For this to work on the simulator we need to ask the
+    # UIImagePickerController if we have a camera available
+    if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceTypeCamera)
+
+      # If we have a camera lets use it
+      @image_picker_controller.setSourceType(UIImagePickerControllerSourceTypeCamera)
+
+    else
+
+      # If we don't lets present the Photo Library
+      @image_picker_controller.setSourceType(UIImagePickerControllerSourceTypePhotoLibrary)
+
+    end
+
+
+    # Set the frame of the Picker Controller to the same
+    # as our controller view
+    @image_picker_controller.view.frame = self.view.bounds
+    
+    # Assign the controller as a delegate of the Image
+    # Picker
+    @image_picker_controller.delegate = self
+
+    # Add the Image Picker view as subview of our controller
+    # view
+    self.view.addSubview(@image_picker_controller.view)
+  end
+
+
+  # Image Picker Controller callback, this method is invoked
+  # when the user selects an image
+  def imagePickerController(picker, didFinishPickingMediaWithInfo: info)
+
+    # Remove the Image Picker from our Controller View
+    @image_picker_controller.view.removeFromSuperview
+  end
+
+end
+--------------
+
+You should see this when running the app from the simulator:
+
+**IMAGE**
+
+IMPORTANT: If you don't have any images available in the Photo Library, you can always navigate to a Photo Website (Like flickr.com) using the Safari on the Simulator and save any of them long clicking it :)
+
+
+And after we select the photo, you should see the following:
+
+**IMAGE**
+
+The next step will be adding the user selected image to the controller's view, please add the following lines to the **photo_view_controller.rb** file:
+
+[source, ruby]
+--------------
+def loadView
+
+  # Create a new view for our controller and add a nice
+  # background color
+  self.view = UIView.alloc.init
+  self.view.backgroundColor = UIColor.colorWithRed(0.157, green:0.165, blue:0.180, alpha:1.0)
+
+
+  # Layout an image view for us to draw the user
+  # selected image
+  layout_photo_image_view
+
+
+  # Layout the image picker for the user to take
+  # or select a photo
+  layout_image_picker_controller
+end
+
+
+def layout_photo_image_view
+
+  # Create a new instance of a UIViewController named
+  # photo_image_view
+  @photo_image_view = UIImageView.alloc.initWithFrame(CGRectMake(20, 20, 280, 350))
+  @photo_image_view.backgroundColor = UIColor.clearColor
+
+  # Get the size of the photo_image_view 
+  photo_view_size = @photo_image_view.bounds.size
+
+  # Lets create a nice path for our photo image view shadow
+  photo_frame_path = UIBezierPath.bezierPath
+  photo_frame_path.moveToPoint(CGPointMake(0, 0))
+  photo_frame_path.addLineToPoint(CGPointMake(photo_view_size.width, 0))
+  photo_frame_path.addLineToPoint(CGPointMake(photo_view_size.width, 
+                                              photo_view_size.height + 5.0))
+  photo_frame_path.addCurveToPoint(CGPointMake(0, photo_view_size.height + 5.0), 
+                                   controlPoint1:CGPointMake(photo_view_size.width - 15.0, photo_view_size.height + 5.0 - 15.0), 
+                                   controlPoint2:CGPointMake(15.0, photo_view_size.height + 5.0 - 15.0))
+
+  # Apply the shadow path to our photo image view
+  @photo_image_view.layer.shadowPath = photo_frame_path.CGPath
+
+  # Set the image view shadow properties like color, opacity
+  # offset and radius
+  @photo_image_view.layer.shadowColor = UIColor.colorWithRed(0.099, 
+                                                       green:0.099, 
+                                                       blue:0.099, 
+                                                       alpha:1.000).CGColor
+  @photo_image_view.layer.shadowOpacity = 0.7
+  @photo_image_view.layer.shadowOffset = CGSizeMake(10.0, 10.0)
+  @photo_image_view.layer.shadowRadius = 5.0
+
+  # For the shadow to work we need to tell the CALayer don't
+  # mask to bounds
+  @photo_image_view.layer.masksToBounds = false
+
+  # Also we want to have a photo frame for our image this is
+  # done using the border color and width
+  @photo_image_view.layer.borderColor = UIColor.whiteColor.CGColor
+  @photo_image_view.layer.borderWidth = 5.0
+
+  # Add the photo image view to the controller view
+  self.view.addSubview(@photo_image_view)
+end
+
+
+# Image Picker Controller callback, this method is invoked
+# when the user selects an image
+def imagePickerController(picker, didFinishPickingMediaWithInfo: info)
+
+  # Remove the Image Picker from our Controller View
+  @image_picker_controller.view.removeFromSuperview
+
+  # Save the user selected image
+  @selected_image = info.objectForKey(UIImagePickerControllerOriginalImage)
+
+  # Add the user selected image to our photo image view
+  @photo_image_view.image = @selected_image 
+end
+--------------
+
+**Image**
+
+
+The last part of our initial project is to add some buttons for the user to select the photo filters, please add the following to our **PhotoViewController**:
+
+[source, ruby]
+--------------
+def loadView
+
+  # Create a new view for our controller and add a nice
+  # background color
+  self.view = UIView.alloc.init
+  self.view.backgroundColor = UIColor.colorWithRed(0.157, green:0.165, blue:0.180, alpha:1.0)
+
+
+  # Layout four buttons for the user to select
+  # the Photo Filters
+  layout_filter_buttons
+
+
+  # Layout an image view for us to draw the user
+  # selected image
+  layout_photo_image_view
+
+
+  # Layout the image picker for the user to take
+  # or select a photo
+  layout_image_picker_controller
+end
+
+
+def layout_filter_buttons
+
+  # First button for the Pixellate Filter
+  pixellate_button = UIButton.buttonWithType(UIButtonTypeRoundedRect)
+  pixellate_button.frame = CGRectMake(10, 400, 70, 50)
+  pixellate_button.setTitle('Pixellate', forState:UIControlStateNormal)
+
+  pixellate_button.addTarget(self, 
+                             action:'add_pixellate_filter', 
+                             forControlEvents:UIControlEventTouchUpInside)
+
+  self.view.addSubview(pixellate_button)
+
+
+  # Second button for the Sepia Filter
+  sepia_tone_button = UIButton.buttonWithType(UIButtonTypeRoundedRect)
+  sepia_tone_button.frame = CGRectMake(85, 400, 70, 50)
+  sepia_tone_button.setTitle('Sepia', forState:UIControlStateNormal)
+
+  sepia_tone_button.addTarget(self, 
+                              action:'add_sepia_tone_filter', 
+                              forControlEvents:UIControlEventTouchUpInside)
+
+  self.view.addSubview(sepia_tone_button)
+
+
+  # Third button for Color Monochrome Filter
+  color_monochrome_button = UIButton.buttonWithType(UIButtonTypeRoundedRect)
+  color_monochrome_button.frame = CGRectMake(160, 400, 70, 50)
+  color_monochrome_button.setTitle('Monochrome', forState:UIControlStateNormal)
+
+  color_monochrome_button.addTarget(self, 
+                                    action:'add_color_monochrome_filter', 
+                                    forControlEvents:UIControlEventTouchUpInside)
+
+  self.view.addSubview(color_monochrome_button)
+
+
+  # Fourth button for Gaussian Blur Filter
+  gaussian_blur_button = UIButton.buttonWithType(UIButtonTypeRoundedRect)
+  gaussian_blur_button.frame = CGRectMake(235, 400, 70, 50)
+  gaussian_blur_button.setTitle('Blur', forState:UIControlStateNormal)
+
+  gaussian_blur_button.addTarget(self, 
+                                 action:'add_gaussian_blur_filter', 
+                                 forControlEvents:UIControlEventTouchUpInside)
+
+  self.view.addSubview(gaussian_blur_button)
+end
+--------------
+
+
+Filters, Filters, Filters
+~~~~~~~~~~~~~~~~~~~~~~~~~
+Its time to create a new object for apply those filters to the image, this object will be called **photo_filter_controller.rb**:
+
+[source, sh]
+------------
+$ touch photo_filter_controller.rb
+
+$ open photo_filter_controller.rb
+------------
+
+Now please insert the following methods into the class:
+
+[source, ruby]
+--------------
+class PhotoFilterController
+
+  # Method for generating the Image Filters
+  def image_for_filter(filter,
+                       image,
+                       intensity)
+
+    # Assign the filter and intensity into a property
+    # for later use
+    @current_filter = filter
+    @current_intensity = intensity
+
+    filtered_image = image
+
+    # Determinate the kind of filter using the symbol
+    case filter
+
+      when :pixellate
+
+        filtered_image = image_for_pixellate_filter(image,
+                                                    intensity)
+
+      when :sepia_tone
+
+        filtered_image = image_for_sepia_tone_filter(image,
+                                                     intensity)
+
+      when :color_monochrome
+
+        filtered_image = image_for_color_monochrome_filter(image,
+                                                           intensity)
+
+      when :gaussian_blur
+
+         filtered_image = image_for_gaussian_blur_filter(image,
+                                                         intensity)
+
+    end
+
+    # Return the Filtered Image
+    filtered_image
+  end
+
+
+  # Method for adding the Pixellate Filter to the Image
+  def image_for_pixellate_filter(image, scale)
+
+    # Create an instance of an CIImage so Core Image
+    # can work with it
+    image_to_filter = CIImage.alloc.initWithImage(image)
+
+    # Get a new Core Image Context
+    core_image_context = CIContext.contextWithOptions(nil)
+
+    # Create the filter
+    filter = CIFilter.filterWithName("CIPixellate")
+
+    # Set the default values to the filter
+    filter.setDefaults
+
+    # Add the settings for the filter like the scale, 
+    # intensity, etc.
+    filter.setValue(image_to_filter, forKey:KCIInputImageKey)
+    filter.setValue(scale, forKey:"inputScale")
+
+    # Get the output of the filter to create our return
+    # images
+    filter_output = filter.outputImage
+
+    # Using the filter output create a new CIImage
+    filtered_image = core_image_context.createCGImage(filter_output, 
+                                                      fromRect:filter_output.extent)
+
+    # Return a new UIImage from the CIImage created with
+    # the filter
+    UIImage.imageWithCGImage(filtered_image)    
+  end
+
+
+  # Method for adding the Sepia Tone Filter to the Image
+  def image_for_sepia_tone_filter(image, intensity)
+
+    # Create an instance of an CIImage so Core Image
+    # can work with it
+    image_to_filter = CIImage.alloc.initWithImage(image)
+
+    # Get a new Core Image Context
+    core_image_context = CIContext.contextWithOptions(nil)
+
+    # Create the filter
+    filter = CIFilter.filterWithName("CISepiaTone")
+
+    # Set the default values to the filter
+    filter.setDefaults
+
+    # Add the settings for the filter like the scale, 
+    # intensity, etc.
+    filter.setValue(image_to_filter, forKey:KCIInputImageKey)
+    filter.setValue(intensity, forKey:"inputIntensity")
+
+    # Get the output of the filter to create our return
+    # images
+    filter_output = filter.outputImage
+
+    # Using the filter output create a new CIImage
+    filtered_image = core_image_context.createCGImage(filter_output, 
+                                                      fromRect:filter_output.extent)
+
+    # Return a new UIImage from the CIImage created with
+    # the filter
+    UIImage.imageWithCGImage(filtered_image)    
+  end
+
+
+  # Method for adding the Color Monochrome Filter to the Image
+  def image_for_color_monochrome_filter(image, intensity)
+
+    # Create an instance of an CIImage so Core Image
+    # can work with it
+    image_to_filter = CIImage.alloc.initWithImage(image)
+
+    # Get a new Core Image Context
+    core_image_context = CIContext.contextWithOptions(nil)
+
+    # Create the filter
+    filter = CIFilter.filterWithName("CIColorMonochrome")
+
+    # Set the default values to the filter
+    filter.setDefaults
+
+    # Add the settings for the filter like the scale, 
+    # intensity, etc.
+    filter.setValue(image_to_filter, forKey:KCIInputImageKey)
+    filter.setValue(CIColor.colorWithString('1.000 0.000 0.113 1.000'), forKey:"inputColor")
+    filter.setValue(intensity, forKey:"inputIntensity")
+
+    # Get the output of the filter to create our return
+    # images
+    filter_output = filter.outputImage
+
+    # Using the filter output create a new CIImage
+    filtered_image = core_image_context.createCGImage(filter_output, 
+                                                      fromRect:filter_output.extent)
+
+    # Return a new UIImage from the CIImage created with
+    # the filter
+    UIImage.imageWithCGImage(filtered_image)    
+  end
+
+
+  # Method for adding the Gaussian Blur Filter to the Image
+  def image_for_gaussian_blur_filter(image, radius)
+
+    # Create an instance of an CIImage so Core Image
+    # can work with it
+    image_to_filter = CIImage.alloc.initWithImage(image)
+
+    # Get a new Core Image Context
+    core_image_context = CIContext.contextWithOptions(nil)
+
+    # Create the filter
+    filter = CIFilter.filterWithName("CIGaussianBlur")
+
+    # Set the default values to the filter
+    filter.setDefaults
+
+    # Add the settings for the filter like the scale, 
+    # intensity, etc.
+    filter.setValue(image_to_filter, forKey:KCIInputImageKey)
+    filter.setValue(radius, forKey:"inputRadius")
+
+    # Get the output of the filter to create our return
+    # images
+    filter_output = filter.outputImage
+
+    # Using the filter output create a new CIImage
+    filtered_image = core_image_context.createCGImage(filter_output, 
+                                                      fromRect:filter_output.extent)
+
+    # Return a new UIImage from the CIImage created with
+    # the filter
+    UIImage.imageWithCGImage(filtered_image)    
+  end
+
+end
+--------------
+
+Yes! Now we have a class that can add filters to our images using Core Image. Its time to connect the view filter buttons to this new class. Please open the **photo_view_controller.rb** file and set the following methods:
+
+[source, sh]
+------------
+$ open photo_view_controller.rb
+------------ 
+
+[source, ruby]
+--------------
+def loadView
+
+  # Create a new view for our controller and add a nice
+  # background color
+  self.view = UIView.alloc.init
+  self.view.backgroundColor = UIColor.colorWithRed(0.157, green:0.165, blue:0.180, alpha:1.0)
+
+  # Create a new instance of the Photo Filter Controller
+  @photo_filter_controller = PhotoFilterController.new
+
+  # Layout four buttons for the user to select
+  # the Photo Filters
+  layout_filter_buttons
+
+
+  # Layout an image view for us to draw the user
+  # selected image
+  layout_photo_image_view
+
+
+  # Layout the image picker for the user to take
+  # or select a photo
+  layout_image_picker_controller
+end
+
+# Pixellate Filter Button Callback
+def add_pixellate_filter
+
+  # Generate a new Filtered Image and set it to our photo
+  # image view
+  @photo_image_view.image = @photo_filter_controller.image_for_filter(:pixellate, @selected_image, 8.0)
+end
+
+# Sepia Tone Filter Button Callback
+def add_sepia_tone_filter
+
+  # Generate a new Filtered Image and set it to our photo
+  # image view
+  @photo_image_view.image = @photo_filter_controller.image_for_filter(:sepia_tone, @selected_image, 0.5)
+end
+
+# Color Monochrome Filter Button Callback
+def add_color_monochrome_filter
+
+  # Generate a new Filtered Image and set it to our photo
+  # image view
+  @photo_image_view.image = @photo_filter_controller.image_for_filter(:color_monochrome, @selected_image, 0.5)
+end
+
+# Gaussian Blur Filter Button Callback
+def add_gaussian_blur_filter
+
+  # Generate a new Filtered Image and set it to our photo
+  # image view
+  @photo_image_view.image = @photo_filter_controller.image_for_filter(:gaussian_blur, @selected_image, 3.0)
+end
+--------------
+
+Right! If we run the app we should see the following:
+
+**IMAGE**
+
+The filters are working but it takes some time to change filters right? It will be better if we show the user a **UIActivityView** indicating that we are working on the new filter, to add it please insert the following into the **photo_view_controller.rb** class:
+
+IMPORTANT: If you are testing on the iOS Simulator the operation can be much faster than in the real device, also take note that some of your possible future users will not have the latest iPhone available either. So if an operation takes a little in the simulator possible it will take a lot on a device like an iPhone 3Gs
+
+[source, ruby]
+--------------
+def loadView
+
+  # Create a new view for our controller and add a nice
+  # background color
+  self.view = UIView.alloc.init
+  self.view.backgroundColor = UIColor.colorWithRed(0.157, green:0.165, blue:0.180, alpha:1.0)
+
+
+  # Layout four buttons for the user to select
+  # the Photo Filters
+  layout_filter_buttons
+
+  # Layout an image view for us to draw the user
+  # selected image
+  layout_photo_image_view
+
+  # Layout an activity indicator that will tell the
+  # user that we are working on something
+  layout_activity_indicator
+
+  # Layout the image picker for the user to take
+  # or select a photo
+  layout_image_picker_controller
+end
+
+
+def layout_activity_indicator
+  
+  # Create a new instance of the UIActivityIndicator View
+  @activity_indicator = UIActivityIndicatorView.alloc.initWithActivityIndicatorStyle(UIActivityIndicatorViewStyleWhiteLarge)
+  
+  # Set the center as the same of the Photo Image View
+  @activity_indicator.center = @photo_image_view.center
+
+  # Set some properties like the color and that we need to
+  # hide when its not animating
+  @activity_indicator.color = UIColor.colorWithRed(0.400, green:0.400, blue:0.431, alpha:1.0)
+  @activity_indicator.hidesWhenStopped = true
+
+  # Add the activity indicator to our view
+  self.view.addSubview(@activity_indicator)
+end
+
+
+# Pixellate Filter Button Callback
+def add_pixellate_filter
+
+  # Start the activity animator
+  @activity_indicator.startAnimating
+
+  # Generate a new Filtered Image and set it to our photo
+  # image view
+  @photo_image_view.image = @photo_filter_controller.image_for_filter(:pixellate, @selected_image, 8.0)
+
+  # Stop the activity animator
+  @activity_indicator.stopAnimating
+
+end
+
+# Sepia Tone Filter Button Callback
+def add_sepia_tone_filter
+
+  # Start the activity animator
+  @activity_indicator.startAnimating
+
+  # Generate a new Filtered Image and set it to our photo
+  # image view
+  @photo_image_view.image = @photo_filter_controller.image_for_filter(:sepia_tone, @selected_image, 0.5)  
+
+  # Stop the activity animator
+  @activity_indicator.stopAnimating
+
+end
+
+# Color Monochrome Filter Button Callback
+def add_color_monochrome_filter
+
+  # Start the activity animator
+  @activity_indicator.startAnimating
+
+  # Generate a new Filtered Image and set it to our photo
+  # image view
+  @photo_image_view.image = @photo_filter_controller.image_for_filter(:color_monochrome, @selected_image, 0.5)
+
+  # Stop the activity animator
+  @activity_indicator.stopAnimating
+
+end
+
+# Gaussian Blur Filter Button Callback
+def add_gaussian_blur_filter
+
+  # Start the activity animator
+  @activity_indicator.startAnimating
+
+ # Generate a new Filtered Image and set it to our photo
+  # image view
+  @photo_image_view.image = @photo_filter_controller.image_for_filter(:gaussian_blur, @selected_image, 3.0)
+
+  # Stop the activity animator
+  @activity_indicator.stopAnimating
+
+end
+--------------
+
+**Image** 
+
+If we run this on the device it will be more easy to distinguish  that the activity indicator is also getting freeze at the time we select a new filter to apply. We are hanging the main thread right now and the app feels a little unresponsive!
+
+
+Gran Central Dispatch (GCD)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The gran central dispatch is a group to technology improvements (On the Language, Runtime and Frameworks) that will allow us to execute concurrent code on multicore hardware. That means that we can run our code on multiple threads but also on multiple cores for free!
+
+**Gran Central Dispatch** uses internal queues to know where the code is supposed to run: On the Main Thread or Secondary Threads depending on the Priority. This is the interesting part: We don't manage the thread it self, we just assign our code to run on a specific queue and GDC will create and destroy the threads when it need them. 
+
+Also you will notice on the following part of the exercise that is the most simple way to implement concurrent operations! So let's begin with a little test consisting of moving the creation of the Pixellate Filtered Image to **Gran Central Dispatch**, open your **photo_view_controller.rb**:
+
+[source, sh]
+------------
+$ open photo_view_controller.rb
+------------
+
+[source, ruby]
+--------------
+# Pixellate Filter Button Callback
+def add_pixellate_filter
+
+  # Start the activity animator
+  @activity_indicator.startAnimating
+
+  # Get a GCD Queue in this case a High one, but the options are
+  # :high, :low, :default, :default
+  high_priority_queue = Dispatch::Queue.concurrent(priority=:high) 
+
+  # Send a block to be executed asynchronously on the High Priority
+  # Queue
+  #
+  # The code inside the block will be run in another thread
+  high_priority_queue.async {
+
+    # Generate the Filtered Image
+    filtered_image = @photo_filter_controller.image_for_filter(:pixellate, @selected_image, 8.0)
+
+    # We need to excecute the Photo Image View change on the 
+    # main thread, because we are modifying the User Interface
+    #
+    # For this we can also use GCD getting the Main Thread queue,
+    # remember we are running on another thread
+    main_queue = Dispatch::Queue.main
+
+    # Only for testing propouses let's sleep the thread a little
+    # bit
+    sleep 1
+
+    # Now we can excecute any code on the Main Thread using the Main
+    # Queue
+    main_queue.async {
+
+      # Set the Filtered Image to our Photo Image View
+      @photo_image_view.image = filtered_image
+      
+      # Stop the activity animator
+      @activity_indicator.stopAnimating
+    }
+  }
+end
+-------------- 
+
+**Image**
+
+If we select Pixellate Filter now the Activity Indicator is showing properly to the user and the Filtering operation is running on another Thread using GDC. That was easy right? We implement concurrent code on our application that simple and almost for free!
+
+Now its time to implement it on all the Filtering Operations:
+
+[source, ruby]
+--------------
+# Pixellate Filter Button Callback
+def add_pixellate_filter
+
+  # Start the activity animator
+  @activity_indicator.startAnimating
+
+  # Get a GCD Queue in this case a High one, but the options are
+  # :high, :low, :default, :default
+  high_priority_queue = Dispatch::Queue.concurrent(priority=:high) 
+
+  # Send a block to be executed asynchronously on the High Priority
+  # Queue
+  #
+  # The code inside the block will be run in another thread
+  high_priority_queue.async {
+
+    # Generate the Filtered Image
+    filtered_image = @photo_filter_controller.image_for_filter(:pixellate, @selected_image, 8.0)
+
+    # We need to excecute the Photo Image View change on the 
+    # main thread, because we are modifying the User Interface
+    #
+    # For this we can also use GCD getting the Main Thread queue,
+    # remember we are running on another thread
+    main_queue = Dispatch::Queue.main
+
+    # Now we can excecute any code on the Main Thread using the Main
+    # Queue
+    main_queue.async {
+
+      # Set the Filtered Image to our Photo Image View
+      @photo_image_view.image = filtered_image
+      
+      # Stop the activity animator
+      @activity_indicator.stopAnimating
+    }
+  }
+end
+
+# Sepia Tone Filter Button Callback
+def add_sepia_tone_filter
+
+  # Start the activity animator
+  @activity_indicator.startAnimating
+
+  # Get a GCD Queue in this case a High one, but the options are
+  # :high, :low, :default, :default
+  high_priority_queue = Dispatch::Queue.concurrent(priority=:high) 
+
+  # Send a block to be executed asynchronously on the High Priority
+  # Queue
+  #
+  # The code inside the block will be run in another thread
+  high_priority_queue.async {
+
+    # Generate the Filtered Image
+    filtered_image = @photo_filter_controller.image_for_filter(:sepia_tone, @selected_image, 0.5)  
+
+    # We need to excecute the Photo Image View change on the 
+    # main thread, because we are modifying the User Interface
+    #
+    # For this we can also use GCD getting the Main Thread queue,
+    # remember we are running on another thread
+    main_queue = Dispatch::Queue.main
+
+    # Now we can excecute any code on the Main Thread using the Main
+    # Queue
+    main_queue.async {
+
+      # Set the Filtered Image to our Photo Image View
+      @photo_image_view.image = filtered_image
+      
+      # Stop the activity animator
+      @activity_indicator.stopAnimating
+    }
+  }
+end
+
+# Color Monochrome Filter Button Callback
+def add_color_monochrome_filter
+
+  # Start the activity animator
+  @activity_indicator.startAnimating
+
+  # Get a GCD Queue in this case a High one, but the options are
+  # :high, :low, :default, :default
+  high_priority_queue = Dispatch::Queue.concurrent(priority=:high) 
+
+  # Send a block to be executed asynchronously on the High Priority
+  # Queue
+  #
+  # The code inside the block will be run in another thread
+  high_priority_queue.async {
+
+    # Generate the Filtered Image
+    filtered_image = @photo_filter_controller.image_for_filter(:color_monochrome, @selected_image, 0.5)
+
+    # We need to excecute the Photo Image View change on the 
+    # main thread, because we are modifying the User Interface
+    #
+    # For this we can also use GCD getting the Main Thread queue,
+    # remember we are running on another thread
+    main_queue = Dispatch::Queue.main
+
+    # Now we can excecute any code on the Main Thread using the Main
+    # Queue
+    main_queue.async {
+
+      # Set the Filtered Image to our Photo Image View
+      @photo_image_view.image = filtered_image
+      
+      # Stop the activity animator
+      @activity_indicator.stopAnimating
+    }
+  }
+end
+
+# Gaussian Blur Filter Button Callback
+def add_gaussian_blur_filter
+ 
+  # Start the activity animator
+  @activity_indicator.startAnimating
+
+  # Get a GCD Queue in this case a High one, but the options are
+  # :high, :low, :default, :default
+  high_priority_queue = Dispatch::Queue.concurrent(priority=:high) 
+
+  # Send a block to be executed asynchronously on the High Priority
+  # Queue
+  #
+  # The code inside the block will be run in another thread
+  high_priority_queue.async {
+
+    # Generate the Filtered Image
+    filtered_image = @photo_filter_controller.image_for_filter(:gaussian_blur, @selected_image, 3.0)
+
+    # We need to excecute the Photo Image View change on the 
+    # main thread, because we are modifying the User Interface
+    #
+    # For this we can also use GCD getting the Main Thread queue,
+    # remember we are running on another thread
+    main_queue = Dispatch::Queue.main
+
+    # Now we can excecute any code on the Main Thread using the Main
+    # Queue
+    main_queue.async {
+
+      # Set the Filtered Image to our Photo Image View
+      @photo_image_view.image = filtered_image
+      
+      # Stop the activity animator
+      @activity_indicator.stopAnimating
+    }
+  }
+end
+--------------
+
+**IMAGE**
+
+Now all of them are working using GCD! But something is missing… how about control the intensity of the filters?, thats the next part of our exercise 
+
+NOTE: We already remove the thread sleep ;)
+
+
+Add Filters to Your Taste
+~~~~~~~~~~~~~~~~~~~~~~~~~
+Before we can change the intensity of the filters some changes are needed in the **photo_filter_controller.rb**, lets open it and change the following:
+
+[source, sh]
+------------
+$ open photo_filter_controller.rb
+------------
+
+[source, ruby]
+--------------
+# Method for increasing the intensity of
+# the current filter
+def filtered_image_with_increased_intensity(image)
+
+  @current_intensity ||= 0
+
+  image_for_filter(@current_filter,
+                   image,
+                   @current_intensity + 0.5)
+end
+
+
+# Method for reducing the intensity of 
+# the current filter
+def filtered_image_with_decreased_intensity(image)
+
+  @current_intensity ||= 0
+
+  image_for_filter(@current_filter,
+                   image,
+                   @current_intensity - 0.5)
+end
+--------------
+
+We are now ready to increase and decrease the intensity of the filter, but how we allow the user to do that? I have an idea… when the user drag his finger up or down we change the intensity accordingly!
+
+Lets open our **photo_view_controller.rb** and add a gesture recognizer for us to detect the User drag:
+
+[source, sh]
+------------
+$ open photo_view_controller.rb
+------------
+
+[source, ruby]
+--------------
+def loadView
+
+  # Create a new view for our controller and add a nice
+  # background color
+  self.view = UIView.alloc.init
+  self.view.backgroundColor = UIColor.colorWithRed(0.157, green:0.165, blue:0.180, alpha:1.0)
+
+  # Create a new UIPanGestureRecognizer to detect the 
+  # user drag on the view
+  pan_gesture_recognizer = UIPanGestureRecognizer.alloc.initWithTarget(self, 
+                                                                       action:'pan_gesture_was_recognizer:')
+  
+  # Add the Pan Gesture Recognizer to the controller
+  # view
+  self.view.addGestureRecognizer(pan_gesture_recognizer)
+
+  # Layout four buttons for the user to select
+  # the Photo Filters
+  layout_filter_buttons
+
+  # Layout an image view for us to draw the user
+  # selected image
+  layout_photo_image_view
+
+  # Layout an activity indicator that will tell the
+  # user that we are working on something
+  layout_activity_indicator
+
+  # Layout the image picker for the user to take
+  # or select a photo
+  layout_image_picker_controller
+end
+
+# Pan Gesture Recognizer Callback
+def pan_gesture_was_recognizer(pan_gesture_recognizer)
+
+end
+--------------
+
+Yeah, now we have a gesture recognizer implemented. Lets add the logic to increase or decrease the intensity of the Image Filter:
+
+[source, ruby]
+--------------
+# Pan Gesture Recognizer Callback
+def pan_gesture_was_recognizer(pan_gesture_recognizer)
+
+  # Start the activity animator
+  @activity_indicator.startAnimating
+
+  # We need the velocity of the gesture to determinate
+  # de direction of the touch drag
+  gesture_velocity = pan_gesture_recognizer.velocityInView(self.view)
+
+  # If the velocity is less than zero means that the
+  # user is dragging up
+  if(gesture_velocity.y < 0)
+
+    # Generate the Filtered Image
+    filtered_image = @photo_filter_controller.filtered_image_with_increased_intensity(@selected_image)
+
+    # Set the Filtered Image to our Photo Image View
+    @photo_image_view.image = filtered_image
+
+  # And if the velocity is more than zero, the user
+  # is dragging down
+  else
+
+    # Generate the Filtered Image
+    filtered_image = @photo_filter_controller.filtered_image_with_decreased_intensity(@selected_image)
+
+    # Set the Filtered Image to our Photo Image View
+    @photo_image_view.image = filtered_image
+
+  end
+
+  # Stop the activity animator
+  @activity_indicator.stopAnimating
+
+end
+--------------
+
+**IMAGE**
+
+Great! If you run the app and you drag your fingers up and down on the screen the intensity of the filter will increase or decrease accordingly. But the same as before we are hanging the main thread and the activity indicator view is not appearing on the screen.
+
+
+NSOperation
+~~~~~~~~~~~
+Its time to use another technology for concurrent operations, in this case **NSOperation**. As the same as GCD the NSOperations use queues to execute the code in other threads, but the main difference is that you can create custom NSOperation classes to have more control or simply use one of the predeterminate classes as **NSInvocationOperation**.
+
+Lets implement it for our intensity filter change, lets continue changing our **photo_view_controller.rb**:
+
+
+[source, ruby]
+--------------
+def loadView
+
+  # Create a new view for our controller and add a nice
+  # background color
+  self.view = UIView.alloc.init
+  self.view.backgroundColor = UIColor.colorWithRed(0.157, green:0.165, blue:0.180, alpha:1.0)
+
+  # Create a new UIPanGestureRecognizer to detect the 
+  # user drag on the view
+  pan_gesture_recognizer = UIPanGestureRecognizer.alloc.initWithTarget(self, 
+                                                                       action:'pan_gesture_was_recognizer:')
+
+  # Add the Pan Gesture Recognizer to the controller
+  # view
+  self.view.addGestureRecognizer(pan_gesture_recognizer)
+
+
+  # Create a new instance of the Photo Filter Controller
+  @photo_filter_controller = PhotoFilterController.new
+
+  # Create a new NSOperationQueue for excecuting the
+  # filter intensity changes
+  @filter_intensity_queue = NSOperationQueue.new
+
+
+  # Layout four buttons for the user to select
+  # the Photo Filters
+  layout_filter_buttons
+
+  # Layout an image view for us to draw the user
+  # selected image
+  layout_photo_image_view
+
+  # Layout an activity indicator that will tell the
+  # user that we are working on something
+  layout_activity_indicator
+
+  # Layout the image picker for the user to take
+  # or select a photo
+  layout_image_picker_controller
+end
+
+
+# Pan Gesture Recognizer Callback
+def pan_gesture_was_recognizer(pan_gesture_recognizer)
+
+  # We need the velocity of the gesture to determinate
+  # de direction of the touch drag
+  gesture_velocity = pan_gesture_recognizer.velocityInView(self.view)
+
+  # If the velocity is less than cero means that the
+  # user is dragging up
+  if(gesture_velocity.y < 0)
+
+    # Create a NSInvocationOperation that will allow us to run some method
+    # on another thread
+    increase_image_filter_operation = NSInvocationOperation.alloc.initWithTarget(self, 
+                                                                                 selector:'increase_image_filter', 
+                                                                                 object:nil)
+
+    # Add the Invocation Operation to the NSOperationQueue
+    @filter_intensity_queue.addOperation(increase_image_filter_operation)
+
+  # And if the velocity is more than cero, the user
+  # is dragging down
+  else
+
+    # Create a NSInvocationOperation that will allow us to run some method
+    # on another thread
+    increase_image_filter_operation = NSInvocationOperation.alloc.initWithTarget(self, 
+                                                                                 selector:'decrease_image_filter', 
+                                                                                 object:nil)
+
+    # Add the Invocation Operation to the NSOperationQueue
+    @filter_intensity_queue.addOperation(increase_image_filter_operation)
+
+  end
+
+end
+
+
+def increase_image_filter
+
+  # Execute the activity animator start on the Main Thread
+  @activity_indicator.performSelectorOnMainThread('startAnimating', withObject:nil, waitUntilDone:false)
+
+  # Generate the Filtered Image
+  filtered_image = @photo_filter_controller.filtered_image_with_increased_intensity(@selected_image)
+
+  # Execute the change of the image in the Photo Image View on the Main Thread
+  @photo_image_view.performSelectorOnMainThread('setImage:', withObject:filtered_image, waitUntilDone:false)
+
+  # Execute the activity animator stop on the Main Thread
+  @activity_indicator.performSelectorOnMainThread('stopAnimating', withObject:nil, waitUntilDone:false)
+end
+
+
+def decrease_image_filter
+
+  # Execute the activity animator start on the Main Thread
+  @activity_indicator.performSelectorOnMainThread('startAnimating', withObject:nil, waitUntilDone:false)
+
+  # Generate the Filtered Image
+  filtered_image = @photo_filter_controller.filtered_image_with_decreased_intensity(@selected_image)
+
+  # Execute the change of the image in the Photo Image View on the Main Thread
+  @photo_image_view.performSelectorOnMainThread('setImage:', withObject:filtered_image, waitUntilDone:false)
+
+  # Execute the activity animator stop on the Main Thread
+  @activity_indicator.performSelectorOnMainThread('stopAnimating', withObject:nil, waitUntilDone:false)
+end
+--------------
+
+**IMAGE**
+
+Awesome! Now we add concurrent operations using NSOperation and also fix the activity indicator view. 
+
+Our Image Filtering application is now complete!
+
+
+Challenges
+~~~~~~~~~~
+. Clear and Stop the NSOperation queue when you change between filters, so it will not apply the queued increased or decreased operations to the new filter
+
+. Add some buttons to our Application for increasing and decreasing the Intensity of the Image Filter, please use **Gran Central Dispatch** for the concurrent operations
+

@@ -55,3 +55,5 @@ include::ch21-CoreAnimation.asciidoc[]
 = Day 5
 
 include::ch25-ThirdPartyLibraries.asciidoc[]
+
+include::ch26-Concurrency.asciidoc[]
