@@ -60,5 +60,8 @@ RubyMotion uses a version of Bacon called MacBacon, a small clone of the popular
 
 ![](testing.png "Testing") 
 
+[Chapters](../reveal.html) | 
+[Interface Builder](../10-InterfaceBuilder/reveal.html)
+
 </slide>
 

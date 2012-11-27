@@ -3,7 +3,7 @@
 <slide>
 ## CoreAnimation
 
-![](tableview.png "CoreAnimation") 
+![](coreanimation.png "CoreAnimation") 
 
 </slide>
 
@@ -68,6 +68,9 @@
 <slide>
 ## CoreAnimation
 
-![](tableview.png "CoreAnimation") 
+![](coreanimation.png "CoreAnimation") 
+
+[Chapters](../reveal.html) | 
+[Settings](../22-Settings/reveal.html)
 
 </slide>

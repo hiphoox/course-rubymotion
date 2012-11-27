@@ -74,6 +74,14 @@ You can use: sessions and repl() methods to interact with objects
 </slide>
 
 <slide>
+## Documentation
+
+![](ricommand.png "ri command") 
+![](documentation.png "Documentation") 
+
+</slide>
+
+<slide>
 ## Deploying an Application
 
 The rake task ***archive:distribution*** will create a binary ready for distribution

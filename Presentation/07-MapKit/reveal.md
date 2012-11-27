@@ -86,6 +86,6 @@ That's it!
 ![](mapkit.png "MapKit") 
 
 [Chapters](../reveal.html) | 
-[UIViews](../08-UIViews/reveal.html)
+[UIViews](../08-Views/reveal.html)
 
 </slide>

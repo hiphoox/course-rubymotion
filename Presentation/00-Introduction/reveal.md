@@ -59,8 +59,7 @@ Learn how to get the most out of iOS & Cocoa
 <slide>
 # Let's get started!
 
-[Chapters](../reveal.html)
-
+[Chapters](../reveal.html) | 
 [iOS Overview](../01-iOSOverview/reveal.html)
 
 </slide>

@@ -1,9 +1,9 @@
-# Custome Cells
+# Custom Cells
 
 <slide>
-## Custome Cells
+## Custom Cells
 
-![](customcell.png "Custome Cells") 
+![](customcells.png "Custome Cells") 
 
 </slide>
 
@@ -80,8 +80,11 @@ Create an offscreen image context.
 
 
 <slide>
-## Custome Cells
+## Custom Cells
 
-![](customcell.png "Custome Cells") 
+![](customcells.png "Custome Cells") 
+
+[Chapters](../reveal.html) | 
+[Navigation Controllers](../14-NavigationControllers/reveal.html)
 
 </slide>

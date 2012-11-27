@@ -81,4 +81,7 @@ Other Options
 
 ![](notifications.png "Notifications") 
 
+[Chapters](../reveal.html) | 
+[Collection Views](../16-CollectionViews/reveal.html)
+
 </slide>

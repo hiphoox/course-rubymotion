@@ -77,4 +77,7 @@ Takes an NSDictionary with the factory defaults. These will be used if no other 
 
 ![](settings.png "Settings") 
 
+[Chapters](../reveal.html) | 
+[WebServices](../23-WebServices/reveal.html)
+
 </slide>

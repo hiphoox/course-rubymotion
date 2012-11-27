@@ -3,7 +3,7 @@
 <slide>
 ## CALayers
 
-![](tableview.png "CALayers") 
+![](calayers.png "CALayers") 
 
 </slide>
 
@@ -63,6 +63,9 @@
 <slide>
 ## CALayers
 
-![](tableview.png "CALayers") 
+![](calayers.png "CALayers") 
+
+[Chapters](../reveal.html) | 
+[CoreAnimation](../21-CoreAnimation/reveal.html)
 
 </slide>

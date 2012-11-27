@@ -3,14 +3,14 @@
 <slide>
 ## WebServices
 
-![](tableview.png "WebServices") 
+![](webservices.png "WebServices") 
 
 </slide>
 
 <slide>
 ## Web Services
 
-![](webservices.pdf "WebServices") 
+![](webservicesflow.png "WebServices") 
 
 </slide>
 
@@ -29,7 +29,7 @@
                                     returningResponse:&response,
                                                 error:&error)
 
-![](NSURL.pdf "NSURL")
+![](nsurl.png "NSURL")
 
 </slide>
 
@@ -128,6 +128,9 @@ Code
 <slide>
 ## WebServices
 
-![](tableview.png "WebServices") 
+![](webservices.png "WebServices") 
+
+[Chapters](../reveal.html) | 
+[CoreData](../24-CoreData/reveal.html)
 
 </slide>

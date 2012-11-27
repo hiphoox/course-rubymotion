@@ -137,4 +137,7 @@ Another configuration options
 
 ![](camera.png "Camera") 
 
+[Chapters](../reveal.html) | 
+[File System](../18-Filesystem/reveal.html)
+
 </slide>

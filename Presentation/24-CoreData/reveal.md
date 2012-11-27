@@ -3,7 +3,8 @@
 <slide>
 ## CoreData
 
-![](tableview.png "CoreData") 
+![](coredata.png "CoreData") 
+
 
 </slide>
 
@@ -15,6 +16,9 @@
 <slide>
 ## CoreData
 
-![](tableview.png "CoreData") 
+![](coredata.png "CoreData") 
+
+[Chapters](../reveal.html) | 
+[Third Party Libraries](../25-ThirdPartyLibraries/reveal.html)
 
 </slide>

@@ -3,7 +3,7 @@
 <slide>
 ## Concurrency
 
-![](tableview.png "Concurrency") 
+![](concurrency.png "Concurrency") 
 
 </slide>
 
@@ -15,6 +15,8 @@
 <slide>
 ## Concurrency
 
-![](tableview.png "Concurrency") 
+![](concurrency.png "Concurrency") 
+
+[Chapters](../reveal.html) 
 
 </slide>
