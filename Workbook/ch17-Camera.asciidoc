@@ -1,0 +1,99 @@
+Chapter 17 - Camera
+===================
+
+
+Camera
+------
+
+In this chapter we are going to use camera and photo roll for capture moments that we want to save.
+
+
+Photo Album
+-----------
+
+Bring the project for the chapter 16 'Photo Album' and open the file *album_camera_view_controller.rb* and a add the following code that will serve to connect the Graphics elements, also don't forget to assign the correspondent tag numbers on the *CameraView.xib* file.
+
+[source, ruby]
+----------------------------------------------------------------
+CHOOSE_BUTTON_TAG = 1 
+TAKE_BUTTON_TAG = 2
+IMAGE_VIEW_TAG = 3
+
+
+def choosePicture(sender)
+
+  imagePicker = UIImagePickerController.alloc.init
+  #pick from photo library
+  imagePicker.setSourceType(UIImagePickerControllerSourceTypePhotoLibrary)
+  imagePicker.delegate = self
+  self.presentViewController(imagePicker,animated:true, completion:nil)
+end
+
+
+def takePicture(sender)
+
+  imagePicker = UIImagePickerController.alloc.init
+
+  #ask if camera is available
+  if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceTypeCamera)
+
+    #pick from photo camera
+    imagePicker.setSourceType(UIImagePickerControllerSourceTypeCamera)
+    imagePicker.delegate = self
+    self.presentViewController(imagePicker,animated:true, completion:nil)
+  else
+    
+    puts "Unavailable"
+  end 
+end
+
+
+def bindGraphicElements
+
+  @chooseButton =  self.view.viewWithTag(CHOOSE_BUTTON_TAG)
+  @chooseButton.addTarget(self, action: :'choosePicture:',forControlEvents:UIControlEventTouchUpInside)
+  @takeButton =  self.view.viewWithTag(TAKE_BUTTON_TAG)
+  @takeButton.addTarget(self, action: :'takePicture:',forControlEvents:UIControlEventTouchUpInside)
+  @imageView = self.view.viewWithTag(IMAGE_VIEW_TAG)
+end
+----------------------------------------------------------------
+
+Now run your application with the 'rake' command and if you are running the application on the simulator you will be able to take picture and see attached to the imageView.
+
+.Take Photo
+image::Resources/ch17-Camera/image1.png[Take Photo]
+
+Camera Picker Delegate
+----------------------
+
+How can we know when the photo its selected well, UIMagePickerController has a delegate method when the picture its selected and when is not selected A.K.A. (cancel)
+
+- imagePickerController:didFinishPickingMediaWithInfo:
+
+- imagePickerControllerDidCancel:
+
+[source, ruby]
+----------------------------------------------------------------
+# UIImagePickerController Delegate
+def imagePickerController(picker, didFinishPickingMediaWithInfo:info)
+
+  #Get picked image from info dictionary
+  image = info.objectForKey(UIImagePickerControllerOriginalImage)
+  #Put that image onto the screen in our image view
+  @imageView.image = image
+  #You must call this dismiss method
+  self.dismissViewControllerAnimated(true,completion:nil)    
+end
+----------------------------------------------------------------
+
+
+
+Modal View Controllers
+----------------------
+
+You may notice two new methods 
+
+- self.presentViewController(imagePicker,animated:true, completion:nil)
+- self.dismissViewControllerAnimated(true,completion:nil) 
+
+From a UIViewController we ca present another view controllers modally, specially if we want to perform a new functionality for our app, and we can dismiss it when we were done.
