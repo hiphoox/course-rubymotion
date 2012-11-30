@@ -99,7 +99,7 @@ It’s time to create our human interface controls, create a new file named *roo
 def location_label(xPosition,yPosition)
  
   label = UILabel.alloc.initWithFrame(CGRectMake(xPosition,yPosition,200,50))
-  label.backgroundColor = UIColor.clearColor;
+  label.backgroundColor = UIColor.clearColor
   label.font = UIFont.fontWithName("HelveticaNeue-CondensedBold",size:18)
   label.text = "Time Zone"
   label
@@ -108,9 +108,9 @@ end
 def time_label(xPosition,yPosition)
   
   label = UILabel.alloc.initWithFrame(CGRectMake(xPosition,yPosition,200,50))
-  label.backgroundColor = UIColor.clearColor;
+  label.backgroundColor = UIColor.clearColor
   label.text = "Time"
-  label.textColor = UIColor.whiteColor;
+  label.textColor = UIColor.whiteColor
   label
 end
 
@@ -395,7 +395,7 @@ Go ahead and look for a region that you may like to be and see the local time on
 
 You ‘ll never wonder again what time is it on other side of the planet, but you may think that its not good enough to know the time in one region, two its always better than one. Lets add a second set of controls.
 
-First at all open your *root_view_uitilities.rb* file and add the following code in the loadView method.
+First at all open your *root_view_controller.rb* file and add the following code in the loadView method.
 
 [source, ruby]
 --------------
@@ -443,6 +443,16 @@ def present_convert_zone_picker(sender)
 
   end
 
+end
+
+def set_Convert_Time
+  convertZone = NSTimeZone.timeZoneWithName(@converTimeZoneLabel.text)
+  formatter = NSDateFormatter.alloc.init
+  formatter.setDateFormat('HH:mm')
+  formatter.setTimeZone(convertZone) 
+  dateFormat = formatter.stringFromDate(NSDate.date)    
+  @convertDate = formatter.dateFromString(dateFormat)
+  @convertTimeLabel.text = "UTC "+(convertZone.secondsFromGMT/3600).to_s + "  "+ dateFormat
 end
 ---------------------------------------------------------------------------------
 
