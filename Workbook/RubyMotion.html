@@ -28,11 +28,11 @@ body {
 }
 
 a {
-  color: #880009;
+  color: #666666;
   text-decoration: underline;
 }
 a:visited {
-  color: fuchsia;
+  color: #880009;
 }
 
 em {
@@ -353,7 +353,7 @@ div.colist td img {
 }
 
 #toctitle {
-  color: #527bbd;
+  color: #880009;
   font-size: 1.1em;
   font-weight: bold;
   margin-top: 1.0em;
@@ -542,7 +542,7 @@ body.manpage div.sectionbody {
 /*
   pygmentize filter
 */
-.highlight .hll { background-color: #8e908c; color:#ffd27e; font-family: Inconsolata; }
+.highlight .hll { border-left:solid 7px #880009; font-size:100%; font-family:Inconsolata; color:#4d4d4c;  }
 .highlight  { background: #f4f4f4; font-family: Inconsolata; }
 .highlight .c { color: #8e908c; font-style: italic; font-family: Inconsolata; } /* Comment */
 .highlight .err { border: 1px solid #FF0000; font-family: Inconsolata; } /* Error */
@@ -809,7 +809,7 @@ install: function(toclevels) {
 }
 
 }
-asciidoc.install();
+asciidoc.install(2);
 /*]]>*/
 </script>
 </head>
@@ -819,6 +819,10 @@ asciidoc.install();
 <span id="author">Norberto Ortigoza</span><br />
 <span id="revnumber">version 0.1,</span>
 <span id="revdate">Oct 01, 2012</span>
+<div id="toc">
+  <div id="toctitle">Table of Contents</div>
+  <noscript><p><b>JavaScript must be enabled in your browser to display the table of contents.</b></p></noscript>
+</div>
 </div>
 <div id="content">
 <h1 id="_day_1">Day 1</h1>
@@ -899,7 +903,7 @@ asciidoc.install();
 <div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">location_label</span><span class="p">(</span><span class="n">xPosition</span><span class="p">,</span><span class="n">yPosition</span><span class="p">)</span>
 
   <span class="n">label</span> <span class="o">=</span> <span class="no">UILabel</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithFrame</span><span class="p">(</span><span class="no">CGRectMake</span><span class="p">(</span><span class="n">xPosition</span><span class="p">,</span><span class="n">yPosition</span><span class="p">,</span><span class="mi">200</span><span class="p">,</span><span class="mi">50</span><span class="p">))</span>
-  <span class="n">label</span><span class="o">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">clearColor</span><span class="p">;</span>
+  <span class="n">label</span><span class="o">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">clearColor</span>
   <span class="n">label</span><span class="o">.</span><span class="n">font</span> <span class="o">=</span> <span class="no">UIFont</span><span class="o">.</span><span class="n">fontWithName</span><span class="p">(</span><span class="s2">&quot;HelveticaNeue-CondensedBold&quot;</span><span class="p">,</span><span class="n">size</span><span class="p">:</span><span class="mi">18</span><span class="p">)</span>
   <span class="n">label</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;Time Zone&quot;</span>
   <span class="n">label</span>
@@ -908,9 +912,9 @@ asciidoc.install();
 <span class="k">def</span> <span class="nf">time_label</span><span class="p">(</span><span class="n">xPosition</span><span class="p">,</span><span class="n">yPosition</span><span class="p">)</span>
 
   <span class="n">label</span> <span class="o">=</span> <span class="no">UILabel</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithFrame</span><span class="p">(</span><span class="no">CGRectMake</span><span class="p">(</span><span class="n">xPosition</span><span class="p">,</span><span class="n">yPosition</span><span class="p">,</span><span class="mi">200</span><span class="p">,</span><span class="mi">50</span><span class="p">))</span>
-  <span class="n">label</span><span class="o">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">clearColor</span><span class="p">;</span>
+  <span class="n">label</span><span class="o">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">clearColor</span>
   <span class="n">label</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;Time&quot;</span>
-  <span class="n">label</span><span class="o">.</span><span class="n">textColor</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">whiteColor</span><span class="p">;</span>
+  <span class="n">label</span><span class="o">.</span><span class="n">textColor</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">whiteColor</span>
   <span class="n">label</span>
 <span class="k">end</span>
 
@@ -1175,7 +1179,7 @@ asciidoc.install();
 </div>
 <div class="paragraph"><p>Go ahead and look for a region that you may like to be and see the local time on this area.</p></div>
 <div class="paragraph"><p>You ‘ll never wonder again what time is it on other side of the planet, but you may think that its not good enough to know the time in one region, two its always better than one. Lets add a second set of controls.</p></div>
-<div class="paragraph"><p>First at all open your <strong>root_view_uitilities.rb</strong> file and add the following code in the loadView method.</p></div>
+<div class="paragraph"><p>First at all open your <strong>root_view_controller.rb</strong> file and add the following code in the loadView method.</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">viewDidLoad</span>
 <span class="o">****************************************************************</span>
@@ -1218,6 +1222,16 @@ asciidoc.install();
 
   <span class="k">end</span>
 
+<span class="k">end</span>
+
+<span class="k">def</span> <span class="nf">set_Convert_Time</span>
+  <span class="n">convertZone</span> <span class="o">=</span> <span class="no">NSTimeZone</span><span class="o">.</span><span class="n">timeZoneWithName</span><span class="p">(</span><span class="vi">@converTimeZoneLabel</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+  <span class="n">formatter</span> <span class="o">=</span> <span class="no">NSDateFormatter</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">init</span>
+  <span class="n">formatter</span><span class="o">.</span><span class="n">setDateFormat</span><span class="p">(</span><span class="s1">&#39;HH:mm&#39;</span><span class="p">)</span>
+  <span class="n">formatter</span><span class="o">.</span><span class="n">setTimeZone</span><span class="p">(</span><span class="n">convertZone</span><span class="p">)</span>
+  <span class="n">dateFormat</span> <span class="o">=</span> <span class="n">formatter</span><span class="o">.</span><span class="n">stringFromDate</span><span class="p">(</span><span class="no">NSDate</span><span class="o">.</span><span class="n">date</span><span class="p">)</span>
+  <span class="vi">@convertDate</span> <span class="o">=</span> <span class="n">formatter</span><span class="o">.</span><span class="n">dateFromString</span><span class="p">(</span><span class="n">dateFormat</span><span class="p">)</span>
+  <span class="vi">@convertTimeLabel</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;UTC &quot;</span><span class="o">+</span><span class="p">(</span><span class="n">convertZone</span><span class="o">.</span><span class="n">secondsFromGMT</span><span class="o">/</span><span class="mi">3600</span><span class="p">)</span><span class="o">.</span><span class="n">to_s</span> <span class="o">+</span> <span class="s2">&quot;  &quot;</span><span class="o">+</span> <span class="n">dateFormat</span>
 <span class="k">end</span>
 </pre></div></div></div>
 </div>
@@ -10184,18 +10198,18 @@ Some Cocoa Frameworks and 3rd Party are not multi-thread
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="k">class</span> <span class="nc">PhotoViewController</span> <span class="o">&lt;</span> <span class="no">UIViewController</span>
 
-  <span class="k">def</span> <span class="nf">loadView</span>
-
-    <span class="c1"># Create a new view for our controller and add a nice</span>
-    <span class="c1"># background color</span>
-    <span class="nb">self</span><span class="o">.</span><span class="n">view</span> <span class="o">=</span> <span class="no">UIView</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">init</span>
-    <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">colorWithRed</span><span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">157</span><span class="p">,</span> <span class="n">green</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mi">165</span><span class="p">,</span> <span class="n">blue</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mi">180</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span>
-
-    <span class="c1"># Layout the image picker for the user to take</span>
-    <span class="c1"># or select a photo</span>
-    <span class="n">layout_image_picker_controller</span>
-  <span class="k">end</span>
-
+<span class="hll">  <span class="k">def</span> <span class="nf">loadView</span>
+</span><span class="hll">
+</span><span class="hll">    <span class="c1"># Create a new view for our controller and add a nice</span>
+</span><span class="hll">    <span class="c1"># background color</span>
+</span><span class="hll">    <span class="nb">self</span><span class="o">.</span><span class="n">view</span> <span class="o">=</span> <span class="no">UIView</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">init</span>
+</span><span class="hll">    <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">colorWithRed</span><span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">157</span><span class="p">,</span> <span class="n">green</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mi">165</span><span class="p">,</span> <span class="n">blue</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mi">180</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span>
+</span><span class="hll">
+</span><span class="hll">    <span class="c1"># Layout the image picker for the user to take</span>
+</span><span class="hll">    <span class="c1"># or select a photo</span>
+</span><span class="hll">    <span class="n">layout_image_picker_controller</span>
+</span><span class="hll">  <span class="k">end</span>
+</span>
 
   <span class="k">def</span> <span class="nf">layout_image_picker_controller</span>
 
@@ -11273,7 +11287,7 @@ Add some buttons to our Application for increasing and decreasing the Intensity 
 <div id="footer">
 <div id="footer-text">
 Version 0.1<br />
-Last updated 2012-11-27 13:53:56 CST
+Last updated 2012-12-05 21:53:32 CST
 </div>
 </div>
 </body>
