@@ -1,0 +1,1960 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+    "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<meta name="generator" content="AsciiDoc 8.6.8" />
+<title>Chapter 26 - Concurrency</title>
+<style type="text/css">
+/* Shared CSS for AsciiDoc xhtml11 and html5 backends */
+
+/* Default font. */
+body {
+  font-family: Helvetica,sans-serif;
+}
+
+/* Title font. */
+h1, h2, h3, h4, h5, h6,
+div.title, caption.title,
+thead, p.table.header,
+#toctitle,
+#author, #revnumber, #revdate, #revremark,
+#footer {
+  font-family: Helvetica,sans-serif;
+}
+
+body {
+  margin: 1em 5% 1em 5%;
+}
+
+a {
+  color: #880009;
+  text-decoration: underline;
+}
+a:visited {
+  color: fuchsia;
+}
+
+em {
+  font-style: italic;
+  color: #880009;
+}
+
+strong {
+  font-weight: bold;
+  color: #880009;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #880009;
+  margin-top: 1.2em;
+  margin-bottom: 0.5em;
+  line-height: 1.3;
+}
+
+h1 {
+  border-bottom: 1px solid #dddddd;
+}
+h2 {
+  padding-top: 0.5em;
+}
+h3 {
+  float: left;
+}
+h3 + * {
+  clear: left;
+}
+h5 {
+  font-size: 1.0em;
+}
+
+div.sectionbody {
+  margin-left: 0;
+}
+
+hr {
+  border: 1px solid silver;
+}
+
+p {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+  color: #666666;
+}
+
+ul, ol, li > p {
+  margin-top: 0;
+}
+ul > li     { color: #4f4f4f; }
+ul > li > * { color: #666666; }
+
+.monospaced, code, pre {
+  font-family: Inconsolata;
+  font-size: inherit;
+  color: #4d4d4c;
+  padding: 0;
+  margin: 0;
+}
+
+
+#author {
+  color: #880009;
+  font-weight: bold;
+  font-size: 1.1em;
+}
+#email {
+}
+#revnumber, #revdate, #revremark {
+  color: #666666;
+}
+
+#footer {
+  font-size: small;
+  border-top: 2px solid silver;
+  padding-top: 0.5em;
+  margin-top: 4.0em;
+}
+#footer-text {
+  float: left;
+  padding-bottom: 0.5em;
+  color: #666666;
+}
+#footer-badges {
+  float: right;
+  padding-bottom: 0.5em;
+}
+
+#preamble {
+  margin-top: 1.5em;
+  margin-bottom: 1.5em;
+}
+div.imageblock, div.exampleblock, div.verseblock,
+div.quoteblock, div.literalblock, div.listingblock, div.sidebarblock,
+div.admonitionblock {
+  margin-top: 1.0em;
+  margin-bottom: 1.5em;
+}
+div.admonitionblock {
+  margin-top: 2.0em;
+  margin-bottom: 2.0em;
+  margin-right: 10%;
+  color: #606060;
+}
+
+div.content { /* Block element content. */
+  padding:: 0;
+}
+
+/* Block element titles. */
+div.title, caption.title {
+  color: #4f4f4f;
+  font-weight: bold;
+  text-align: left;
+  margin-top: 1.0em;
+  margin-bottom: 0.5em;
+}
+div.title + * {
+  margin-top: 0;
+}
+
+td div.title:first-child {
+  margin-top: 0.0em;
+}
+div.content div.title:first-child {
+  margin-top: 0.0em;
+}
+div.content + div.title {
+  margin-top: 0.0em;
+}
+
+div.sidebarblock > div.content {
+  background: #ffffee;
+  border: 1px solid #dddddd;
+  border-left: 4px solid #f0f0f0;
+  padding: 0.5em;
+}
+
+div.listingblock > div.content {
+  border: 1.5px solid #dddddd;
+  background: #f4f4f4;
+  padding: 0.5em;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  font-family: Inconsolata;
+}
+
+div.quoteblock, div.verseblock {
+  padding-left: 1.0em;
+  margin-left: 1.0em;
+  margin-right: 10%;
+  border-left: 5px solid #f0f0f0;
+  color: #f2f2f2;
+}
+
+div.quoteblock > div.attribution {
+  padding-top: 0.5em;
+  text-align: right;
+}
+
+div.verseblock > pre.content {
+  font-family: inherit;
+  font-size: inherit;
+}
+div.verseblock > div.attribution {
+  padding-top: 0.75em;
+  text-align: left;
+}
+/* DEPRECATED: Pre version 8.2.7 verse style literal block. */
+div.verseblock + div.attribution {
+  text-align: left;
+}
+
+div.admonitionblock .icon {
+  vertical-align: top;
+  font-size: 1.1em;
+  font-weight: bold;
+  text-decoration: underline;
+  color: #666666;
+  padding-right: 0.5em;
+}
+div.admonitionblock td.content {
+  padding-left: 0.5em;
+  border-left: 3px solid #dddddd;
+}
+
+div.exampleblock > div.content {
+  border-left: 3px solid #dddddd;
+  padding-left: 0.5em;
+}
+
+div.imageblock div.content { padding-left: 0; }
+span.image img { border-style: none; }
+a.image:visited { color: white; }
+
+dl {
+  margin-top: 0.8em;
+  margin-bottom: 0.8em;
+}
+dt {
+  margin-top: 0.5em;
+  margin-bottom: 0;
+  font-style: normal;
+  color: navy;
+}
+dd > *:first-child {
+  margin-top: 0.1em;
+}
+
+ul, ol {
+    list-style-position: outside;
+}
+ol.arabic {
+  list-style-type: decimal;
+  color: #4f4f4f;
+}
+ol.loweralpha {
+  list-style-type: lower-alpha;
+}
+ol.upperalpha {
+  list-style-type: upper-alpha;
+}
+ol.lowerroman {
+  list-style-type: lower-roman;
+}
+ol.upperroman {
+  list-style-type: upper-roman;
+}
+
+div.compact ul, div.compact ol,
+div.compact p, div.compact p,
+div.compact div, div.compact div {
+  margin-top: 0.1em;
+  margin-bottom: 0.1em;
+}
+
+tfoot {
+  font-weight: bold;
+}
+td > div.verse {
+  white-space: pre;
+}
+
+div.hdlist {
+  margin-top: 0.8em;
+  margin-bottom: 0.8em;
+}
+div.hdlist tr {
+  padding-bottom: 15px;
+}
+dt.hdlist1.strong, td.hdlist1.strong {
+  font-weight: bold;
+}
+td.hdlist1 {
+  vertical-align: top;
+  font-style: normal;
+  padding-right: 0.8em;
+  color: navy;
+}
+td.hdlist2 {
+  vertical-align: top;
+}
+div.hdlist.compact tr {
+  margin: 0;
+  padding-bottom: 0;
+}
+
+.comment {
+  background: yellow;
+}
+
+.footnote, .footnoteref {
+  font-size: 0.8em;
+}
+
+span.footnote, span.footnoteref {
+  vertical-align: super;
+}
+
+#footnotes {
+  margin: 20px 0 20px 0;
+  padding: 7px 0 0 0;
+}
+
+#footnotes div.footnote {
+  margin: 0 0 5px 0;
+}
+
+#footnotes hr {
+  border: none;
+  border-top: 1px solid silver;
+  height: 1px;
+  text-align: left;
+  margin-left: 0;
+  width: 20%;
+  min-width: 100px;
+}
+
+div.colist td {
+  padding-right: 0.5em;
+  padding-bottom: 0.3em;
+  vertical-align: top;
+}
+div.colist td img {
+  margin-top: 0.3em;
+}
+
+@media print {
+  #footer-badges { display: none; }
+}
+
+#toc {
+  margin-bottom: 2.5em;
+}
+
+#toctitle {
+  color: #527bbd;
+  font-size: 1.1em;
+  font-weight: bold;
+  margin-top: 1.0em;
+  margin-bottom: 0.1em;
+}
+
+div.toclevel0, div.toclevel1, div.toclevel2, div.toclevel3, div.toclevel4 {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+div.toclevel2 {
+  margin-left: 2em;
+  font-size: 0.9em;
+}
+div.toclevel3 {
+  margin-left: 4em;
+  font-size: 0.9em;
+}
+div.toclevel4 {
+  margin-left: 6em;
+  font-size: 0.9em;
+}
+
+span.aqua { color: aqua; }
+span.black { color: black; }
+span.blue { color: blue; }
+span.fuchsia { color: fuchsia; }
+span.gray { color: gray; }
+span.green { color: green; }
+span.lime { color: lime; }
+span.maroon { color: maroon; }
+span.navy { color: navy; }
+span.olive { color: olive; }
+span.purple { color: purple; }
+span.red { color: red; }
+span.silver { color: silver; }
+span.teal { color: teal; }
+span.white { color: white; }
+span.yellow { color: yellow; }
+
+span.aqua-background { background: aqua; }
+span.black-background { background: black; }
+span.blue-background { background: blue; }
+span.fuchsia-background { background: fuchsia; }
+span.gray-background { background: gray; }
+span.green-background { background: green; }
+span.lime-background { background: lime; }
+span.maroon-background { background: maroon; }
+span.navy-background { background: navy; }
+span.olive-background { background: olive; }
+span.purple-background { background: purple; }
+span.red-background { background: red; }
+span.silver-background { background: silver; }
+span.teal-background { background: teal; }
+span.white-background { background: white; }
+span.yellow-background { background: yellow; }
+
+span.big { font-size: 2em; }
+span.small { font-size: 0.6em; }
+
+span.underline { text-decoration: underline; }
+span.overline { text-decoration: overline; }
+span.line-through { text-decoration: line-through; }
+
+div.unbreakable { page-break-inside: avoid; }
+
+
+/*
+ * xhtml11 specific
+ *
+ * */
+
+div.tableblock {
+  margin-top: 1.0em;
+  margin-bottom: 1.5em;
+}
+div.tableblock > table {
+  border: 3px solid #527bbd;
+}
+thead, p.table.header {
+  font-weight: bold;
+  color: #527bbd;
+}
+p.table {
+  margin-top: 0;
+}
+/* Because the table frame attribute is overriden by CSS in most browsers. */
+div.tableblock > table[frame="void"] {
+  border-style: none;
+}
+div.tableblock > table[frame="hsides"] {
+  border-left-style: none;
+  border-right-style: none;
+}
+div.tableblock > table[frame="vsides"] {
+  border-top-style: none;
+  border-bottom-style: none;
+}
+
+
+/*
+ * html5 specific
+ *
+ * */
+
+table.tableblock {
+  margin-top: 1.0em;
+  margin-bottom: 1.5em;
+}
+thead, p.tableblock.header {
+  font-weight: bold;
+  color: #527bbd;
+}
+p.tableblock {
+  margin-top: 0;
+}
+table.tableblock {
+  border-width: 3px;
+  border-spacing: 0px;
+  border-style: solid;
+  border-color: #527bbd;
+  border-collapse: collapse;
+}
+th.tableblock, td.tableblock {
+  border-width: 1px;
+  padding: 4px;
+  border-style: solid;
+  border-color: #527bbd;
+}
+
+table.tableblock.frame-topbot {
+  border-left-style: hidden;
+  border-right-style: hidden;
+}
+table.tableblock.frame-sides {
+  border-top-style: hidden;
+  border-bottom-style: hidden;
+}
+table.tableblock.frame-none {
+  border-style: hidden;
+}
+
+th.tableblock.halign-left, td.tableblock.halign-left {
+  text-align: left;
+}
+th.tableblock.halign-center, td.tableblock.halign-center {
+  text-align: center;
+}
+th.tableblock.halign-right, td.tableblock.halign-right {
+  text-align: right;
+}
+
+th.tableblock.valign-top, td.tableblock.valign-top {
+  vertical-align: top;
+}
+th.tableblock.valign-middle, td.tableblock.valign-middle {
+  vertical-align: middle;
+}
+th.tableblock.valign-bottom, td.tableblock.valign-bottom {
+  vertical-align: bottom;
+}
+
+
+/*
+ * manpage specific
+ *
+ * */
+
+body.manpage h1 {
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+  border-top: 2px solid red;
+  border-bottom: 2px solid silver;
+}
+body.manpage h2 {
+  border-style: none;
+}
+body.manpage div.sectionbody {
+  margin-left: 3em;
+}
+
+@media print {
+  body.manpage div#toc { display: none; }
+}
+
+/*
+  pygmentize filter
+*/
+.highlight .hll { border-left:solid 7px #880009; font-size:100%; font-family:Inconsolata; color:#4d4d4c;  }
+.highlight  { background: #f4f4f4; font-family: Inconsolata; }
+.highlight .c { color: #8e908c; font-style: italic; font-family: Inconsolata; } /* Comment */
+.highlight .err { border: 1px solid #FF0000; font-family: Inconsolata; } /* Error */
+.highlight .k { color: #8959a8; font-family: Inconsolata; } /* Keyword */
+.highlight .o { color: #666666; font-family: Inconsolata; } /* Operator */
+
+.highlight .cm { color: #8e908c; font-style: italic; font-family: Inconsolata; } /* Comment.Multiline */
+.highlight .cp { color: #8e908c; font-family: Inconsolata; } /* Comment.Preproc */
+.highlight .c1 { color: #8e908c; font-style: italic; font-family: Inconsolata; } /* Comment.Single */
+.highlight .cs { color: #8e908c; font-weight: bold; font-family: Inconsolata; } /* Comment.Special */
+.highlight .gd { color: #A00000; font-family: Inconsolata; } /* Generic.Deleted */
+.highlight .ge { font-style: italic; font-family: Inconsolata; } /* Generic.Emph */
+.highlight .gr { color: #FF0000; font-family: Inconsolata; } /* Generic.Error */
+
+.highlight .gh { color: #000080; font-weight: bold; font-family: Inconsolata; } /* Generic.Heading */
+.highlight .gi { color: #00A000; font-family: Inconsolata; } /* Generic.Inserted */
+.highlight .go { color: #808080; font-family: Inconsolata; } /* Generic.Output */
+.highlight .gp { color: #4d4d4c; font-weight: bold; font-family: Inconsolata; } /* Generic.Prompt */
+.highlight .gs { font-weight: bold; font-family: Inconsolata; } /* Generic.Strong */
+.highlight .gu { color: #800080; font-weight: bold; font-family: Inconsolata; } /* Generic.Subheading */
+.highlight .gt { color: #800080; font-family: Inconsolata; } /* Generic.Traceback */
+
+
+.highlight .kc { color: #8959a8; font-family: Inconsolata; } /* Keyword.Constant */
+.highlight .kd { color: #8959a8; font-family: Inconsolata; } /* Keyword.Declaration */
+.highlight .kn { color: #8959a8; font-family: Inconsolata; } /* Keyword.Namespace */
+.highlight .kp { color: #8959a8; font-family: Inconsolata; } /* Keyword.Pseudo */
+.highlight .kr { color: #8959a8; font-family: Inconsolata; } /* Keyword.Reserved */
+.highlight .kt { color: #8959a8; font-family: Inconsolata; } /* Keyword.Type */
+
+
+.highlight .m { color: #666666; font-family: Inconsolata; } /* Literal.Number */
+.highlight .s { color: #BB4444; font-family: Inconsolata; } /* Literal.String */
+
+.highlight .na { color: #BB4444; font-family: Inconsolata; } /* Name.Attribute */
+.highlight .nb { color: #718c00; font-family: Inconsolata; } /* Name.Builtin */
+.highlight .nc { color: #c82829; font-family: Inconsolata; } /* Name.Class */
+.highlight .no { color: #c82829; font-family: Inconsolata; } /* Name.Constant */
+.highlight .nd { color: #AA22FF; font-family: Inconsolata; } /* Name.Decorator */
+.highlight .ni { color: #999999; font-family: Inconsolata; } /* Name.Entity */
+.highlight .ne { color: #D2413A; font-family: Inconsolata; } /* Name.Exception */
+.highlight .nf { color: #4271ae; font-family: Inconsolata; } /* Name.Function */
+.highlight .nl { color: #A0A000; font-family: Inconsolata; } /* Name.Label */
+.highlight .nn { color: #0000FF; font-family: Inconsolata; } /* Name.Namespace */
+.highlight .nt { color: #008000; font-family: Inconsolata; } /* Name.Tag */
+.highlight .nv { color: #4d4d4c; font-family: Inconsolata; } /* Name.Variable */
+.highlight .bp { color: #AA22FF; font-family: Inconsolata; } /* Name.Builtin.Pseudo */
+.highlight .vc { color: #4d4d4c; font-family: Inconsolata; } /* Name.Variable.Class */
+.highlight .vg { color: #3e999f; font-family: Inconsolata; } /* Name.Variable.Global */
+.highlight .vi { color: #3e999f; font-family: Inconsolata; } /* Name.Variable.Instance */
+
+
+.highlight .ow { color: #f5871f; font-family: Inconsolata; } /* Operator.Word */
+.highlight .w { color: #f5871f; font-family: Inconsolata; } /* Text.Whitespace */
+.highlight .mf { color: #f5871f; font-family: Inconsolata; } /* Literal.Number.Float */
+.highlight .mh { color: #f5871f; font-family: Inconsolata; } /* Literal.Number.Hex */
+.highlight .mi { color: #f5871f; font-family: Inconsolata; } /* Literal.Number.Integer */
+.highlight .mo { color: #f5871f; font-family: Inconsolata; } /* Literal.Number.Oct */
+.highlight .sb { color: #f5871f; font-family: Inconsolata; } /* Literal.String.Backtick */
+.highlight .sc { color: #f5871f; font-family: Inconsolata; } /* Literal.String.Char */
+.highlight .sd { color: #f5871f; font-family: Inconsolata; } /* Literal.String.Doc */
+.highlight .s2 { color: #f5871f; font-family: Inconsolata; } /* Literal.String.Double */
+.highlight .se { color: #f5871f; font-family: Inconsolata; } /* Literal.String.Escape */
+.highlight .sh { color: #f5871f; font-family: Inconsolata; } /* Literal.String.Heredoc */
+.highlight .si { color: #f5871f; font-family: Inconsolata; } /* Literal.String.Interpol */
+.highlight .sx { color: #f5871f; font-family: Inconsolata; } /* Literal.String.Other */
+.highlight .sr { color: #f5871f; font-family: Inconsolata; } /* Literal.String.Regex */
+.highlight .s1 { color: #f5871f; font-family: Inconsolata; } /* Literal.String.Single */
+.highlight .ss { color: #f5871f; font-family: Inconsolata; } /* Literal.String.Symbol */
+
+
+.highlight .il { color: #f5871f; font-family: Inconsolata; } /* Literal.Number.Integer.Long */
+
+
+</style>
+<script type="text/javascript">
+/*<![CDATA[*/
+var asciidoc = {  // Namespace.
+
+/////////////////////////////////////////////////////////////////////
+// Table Of Contents generator
+/////////////////////////////////////////////////////////////////////
+
+/* Author: Mihai Bazon, September 2002
+ * http://students.infoiasi.ro/~mishoo
+ *
+ * Table Of Content generator
+ * Version: 0.4
+ *
+ * Feel free to use this script under the terms of the GNU General Public
+ * License, as long as you do not remove or alter this notice.
+ */
+
+ /* modified by Troy D. Hanson, September 2006. License: GPL */
+ /* modified by Stuart Rackham, 2006, 2009. License: GPL */
+
+// toclevels = 1..4.
+toc: function (toclevels) {
+
+  function getText(el) {
+    var text = "";
+    for (var i = el.firstChild; i != null; i = i.nextSibling) {
+      if (i.nodeType == 3 /* Node.TEXT_NODE */) // IE doesn't speak constants.
+        text += i.data;
+      else if (i.firstChild != null)
+        text += getText(i);
+    }
+    return text;
+  }
+
+  function TocEntry(el, text, toclevel) {
+    this.element = el;
+    this.text = text;
+    this.toclevel = toclevel;
+  }
+
+  function tocEntries(el, toclevels) {
+    var result = new Array;
+    var re = new RegExp('[hH]([1-'+(toclevels+1)+'])');
+    // Function that scans the DOM tree for header elements (the DOM2
+    // nodeIterator API would be a better technique but not supported by all
+    // browsers).
+    var iterate = function (el) {
+      for (var i = el.firstChild; i != null; i = i.nextSibling) {
+        if (i.nodeType == 1 /* Node.ELEMENT_NODE */) {
+          var mo = re.exec(i.tagName);
+          if (mo && (i.getAttribute("class") || i.getAttribute("className")) != "float") {
+            result[result.length] = new TocEntry(i, getText(i), mo[1]-1);
+          }
+          iterate(i);
+        }
+      }
+    }
+    iterate(el);
+    return result;
+  }
+
+  var toc = document.getElementById("toc");
+  if (!toc) {
+    return;
+  }
+
+  // Delete existing TOC entries in case we're reloading the TOC.
+  var tocEntriesToRemove = [];
+  var i;
+  for (i = 0; i < toc.childNodes.length; i++) {
+    var entry = toc.childNodes[i];
+    if (entry.nodeName.toLowerCase() == 'div'
+     && entry.getAttribute("class")
+     && entry.getAttribute("class").match(/^toclevel/))
+      tocEntriesToRemove.push(entry);
+  }
+  for (i = 0; i < tocEntriesToRemove.length; i++) {
+    toc.removeChild(tocEntriesToRemove[i]);
+  }
+
+  // Rebuild TOC entries.
+  var entries = tocEntries(document.getElementById("content"), toclevels);
+  for (var i = 0; i < entries.length; ++i) {
+    var entry = entries[i];
+    if (entry.element.id == "")
+      entry.element.id = "_toc_" + i;
+    var a = document.createElement("a");
+    a.href = "#" + entry.element.id;
+    a.appendChild(document.createTextNode(entry.text));
+    var div = document.createElement("div");
+    div.appendChild(a);
+    div.className = "toclevel" + entry.toclevel;
+    toc.appendChild(div);
+  }
+  if (entries.length == 0)
+    toc.parentNode.removeChild(toc);
+},
+
+
+/////////////////////////////////////////////////////////////////////
+// Footnotes generator
+/////////////////////////////////////////////////////////////////////
+
+/* Based on footnote generation code from:
+ * http://www.brandspankingnew.net/archive/2005/07/format_footnote.html
+ */
+
+footnotes: function () {
+  // Delete existing footnote entries in case we're reloading the footnodes.
+  var i;
+  var noteholder = document.getElementById("footnotes");
+  if (!noteholder) {
+    return;
+  }
+  var entriesToRemove = [];
+  for (i = 0; i < noteholder.childNodes.length; i++) {
+    var entry = noteholder.childNodes[i];
+    if (entry.nodeName.toLowerCase() == 'div' && entry.getAttribute("class") == "footnote")
+      entriesToRemove.push(entry);
+  }
+  for (i = 0; i < entriesToRemove.length; i++) {
+    noteholder.removeChild(entriesToRemove[i]);
+  }
+
+  // Rebuild footnote entries.
+  var cont = document.getElementById("content");
+  var spans = cont.getElementsByTagName("span");
+  var refs = {};
+  var n = 0;
+  for (i=0; i<spans.length; i++) {
+    if (spans[i].className == "footnote") {
+      n++;
+      var note = spans[i].getAttribute("data-note");
+      if (!note) {
+        // Use [\s\S] in place of . so multi-line matches work.
+        // Because JavaScript has no s (dotall) regex flag.
+        note = spans[i].innerHTML.match(/\s*\[([\s\S]*)]\s*/)[1];
+        spans[i].innerHTML =
+          "[<a id='_footnoteref_" + n + "' href='#_footnote_" + n +
+          "' title='View footnote' class='footnote'>" + n + "</a>]";
+        spans[i].setAttribute("data-note", note);
+      }
+      noteholder.innerHTML +=
+        "<div class='footnote' id='_footnote_" + n + "'>" +
+        "<a href='#_footnoteref_" + n + "' title='Return to text'>" +
+        n + "</a>. " + note + "</div>";
+      var id =spans[i].getAttribute("id");
+      if (id != null) refs["#"+id] = n;
+    }
+  }
+  if (n == 0)
+    noteholder.parentNode.removeChild(noteholder);
+  else {
+    // Process footnoterefs.
+    for (i=0; i<spans.length; i++) {
+      if (spans[i].className == "footnoteref") {
+        var href = spans[i].getElementsByTagName("a")[0].getAttribute("href");
+        href = href.match(/#.*/)[0];  // Because IE return full URL.
+        n = refs[href];
+        spans[i].innerHTML =
+          "[<a href='#_footnote_" + n +
+          "' title='View footnote' class='footnote'>" + n + "</a>]";
+      }
+    }
+  }
+},
+
+install: function(toclevels) {
+  var timerId;
+
+  function reinstall() {
+    asciidoc.footnotes();
+    if (toclevels) {
+      asciidoc.toc(toclevels);
+    }
+  }
+
+  function reinstallAndRemoveTimer() {
+    clearInterval(timerId);
+    reinstall();
+  }
+
+  timerId = setInterval(reinstall, 500);
+  if (document.addEventListener)
+    document.addEventListener("DOMContentLoaded", reinstallAndRemoveTimer, false);
+  else
+    window.onload = reinstallAndRemoveTimer;
+}
+
+}
+asciidoc.install();
+/*]]>*/
+</script>
+</head>
+<body class="article">
+<div id="header">
+<h1>Chapter 26 - Concurrency</h1>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph"><p>When we create an app some times we need to implement some operations that take to long time in executing like unzip a file, retrieve images on a web server or encryption. There is not a problem on the long time, the problem is that we run such operations on the main thread: Because the main thread is responsible for refreshing the User Interface and if we hang it executing a long time operation the app will look unresponsive because is unable for updating the Interface</p></div>
+<div class="paragraph"><p>The main solution to this problem is run the long time operations on a another thread right? Yes it does, but adds a lot more constrains to our code like:</p></div>
+<div class="olist arabic"><ol class="arabic">
+<li>
+<p>
+For changing anything on the User Interface we still need to do it on the main thread
+</p>
+</li>
+<li>
+<p>
+Some Cocoa Frameworks and 3rd Party are not multi-thread
+</p>
+</li>
+</ol></div>
+<div class="paragraph"><p>In this exercise we will tackle that extra complexity using two Multi-threading technologies available in iOS: <strong>Gran Central Dispatch</strong> and <strong>NSOperation</strong></p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_the_operation_that_takes_too_long">The Operation That Takes Too Long</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>We proudly announce that in this exercise we will make another Photo Filter app! (Like they are not enough of them in the store yet ;)</p></div>
+<div class="paragraph"><p>For this purpose also we need to use the Image Framework available in iOS called <strong>Core Image</strong> that will provide the Filters in a more easy way that implement them ourselves</p></div>
+<div class="paragraph"><p>So lets start building our app!</p></div>
+<div class="sect2">
+<h3 id="_rubystagram">Rubystagram</h3>
+<div class="paragraph"><p>Lets begin creating our project, running this on the terminal</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="nv">$ </span>motion create Rubystagram
+
+<span class="nv">$ </span><span class="nb">cd </span>app
+</pre></div></div></div>
+<div class="paragraph"><p>And now lets create a new view controller named <strong>PhotoViewController</strong>:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="nv">$ </span>mkdir controllers
+
+<span class="nv">$ </span><span class="nb">cd </span>controllers
+
+<span class="nv">$ </span>touch photo_view_controller.rb
+
+<span class="nv">$ </span>open photo_view_controller.rb
+</pre></div></div></div>
+<div class="paragraph"><p>We need to add the ability to this controller to take photos from the camera or choose one from the photo library, please insert the following lines to it:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">class</span> <span class="nc">PhotoViewController</span> <span class="o">&lt;</span> <span class="no">UIViewController</span>
+
+<span class="hll">  <span class="k">def</span> <span class="nf">loadView</span>
+</span><span class="hll">
+</span><span class="hll">    <span class="c1"># Create a new view for our controller and add a nice</span>
+</span><span class="hll">    <span class="c1"># background color</span>
+</span><span class="hll">    <span class="nb">self</span><span class="o">.</span><span class="n">view</span> <span class="o">=</span> <span class="no">UIView</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">init</span>
+</span><span class="hll">    <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">colorWithRed</span><span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">157</span><span class="p">,</span> <span class="n">green</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mi">165</span><span class="p">,</span> <span class="n">blue</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mi">180</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span>
+</span><span class="hll">
+</span><span class="hll">    <span class="c1"># Layout the image picker for the user to take</span>
+</span><span class="hll">    <span class="c1"># or select a photo</span>
+</span><span class="hll">    <span class="n">layout_image_picker_controller</span>
+</span><span class="hll">  <span class="k">end</span>
+</span>
+
+  <span class="k">def</span> <span class="nf">layout_image_picker_controller</span>
+
+    <span class="c1"># We need a instance of the UIImagePickerController</span>
+    <span class="vi">@image_picker_controller</span> <span class="o">=</span> <span class="no">UIImagePickerController</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">init</span>
+
+
+    <span class="c1"># For this to work on the simulator we need to ask the</span>
+    <span class="c1"># UIImagePickerController if we have a camera available</span>
+    <span class="k">if</span> <span class="no">UIImagePickerController</span><span class="o">.</span><span class="n">isSourceTypeAvailable</span><span class="p">(</span><span class="no">UIImagePickerControllerSourceTypeCamera</span><span class="p">)</span>
+
+      <span class="c1"># If we have a camera lets use it</span>
+      <span class="vi">@image_picker_controller</span><span class="o">.</span><span class="n">setSourceType</span><span class="p">(</span><span class="no">UIImagePickerControllerSourceTypeCamera</span><span class="p">)</span>
+
+    <span class="k">else</span>
+
+      <span class="c1"># If we don&#39;t lets present the Photo Library</span>
+      <span class="vi">@image_picker_controller</span><span class="o">.</span><span class="n">setSourceType</span><span class="p">(</span><span class="no">UIImagePickerControllerSourceTypePhotoLibrary</span><span class="p">)</span>
+
+    <span class="k">end</span>
+
+
+    <span class="c1"># Set the frame of the Picker Controller to the same</span>
+    <span class="c1"># as our controller view</span>
+    <span class="vi">@image_picker_controller</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">frame</span> <span class="o">=</span> <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">bounds</span>
+
+    <span class="c1"># Assign the controller as a delegate of the Image</span>
+    <span class="c1"># Picker</span>
+    <span class="vi">@image_picker_controller</span><span class="o">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="nb">self</span>
+
+    <span class="c1"># Add the Image Picker view as subview of our controller</span>
+    <span class="c1"># view</span>
+    <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="vi">@image_picker_controller</span><span class="o">.</span><span class="n">view</span><span class="p">)</span>
+  <span class="k">end</span>
+
+
+  <span class="c1"># Image Picker Controller callback, this method is invoked</span>
+  <span class="c1"># when the user selects an image</span>
+  <span class="k">def</span> <span class="nf">imagePickerController</span><span class="p">(</span><span class="n">picker</span><span class="p">,</span> <span class="n">didFinishPickingMediaWithInfo</span><span class="p">:</span> <span class="n">info</span><span class="p">)</span>
+
+    <span class="c1"># Remove the Image Picker from our Controller View</span>
+    <span class="vi">@image_picker_controller</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">removeFromSuperview</span>
+  <span class="k">end</span>
+
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>You should see this when running the app from the simulator:</p></div>
+<div class="paragraph"><p><strong>IMAGE</strong></p></div>
+<div class="admonitionblock">
+<table><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">If you don&#8217;t have any images available in the Photo Library, you can always navigate to a Photo Website (Like flickr.com) using the Safari on the Simulator and save any of them long clicking it :)</td>
+</tr></table>
+</div>
+<div class="paragraph"><p>And after we select the photo, you should see the following:</p></div>
+<div class="paragraph"><p><strong>IMAGE</strong></p></div>
+<div class="paragraph"><p>The next step will be adding the user selected image to the controller&#8217;s view, please add the following lines to the <strong>photo_view_controller.rb</strong> file:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">loadView</span>
+
+  <span class="c1"># Create a new view for our controller and add a nice</span>
+  <span class="c1"># background color</span>
+  <span class="nb">self</span><span class="o">.</span><span class="n">view</span> <span class="o">=</span> <span class="no">UIView</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">init</span>
+  <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">colorWithRed</span><span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">157</span><span class="p">,</span> <span class="n">green</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mi">165</span><span class="p">,</span> <span class="n">blue</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mi">180</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span>
+
+
+  <span class="c1"># Layout an image view for us to draw the user</span>
+  <span class="c1"># selected image</span>
+  <span class="n">layout_photo_image_view</span>
+
+
+  <span class="c1"># Layout the image picker for the user to take</span>
+  <span class="c1"># or select a photo</span>
+  <span class="n">layout_image_picker_controller</span>
+<span class="k">end</span>
+
+
+<span class="k">def</span> <span class="nf">layout_photo_image_view</span>
+
+  <span class="c1"># Create a new instance of a UIViewController named</span>
+  <span class="c1"># photo_image_view</span>
+  <span class="vi">@photo_image_view</span> <span class="o">=</span> <span class="no">UIImageView</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithFrame</span><span class="p">(</span><span class="no">CGRectMake</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">280</span><span class="p">,</span> <span class="mi">350</span><span class="p">))</span>
+  <span class="vi">@photo_image_view</span><span class="o">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">clearColor</span>
+
+  <span class="c1"># Get the size of the photo_image_view</span>
+  <span class="n">photo_view_size</span> <span class="o">=</span> <span class="vi">@photo_image_view</span><span class="o">.</span><span class="n">bounds</span><span class="o">.</span><span class="n">size</span>
+
+  <span class="c1"># Lets create a nice path for our photo image view shadow</span>
+  <span class="n">photo_frame_path</span> <span class="o">=</span> <span class="no">UIBezierPath</span><span class="o">.</span><span class="n">bezierPath</span>
+  <span class="n">photo_frame_path</span><span class="o">.</span><span class="n">moveToPoint</span><span class="p">(</span><span class="no">CGPointMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+  <span class="n">photo_frame_path</span><span class="o">.</span><span class="n">addLineToPoint</span><span class="p">(</span><span class="no">CGPointMake</span><span class="p">(</span><span class="n">photo_view_size</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+  <span class="n">photo_frame_path</span><span class="o">.</span><span class="n">addLineToPoint</span><span class="p">(</span><span class="no">CGPointMake</span><span class="p">(</span><span class="n">photo_view_size</span><span class="o">.</span><span class="n">width</span><span class="p">,</span>
+                                              <span class="n">photo_view_size</span><span class="o">.</span><span class="n">height</span> <span class="o">+</span> <span class="mi">5</span><span class="o">.</span><span class="mi">0</span><span class="p">))</span>
+  <span class="n">photo_frame_path</span><span class="o">.</span><span class="n">addCurveToPoint</span><span class="p">(</span><span class="no">CGPointMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">photo_view_size</span><span class="o">.</span><span class="n">height</span> <span class="o">+</span> <span class="mi">5</span><span class="o">.</span><span class="mi">0</span><span class="p">),</span>
+                                   <span class="n">controlPoint1</span><span class="ss">:CGPointMake</span><span class="p">(</span><span class="n">photo_view_size</span><span class="o">.</span><span class="n">width</span> <span class="o">-</span> <span class="mi">15</span><span class="o">.</span><span class="mi">0</span><span class="p">,</span> <span class="n">photo_view_size</span><span class="o">.</span><span class="n">height</span> <span class="o">+</span> <span class="mi">5</span><span class="o">.</span><span class="mi">0</span> <span class="o">-</span> <span class="mi">15</span><span class="o">.</span><span class="mi">0</span><span class="p">),</span>
+                                   <span class="n">controlPoint2</span><span class="ss">:CGPointMake</span><span class="p">(</span><span class="mi">15</span><span class="o">.</span><span class="mi">0</span><span class="p">,</span> <span class="n">photo_view_size</span><span class="o">.</span><span class="n">height</span> <span class="o">+</span> <span class="mi">5</span><span class="o">.</span><span class="mi">0</span> <span class="o">-</span> <span class="mi">15</span><span class="o">.</span><span class="mi">0</span><span class="p">))</span>
+
+  <span class="c1"># Apply the shadow path to our photo image view</span>
+  <span class="vi">@photo_image_view</span><span class="o">.</span><span class="n">layer</span><span class="o">.</span><span class="n">shadowPath</span> <span class="o">=</span> <span class="n">photo_frame_path</span><span class="o">.</span><span class="n">CGPath</span>
+
+  <span class="c1"># Set the image view shadow properties like color, opacity</span>
+  <span class="c1"># offset and radius</span>
+  <span class="vi">@photo_image_view</span><span class="o">.</span><span class="n">layer</span><span class="o">.</span><span class="n">shadowColor</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">colorWithRed</span><span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">099</span><span class="p">,</span>
+                                                       <span class="n">green</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mi">099</span><span class="p">,</span>
+                                                       <span class="n">blue</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mi">099</span><span class="p">,</span>
+                                                       <span class="n">alpha</span><span class="p">:</span><span class="mi">1</span><span class="o">.</span><span class="mo">000</span><span class="p">)</span><span class="o">.</span><span class="n">CGColor</span>
+  <span class="vi">@photo_image_view</span><span class="o">.</span><span class="n">layer</span><span class="o">.</span><span class="n">shadowOpacity</span> <span class="o">=</span> <span class="mi">0</span><span class="o">.</span><span class="mi">7</span>
+  <span class="vi">@photo_image_view</span><span class="o">.</span><span class="n">layer</span><span class="o">.</span><span class="n">shadowOffset</span> <span class="o">=</span> <span class="no">CGSizeMake</span><span class="p">(</span><span class="mi">10</span><span class="o">.</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span>
+  <span class="vi">@photo_image_view</span><span class="o">.</span><span class="n">layer</span><span class="o">.</span><span class="n">shadowRadius</span> <span class="o">=</span> <span class="mi">5</span><span class="o">.</span><span class="mi">0</span>
+
+  <span class="c1"># For the shadow to work we need to tell the CALayer don&#39;t</span>
+  <span class="c1"># mask to bounds</span>
+  <span class="vi">@photo_image_view</span><span class="o">.</span><span class="n">layer</span><span class="o">.</span><span class="n">masksToBounds</span> <span class="o">=</span> <span class="kp">false</span>
+
+  <span class="c1"># Also we want to have a photo frame for our image this is</span>
+  <span class="c1"># done using the border color and width</span>
+  <span class="vi">@photo_image_view</span><span class="o">.</span><span class="n">layer</span><span class="o">.</span><span class="n">borderColor</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">whiteColor</span><span class="o">.</span><span class="n">CGColor</span>
+  <span class="vi">@photo_image_view</span><span class="o">.</span><span class="n">layer</span><span class="o">.</span><span class="n">borderWidth</span> <span class="o">=</span> <span class="mi">5</span><span class="o">.</span><span class="mi">0</span>
+
+  <span class="c1"># Add the photo image view to the controller view</span>
+  <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="vi">@photo_image_view</span><span class="p">)</span>
+<span class="k">end</span>
+
+
+<span class="c1"># Image Picker Controller callback, this method is invoked</span>
+<span class="c1"># when the user selects an image</span>
+<span class="k">def</span> <span class="nf">imagePickerController</span><span class="p">(</span><span class="n">picker</span><span class="p">,</span> <span class="n">didFinishPickingMediaWithInfo</span><span class="p">:</span> <span class="n">info</span><span class="p">)</span>
+
+  <span class="c1"># Remove the Image Picker from our Controller View</span>
+  <span class="vi">@image_picker_controller</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">removeFromSuperview</span>
+
+  <span class="c1"># Save the user selected image</span>
+  <span class="vi">@selected_image</span> <span class="o">=</span> <span class="n">info</span><span class="o">.</span><span class="n">objectForKey</span><span class="p">(</span><span class="no">UIImagePickerControllerOriginalImage</span><span class="p">)</span>
+
+  <span class="c1"># Add the user selected image to our photo image view</span>
+  <span class="vi">@photo_image_view</span><span class="o">.</span><span class="n">image</span> <span class="o">=</span> <span class="vi">@selected_image</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p><strong>Image</strong></p></div>
+<div class="paragraph"><p>The last part of our initial project is to add some buttons for the user to select the photo filters, please add the following to our <strong>PhotoViewController</strong>:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">loadView</span>
+
+  <span class="c1"># Create a new view for our controller and add a nice</span>
+  <span class="c1"># background color</span>
+  <span class="nb">self</span><span class="o">.</span><span class="n">view</span> <span class="o">=</span> <span class="no">UIView</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">init</span>
+  <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">colorWithRed</span><span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">157</span><span class="p">,</span> <span class="n">green</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mi">165</span><span class="p">,</span> <span class="n">blue</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mi">180</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span>
+
+
+  <span class="c1"># Layout four buttons for the user to select</span>
+  <span class="c1"># the Photo Filters</span>
+  <span class="n">layout_filter_buttons</span>
+
+
+  <span class="c1"># Layout an image view for us to draw the user</span>
+  <span class="c1"># selected image</span>
+  <span class="n">layout_photo_image_view</span>
+
+
+  <span class="c1"># Layout the image picker for the user to take</span>
+  <span class="c1"># or select a photo</span>
+  <span class="n">layout_image_picker_controller</span>
+<span class="k">end</span>
+
+
+<span class="k">def</span> <span class="nf">layout_filter_buttons</span>
+
+  <span class="c1"># First button for the Pixellate Filter</span>
+  <span class="n">pixellate_button</span> <span class="o">=</span> <span class="no">UIButton</span><span class="o">.</span><span class="n">buttonWithType</span><span class="p">(</span><span class="no">UIButtonTypeRoundedRect</span><span class="p">)</span>
+  <span class="n">pixellate_button</span><span class="o">.</span><span class="n">frame</span> <span class="o">=</span> <span class="no">CGRectMake</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">400</span><span class="p">,</span> <span class="mi">70</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
+  <span class="n">pixellate_button</span><span class="o">.</span><span class="n">setTitle</span><span class="p">(</span><span class="s1">&#39;Pixellate&#39;</span><span class="p">,</span> <span class="n">forState</span><span class="ss">:UIControlStateNormal</span><span class="p">)</span>
+
+  <span class="n">pixellate_button</span><span class="o">.</span><span class="n">addTarget</span><span class="p">(</span><span class="nb">self</span><span class="p">,</span>
+                             <span class="n">action</span><span class="ss">:&#39;add_pixellate_filter&#39;</span><span class="p">,</span>
+                             <span class="n">forControlEvents</span><span class="ss">:UIControlEventTouchUpInside</span><span class="p">)</span>
+
+  <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="n">pixellate_button</span><span class="p">)</span>
+
+
+  <span class="c1"># Second button for the Sepia Filter</span>
+  <span class="n">sepia_tone_button</span> <span class="o">=</span> <span class="no">UIButton</span><span class="o">.</span><span class="n">buttonWithType</span><span class="p">(</span><span class="no">UIButtonTypeRoundedRect</span><span class="p">)</span>
+  <span class="n">sepia_tone_button</span><span class="o">.</span><span class="n">frame</span> <span class="o">=</span> <span class="no">CGRectMake</span><span class="p">(</span><span class="mi">85</span><span class="p">,</span> <span class="mi">400</span><span class="p">,</span> <span class="mi">70</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
+  <span class="n">sepia_tone_button</span><span class="o">.</span><span class="n">setTitle</span><span class="p">(</span><span class="s1">&#39;Sepia&#39;</span><span class="p">,</span> <span class="n">forState</span><span class="ss">:UIControlStateNormal</span><span class="p">)</span>
+
+  <span class="n">sepia_tone_button</span><span class="o">.</span><span class="n">addTarget</span><span class="p">(</span><span class="nb">self</span><span class="p">,</span>
+                              <span class="n">action</span><span class="ss">:&#39;add_sepia_tone_filter&#39;</span><span class="p">,</span>
+                              <span class="n">forControlEvents</span><span class="ss">:UIControlEventTouchUpInside</span><span class="p">)</span>
+
+  <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="n">sepia_tone_button</span><span class="p">)</span>
+
+
+  <span class="c1"># Third button for Color Monochrome Filter</span>
+  <span class="n">color_monochrome_button</span> <span class="o">=</span> <span class="no">UIButton</span><span class="o">.</span><span class="n">buttonWithType</span><span class="p">(</span><span class="no">UIButtonTypeRoundedRect</span><span class="p">)</span>
+  <span class="n">color_monochrome_button</span><span class="o">.</span><span class="n">frame</span> <span class="o">=</span> <span class="no">CGRectMake</span><span class="p">(</span><span class="mi">160</span><span class="p">,</span> <span class="mi">400</span><span class="p">,</span> <span class="mi">70</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
+  <span class="n">color_monochrome_button</span><span class="o">.</span><span class="n">setTitle</span><span class="p">(</span><span class="s1">&#39;Monochrome&#39;</span><span class="p">,</span> <span class="n">forState</span><span class="ss">:UIControlStateNormal</span><span class="p">)</span>
+
+  <span class="n">color_monochrome_button</span><span class="o">.</span><span class="n">addTarget</span><span class="p">(</span><span class="nb">self</span><span class="p">,</span>
+                                    <span class="n">action</span><span class="ss">:&#39;add_color_monochrome_filter&#39;</span><span class="p">,</span>
+                                    <span class="n">forControlEvents</span><span class="ss">:UIControlEventTouchUpInside</span><span class="p">)</span>
+
+  <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="n">color_monochrome_button</span><span class="p">)</span>
+
+
+  <span class="c1"># Fourth button for Gaussian Blur Filter</span>
+  <span class="n">gaussian_blur_button</span> <span class="o">=</span> <span class="no">UIButton</span><span class="o">.</span><span class="n">buttonWithType</span><span class="p">(</span><span class="no">UIButtonTypeRoundedRect</span><span class="p">)</span>
+  <span class="n">gaussian_blur_button</span><span class="o">.</span><span class="n">frame</span> <span class="o">=</span> <span class="no">CGRectMake</span><span class="p">(</span><span class="mi">235</span><span class="p">,</span> <span class="mi">400</span><span class="p">,</span> <span class="mi">70</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
+  <span class="n">gaussian_blur_button</span><span class="o">.</span><span class="n">setTitle</span><span class="p">(</span><span class="s1">&#39;Blur&#39;</span><span class="p">,</span> <span class="n">forState</span><span class="ss">:UIControlStateNormal</span><span class="p">)</span>
+
+  <span class="n">gaussian_blur_button</span><span class="o">.</span><span class="n">addTarget</span><span class="p">(</span><span class="nb">self</span><span class="p">,</span>
+                                 <span class="n">action</span><span class="ss">:&#39;add_gaussian_blur_filter&#39;</span><span class="p">,</span>
+                                 <span class="n">forControlEvents</span><span class="ss">:UIControlEventTouchUpInside</span><span class="p">)</span>
+
+  <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="n">gaussian_blur_button</span><span class="p">)</span>
+<span class="k">end</span>
+</pre></div></div></div>
+</div>
+<div class="sect2">
+<h3 id="_filters_filters_filters">Filters, Filters, Filters</h3>
+<div class="paragraph"><p>Its time to create a new object for apply those filters to the image, this object will be called <strong>photo_filter_controller.rb</strong>:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="nv">$ </span>touch photo_filter_controller.rb
+
+<span class="nv">$ </span>open photo_filter_controller.rb
+</pre></div></div></div>
+<div class="paragraph"><p>Now please insert the following methods into the class:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">class</span> <span class="nc">PhotoFilterController</span>
+
+  <span class="c1"># Method for generating the Image Filters</span>
+  <span class="k">def</span> <span class="nf">image_for_filter</span><span class="p">(</span><span class="n">filter</span><span class="p">,</span>
+                       <span class="n">image</span><span class="p">,</span>
+                       <span class="n">intensity</span><span class="p">)</span>
+
+    <span class="c1"># Assign the filter and intensity into a property</span>
+    <span class="c1"># for later use</span>
+    <span class="vi">@current_filter</span> <span class="o">=</span> <span class="n">filter</span>
+    <span class="vi">@current_intensity</span> <span class="o">=</span> <span class="n">intensity</span>
+
+    <span class="n">filtered_image</span> <span class="o">=</span> <span class="n">image</span>
+
+    <span class="c1"># Determinate the kind of filter using the symbol</span>
+    <span class="k">case</span> <span class="n">filter</span>
+
+      <span class="k">when</span> <span class="ss">:pixellate</span>
+
+        <span class="n">filtered_image</span> <span class="o">=</span> <span class="n">image_for_pixellate_filter</span><span class="p">(</span><span class="n">image</span><span class="p">,</span>
+                                                    <span class="n">intensity</span><span class="p">)</span>
+
+      <span class="k">when</span> <span class="ss">:sepia_tone</span>
+
+        <span class="n">filtered_image</span> <span class="o">=</span> <span class="n">image_for_sepia_tone_filter</span><span class="p">(</span><span class="n">image</span><span class="p">,</span>
+                                                     <span class="n">intensity</span><span class="p">)</span>
+
+      <span class="k">when</span> <span class="ss">:color_monochrome</span>
+
+        <span class="n">filtered_image</span> <span class="o">=</span> <span class="n">image_for_color_monochrome_filter</span><span class="p">(</span><span class="n">image</span><span class="p">,</span>
+                                                           <span class="n">intensity</span><span class="p">)</span>
+
+      <span class="k">when</span> <span class="ss">:gaussian_blur</span>
+
+         <span class="n">filtered_image</span> <span class="o">=</span> <span class="n">image_for_gaussian_blur_filter</span><span class="p">(</span><span class="n">image</span><span class="p">,</span>
+                                                         <span class="n">intensity</span><span class="p">)</span>
+
+    <span class="k">end</span>
+
+    <span class="c1"># Return the Filtered Image</span>
+    <span class="n">filtered_image</span>
+  <span class="k">end</span>
+
+
+  <span class="c1"># Method for adding the Pixellate Filter to the Image</span>
+  <span class="k">def</span> <span class="nf">image_for_pixellate_filter</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">scale</span><span class="p">)</span>
+
+    <span class="c1"># Create an instance of an CIImage so Core Image</span>
+    <span class="c1"># can work with it</span>
+    <span class="n">image_to_filter</span> <span class="o">=</span> <span class="no">CIImage</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithImage</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+
+    <span class="c1"># Get a new Core Image Context</span>
+    <span class="n">core_image_context</span> <span class="o">=</span> <span class="no">CIContext</span><span class="o">.</span><span class="n">contextWithOptions</span><span class="p">(</span><span class="kp">nil</span><span class="p">)</span>
+
+    <span class="c1"># Create the filter</span>
+    <span class="n">filter</span> <span class="o">=</span> <span class="no">CIFilter</span><span class="o">.</span><span class="n">filterWithName</span><span class="p">(</span><span class="s2">&quot;CIPixellate&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Set the default values to the filter</span>
+    <span class="n">filter</span><span class="o">.</span><span class="n">setDefaults</span>
+
+    <span class="c1"># Add the settings for the filter like the scale,</span>
+    <span class="c1"># intensity, etc.</span>
+    <span class="n">filter</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="n">image_to_filter</span><span class="p">,</span> <span class="n">forKey</span><span class="ss">:KCIInputImageKey</span><span class="p">)</span>
+    <span class="n">filter</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="n">scale</span><span class="p">,</span> <span class="n">forKey</span><span class="ss">:&quot;inputScale&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Get the output of the filter to create our return</span>
+    <span class="c1"># images</span>
+    <span class="n">filter_output</span> <span class="o">=</span> <span class="n">filter</span><span class="o">.</span><span class="n">outputImage</span>
+
+    <span class="c1"># Using the filter output create a new CIImage</span>
+    <span class="n">filtered_image</span> <span class="o">=</span> <span class="n">core_image_context</span><span class="o">.</span><span class="n">createCGImage</span><span class="p">(</span><span class="n">filter_output</span><span class="p">,</span>
+                                                      <span class="n">fromRect</span><span class="ss">:filter_output</span><span class="o">.</span><span class="n">extent</span><span class="p">)</span>
+
+    <span class="c1"># Return a new UIImage from the CIImage created with</span>
+    <span class="c1"># the filter</span>
+    <span class="no">UIImage</span><span class="o">.</span><span class="n">imageWithCGImage</span><span class="p">(</span><span class="n">filtered_image</span><span class="p">)</span>
+  <span class="k">end</span>
+
+
+  <span class="c1"># Method for adding the Sepia Tone Filter to the Image</span>
+  <span class="k">def</span> <span class="nf">image_for_sepia_tone_filter</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">intensity</span><span class="p">)</span>
+
+    <span class="c1"># Create an instance of an CIImage so Core Image</span>
+    <span class="c1"># can work with it</span>
+    <span class="n">image_to_filter</span> <span class="o">=</span> <span class="no">CIImage</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithImage</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+
+    <span class="c1"># Get a new Core Image Context</span>
+    <span class="n">core_image_context</span> <span class="o">=</span> <span class="no">CIContext</span><span class="o">.</span><span class="n">contextWithOptions</span><span class="p">(</span><span class="kp">nil</span><span class="p">)</span>
+
+    <span class="c1"># Create the filter</span>
+    <span class="n">filter</span> <span class="o">=</span> <span class="no">CIFilter</span><span class="o">.</span><span class="n">filterWithName</span><span class="p">(</span><span class="s2">&quot;CISepiaTone&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Set the default values to the filter</span>
+    <span class="n">filter</span><span class="o">.</span><span class="n">setDefaults</span>
+
+    <span class="c1"># Add the settings for the filter like the scale,</span>
+    <span class="c1"># intensity, etc.</span>
+    <span class="n">filter</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="n">image_to_filter</span><span class="p">,</span> <span class="n">forKey</span><span class="ss">:KCIInputImageKey</span><span class="p">)</span>
+    <span class="n">filter</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="n">intensity</span><span class="p">,</span> <span class="n">forKey</span><span class="ss">:&quot;inputIntensity&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Get the output of the filter to create our return</span>
+    <span class="c1"># images</span>
+    <span class="n">filter_output</span> <span class="o">=</span> <span class="n">filter</span><span class="o">.</span><span class="n">outputImage</span>
+
+    <span class="c1"># Using the filter output create a new CIImage</span>
+    <span class="n">filtered_image</span> <span class="o">=</span> <span class="n">core_image_context</span><span class="o">.</span><span class="n">createCGImage</span><span class="p">(</span><span class="n">filter_output</span><span class="p">,</span>
+                                                      <span class="n">fromRect</span><span class="ss">:filter_output</span><span class="o">.</span><span class="n">extent</span><span class="p">)</span>
+
+    <span class="c1"># Return a new UIImage from the CIImage created with</span>
+    <span class="c1"># the filter</span>
+    <span class="no">UIImage</span><span class="o">.</span><span class="n">imageWithCGImage</span><span class="p">(</span><span class="n">filtered_image</span><span class="p">)</span>
+  <span class="k">end</span>
+
+
+  <span class="c1"># Method for adding the Color Monochrome Filter to the Image</span>
+  <span class="k">def</span> <span class="nf">image_for_color_monochrome_filter</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">intensity</span><span class="p">)</span>
+
+    <span class="c1"># Create an instance of an CIImage so Core Image</span>
+    <span class="c1"># can work with it</span>
+    <span class="n">image_to_filter</span> <span class="o">=</span> <span class="no">CIImage</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithImage</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+
+    <span class="c1"># Get a new Core Image Context</span>
+    <span class="n">core_image_context</span> <span class="o">=</span> <span class="no">CIContext</span><span class="o">.</span><span class="n">contextWithOptions</span><span class="p">(</span><span class="kp">nil</span><span class="p">)</span>
+
+    <span class="c1"># Create the filter</span>
+    <span class="n">filter</span> <span class="o">=</span> <span class="no">CIFilter</span><span class="o">.</span><span class="n">filterWithName</span><span class="p">(</span><span class="s2">&quot;CIColorMonochrome&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Set the default values to the filter</span>
+    <span class="n">filter</span><span class="o">.</span><span class="n">setDefaults</span>
+
+    <span class="c1"># Add the settings for the filter like the scale,</span>
+    <span class="c1"># intensity, etc.</span>
+    <span class="n">filter</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="n">image_to_filter</span><span class="p">,</span> <span class="n">forKey</span><span class="ss">:KCIInputImageKey</span><span class="p">)</span>
+    <span class="n">filter</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="no">CIColor</span><span class="o">.</span><span class="n">colorWithString</span><span class="p">(</span><span class="s1">&#39;1.000 0.000 0.113 1.000&#39;</span><span class="p">),</span> <span class="n">forKey</span><span class="ss">:&quot;inputColor&quot;</span><span class="p">)</span>
+    <span class="n">filter</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="n">intensity</span><span class="p">,</span> <span class="n">forKey</span><span class="ss">:&quot;inputIntensity&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Get the output of the filter to create our return</span>
+    <span class="c1"># images</span>
+    <span class="n">filter_output</span> <span class="o">=</span> <span class="n">filter</span><span class="o">.</span><span class="n">outputImage</span>
+
+    <span class="c1"># Using the filter output create a new CIImage</span>
+    <span class="n">filtered_image</span> <span class="o">=</span> <span class="n">core_image_context</span><span class="o">.</span><span class="n">createCGImage</span><span class="p">(</span><span class="n">filter_output</span><span class="p">,</span>
+                                                      <span class="n">fromRect</span><span class="ss">:filter_output</span><span class="o">.</span><span class="n">extent</span><span class="p">)</span>
+
+    <span class="c1"># Return a new UIImage from the CIImage created with</span>
+    <span class="c1"># the filter</span>
+    <span class="no">UIImage</span><span class="o">.</span><span class="n">imageWithCGImage</span><span class="p">(</span><span class="n">filtered_image</span><span class="p">)</span>
+  <span class="k">end</span>
+
+
+  <span class="c1"># Method for adding the Gaussian Blur Filter to the Image</span>
+  <span class="k">def</span> <span class="nf">image_for_gaussian_blur_filter</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">radius</span><span class="p">)</span>
+
+    <span class="c1"># Create an instance of an CIImage so Core Image</span>
+    <span class="c1"># can work with it</span>
+    <span class="n">image_to_filter</span> <span class="o">=</span> <span class="no">CIImage</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithImage</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+
+    <span class="c1"># Get a new Core Image Context</span>
+    <span class="n">core_image_context</span> <span class="o">=</span> <span class="no">CIContext</span><span class="o">.</span><span class="n">contextWithOptions</span><span class="p">(</span><span class="kp">nil</span><span class="p">)</span>
+
+    <span class="c1"># Create the filter</span>
+    <span class="n">filter</span> <span class="o">=</span> <span class="no">CIFilter</span><span class="o">.</span><span class="n">filterWithName</span><span class="p">(</span><span class="s2">&quot;CIGaussianBlur&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Set the default values to the filter</span>
+    <span class="n">filter</span><span class="o">.</span><span class="n">setDefaults</span>
+
+    <span class="c1"># Add the settings for the filter like the scale,</span>
+    <span class="c1"># intensity, etc.</span>
+    <span class="n">filter</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="n">image_to_filter</span><span class="p">,</span> <span class="n">forKey</span><span class="ss">:KCIInputImageKey</span><span class="p">)</span>
+    <span class="n">filter</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="n">radius</span><span class="p">,</span> <span class="n">forKey</span><span class="ss">:&quot;inputRadius&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Get the output of the filter to create our return</span>
+    <span class="c1"># images</span>
+    <span class="n">filter_output</span> <span class="o">=</span> <span class="n">filter</span><span class="o">.</span><span class="n">outputImage</span>
+
+    <span class="c1"># Using the filter output create a new CIImage</span>
+    <span class="n">filtered_image</span> <span class="o">=</span> <span class="n">core_image_context</span><span class="o">.</span><span class="n">createCGImage</span><span class="p">(</span><span class="n">filter_output</span><span class="p">,</span>
+                                                      <span class="n">fromRect</span><span class="ss">:filter_output</span><span class="o">.</span><span class="n">extent</span><span class="p">)</span>
+
+    <span class="c1"># Return a new UIImage from the CIImage created with</span>
+    <span class="c1"># the filter</span>
+    <span class="no">UIImage</span><span class="o">.</span><span class="n">imageWithCGImage</span><span class="p">(</span><span class="n">filtered_image</span><span class="p">)</span>
+  <span class="k">end</span>
+
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>Yes! Now we have a class that can add filters to our images using Core Image. Its time to connect the view filter buttons to this new class. Please open the <strong>photo_view_controller.rb</strong> file and set the following methods:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="nv">$ </span>open photo_view_controller.rb
+</pre></div></div></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">loadView</span>
+
+  <span class="c1"># Create a new view for our controller and add a nice</span>
+  <span class="c1"># background color</span>
+  <span class="nb">self</span><span class="o">.</span><span class="n">view</span> <span class="o">=</span> <span class="no">UIView</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">init</span>
+  <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">colorWithRed</span><span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">157</span><span class="p">,</span> <span class="n">green</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mi">165</span><span class="p">,</span> <span class="n">blue</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mi">180</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span>
+
+  <span class="c1"># Create a new instance of the Photo Filter Controller</span>
+  <span class="vi">@photo_filter_controller</span> <span class="o">=</span> <span class="no">PhotoFilterController</span><span class="o">.</span><span class="n">new</span>
+
+  <span class="c1"># Layout four buttons for the user to select</span>
+  <span class="c1"># the Photo Filters</span>
+  <span class="n">layout_filter_buttons</span>
+
+
+  <span class="c1"># Layout an image view for us to draw the user</span>
+  <span class="c1"># selected image</span>
+  <span class="n">layout_photo_image_view</span>
+
+
+  <span class="c1"># Layout the image picker for the user to take</span>
+  <span class="c1"># or select a photo</span>
+  <span class="n">layout_image_picker_controller</span>
+<span class="k">end</span>
+
+<span class="c1"># Pixellate Filter Button Callback</span>
+<span class="k">def</span> <span class="nf">add_pixellate_filter</span>
+
+  <span class="c1"># Generate a new Filtered Image and set it to our photo</span>
+  <span class="c1"># image view</span>
+  <span class="vi">@photo_image_view</span><span class="o">.</span><span class="n">image</span> <span class="o">=</span> <span class="vi">@photo_filter_controller</span><span class="o">.</span><span class="n">image_for_filter</span><span class="p">(</span><span class="ss">:pixellate</span><span class="p">,</span> <span class="vi">@selected_image</span><span class="p">,</span> <span class="mi">8</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span>
+<span class="k">end</span>
+
+<span class="c1"># Sepia Tone Filter Button Callback</span>
+<span class="k">def</span> <span class="nf">add_sepia_tone_filter</span>
+
+  <span class="c1"># Generate a new Filtered Image and set it to our photo</span>
+  <span class="c1"># image view</span>
+  <span class="vi">@photo_image_view</span><span class="o">.</span><span class="n">image</span> <span class="o">=</span> <span class="vi">@photo_filter_controller</span><span class="o">.</span><span class="n">image_for_filter</span><span class="p">(</span><span class="ss">:sepia_tone</span><span class="p">,</span> <span class="vi">@selected_image</span><span class="p">,</span> <span class="mi">0</span><span class="o">.</span><span class="mi">5</span><span class="p">)</span>
+<span class="k">end</span>
+
+<span class="c1"># Color Monochrome Filter Button Callback</span>
+<span class="k">def</span> <span class="nf">add_color_monochrome_filter</span>
+
+  <span class="c1"># Generate a new Filtered Image and set it to our photo</span>
+  <span class="c1"># image view</span>
+  <span class="vi">@photo_image_view</span><span class="o">.</span><span class="n">image</span> <span class="o">=</span> <span class="vi">@photo_filter_controller</span><span class="o">.</span><span class="n">image_for_filter</span><span class="p">(</span><span class="ss">:color_monochrome</span><span class="p">,</span> <span class="vi">@selected_image</span><span class="p">,</span> <span class="mi">0</span><span class="o">.</span><span class="mi">5</span><span class="p">)</span>
+<span class="k">end</span>
+
+<span class="c1"># Gaussian Blur Filter Button Callback</span>
+<span class="k">def</span> <span class="nf">add_gaussian_blur_filter</span>
+
+  <span class="c1"># Generate a new Filtered Image and set it to our photo</span>
+  <span class="c1"># image view</span>
+  <span class="vi">@photo_image_view</span><span class="o">.</span><span class="n">image</span> <span class="o">=</span> <span class="vi">@photo_filter_controller</span><span class="o">.</span><span class="n">image_for_filter</span><span class="p">(</span><span class="ss">:gaussian_blur</span><span class="p">,</span> <span class="vi">@selected_image</span><span class="p">,</span> <span class="mi">3</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>Right! If we run the app we should see the following:</p></div>
+<div class="paragraph"><p><strong>IMAGE</strong></p></div>
+<div class="paragraph"><p>The filters are working but it takes some time to change filters right? It will be better if we show the user a <strong>UIActivityView</strong> indicating that we are working on the new filter, to add it please insert the following into the <strong>photo_view_controller.rb</strong> class:</p></div>
+<div class="admonitionblock">
+<table><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">If you are testing on the iOS Simulator the operation can be much faster than in the real device, also take note that some of your possible future users will not have the latest iPhone available either. So if an operation takes a little in the simulator possible it will take a lot on a device like an iPhone 3Gs</td>
+</tr></table>
+</div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">loadView</span>
+
+  <span class="c1"># Create a new view for our controller and add a nice</span>
+  <span class="c1"># background color</span>
+  <span class="nb">self</span><span class="o">.</span><span class="n">view</span> <span class="o">=</span> <span class="no">UIView</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">init</span>
+  <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">colorWithRed</span><span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">157</span><span class="p">,</span> <span class="n">green</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mi">165</span><span class="p">,</span> <span class="n">blue</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mi">180</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span>
+
+
+  <span class="c1"># Layout four buttons for the user to select</span>
+  <span class="c1"># the Photo Filters</span>
+  <span class="n">layout_filter_buttons</span>
+
+  <span class="c1"># Layout an image view for us to draw the user</span>
+  <span class="c1"># selected image</span>
+  <span class="n">layout_photo_image_view</span>
+
+  <span class="c1"># Layout an activity indicator that will tell the</span>
+  <span class="c1"># user that we are working on something</span>
+  <span class="n">layout_activity_indicator</span>
+
+  <span class="c1"># Layout the image picker for the user to take</span>
+  <span class="c1"># or select a photo</span>
+  <span class="n">layout_image_picker_controller</span>
+<span class="k">end</span>
+
+
+<span class="k">def</span> <span class="nf">layout_activity_indicator</span>
+
+  <span class="c1"># Create a new instance of the UIActivityIndicator View</span>
+  <span class="vi">@activity_indicator</span> <span class="o">=</span> <span class="no">UIActivityIndicatorView</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithActivityIndicatorStyle</span><span class="p">(</span><span class="no">UIActivityIndicatorViewStyleWhiteLarge</span><span class="p">)</span>
+
+  <span class="c1"># Set the center as the same of the Photo Image View</span>
+  <span class="vi">@activity_indicator</span><span class="o">.</span><span class="n">center</span> <span class="o">=</span> <span class="vi">@photo_image_view</span><span class="o">.</span><span class="n">center</span>
+
+  <span class="c1"># Set some properties like the color and that we need to</span>
+  <span class="c1"># hide when its not animating</span>
+  <span class="vi">@activity_indicator</span><span class="o">.</span><span class="n">color</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">colorWithRed</span><span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">400</span><span class="p">,</span> <span class="n">green</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mi">400</span><span class="p">,</span> <span class="n">blue</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mi">431</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span>
+  <span class="vi">@activity_indicator</span><span class="o">.</span><span class="n">hidesWhenStopped</span> <span class="o">=</span> <span class="kp">true</span>
+
+  <span class="c1"># Add the activity indicator to our view</span>
+  <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="vi">@activity_indicator</span><span class="p">)</span>
+<span class="k">end</span>
+
+
+<span class="c1"># Pixellate Filter Button Callback</span>
+<span class="k">def</span> <span class="nf">add_pixellate_filter</span>
+
+  <span class="c1"># Start the activity animator</span>
+  <span class="vi">@activity_indicator</span><span class="o">.</span><span class="n">startAnimating</span>
+
+  <span class="c1"># Generate a new Filtered Image and set it to our photo</span>
+  <span class="c1"># image view</span>
+  <span class="vi">@photo_image_view</span><span class="o">.</span><span class="n">image</span> <span class="o">=</span> <span class="vi">@photo_filter_controller</span><span class="o">.</span><span class="n">image_for_filter</span><span class="p">(</span><span class="ss">:pixellate</span><span class="p">,</span> <span class="vi">@selected_image</span><span class="p">,</span> <span class="mi">8</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span>
+
+  <span class="c1"># Stop the activity animator</span>
+  <span class="vi">@activity_indicator</span><span class="o">.</span><span class="n">stopAnimating</span>
+
+<span class="k">end</span>
+
+<span class="c1"># Sepia Tone Filter Button Callback</span>
+<span class="k">def</span> <span class="nf">add_sepia_tone_filter</span>
+
+  <span class="c1"># Start the activity animator</span>
+  <span class="vi">@activity_indicator</span><span class="o">.</span><span class="n">startAnimating</span>
+
+  <span class="c1"># Generate a new Filtered Image and set it to our photo</span>
+  <span class="c1"># image view</span>
+  <span class="vi">@photo_image_view</span><span class="o">.</span><span class="n">image</span> <span class="o">=</span> <span class="vi">@photo_filter_controller</span><span class="o">.</span><span class="n">image_for_filter</span><span class="p">(</span><span class="ss">:sepia_tone</span><span class="p">,</span> <span class="vi">@selected_image</span><span class="p">,</span> <span class="mi">0</span><span class="o">.</span><span class="mi">5</span><span class="p">)</span>
+
+  <span class="c1"># Stop the activity animator</span>
+  <span class="vi">@activity_indicator</span><span class="o">.</span><span class="n">stopAnimating</span>
+
+<span class="k">end</span>
+
+<span class="c1"># Color Monochrome Filter Button Callback</span>
+<span class="k">def</span> <span class="nf">add_color_monochrome_filter</span>
+
+  <span class="c1"># Start the activity animator</span>
+  <span class="vi">@activity_indicator</span><span class="o">.</span><span class="n">startAnimating</span>
+
+  <span class="c1"># Generate a new Filtered Image and set it to our photo</span>
+  <span class="c1"># image view</span>
+  <span class="vi">@photo_image_view</span><span class="o">.</span><span class="n">image</span> <span class="o">=</span> <span class="vi">@photo_filter_controller</span><span class="o">.</span><span class="n">image_for_filter</span><span class="p">(</span><span class="ss">:color_monochrome</span><span class="p">,</span> <span class="vi">@selected_image</span><span class="p">,</span> <span class="mi">0</span><span class="o">.</span><span class="mi">5</span><span class="p">)</span>
+
+  <span class="c1"># Stop the activity animator</span>
+  <span class="vi">@activity_indicator</span><span class="o">.</span><span class="n">stopAnimating</span>
+
+<span class="k">end</span>
+
+<span class="c1"># Gaussian Blur Filter Button Callback</span>
+<span class="k">def</span> <span class="nf">add_gaussian_blur_filter</span>
+
+  <span class="c1"># Start the activity animator</span>
+  <span class="vi">@activity_indicator</span><span class="o">.</span><span class="n">startAnimating</span>
+
+ <span class="c1"># Generate a new Filtered Image and set it to our photo</span>
+  <span class="c1"># image view</span>
+  <span class="vi">@photo_image_view</span><span class="o">.</span><span class="n">image</span> <span class="o">=</span> <span class="vi">@photo_filter_controller</span><span class="o">.</span><span class="n">image_for_filter</span><span class="p">(</span><span class="ss">:gaussian_blur</span><span class="p">,</span> <span class="vi">@selected_image</span><span class="p">,</span> <span class="mi">3</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span>
+
+  <span class="c1"># Stop the activity animator</span>
+  <span class="vi">@activity_indicator</span><span class="o">.</span><span class="n">stopAnimating</span>
+
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p><strong>Image</strong></p></div>
+<div class="paragraph"><p>If we run this on the device it will be more easy to distinguish  that the activity indicator is also getting freeze at the time we select a new filter to apply. We are hanging the main thread right now and the app feels a little unresponsive!</p></div>
+</div>
+<div class="sect2">
+<h3 id="_gran_central_dispatch_gcd">Gran Central Dispatch (GCD)</h3>
+<div class="paragraph"><p>The gran central dispatch is a group to technology improvements (On the Language, Runtime and Frameworks) that will allow us to execute concurrent code on multicore hardware. That means that we can run our code on multiple threads but also on multiple cores for free!</p></div>
+<div class="paragraph"><p><strong>Gran Central Dispatch</strong> uses internal queues to know where the code is supposed to run: On the Main Thread or Secondary Threads depending on the Priority. This is the interesting part: We don&#8217;t manage the thread it self, we just assign our code to run on a specific queue and GDC will create and destroy the threads when it need them.</p></div>
+<div class="paragraph"><p>Also you will notice on the following part of the exercise that is the most simple way to implement concurrent operations! So let&#8217;s begin with a little test consisting of moving the creation of the Pixellate Filtered Image to <strong>Gran Central Dispatch</strong>, open your <strong>photo_view_controller.rb</strong>:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="nv">$ </span>open photo_view_controller.rb
+</pre></div></div></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="c1"># Pixellate Filter Button Callback</span>
+<span class="k">def</span> <span class="nf">add_pixellate_filter</span>
+
+  <span class="c1"># Start the activity animator</span>
+  <span class="vi">@activity_indicator</span><span class="o">.</span><span class="n">startAnimating</span>
+
+  <span class="c1"># Get a GCD Queue in this case a High one, but the options are</span>
+  <span class="c1"># :high, :low, :default, :default</span>
+  <span class="n">high_priority_queue</span> <span class="o">=</span> <span class="no">Dispatch</span><span class="o">::</span><span class="no">Queue</span><span class="o">.</span><span class="n">concurrent</span><span class="p">(</span><span class="n">priority</span><span class="o">=</span><span class="ss">:high</span><span class="p">)</span>
+
+  <span class="c1"># Send a block to be executed asynchronously on the High Priority</span>
+  <span class="c1"># Queue</span>
+  <span class="c1">#</span>
+  <span class="c1"># The code inside the block will be run in another thread</span>
+  <span class="n">high_priority_queue</span><span class="o">.</span><span class="n">async</span> <span class="p">{</span>
+
+    <span class="c1"># Generate the Filtered Image</span>
+    <span class="n">filtered_image</span> <span class="o">=</span> <span class="vi">@photo_filter_controller</span><span class="o">.</span><span class="n">image_for_filter</span><span class="p">(</span><span class="ss">:pixellate</span><span class="p">,</span> <span class="vi">@selected_image</span><span class="p">,</span> <span class="mi">8</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="c1"># We need to excecute the Photo Image View change on the</span>
+    <span class="c1"># main thread, because we are modifying the User Interface</span>
+    <span class="c1">#</span>
+    <span class="c1"># For this we can also use GCD getting the Main Thread queue,</span>
+    <span class="c1"># remember we are running on another thread</span>
+    <span class="n">main_queue</span> <span class="o">=</span> <span class="no">Dispatch</span><span class="o">::</span><span class="no">Queue</span><span class="o">.</span><span class="n">main</span>
+
+    <span class="c1"># Only for testing propouses let&#39;s sleep the thread a little</span>
+    <span class="c1"># bit</span>
+    <span class="nb">sleep</span> <span class="mi">1</span>
+
+    <span class="c1"># Now we can excecute any code on the Main Thread using the Main</span>
+    <span class="c1"># Queue</span>
+    <span class="n">main_queue</span><span class="o">.</span><span class="n">async</span> <span class="p">{</span>
+
+      <span class="c1"># Set the Filtered Image to our Photo Image View</span>
+      <span class="vi">@photo_image_view</span><span class="o">.</span><span class="n">image</span> <span class="o">=</span> <span class="n">filtered_image</span>
+
+      <span class="c1"># Stop the activity animator</span>
+      <span class="vi">@activity_indicator</span><span class="o">.</span><span class="n">stopAnimating</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p><strong>Image</strong></p></div>
+<div class="paragraph"><p>If we select Pixellate Filter now the Activity Indicator is showing properly to the user and the Filtering operation is running on another Thread using GDC. That was easy right? We implement concurrent code on our application that simple and almost for free!</p></div>
+<div class="paragraph"><p>Now its time to implement it on all the Filtering Operations:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="c1"># Pixellate Filter Button Callback</span>
+<span class="k">def</span> <span class="nf">add_pixellate_filter</span>
+
+  <span class="c1"># Start the activity animator</span>
+  <span class="vi">@activity_indicator</span><span class="o">.</span><span class="n">startAnimating</span>
+
+  <span class="c1"># Get a GCD Queue in this case a High one, but the options are</span>
+  <span class="c1"># :high, :low, :default, :default</span>
+  <span class="n">high_priority_queue</span> <span class="o">=</span> <span class="no">Dispatch</span><span class="o">::</span><span class="no">Queue</span><span class="o">.</span><span class="n">concurrent</span><span class="p">(</span><span class="n">priority</span><span class="o">=</span><span class="ss">:high</span><span class="p">)</span>
+
+  <span class="c1"># Send a block to be executed asynchronously on the High Priority</span>
+  <span class="c1"># Queue</span>
+  <span class="c1">#</span>
+  <span class="c1"># The code inside the block will be run in another thread</span>
+  <span class="n">high_priority_queue</span><span class="o">.</span><span class="n">async</span> <span class="p">{</span>
+
+    <span class="c1"># Generate the Filtered Image</span>
+    <span class="n">filtered_image</span> <span class="o">=</span> <span class="vi">@photo_filter_controller</span><span class="o">.</span><span class="n">image_for_filter</span><span class="p">(</span><span class="ss">:pixellate</span><span class="p">,</span> <span class="vi">@selected_image</span><span class="p">,</span> <span class="mi">8</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="c1"># We need to excecute the Photo Image View change on the</span>
+    <span class="c1"># main thread, because we are modifying the User Interface</span>
+    <span class="c1">#</span>
+    <span class="c1"># For this we can also use GCD getting the Main Thread queue,</span>
+    <span class="c1"># remember we are running on another thread</span>
+    <span class="n">main_queue</span> <span class="o">=</span> <span class="no">Dispatch</span><span class="o">::</span><span class="no">Queue</span><span class="o">.</span><span class="n">main</span>
+
+    <span class="c1"># Now we can excecute any code on the Main Thread using the Main</span>
+    <span class="c1"># Queue</span>
+    <span class="n">main_queue</span><span class="o">.</span><span class="n">async</span> <span class="p">{</span>
+
+      <span class="c1"># Set the Filtered Image to our Photo Image View</span>
+      <span class="vi">@photo_image_view</span><span class="o">.</span><span class="n">image</span> <span class="o">=</span> <span class="n">filtered_image</span>
+
+      <span class="c1"># Stop the activity animator</span>
+      <span class="vi">@activity_indicator</span><span class="o">.</span><span class="n">stopAnimating</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="k">end</span>
+
+<span class="c1"># Sepia Tone Filter Button Callback</span>
+<span class="k">def</span> <span class="nf">add_sepia_tone_filter</span>
+
+  <span class="c1"># Start the activity animator</span>
+  <span class="vi">@activity_indicator</span><span class="o">.</span><span class="n">startAnimating</span>
+
+  <span class="c1"># Get a GCD Queue in this case a High one, but the options are</span>
+  <span class="c1"># :high, :low, :default, :default</span>
+  <span class="n">high_priority_queue</span> <span class="o">=</span> <span class="no">Dispatch</span><span class="o">::</span><span class="no">Queue</span><span class="o">.</span><span class="n">concurrent</span><span class="p">(</span><span class="n">priority</span><span class="o">=</span><span class="ss">:high</span><span class="p">)</span>
+
+  <span class="c1"># Send a block to be executed asynchronously on the High Priority</span>
+  <span class="c1"># Queue</span>
+  <span class="c1">#</span>
+  <span class="c1"># The code inside the block will be run in another thread</span>
+  <span class="n">high_priority_queue</span><span class="o">.</span><span class="n">async</span> <span class="p">{</span>
+
+    <span class="c1"># Generate the Filtered Image</span>
+    <span class="n">filtered_image</span> <span class="o">=</span> <span class="vi">@photo_filter_controller</span><span class="o">.</span><span class="n">image_for_filter</span><span class="p">(</span><span class="ss">:sepia_tone</span><span class="p">,</span> <span class="vi">@selected_image</span><span class="p">,</span> <span class="mi">0</span><span class="o">.</span><span class="mi">5</span><span class="p">)</span>
+
+    <span class="c1"># We need to excecute the Photo Image View change on the</span>
+    <span class="c1"># main thread, because we are modifying the User Interface</span>
+    <span class="c1">#</span>
+    <span class="c1"># For this we can also use GCD getting the Main Thread queue,</span>
+    <span class="c1"># remember we are running on another thread</span>
+    <span class="n">main_queue</span> <span class="o">=</span> <span class="no">Dispatch</span><span class="o">::</span><span class="no">Queue</span><span class="o">.</span><span class="n">main</span>
+
+    <span class="c1"># Now we can excecute any code on the Main Thread using the Main</span>
+    <span class="c1"># Queue</span>
+    <span class="n">main_queue</span><span class="o">.</span><span class="n">async</span> <span class="p">{</span>
+
+      <span class="c1"># Set the Filtered Image to our Photo Image View</span>
+      <span class="vi">@photo_image_view</span><span class="o">.</span><span class="n">image</span> <span class="o">=</span> <span class="n">filtered_image</span>
+
+      <span class="c1"># Stop the activity animator</span>
+      <span class="vi">@activity_indicator</span><span class="o">.</span><span class="n">stopAnimating</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="k">end</span>
+
+<span class="c1"># Color Monochrome Filter Button Callback</span>
+<span class="k">def</span> <span class="nf">add_color_monochrome_filter</span>
+
+  <span class="c1"># Start the activity animator</span>
+  <span class="vi">@activity_indicator</span><span class="o">.</span><span class="n">startAnimating</span>
+
+  <span class="c1"># Get a GCD Queue in this case a High one, but the options are</span>
+  <span class="c1"># :high, :low, :default, :default</span>
+  <span class="n">high_priority_queue</span> <span class="o">=</span> <span class="no">Dispatch</span><span class="o">::</span><span class="no">Queue</span><span class="o">.</span><span class="n">concurrent</span><span class="p">(</span><span class="n">priority</span><span class="o">=</span><span class="ss">:high</span><span class="p">)</span>
+
+  <span class="c1"># Send a block to be executed asynchronously on the High Priority</span>
+  <span class="c1"># Queue</span>
+  <span class="c1">#</span>
+  <span class="c1"># The code inside the block will be run in another thread</span>
+  <span class="n">high_priority_queue</span><span class="o">.</span><span class="n">async</span> <span class="p">{</span>
+
+    <span class="c1"># Generate the Filtered Image</span>
+    <span class="n">filtered_image</span> <span class="o">=</span> <span class="vi">@photo_filter_controller</span><span class="o">.</span><span class="n">image_for_filter</span><span class="p">(</span><span class="ss">:color_monochrome</span><span class="p">,</span> <span class="vi">@selected_image</span><span class="p">,</span> <span class="mi">0</span><span class="o">.</span><span class="mi">5</span><span class="p">)</span>
+
+    <span class="c1"># We need to excecute the Photo Image View change on the</span>
+    <span class="c1"># main thread, because we are modifying the User Interface</span>
+    <span class="c1">#</span>
+    <span class="c1"># For this we can also use GCD getting the Main Thread queue,</span>
+    <span class="c1"># remember we are running on another thread</span>
+    <span class="n">main_queue</span> <span class="o">=</span> <span class="no">Dispatch</span><span class="o">::</span><span class="no">Queue</span><span class="o">.</span><span class="n">main</span>
+
+    <span class="c1"># Now we can excecute any code on the Main Thread using the Main</span>
+    <span class="c1"># Queue</span>
+    <span class="n">main_queue</span><span class="o">.</span><span class="n">async</span> <span class="p">{</span>
+
+      <span class="c1"># Set the Filtered Image to our Photo Image View</span>
+      <span class="vi">@photo_image_view</span><span class="o">.</span><span class="n">image</span> <span class="o">=</span> <span class="n">filtered_image</span>
+
+      <span class="c1"># Stop the activity animator</span>
+      <span class="vi">@activity_indicator</span><span class="o">.</span><span class="n">stopAnimating</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="k">end</span>
+
+<span class="c1"># Gaussian Blur Filter Button Callback</span>
+<span class="k">def</span> <span class="nf">add_gaussian_blur_filter</span>
+
+  <span class="c1"># Start the activity animator</span>
+  <span class="vi">@activity_indicator</span><span class="o">.</span><span class="n">startAnimating</span>
+
+  <span class="c1"># Get a GCD Queue in this case a High one, but the options are</span>
+  <span class="c1"># :high, :low, :default, :default</span>
+  <span class="n">high_priority_queue</span> <span class="o">=</span> <span class="no">Dispatch</span><span class="o">::</span><span class="no">Queue</span><span class="o">.</span><span class="n">concurrent</span><span class="p">(</span><span class="n">priority</span><span class="o">=</span><span class="ss">:high</span><span class="p">)</span>
+
+  <span class="c1"># Send a block to be executed asynchronously on the High Priority</span>
+  <span class="c1"># Queue</span>
+  <span class="c1">#</span>
+  <span class="c1"># The code inside the block will be run in another thread</span>
+  <span class="n">high_priority_queue</span><span class="o">.</span><span class="n">async</span> <span class="p">{</span>
+
+    <span class="c1"># Generate the Filtered Image</span>
+    <span class="n">filtered_image</span> <span class="o">=</span> <span class="vi">@photo_filter_controller</span><span class="o">.</span><span class="n">image_for_filter</span><span class="p">(</span><span class="ss">:gaussian_blur</span><span class="p">,</span> <span class="vi">@selected_image</span><span class="p">,</span> <span class="mi">3</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="c1"># We need to excecute the Photo Image View change on the</span>
+    <span class="c1"># main thread, because we are modifying the User Interface</span>
+    <span class="c1">#</span>
+    <span class="c1"># For this we can also use GCD getting the Main Thread queue,</span>
+    <span class="c1"># remember we are running on another thread</span>
+    <span class="n">main_queue</span> <span class="o">=</span> <span class="no">Dispatch</span><span class="o">::</span><span class="no">Queue</span><span class="o">.</span><span class="n">main</span>
+
+    <span class="c1"># Now we can excecute any code on the Main Thread using the Main</span>
+    <span class="c1"># Queue</span>
+    <span class="n">main_queue</span><span class="o">.</span><span class="n">async</span> <span class="p">{</span>
+
+      <span class="c1"># Set the Filtered Image to our Photo Image View</span>
+      <span class="vi">@photo_image_view</span><span class="o">.</span><span class="n">image</span> <span class="o">=</span> <span class="n">filtered_image</span>
+
+      <span class="c1"># Stop the activity animator</span>
+      <span class="vi">@activity_indicator</span><span class="o">.</span><span class="n">stopAnimating</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p><strong>IMAGE</strong></p></div>
+<div class="paragraph"><p>Now all of them are working using GCD! But something is missing… how about control the intensity of the filters?, thats the next part of our exercise</p></div>
+<div class="admonitionblock">
+<table><tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">We already remove the thread sleep ;)</td>
+</tr></table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_add_filters_to_your_taste">Add Filters to Your Taste</h3>
+<div class="paragraph"><p>Before we can change the intensity of the filters some changes are needed in the <strong>photo_filter_controller.rb</strong>, lets open it and change the following:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="nv">$ </span>open photo_filter_controller.rb
+</pre></div></div></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="c1"># Method for increasing the intensity of</span>
+<span class="c1"># the current filter</span>
+<span class="k">def</span> <span class="nf">filtered_image_with_increased_intensity</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+
+  <span class="vi">@current_intensity</span> <span class="o">||=</span> <span class="mi">0</span>
+
+  <span class="n">image_for_filter</span><span class="p">(</span><span class="vi">@current_filter</span><span class="p">,</span>
+                   <span class="n">image</span><span class="p">,</span>
+                   <span class="vi">@current_intensity</span> <span class="o">+</span> <span class="mi">0</span><span class="o">.</span><span class="mi">5</span><span class="p">)</span>
+<span class="k">end</span>
+
+
+<span class="c1"># Method for reducing the intensity of</span>
+<span class="c1"># the current filter</span>
+<span class="k">def</span> <span class="nf">filtered_image_with_decreased_intensity</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+
+  <span class="vi">@current_intensity</span> <span class="o">||=</span> <span class="mi">0</span>
+
+  <span class="n">image_for_filter</span><span class="p">(</span><span class="vi">@current_filter</span><span class="p">,</span>
+                   <span class="n">image</span><span class="p">,</span>
+                   <span class="vi">@current_intensity</span> <span class="o">-</span> <span class="mi">0</span><span class="o">.</span><span class="mi">5</span><span class="p">)</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>We are now ready to increase and decrease the intensity of the filter, but how we allow the user to do that? I have an idea… when the user drag his finger up or down we change the intensity accordingly!</p></div>
+<div class="paragraph"><p>Lets open our <strong>photo_view_controller.rb</strong> and add a gesture recognizer for us to detect the User drag:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="nv">$ </span>open photo_view_controller.rb
+</pre></div></div></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">loadView</span>
+
+  <span class="c1"># Create a new view for our controller and add a nice</span>
+  <span class="c1"># background color</span>
+  <span class="nb">self</span><span class="o">.</span><span class="n">view</span> <span class="o">=</span> <span class="no">UIView</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">init</span>
+  <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">colorWithRed</span><span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">157</span><span class="p">,</span> <span class="n">green</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mi">165</span><span class="p">,</span> <span class="n">blue</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mi">180</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span>
+
+  <span class="c1"># Create a new UIPanGestureRecognizer to detect the</span>
+  <span class="c1"># user drag on the view</span>
+  <span class="n">pan_gesture_recognizer</span> <span class="o">=</span> <span class="no">UIPanGestureRecognizer</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithTarget</span><span class="p">(</span><span class="nb">self</span><span class="p">,</span>
+                                                                       <span class="n">action</span><span class="ss">:&#39;pan_gesture_was_recognizer:&#39;</span><span class="p">)</span>
+
+  <span class="c1"># Add the Pan Gesture Recognizer to the controller</span>
+  <span class="c1"># view</span>
+  <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">addGestureRecognizer</span><span class="p">(</span><span class="n">pan_gesture_recognizer</span><span class="p">)</span>
+
+  <span class="c1"># Layout four buttons for the user to select</span>
+  <span class="c1"># the Photo Filters</span>
+  <span class="n">layout_filter_buttons</span>
+
+  <span class="c1"># Layout an image view for us to draw the user</span>
+  <span class="c1"># selected image</span>
+  <span class="n">layout_photo_image_view</span>
+
+  <span class="c1"># Layout an activity indicator that will tell the</span>
+  <span class="c1"># user that we are working on something</span>
+  <span class="n">layout_activity_indicator</span>
+
+  <span class="c1"># Layout the image picker for the user to take</span>
+  <span class="c1"># or select a photo</span>
+  <span class="n">layout_image_picker_controller</span>
+<span class="k">end</span>
+
+<span class="c1"># Pan Gesture Recognizer Callback</span>
+<span class="k">def</span> <span class="nf">pan_gesture_was_recognizer</span><span class="p">(</span><span class="n">pan_gesture_recognizer</span><span class="p">)</span>
+
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>Yeah, now we have a gesture recognizer implemented. Lets add the logic to increase or decrease the intensity of the Image Filter:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="c1"># Pan Gesture Recognizer Callback</span>
+<span class="k">def</span> <span class="nf">pan_gesture_was_recognizer</span><span class="p">(</span><span class="n">pan_gesture_recognizer</span><span class="p">)</span>
+
+  <span class="c1"># Start the activity animator</span>
+  <span class="vi">@activity_indicator</span><span class="o">.</span><span class="n">startAnimating</span>
+
+  <span class="c1"># We need the velocity of the gesture to determinate</span>
+  <span class="c1"># de direction of the touch drag</span>
+  <span class="n">gesture_velocity</span> <span class="o">=</span> <span class="n">pan_gesture_recognizer</span><span class="o">.</span><span class="n">velocityInView</span><span class="p">(</span><span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="p">)</span>
+
+  <span class="c1"># If the velocity is less than zero means that the</span>
+  <span class="c1"># user is dragging up</span>
+  <span class="k">if</span><span class="p">(</span><span class="n">gesture_velocity</span><span class="o">.</span><span class="n">y</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span>
+
+    <span class="c1"># Generate the Filtered Image</span>
+    <span class="n">filtered_image</span> <span class="o">=</span> <span class="vi">@photo_filter_controller</span><span class="o">.</span><span class="n">filtered_image_with_increased_intensity</span><span class="p">(</span><span class="vi">@selected_image</span><span class="p">)</span>
+
+    <span class="c1"># Set the Filtered Image to our Photo Image View</span>
+    <span class="vi">@photo_image_view</span><span class="o">.</span><span class="n">image</span> <span class="o">=</span> <span class="n">filtered_image</span>
+
+  <span class="c1"># And if the velocity is more than zero, the user</span>
+  <span class="c1"># is dragging down</span>
+  <span class="k">else</span>
+
+    <span class="c1"># Generate the Filtered Image</span>
+    <span class="n">filtered_image</span> <span class="o">=</span> <span class="vi">@photo_filter_controller</span><span class="o">.</span><span class="n">filtered_image_with_decreased_intensity</span><span class="p">(</span><span class="vi">@selected_image</span><span class="p">)</span>
+
+    <span class="c1"># Set the Filtered Image to our Photo Image View</span>
+    <span class="vi">@photo_image_view</span><span class="o">.</span><span class="n">image</span> <span class="o">=</span> <span class="n">filtered_image</span>
+
+  <span class="k">end</span>
+
+  <span class="c1"># Stop the activity animator</span>
+  <span class="vi">@activity_indicator</span><span class="o">.</span><span class="n">stopAnimating</span>
+
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p><strong>IMAGE</strong></p></div>
+<div class="paragraph"><p>Great! If you run the app and you drag your fingers up and down on the screen the intensity of the filter will increase or decrease accordingly. But the same as before we are hanging the main thread and the activity indicator view is not appearing on the screen.</p></div>
+</div>
+<div class="sect2">
+<h3 id="_nsoperation">NSOperation</h3>
+<div class="paragraph"><p>Its time to use another technology for concurrent operations, in this case <strong>NSOperation</strong>. As the same as GCD the NSOperations use queues to execute the code in other threads, but the main difference is that you can create custom NSOperation classes to have more control or simply use one of the predeterminate classes as <strong>NSInvocationOperation</strong>.</p></div>
+<div class="paragraph"><p>Lets implement it for our intensity filter change, lets continue changing our <strong>photo_view_controller.rb</strong>:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">loadView</span>
+
+  <span class="c1"># Create a new view for our controller and add a nice</span>
+  <span class="c1"># background color</span>
+  <span class="nb">self</span><span class="o">.</span><span class="n">view</span> <span class="o">=</span> <span class="no">UIView</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">init</span>
+  <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">colorWithRed</span><span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">157</span><span class="p">,</span> <span class="n">green</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mi">165</span><span class="p">,</span> <span class="n">blue</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mi">180</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span>
+
+  <span class="c1"># Create a new UIPanGestureRecognizer to detect the</span>
+  <span class="c1"># user drag on the view</span>
+  <span class="n">pan_gesture_recognizer</span> <span class="o">=</span> <span class="no">UIPanGestureRecognizer</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithTarget</span><span class="p">(</span><span class="nb">self</span><span class="p">,</span>
+                                                                       <span class="n">action</span><span class="ss">:&#39;pan_gesture_was_recognizer:&#39;</span><span class="p">)</span>
+
+  <span class="c1"># Add the Pan Gesture Recognizer to the controller</span>
+  <span class="c1"># view</span>
+  <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">addGestureRecognizer</span><span class="p">(</span><span class="n">pan_gesture_recognizer</span><span class="p">)</span>
+
+
+  <span class="c1"># Create a new instance of the Photo Filter Controller</span>
+  <span class="vi">@photo_filter_controller</span> <span class="o">=</span> <span class="no">PhotoFilterController</span><span class="o">.</span><span class="n">new</span>
+
+  <span class="c1"># Create a new NSOperationQueue for excecuting the</span>
+  <span class="c1"># filter intensity changes</span>
+  <span class="vi">@filter_intensity_queue</span> <span class="o">=</span> <span class="no">NSOperationQueue</span><span class="o">.</span><span class="n">new</span>
+
+
+  <span class="c1"># Layout four buttons for the user to select</span>
+  <span class="c1"># the Photo Filters</span>
+  <span class="n">layout_filter_buttons</span>
+
+  <span class="c1"># Layout an image view for us to draw the user</span>
+  <span class="c1"># selected image</span>
+  <span class="n">layout_photo_image_view</span>
+
+  <span class="c1"># Layout an activity indicator that will tell the</span>
+  <span class="c1"># user that we are working on something</span>
+  <span class="n">layout_activity_indicator</span>
+
+  <span class="c1"># Layout the image picker for the user to take</span>
+  <span class="c1"># or select a photo</span>
+  <span class="n">layout_image_picker_controller</span>
+<span class="k">end</span>
+
+
+<span class="c1"># Pan Gesture Recognizer Callback</span>
+<span class="k">def</span> <span class="nf">pan_gesture_was_recognizer</span><span class="p">(</span><span class="n">pan_gesture_recognizer</span><span class="p">)</span>
+
+  <span class="c1"># We need the velocity of the gesture to determinate</span>
+  <span class="c1"># de direction of the touch drag</span>
+  <span class="n">gesture_velocity</span> <span class="o">=</span> <span class="n">pan_gesture_recognizer</span><span class="o">.</span><span class="n">velocityInView</span><span class="p">(</span><span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="p">)</span>
+
+  <span class="c1"># If the velocity is less than cero means that the</span>
+  <span class="c1"># user is dragging up</span>
+  <span class="k">if</span><span class="p">(</span><span class="n">gesture_velocity</span><span class="o">.</span><span class="n">y</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span>
+
+    <span class="c1"># Create a NSInvocationOperation that will allow us to run some method</span>
+    <span class="c1"># on another thread</span>
+    <span class="n">increase_image_filter_operation</span> <span class="o">=</span> <span class="no">NSInvocationOperation</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithTarget</span><span class="p">(</span><span class="nb">self</span><span class="p">,</span>
+                                                                                 <span class="n">selector</span><span class="ss">:&#39;increase_image_filter&#39;</span><span class="p">,</span>
+                                                                                 <span class="n">object</span><span class="ss">:nil</span><span class="p">)</span>
+
+    <span class="c1"># Add the Invocation Operation to the NSOperationQueue</span>
+    <span class="vi">@filter_intensity_queue</span><span class="o">.</span><span class="n">addOperation</span><span class="p">(</span><span class="n">increase_image_filter_operation</span><span class="p">)</span>
+
+  <span class="c1"># And if the velocity is more than cero, the user</span>
+  <span class="c1"># is dragging down</span>
+  <span class="k">else</span>
+
+    <span class="c1"># Create a NSInvocationOperation that will allow us to run some method</span>
+    <span class="c1"># on another thread</span>
+    <span class="n">increase_image_filter_operation</span> <span class="o">=</span> <span class="no">NSInvocationOperation</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithTarget</span><span class="p">(</span><span class="nb">self</span><span class="p">,</span>
+                                                                                 <span class="n">selector</span><span class="ss">:&#39;decrease_image_filter&#39;</span><span class="p">,</span>
+                                                                                 <span class="n">object</span><span class="ss">:nil</span><span class="p">)</span>
+
+    <span class="c1"># Add the Invocation Operation to the NSOperationQueue</span>
+    <span class="vi">@filter_intensity_queue</span><span class="o">.</span><span class="n">addOperation</span><span class="p">(</span><span class="n">increase_image_filter_operation</span><span class="p">)</span>
+
+  <span class="k">end</span>
+
+<span class="k">end</span>
+
+
+<span class="k">def</span> <span class="nf">increase_image_filter</span>
+
+  <span class="c1"># Execute the activity animator start on the Main Thread</span>
+  <span class="vi">@activity_indicator</span><span class="o">.</span><span class="n">performSelectorOnMainThread</span><span class="p">(</span><span class="s1">&#39;startAnimating&#39;</span><span class="p">,</span> <span class="n">withObject</span><span class="ss">:nil</span><span class="p">,</span> <span class="n">waitUntilDone</span><span class="ss">:false</span><span class="p">)</span>
+
+  <span class="c1"># Generate the Filtered Image</span>
+  <span class="n">filtered_image</span> <span class="o">=</span> <span class="vi">@photo_filter_controller</span><span class="o">.</span><span class="n">filtered_image_with_increased_intensity</span><span class="p">(</span><span class="vi">@selected_image</span><span class="p">)</span>
+
+  <span class="c1"># Execute the change of the image in the Photo Image View on the Main Thread</span>
+  <span class="vi">@photo_image_view</span><span class="o">.</span><span class="n">performSelectorOnMainThread</span><span class="p">(</span><span class="s1">&#39;setImage:&#39;</span><span class="p">,</span> <span class="n">withObject</span><span class="ss">:filtered_image</span><span class="p">,</span> <span class="n">waitUntilDone</span><span class="ss">:false</span><span class="p">)</span>
+
+  <span class="c1"># Execute the activity animator stop on the Main Thread</span>
+  <span class="vi">@activity_indicator</span><span class="o">.</span><span class="n">performSelectorOnMainThread</span><span class="p">(</span><span class="s1">&#39;stopAnimating&#39;</span><span class="p">,</span> <span class="n">withObject</span><span class="ss">:nil</span><span class="p">,</span> <span class="n">waitUntilDone</span><span class="ss">:false</span><span class="p">)</span>
+<span class="k">end</span>
+
+
+<span class="k">def</span> <span class="nf">decrease_image_filter</span>
+
+  <span class="c1"># Execute the activity animator start on the Main Thread</span>
+  <span class="vi">@activity_indicator</span><span class="o">.</span><span class="n">performSelectorOnMainThread</span><span class="p">(</span><span class="s1">&#39;startAnimating&#39;</span><span class="p">,</span> <span class="n">withObject</span><span class="ss">:nil</span><span class="p">,</span> <span class="n">waitUntilDone</span><span class="ss">:false</span><span class="p">)</span>
+
+  <span class="c1"># Generate the Filtered Image</span>
+  <span class="n">filtered_image</span> <span class="o">=</span> <span class="vi">@photo_filter_controller</span><span class="o">.</span><span class="n">filtered_image_with_decreased_intensity</span><span class="p">(</span><span class="vi">@selected_image</span><span class="p">)</span>
+
+  <span class="c1"># Execute the change of the image in the Photo Image View on the Main Thread</span>
+  <span class="vi">@photo_image_view</span><span class="o">.</span><span class="n">performSelectorOnMainThread</span><span class="p">(</span><span class="s1">&#39;setImage:&#39;</span><span class="p">,</span> <span class="n">withObject</span><span class="ss">:filtered_image</span><span class="p">,</span> <span class="n">waitUntilDone</span><span class="ss">:false</span><span class="p">)</span>
+
+  <span class="c1"># Execute the activity animator stop on the Main Thread</span>
+  <span class="vi">@activity_indicator</span><span class="o">.</span><span class="n">performSelectorOnMainThread</span><span class="p">(</span><span class="s1">&#39;stopAnimating&#39;</span><span class="p">,</span> <span class="n">withObject</span><span class="ss">:nil</span><span class="p">,</span> <span class="n">waitUntilDone</span><span class="ss">:false</span><span class="p">)</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p><strong>IMAGE</strong></p></div>
+<div class="paragraph"><p>Awesome! Now we add concurrent operations using NSOperation and also fix the activity indicator view.</p></div>
+<div class="paragraph"><p>Our Image Filtering application is now complete!</p></div>
+</div>
+<div class="sect2">
+<h3 id="_challenges">Challenges</h3>
+<div class="olist arabic"><ol class="arabic">
+<li>
+<p>
+Clear and Stop the NSOperation queue when you change between filters, so it will not apply the queued increased or decreased operations to the new filter
+</p>
+</li>
+<li>
+<p>
+Add some buttons to our Application for increasing and decreasing the Intensity of the Image Filter, please use <strong>Gran Central Dispatch</strong> for the concurrent operations
+</p>
+</li>
+</ol></div>
+</div>
+</div>
+</div>
+</div>
+<div id="footnotes"><hr /></div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2012-12-05 19:35:18 CST
+</div>
+</div>
+</body>
+</html>
