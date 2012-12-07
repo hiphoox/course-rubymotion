@@ -46,7 +46,7 @@ $ open photo_view_controller.rb
 
 We need to add the ability to this controller to take photos from the camera or choose one from the photo library, please insert the following lines to it:
 
-["source","ruby", args="-O \"hl_lines=3 4 5 6 7 8 9 10 11 12 13\""] 
+["source","ruby"] 
 --------------
 class PhotoViewController < UIViewController
 
@@ -55,7 +55,11 @@ class PhotoViewController < UIViewController
     # Create a new view for our controller and add a nice
     # background color
     self.view = UIView.alloc.init
-    self.view.backgroundColor = UIColor.colorWithRed(0.157, green:0.165, blue:0.180, alpha:1.0)
+
+    # Add a Background Image for the app using a UIImageView
+    background_view = UIImageView.alloc.initWithFrame(UIScreen.mainScreen.bounds)
+    background_view.image = UIImage.imageNamed("bgBackground.png")
+    self.view.addSubview(background_view)
 
     # Layout the image picker for the user to take
     # or select a photo
@@ -111,14 +115,16 @@ end
 
 You should see this when running the app from the simulator:
 
-**IMAGE**
+.Image Picker
+image::Resources/ch26-Concurrency/ch26_ImagePicker.png[Image Picker]
 
 IMPORTANT: If you don't have any images available in the Photo Library, you can always navigate to a Photo Website (Like flickr.com) using the Safari on the Simulator and save any of them long clicking it :)
 
 
 And after we select the photo, you should see the following:
 
-**IMAGE**
+.Initial Application
+image::Resources/ch26-Concurrency/ch26_InitialAnimation.png[Initial Application]
 
 The next step will be adding the user selected image to the controller's view, please add the following lines to the **photo_view_controller.rb** file:
 
@@ -145,45 +151,21 @@ end
 
 def layout_photo_image_view
 
-  # Create a new instance of a UIViewController named
-  # photo_image_view
-  @photo_image_view = UIImageView.alloc.initWithFrame(CGRectMake(20, 20, 280, 350))
+  # Instance a new UIImageView to create a frame for the 
+  # photo image view
+  photo_image_view_frame = UIImageView.alloc.initWithFrame(CGRectMake(12.5, 20, 295, 355))
+  photo_image_view_frame.image = UIImage.imageNamed("bgPhotoFrame.png")
+  
+  self.view.addSubview(photo_image_view_frame)
+
+  # Create a new instance of a UIViewController named 
+  # photo_image_view and for avoiding that the image will look
+  # streched set its content mode to UIViewContentModeScaleAspectFill
+  @photo_image_view = UIImageView.alloc.initWithFrame(CGRectMake(30, 41, 260, 316))
   @photo_image_view.backgroundColor = UIColor.clearColor
+  @photo_image_view.contentMode = UIViewContentModeScaleAspectFill;
+  @photo_image_view.clipsToBounds = true;
 
-  # Get the size of the photo_image_view 
-  photo_view_size = @photo_image_view.bounds.size
-
-  # Lets create a nice path for our photo image view shadow
-  photo_frame_path = UIBezierPath.bezierPath
-  photo_frame_path.moveToPoint(CGPointMake(0, 0))
-  photo_frame_path.addLineToPoint(CGPointMake(photo_view_size.width, 0))
-  photo_frame_path.addLineToPoint(CGPointMake(photo_view_size.width, 
-                                              photo_view_size.height + 5.0))
-  photo_frame_path.addCurveToPoint(CGPointMake(0, photo_view_size.height + 5.0), 
-                                   controlPoint1:CGPointMake(photo_view_size.width - 15.0, photo_view_size.height + 5.0 - 15.0), 
-                                   controlPoint2:CGPointMake(15.0, photo_view_size.height + 5.0 - 15.0))
-
-  # Apply the shadow path to our photo image view
-  @photo_image_view.layer.shadowPath = photo_frame_path.CGPath
-
-  # Set the image view shadow properties like color, opacity
-  # offset and radius
-  @photo_image_view.layer.shadowColor = UIColor.colorWithRed(0.099, 
-                                                       green:0.099, 
-                                                       blue:0.099, 
-                                                       alpha:1.000).CGColor
-  @photo_image_view.layer.shadowOpacity = 0.7
-  @photo_image_view.layer.shadowOffset = CGSizeMake(10.0, 10.0)
-  @photo_image_view.layer.shadowRadius = 5.0
-
-  # For the shadow to work we need to tell the CALayer don't
-  # mask to bounds
-  @photo_image_view.layer.masksToBounds = false
-
-  # Also we want to have a photo frame for our image this is
-  # done using the border color and width
-  @photo_image_view.layer.borderColor = UIColor.whiteColor.CGColor
-  @photo_image_view.layer.borderWidth = 5.0
 
   # Add the photo image view to the controller view
   self.view.addSubview(@photo_image_view)
@@ -205,43 +187,20 @@ def imagePickerController(picker, didFinishPickingMediaWithInfo: info)
 end
 --------------
 
-**Image**
-
+.Photo View
+image::Resources/ch26-Concurrency/ch26_PhotoView.png[Photo View]
 
 The last part of our initial project is to add some buttons for the user to select the photo filters, please add the following to our **PhotoViewController**:
 
 [source, ruby]
 --------------
-def loadView
-
-  # Create a new view for our controller and add a nice
-  # background color
-  self.view = UIView.alloc.init
-  self.view.backgroundColor = UIColor.colorWithRed(0.157, green:0.165, blue:0.180, alpha:1.0)
-
-
-  # Layout four buttons for the user to select
-  # the Photo Filters
-  layout_filter_buttons
-
-
-  # Layout an image view for us to draw the user
-  # selected image
-  layout_photo_image_view
-
-
-  # Layout the image picker for the user to take
-  # or select a photo
-  layout_image_picker_controller
-end
-
-
 def layout_filter_buttons
 
   # First button for the Pixellate Filter
   pixellate_button = UIButton.buttonWithType(UIButtonTypeRoundedRect)
-  pixellate_button.frame = CGRectMake(10, 400, 70, 50)
-  pixellate_button.setTitle('Pixellate', forState:UIControlStateNormal)
+  pixellate_button.frame = CGRectMake(10, 385, 75, 65)
+  pixellate_button.setBackgroundImage(UIImage.imageNamed('bgPixellateDisabled.png'), forState:UIControlStateNormal)
+  pixellate_button.setBackgroundImage(UIImage.imageNamed('bgPixellateEnabled.png'), forState:UIControlStateHighlighted)
 
   pixellate_button.addTarget(self, 
                              action:'add_pixellate_filter', 
@@ -252,8 +211,9 @@ def layout_filter_buttons
 
   # Second button for the Sepia Filter
   sepia_tone_button = UIButton.buttonWithType(UIButtonTypeRoundedRect)
-  sepia_tone_button.frame = CGRectMake(85, 400, 70, 50)
-  sepia_tone_button.setTitle('Sepia', forState:UIControlStateNormal)
+  sepia_tone_button.frame = CGRectMake(85, 385, 75, 65)
+  sepia_tone_button.setBackgroundImage(UIImage.imageNamed('bgSepiaDisabled.png'), forState:UIControlStateNormal)
+  sepia_tone_button.setBackgroundImage(UIImage.imageNamed('bgSepiaEnabled.png'), forState:UIControlStateHighlighted)
 
   sepia_tone_button.addTarget(self, 
                               action:'add_sepia_tone_filter', 
@@ -264,8 +224,9 @@ def layout_filter_buttons
 
   # Third button for Color Monochrome Filter
   color_monochrome_button = UIButton.buttonWithType(UIButtonTypeRoundedRect)
-  color_monochrome_button.frame = CGRectMake(160, 400, 70, 50)
-  color_monochrome_button.setTitle('Monochrome', forState:UIControlStateNormal)
+  color_monochrome_button.frame = CGRectMake(160, 385, 75, 65)
+  color_monochrome_button.setBackgroundImage(UIImage.imageNamed('bgMonocolorDisabled.png'), forState:UIControlStateNormal)
+  color_monochrome_button.setBackgroundImage(UIImage.imageNamed('bgMonocolorEnabled.png'), forState:UIControlStateHighlighted)
 
   color_monochrome_button.addTarget(self, 
                                     action:'add_color_monochrome_filter', 
@@ -276,8 +237,9 @@ def layout_filter_buttons
 
   # Fourth button for Gaussian Blur Filter
   gaussian_blur_button = UIButton.buttonWithType(UIButtonTypeRoundedRect)
-  gaussian_blur_button.frame = CGRectMake(235, 400, 70, 50)
-  gaussian_blur_button.setTitle('Blur', forState:UIControlStateNormal)
+  gaussian_blur_button.frame = CGRectMake(235, 385, 75, 65)
+  gaussian_blur_button.setBackgroundImage(UIImage.imageNamed('bgBlurDisabled.png'), forState:UIControlStateNormal)
+  gaussian_blur_button.setBackgroundImage(UIImage.imageNamed('bgBlurEnabled.png'), forState:UIControlStateHighlighted)
 
   gaussian_blur_button.addTarget(self, 
                                  action:'add_gaussian_blur_filter', 
@@ -286,6 +248,9 @@ def layout_filter_buttons
   self.view.addSubview(gaussian_blur_button)
 end
 --------------
+
+.Filter Buttons
+image::Resources/ch26-Concurrency/ch26_FilterButtons.png[Filter Buttons]
 
 
 Filters, Filters, Filters
@@ -559,7 +524,8 @@ end
 
 Right! If we run the app we should see the following:
 
-**IMAGE**
+.First Filter
+image::Resources/ch26-Concurrency/ch26_FirstFilter.png[First Filter]
 
 The filters are working but it takes some time to change filters right? It will be better if we show the user a **UIActivityView** indicating that we are working on the new filter, to add it please insert the following into the **photo_view_controller.rb** class:
 
@@ -672,7 +638,8 @@ def add_gaussian_blur_filter
 end
 --------------
 
-**Image** 
+.Filter with Activity Indicator
+image::Resources/ch26-Concurrency/ch26_FilteringActivityIndicator.png[Filter with Activity Indicator]
 
 If we run this on the device it will be more easy to distinguish  that the activity indicator is also getting freeze at the time we select a new filter to apply. We are hanging the main thread right now and the app feels a little unresponsive!
 
@@ -736,8 +703,6 @@ def add_pixellate_filter
   }
 end
 -------------- 
-
-**Image**
 
 If we select Pixellate Filter now the Activity Indicator is showing properly to the user and the Filtering operation is running on another Thread using GDC. That was easy right? We implement concurrent code on our application that simple and almost for free!
 
@@ -881,14 +846,14 @@ def add_gaussian_blur_filter
     # Generate the Filtered Image
     filtered_image = @photo_filter_controller.image_for_filter(:gaussian_blur, @selected_image, 3.0)
 
-    # We need to excecute the Photo Image View change on the 
+    # We need to execute the Photo Image View change on the 
     # main thread, because we are modifying the User Interface
     #
     # For this we can also use GCD getting the Main Thread queue,
     # remember we are running on another thread
     main_queue = Dispatch::Queue.main
 
-    # Now we can excecute any code on the Main Thread using the Main
+    # Now we can execute any code on the Main Thread using the Main
     # Queue
     main_queue.async {
 
@@ -902,7 +867,8 @@ def add_gaussian_blur_filter
 end
 --------------
 
-**IMAGE**
+.Filter with Gran Central Dispatch
+image::Resources/ch26-Concurrency/ch26_FilteringGCD.png[Filter with Gran Central Dispatch]
 
 Now all of them are working using GCD! But something is missing… how about control the intensity of the filters?, thats the next part of our exercise 
 
@@ -928,7 +894,7 @@ def filtered_image_with_increased_intensity(image)
 
   image_for_filter(@current_filter,
                    image,
-                   @current_intensity + 0.5)
+                   @current_intensity + 0.3)
 end
 
 
@@ -940,7 +906,7 @@ def filtered_image_with_decreased_intensity(image)
 
   image_for_filter(@current_filter,
                    image,
-                   @current_intensity - 0.5)
+                   @current_intensity - 0.3)
 end
 --------------
 
@@ -1036,7 +1002,8 @@ def pan_gesture_was_recognizer(pan_gesture_recognizer)
 end
 --------------
 
-**IMAGE**
+.Filter Intensity
+image::Resources/ch26-Concurrency/ch26_FilterIntensity.png[Filter Intensity]
 
 Great! If you run the app and you drag your fingers up and down on the screen the intensity of the filter will increase or decrease accordingly. But the same as before we are hanging the main thread and the activity indicator view is not appearing on the screen.
 
@@ -1163,7 +1130,8 @@ def decrease_image_filter
 end
 --------------
 
-**IMAGE**
+.Filter Intensity with NSOperation
+image::Resources/ch26-Concurrency/ch26_FilterIntensityNSOperation.png[Filter Intensity with NSOperation]
 
 Awesome! Now we add concurrent operations using NSOperation and also fix the activity indicator view. 
 

@@ -809,7 +809,7 @@ install: function(toclevels) {
 }
 
 }
-asciidoc.install(2);
+asciidoc.install();
 /*]]>*/
 </script>
 </head>
@@ -819,10 +819,6 @@ asciidoc.install(2);
 <span id="author">Norberto Ortigoza</span><br />
 <span id="revnumber">version 0.1,</span>
 <span id="revdate">Oct 01, 2012</span>
-<div id="toc">
-  <div id="toctitle">Table of Contents</div>
-  <noscript><p><b>JavaScript must be enabled in your browser to display the table of contents.</b></p></noscript>
-</div>
 </div>
 <div id="content">
 <h1 id="_day_1">Day 1</h1>
@@ -10198,18 +10194,22 @@ Some Cocoa Frameworks and 3rd Party are not multi-thread
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="k">class</span> <span class="nc">PhotoViewController</span> <span class="o">&lt;</span> <span class="no">UIViewController</span>
 
-<span class="hll">  <span class="k">def</span> <span class="nf">loadView</span>
-</span><span class="hll">
-</span><span class="hll">    <span class="c1"># Create a new view for our controller and add a nice</span>
-</span><span class="hll">    <span class="c1"># background color</span>
-</span><span class="hll">    <span class="nb">self</span><span class="o">.</span><span class="n">view</span> <span class="o">=</span> <span class="no">UIView</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">init</span>
-</span><span class="hll">    <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">colorWithRed</span><span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">157</span><span class="p">,</span> <span class="n">green</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mi">165</span><span class="p">,</span> <span class="n">blue</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mi">180</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span>
-</span><span class="hll">
-</span><span class="hll">    <span class="c1"># Layout the image picker for the user to take</span>
-</span><span class="hll">    <span class="c1"># or select a photo</span>
-</span><span class="hll">    <span class="n">layout_image_picker_controller</span>
-</span><span class="hll">  <span class="k">end</span>
-</span>
+  <span class="k">def</span> <span class="nf">loadView</span>
+
+    <span class="c1"># Create a new view for our controller and add a nice</span>
+    <span class="c1"># background color</span>
+    <span class="nb">self</span><span class="o">.</span><span class="n">view</span> <span class="o">=</span> <span class="no">UIView</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">init</span>
+
+    <span class="c1"># Add a Background Image for the app using a UIImageView</span>
+    <span class="n">background_view</span> <span class="o">=</span> <span class="no">UIImageView</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithFrame</span><span class="p">(</span><span class="no">UIScreen</span><span class="o">.</span><span class="n">mainScreen</span><span class="o">.</span><span class="n">bounds</span><span class="p">)</span>
+    <span class="n">background_view</span><span class="o">.</span><span class="n">image</span> <span class="o">=</span> <span class="no">UIImage</span><span class="o">.</span><span class="n">imageNamed</span><span class="p">(</span><span class="s2">&quot;bgBackground.png&quot;</span><span class="p">)</span>
+    <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="n">background_view</span><span class="p">)</span>
+
+    <span class="c1"># Layout the image picker for the user to take</span>
+    <span class="c1"># or select a photo</span>
+    <span class="n">layout_image_picker_controller</span>
+  <span class="k">end</span>
+
 
   <span class="k">def</span> <span class="nf">layout_image_picker_controller</span>
 
@@ -10257,7 +10257,12 @@ Some Cocoa Frameworks and 3rd Party are not multi-thread
 <span class="k">end</span>
 </pre></div></div></div>
 <div class="paragraph"><p>You should see this when running the app from the simulator:</p></div>
-<div class="paragraph"><p><strong>IMAGE</strong></p></div>
+<div class="imageblock">
+<div class="content">
+<img src="Resources/ch26-Concurrency/ch26_ImagePicker.png" alt="Image Picker" />
+</div>
+<div class="title">Figure 125. Image Picker</div>
+</div>
 <div class="admonitionblock">
 <table><tr>
 <td class="icon">
@@ -10267,7 +10272,12 @@ Some Cocoa Frameworks and 3rd Party are not multi-thread
 </tr></table>
 </div>
 <div class="paragraph"><p>And after we select the photo, you should see the following:</p></div>
-<div class="paragraph"><p><strong>IMAGE</strong></p></div>
+<div class="imageblock">
+<div class="content">
+<img src="Resources/ch26-Concurrency/ch26_InitialAnimation.png" alt="Initial Application" />
+</div>
+<div class="title">Figure 126. Initial Application</div>
+</div>
 <div class="paragraph"><p>The next step will be adding the user selected image to the controller&#8217;s view, please add the following lines to the <strong>photo_view_controller.rb</strong> file:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">loadView</span>
@@ -10291,45 +10301,21 @@ Some Cocoa Frameworks and 3rd Party are not multi-thread
 
 <span class="k">def</span> <span class="nf">layout_photo_image_view</span>
 
+  <span class="c1"># Instance a new UIImageView to create a frame for the</span>
+  <span class="c1"># photo image view</span>
+  <span class="n">photo_image_view_frame</span> <span class="o">=</span> <span class="no">UIImageView</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithFrame</span><span class="p">(</span><span class="no">CGRectMake</span><span class="p">(</span><span class="mi">12</span><span class="o">.</span><span class="mi">5</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">295</span><span class="p">,</span> <span class="mi">355</span><span class="p">))</span>
+  <span class="n">photo_image_view_frame</span><span class="o">.</span><span class="n">image</span> <span class="o">=</span> <span class="no">UIImage</span><span class="o">.</span><span class="n">imageNamed</span><span class="p">(</span><span class="s2">&quot;bgPhotoFrame.png&quot;</span><span class="p">)</span>
+
+  <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="n">photo_image_view_frame</span><span class="p">)</span>
+
   <span class="c1"># Create a new instance of a UIViewController named</span>
-  <span class="c1"># photo_image_view</span>
-  <span class="vi">@photo_image_view</span> <span class="o">=</span> <span class="no">UIImageView</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithFrame</span><span class="p">(</span><span class="no">CGRectMake</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">280</span><span class="p">,</span> <span class="mi">350</span><span class="p">))</span>
+  <span class="c1"># photo_image_view and for avoiding that the image will look</span>
+  <span class="c1"># streched set its content mode to UIViewContentModeScaleAspectFill</span>
+  <span class="vi">@photo_image_view</span> <span class="o">=</span> <span class="no">UIImageView</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithFrame</span><span class="p">(</span><span class="no">CGRectMake</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="mi">41</span><span class="p">,</span> <span class="mi">260</span><span class="p">,</span> <span class="mi">316</span><span class="p">))</span>
   <span class="vi">@photo_image_view</span><span class="o">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">clearColor</span>
+  <span class="vi">@photo_image_view</span><span class="o">.</span><span class="n">contentMode</span> <span class="o">=</span> <span class="no">UIViewContentModeScaleAspectFill</span><span class="p">;</span>
+  <span class="vi">@photo_image_view</span><span class="o">.</span><span class="n">clipsToBounds</span> <span class="o">=</span> <span class="kp">true</span><span class="p">;</span>
 
-  <span class="c1"># Get the size of the photo_image_view</span>
-  <span class="n">photo_view_size</span> <span class="o">=</span> <span class="vi">@photo_image_view</span><span class="o">.</span><span class="n">bounds</span><span class="o">.</span><span class="n">size</span>
-
-  <span class="c1"># Lets create a nice path for our photo image view shadow</span>
-  <span class="n">photo_frame_path</span> <span class="o">=</span> <span class="no">UIBezierPath</span><span class="o">.</span><span class="n">bezierPath</span>
-  <span class="n">photo_frame_path</span><span class="o">.</span><span class="n">moveToPoint</span><span class="p">(</span><span class="no">CGPointMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
-  <span class="n">photo_frame_path</span><span class="o">.</span><span class="n">addLineToPoint</span><span class="p">(</span><span class="no">CGPointMake</span><span class="p">(</span><span class="n">photo_view_size</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
-  <span class="n">photo_frame_path</span><span class="o">.</span><span class="n">addLineToPoint</span><span class="p">(</span><span class="no">CGPointMake</span><span class="p">(</span><span class="n">photo_view_size</span><span class="o">.</span><span class="n">width</span><span class="p">,</span>
-                                              <span class="n">photo_view_size</span><span class="o">.</span><span class="n">height</span> <span class="o">+</span> <span class="mi">5</span><span class="o">.</span><span class="mi">0</span><span class="p">))</span>
-  <span class="n">photo_frame_path</span><span class="o">.</span><span class="n">addCurveToPoint</span><span class="p">(</span><span class="no">CGPointMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">photo_view_size</span><span class="o">.</span><span class="n">height</span> <span class="o">+</span> <span class="mi">5</span><span class="o">.</span><span class="mi">0</span><span class="p">),</span>
-                                   <span class="n">controlPoint1</span><span class="ss">:CGPointMake</span><span class="p">(</span><span class="n">photo_view_size</span><span class="o">.</span><span class="n">width</span> <span class="o">-</span> <span class="mi">15</span><span class="o">.</span><span class="mi">0</span><span class="p">,</span> <span class="n">photo_view_size</span><span class="o">.</span><span class="n">height</span> <span class="o">+</span> <span class="mi">5</span><span class="o">.</span><span class="mi">0</span> <span class="o">-</span> <span class="mi">15</span><span class="o">.</span><span class="mi">0</span><span class="p">),</span>
-                                   <span class="n">controlPoint2</span><span class="ss">:CGPointMake</span><span class="p">(</span><span class="mi">15</span><span class="o">.</span><span class="mi">0</span><span class="p">,</span> <span class="n">photo_view_size</span><span class="o">.</span><span class="n">height</span> <span class="o">+</span> <span class="mi">5</span><span class="o">.</span><span class="mi">0</span> <span class="o">-</span> <span class="mi">15</span><span class="o">.</span><span class="mi">0</span><span class="p">))</span>
-
-  <span class="c1"># Apply the shadow path to our photo image view</span>
-  <span class="vi">@photo_image_view</span><span class="o">.</span><span class="n">layer</span><span class="o">.</span><span class="n">shadowPath</span> <span class="o">=</span> <span class="n">photo_frame_path</span><span class="o">.</span><span class="n">CGPath</span>
-
-  <span class="c1"># Set the image view shadow properties like color, opacity</span>
-  <span class="c1"># offset and radius</span>
-  <span class="vi">@photo_image_view</span><span class="o">.</span><span class="n">layer</span><span class="o">.</span><span class="n">shadowColor</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">colorWithRed</span><span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">099</span><span class="p">,</span>
-                                                       <span class="n">green</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mi">099</span><span class="p">,</span>
-                                                       <span class="n">blue</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mi">099</span><span class="p">,</span>
-                                                       <span class="n">alpha</span><span class="p">:</span><span class="mi">1</span><span class="o">.</span><span class="mo">000</span><span class="p">)</span><span class="o">.</span><span class="n">CGColor</span>
-  <span class="vi">@photo_image_view</span><span class="o">.</span><span class="n">layer</span><span class="o">.</span><span class="n">shadowOpacity</span> <span class="o">=</span> <span class="mi">0</span><span class="o">.</span><span class="mi">7</span>
-  <span class="vi">@photo_image_view</span><span class="o">.</span><span class="n">layer</span><span class="o">.</span><span class="n">shadowOffset</span> <span class="o">=</span> <span class="no">CGSizeMake</span><span class="p">(</span><span class="mi">10</span><span class="o">.</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span>
-  <span class="vi">@photo_image_view</span><span class="o">.</span><span class="n">layer</span><span class="o">.</span><span class="n">shadowRadius</span> <span class="o">=</span> <span class="mi">5</span><span class="o">.</span><span class="mi">0</span>
-
-  <span class="c1"># For the shadow to work we need to tell the CALayer don&#39;t</span>
-  <span class="c1"># mask to bounds</span>
-  <span class="vi">@photo_image_view</span><span class="o">.</span><span class="n">layer</span><span class="o">.</span><span class="n">masksToBounds</span> <span class="o">=</span> <span class="kp">false</span>
-
-  <span class="c1"># Also we want to have a photo frame for our image this is</span>
-  <span class="c1"># done using the border color and width</span>
-  <span class="vi">@photo_image_view</span><span class="o">.</span><span class="n">layer</span><span class="o">.</span><span class="n">borderColor</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">whiteColor</span><span class="o">.</span><span class="n">CGColor</span>
-  <span class="vi">@photo_image_view</span><span class="o">.</span><span class="n">layer</span><span class="o">.</span><span class="n">borderWidth</span> <span class="o">=</span> <span class="mi">5</span><span class="o">.</span><span class="mi">0</span>
 
   <span class="c1"># Add the photo image view to the controller view</span>
   <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="vi">@photo_image_view</span><span class="p">)</span>
@@ -10350,39 +10336,21 @@ Some Cocoa Frameworks and 3rd Party are not multi-thread
   <span class="vi">@photo_image_view</span><span class="o">.</span><span class="n">image</span> <span class="o">=</span> <span class="vi">@selected_image</span>
 <span class="k">end</span>
 </pre></div></div></div>
-<div class="paragraph"><p><strong>Image</strong></p></div>
+<div class="imageblock">
+<div class="content">
+<img src="Resources/ch26-Concurrency/ch26_PhotoView.png" alt="Photo View" />
+</div>
+<div class="title">Figure 127. Photo View</div>
+</div>
 <div class="paragraph"><p>The last part of our initial project is to add some buttons for the user to select the photo filters, please add the following to our <strong>PhotoViewController</strong>:</p></div>
 <div class="listingblock">
-<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">loadView</span>
-
-  <span class="c1"># Create a new view for our controller and add a nice</span>
-  <span class="c1"># background color</span>
-  <span class="nb">self</span><span class="o">.</span><span class="n">view</span> <span class="o">=</span> <span class="no">UIView</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">init</span>
-  <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">colorWithRed</span><span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">157</span><span class="p">,</span> <span class="n">green</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mi">165</span><span class="p">,</span> <span class="n">blue</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mi">180</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span>
-
-
-  <span class="c1"># Layout four buttons for the user to select</span>
-  <span class="c1"># the Photo Filters</span>
-  <span class="n">layout_filter_buttons</span>
-
-
-  <span class="c1"># Layout an image view for us to draw the user</span>
-  <span class="c1"># selected image</span>
-  <span class="n">layout_photo_image_view</span>
-
-
-  <span class="c1"># Layout the image picker for the user to take</span>
-  <span class="c1"># or select a photo</span>
-  <span class="n">layout_image_picker_controller</span>
-<span class="k">end</span>
-
-
-<span class="k">def</span> <span class="nf">layout_filter_buttons</span>
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">layout_filter_buttons</span>
 
   <span class="c1"># First button for the Pixellate Filter</span>
   <span class="n">pixellate_button</span> <span class="o">=</span> <span class="no">UIButton</span><span class="o">.</span><span class="n">buttonWithType</span><span class="p">(</span><span class="no">UIButtonTypeRoundedRect</span><span class="p">)</span>
-  <span class="n">pixellate_button</span><span class="o">.</span><span class="n">frame</span> <span class="o">=</span> <span class="no">CGRectMake</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">400</span><span class="p">,</span> <span class="mi">70</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
-  <span class="n">pixellate_button</span><span class="o">.</span><span class="n">setTitle</span><span class="p">(</span><span class="s1">&#39;Pixellate&#39;</span><span class="p">,</span> <span class="n">forState</span><span class="ss">:UIControlStateNormal</span><span class="p">)</span>
+  <span class="n">pixellate_button</span><span class="o">.</span><span class="n">frame</span> <span class="o">=</span> <span class="no">CGRectMake</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">385</span><span class="p">,</span> <span class="mi">75</span><span class="p">,</span> <span class="mi">65</span><span class="p">)</span>
+  <span class="n">pixellate_button</span><span class="o">.</span><span class="n">setBackgroundImage</span><span class="p">(</span><span class="no">UIImage</span><span class="o">.</span><span class="n">imageNamed</span><span class="p">(</span><span class="s1">&#39;bgPixellateDisabled.png&#39;</span><span class="p">),</span> <span class="n">forState</span><span class="ss">:UIControlStateNormal</span><span class="p">)</span>
+  <span class="n">pixellate_button</span><span class="o">.</span><span class="n">setBackgroundImage</span><span class="p">(</span><span class="no">UIImage</span><span class="o">.</span><span class="n">imageNamed</span><span class="p">(</span><span class="s1">&#39;bgPixellateEnabled.png&#39;</span><span class="p">),</span> <span class="n">forState</span><span class="ss">:UIControlStateHighlighted</span><span class="p">)</span>
 
   <span class="n">pixellate_button</span><span class="o">.</span><span class="n">addTarget</span><span class="p">(</span><span class="nb">self</span><span class="p">,</span>
                              <span class="n">action</span><span class="ss">:&#39;add_pixellate_filter&#39;</span><span class="p">,</span>
@@ -10393,8 +10361,9 @@ Some Cocoa Frameworks and 3rd Party are not multi-thread
 
   <span class="c1"># Second button for the Sepia Filter</span>
   <span class="n">sepia_tone_button</span> <span class="o">=</span> <span class="no">UIButton</span><span class="o">.</span><span class="n">buttonWithType</span><span class="p">(</span><span class="no">UIButtonTypeRoundedRect</span><span class="p">)</span>
-  <span class="n">sepia_tone_button</span><span class="o">.</span><span class="n">frame</span> <span class="o">=</span> <span class="no">CGRectMake</span><span class="p">(</span><span class="mi">85</span><span class="p">,</span> <span class="mi">400</span><span class="p">,</span> <span class="mi">70</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
-  <span class="n">sepia_tone_button</span><span class="o">.</span><span class="n">setTitle</span><span class="p">(</span><span class="s1">&#39;Sepia&#39;</span><span class="p">,</span> <span class="n">forState</span><span class="ss">:UIControlStateNormal</span><span class="p">)</span>
+  <span class="n">sepia_tone_button</span><span class="o">.</span><span class="n">frame</span> <span class="o">=</span> <span class="no">CGRectMake</span><span class="p">(</span><span class="mi">85</span><span class="p">,</span> <span class="mi">385</span><span class="p">,</span> <span class="mi">75</span><span class="p">,</span> <span class="mi">65</span><span class="p">)</span>
+  <span class="n">sepia_tone_button</span><span class="o">.</span><span class="n">setBackgroundImage</span><span class="p">(</span><span class="no">UIImage</span><span class="o">.</span><span class="n">imageNamed</span><span class="p">(</span><span class="s1">&#39;bgSepiaDisabled.png&#39;</span><span class="p">),</span> <span class="n">forState</span><span class="ss">:UIControlStateNormal</span><span class="p">)</span>
+  <span class="n">sepia_tone_button</span><span class="o">.</span><span class="n">setBackgroundImage</span><span class="p">(</span><span class="no">UIImage</span><span class="o">.</span><span class="n">imageNamed</span><span class="p">(</span><span class="s1">&#39;bgSepiaEnabled.png&#39;</span><span class="p">),</span> <span class="n">forState</span><span class="ss">:UIControlStateHighlighted</span><span class="p">)</span>
 
   <span class="n">sepia_tone_button</span><span class="o">.</span><span class="n">addTarget</span><span class="p">(</span><span class="nb">self</span><span class="p">,</span>
                               <span class="n">action</span><span class="ss">:&#39;add_sepia_tone_filter&#39;</span><span class="p">,</span>
@@ -10405,8 +10374,9 @@ Some Cocoa Frameworks and 3rd Party are not multi-thread
 
   <span class="c1"># Third button for Color Monochrome Filter</span>
   <span class="n">color_monochrome_button</span> <span class="o">=</span> <span class="no">UIButton</span><span class="o">.</span><span class="n">buttonWithType</span><span class="p">(</span><span class="no">UIButtonTypeRoundedRect</span><span class="p">)</span>
-  <span class="n">color_monochrome_button</span><span class="o">.</span><span class="n">frame</span> <span class="o">=</span> <span class="no">CGRectMake</span><span class="p">(</span><span class="mi">160</span><span class="p">,</span> <span class="mi">400</span><span class="p">,</span> <span class="mi">70</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
-  <span class="n">color_monochrome_button</span><span class="o">.</span><span class="n">setTitle</span><span class="p">(</span><span class="s1">&#39;Monochrome&#39;</span><span class="p">,</span> <span class="n">forState</span><span class="ss">:UIControlStateNormal</span><span class="p">)</span>
+  <span class="n">color_monochrome_button</span><span class="o">.</span><span class="n">frame</span> <span class="o">=</span> <span class="no">CGRectMake</span><span class="p">(</span><span class="mi">160</span><span class="p">,</span> <span class="mi">385</span><span class="p">,</span> <span class="mi">75</span><span class="p">,</span> <span class="mi">65</span><span class="p">)</span>
+  <span class="n">color_monochrome_button</span><span class="o">.</span><span class="n">setBackgroundImage</span><span class="p">(</span><span class="no">UIImage</span><span class="o">.</span><span class="n">imageNamed</span><span class="p">(</span><span class="s1">&#39;bgMonocolorDisabled.png&#39;</span><span class="p">),</span> <span class="n">forState</span><span class="ss">:UIControlStateNormal</span><span class="p">)</span>
+  <span class="n">color_monochrome_button</span><span class="o">.</span><span class="n">setBackgroundImage</span><span class="p">(</span><span class="no">UIImage</span><span class="o">.</span><span class="n">imageNamed</span><span class="p">(</span><span class="s1">&#39;bgMonocolorEnabled.png&#39;</span><span class="p">),</span> <span class="n">forState</span><span class="ss">:UIControlStateHighlighted</span><span class="p">)</span>
 
   <span class="n">color_monochrome_button</span><span class="o">.</span><span class="n">addTarget</span><span class="p">(</span><span class="nb">self</span><span class="p">,</span>
                                     <span class="n">action</span><span class="ss">:&#39;add_color_monochrome_filter&#39;</span><span class="p">,</span>
@@ -10417,8 +10387,9 @@ Some Cocoa Frameworks and 3rd Party are not multi-thread
 
   <span class="c1"># Fourth button for Gaussian Blur Filter</span>
   <span class="n">gaussian_blur_button</span> <span class="o">=</span> <span class="no">UIButton</span><span class="o">.</span><span class="n">buttonWithType</span><span class="p">(</span><span class="no">UIButtonTypeRoundedRect</span><span class="p">)</span>
-  <span class="n">gaussian_blur_button</span><span class="o">.</span><span class="n">frame</span> <span class="o">=</span> <span class="no">CGRectMake</span><span class="p">(</span><span class="mi">235</span><span class="p">,</span> <span class="mi">400</span><span class="p">,</span> <span class="mi">70</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
-  <span class="n">gaussian_blur_button</span><span class="o">.</span><span class="n">setTitle</span><span class="p">(</span><span class="s1">&#39;Blur&#39;</span><span class="p">,</span> <span class="n">forState</span><span class="ss">:UIControlStateNormal</span><span class="p">)</span>
+  <span class="n">gaussian_blur_button</span><span class="o">.</span><span class="n">frame</span> <span class="o">=</span> <span class="no">CGRectMake</span><span class="p">(</span><span class="mi">235</span><span class="p">,</span> <span class="mi">385</span><span class="p">,</span> <span class="mi">75</span><span class="p">,</span> <span class="mi">65</span><span class="p">)</span>
+  <span class="n">gaussian_blur_button</span><span class="o">.</span><span class="n">setBackgroundImage</span><span class="p">(</span><span class="no">UIImage</span><span class="o">.</span><span class="n">imageNamed</span><span class="p">(</span><span class="s1">&#39;bgBlurDisabled.png&#39;</span><span class="p">),</span> <span class="n">forState</span><span class="ss">:UIControlStateNormal</span><span class="p">)</span>
+  <span class="n">gaussian_blur_button</span><span class="o">.</span><span class="n">setBackgroundImage</span><span class="p">(</span><span class="no">UIImage</span><span class="o">.</span><span class="n">imageNamed</span><span class="p">(</span><span class="s1">&#39;bgBlurEnabled.png&#39;</span><span class="p">),</span> <span class="n">forState</span><span class="ss">:UIControlStateHighlighted</span><span class="p">)</span>
 
   <span class="n">gaussian_blur_button</span><span class="o">.</span><span class="n">addTarget</span><span class="p">(</span><span class="nb">self</span><span class="p">,</span>
                                  <span class="n">action</span><span class="ss">:&#39;add_gaussian_blur_filter&#39;</span><span class="p">,</span>
@@ -10427,6 +10398,12 @@ Some Cocoa Frameworks and 3rd Party are not multi-thread
   <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="n">gaussian_blur_button</span><span class="p">)</span>
 <span class="k">end</span>
 </pre></div></div></div>
+<div class="imageblock">
+<div class="content">
+<img src="Resources/ch26-Concurrency/ch26_FilterButtons.png" alt="Filter Buttons" />
+</div>
+<div class="title">Figure 128. Filter Buttons</div>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_filters_filters_filters">Filters, Filters, Filters</h3>
@@ -10687,7 +10664,12 @@ Some Cocoa Frameworks and 3rd Party are not multi-thread
 <span class="k">end</span>
 </pre></div></div></div>
 <div class="paragraph"><p>Right! If we run the app we should see the following:</p></div>
-<div class="paragraph"><p><strong>IMAGE</strong></p></div>
+<div class="imageblock">
+<div class="content">
+<img src="Resources/ch26-Concurrency/ch26_FirstFilter.png" alt="First Filter" />
+</div>
+<div class="title">Figure 129. First Filter</div>
+</div>
 <div class="paragraph"><p>The filters are working but it takes some time to change filters right? It will be better if we show the user a <strong>UIActivityView</strong> indicating that we are working on the new filter, to add it please insert the following into the <strong>photo_view_controller.rb</strong> class:</p></div>
 <div class="admonitionblock">
 <table><tr>
@@ -10802,7 +10784,12 @@ Some Cocoa Frameworks and 3rd Party are not multi-thread
 
 <span class="k">end</span>
 </pre></div></div></div>
-<div class="paragraph"><p><strong>Image</strong></p></div>
+<div class="imageblock">
+<div class="content">
+<img src="Resources/ch26-Concurrency/ch26_FilteringActivityIndicator.png" alt="Filter with Activity Indicator" />
+</div>
+<div class="title">Figure 130. Filter with Activity Indicator</div>
+</div>
 <div class="paragraph"><p>If we run this on the device it will be more easy to distinguish  that the activity indicator is also getting freeze at the time we select a new filter to apply. We are hanging the main thread right now and the app feels a little unresponsive!</p></div>
 </div>
 <div class="sect2">
@@ -10857,7 +10844,6 @@ Some Cocoa Frameworks and 3rd Party are not multi-thread
   <span class="p">}</span>
 <span class="k">end</span>
 </pre></div></div></div>
-<div class="paragraph"><p><strong>Image</strong></p></div>
 <div class="paragraph"><p>If we select Pixellate Filter now the Activity Indicator is showing properly to the user and the Filtering operation is running on another Thread using GDC. That was easy right? We implement concurrent code on our application that simple and almost for free!</p></div>
 <div class="paragraph"><p>Now its time to implement it on all the Filtering Operations:</p></div>
 <div class="listingblock">
@@ -10997,14 +10983,14 @@ Some Cocoa Frameworks and 3rd Party are not multi-thread
     <span class="c1"># Generate the Filtered Image</span>
     <span class="n">filtered_image</span> <span class="o">=</span> <span class="vi">@photo_filter_controller</span><span class="o">.</span><span class="n">image_for_filter</span><span class="p">(</span><span class="ss">:gaussian_blur</span><span class="p">,</span> <span class="vi">@selected_image</span><span class="p">,</span> <span class="mi">3</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span>
 
-    <span class="c1"># We need to excecute the Photo Image View change on the</span>
+    <span class="c1"># We need to execute the Photo Image View change on the</span>
     <span class="c1"># main thread, because we are modifying the User Interface</span>
     <span class="c1">#</span>
     <span class="c1"># For this we can also use GCD getting the Main Thread queue,</span>
     <span class="c1"># remember we are running on another thread</span>
     <span class="n">main_queue</span> <span class="o">=</span> <span class="no">Dispatch</span><span class="o">::</span><span class="no">Queue</span><span class="o">.</span><span class="n">main</span>
 
-    <span class="c1"># Now we can excecute any code on the Main Thread using the Main</span>
+    <span class="c1"># Now we can execute any code on the Main Thread using the Main</span>
     <span class="c1"># Queue</span>
     <span class="n">main_queue</span><span class="o">.</span><span class="n">async</span> <span class="p">{</span>
 
@@ -11017,7 +11003,12 @@ Some Cocoa Frameworks and 3rd Party are not multi-thread
   <span class="p">}</span>
 <span class="k">end</span>
 </pre></div></div></div>
-<div class="paragraph"><p><strong>IMAGE</strong></p></div>
+<div class="imageblock">
+<div class="content">
+<img src="Resources/ch26-Concurrency/ch26_FilteringGCD.png" alt="Filter with Gran Central Dispatch" />
+</div>
+<div class="title">Figure 131. Filter with Gran Central Dispatch</div>
+</div>
 <div class="paragraph"><p>Now all of them are working using GCD! But something is missing… how about control the intensity of the filters?, thats the next part of our exercise</p></div>
 <div class="admonitionblock">
 <table><tr>
@@ -11043,7 +11034,7 @@ Some Cocoa Frameworks and 3rd Party are not multi-thread
 
   <span class="n">image_for_filter</span><span class="p">(</span><span class="vi">@current_filter</span><span class="p">,</span>
                    <span class="n">image</span><span class="p">,</span>
-                   <span class="vi">@current_intensity</span> <span class="o">+</span> <span class="mi">0</span><span class="o">.</span><span class="mi">5</span><span class="p">)</span>
+                   <span class="vi">@current_intensity</span> <span class="o">+</span> <span class="mi">0</span><span class="o">.</span><span class="mi">3</span><span class="p">)</span>
 <span class="k">end</span>
 
 
@@ -11055,7 +11046,7 @@ Some Cocoa Frameworks and 3rd Party are not multi-thread
 
   <span class="n">image_for_filter</span><span class="p">(</span><span class="vi">@current_filter</span><span class="p">,</span>
                    <span class="n">image</span><span class="p">,</span>
-                   <span class="vi">@current_intensity</span> <span class="o">-</span> <span class="mi">0</span><span class="o">.</span><span class="mi">5</span><span class="p">)</span>
+                   <span class="vi">@current_intensity</span> <span class="o">-</span> <span class="mi">0</span><span class="o">.</span><span class="mi">3</span><span class="p">)</span>
 <span class="k">end</span>
 </pre></div></div></div>
 <div class="paragraph"><p>We are now ready to increase and decrease the intensity of the filter, but how we allow the user to do that? I have an idea… when the user drag his finger up or down we change the intensity accordingly!</p></div>
@@ -11141,7 +11132,12 @@ Some Cocoa Frameworks and 3rd Party are not multi-thread
 
 <span class="k">end</span>
 </pre></div></div></div>
-<div class="paragraph"><p><strong>IMAGE</strong></p></div>
+<div class="imageblock">
+<div class="content">
+<img src="Resources/ch26-Concurrency/ch26_FilterIntensity.png" alt="Filter Intensity" />
+</div>
+<div class="title">Figure 132. Filter Intensity</div>
+</div>
 <div class="paragraph"><p>Great! If you run the app and you drag your fingers up and down on the screen the intensity of the filter will increase or decrease accordingly. But the same as before we are hanging the main thread and the activity indicator view is not appearing on the screen.</p></div>
 </div>
 <div class="sect2">
@@ -11261,7 +11257,12 @@ Some Cocoa Frameworks and 3rd Party are not multi-thread
   <span class="vi">@activity_indicator</span><span class="o">.</span><span class="n">performSelectorOnMainThread</span><span class="p">(</span><span class="s1">&#39;stopAnimating&#39;</span><span class="p">,</span> <span class="n">withObject</span><span class="ss">:nil</span><span class="p">,</span> <span class="n">waitUntilDone</span><span class="ss">:false</span><span class="p">)</span>
 <span class="k">end</span>
 </pre></div></div></div>
-<div class="paragraph"><p><strong>IMAGE</strong></p></div>
+<div class="imageblock">
+<div class="content">
+<img src="Resources/ch26-Concurrency/ch26_FilterIntensityNSOperation.png" alt="Filter Intensity with NSOperation" />
+</div>
+<div class="title">Figure 133. Filter Intensity with NSOperation</div>
+</div>
 <div class="paragraph"><p>Awesome! Now we add concurrent operations using NSOperation and also fix the activity indicator view.</p></div>
 <div class="paragraph"><p>Our Image Filtering application is now complete!</p></div>
 </div>
