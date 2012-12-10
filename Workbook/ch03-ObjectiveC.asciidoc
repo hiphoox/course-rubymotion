@@ -245,7 +245,7 @@ end
 
 Also for this to work, we need to change the loadView method to look as the following:
 
-[source, ruby]
+["source","ruby", args="-O \"hl_lines=3\""]
 ------
 def loadView
 
@@ -337,7 +337,7 @@ end
 
 And also we will need to change our loadView method again, lo look like this:
 
-[source, ruby]
+["source","ruby", args="-O \"hl_lines=3\""]
 --------------
 
 def loadView

@@ -863,16 +863,22 @@ asciidoc.install(2);
 <div class="sect2">
 <h3 id="_adding_a_view_controller">Adding a View Controller</h3>
 <div class="paragraph"><p>Open your file <strong>app_delegate.rb</strong> in app folder. And add the code between starts in it:</p></div>
+<div class="admonitionblock">
+<table><tr>
+<td class="icon">
+<div class="title">Warning</div>
+</td>
+<td class="content">Adding code ahead.</td>
+</tr></table>
+</div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="k">class</span> <span class="nc">AppDelegate</span>
 
  <span class="k">def</span> <span class="nf">application</span><span class="p">(</span><span class="n">application</span><span class="p">,</span> <span class="n">didFinishLaunchingWithOptions</span><span class="ss">:launchOptions</span><span class="p">)</span>
-    <span class="o">****************************************************************</span>
-    <span class="vi">@window</span> <span class="o">=</span> <span class="no">UIWindow</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithFrame</span><span class="p">(</span><span class="no">UIScreen</span><span class="o">.</span><span class="n">mainScreen</span><span class="o">.</span><span class="n">bounds</span><span class="p">)</span>
-    <span class="vi">@window</span><span class="o">.</span><span class="n">rootViewController</span> <span class="o">=</span> <span class="no">RootViewController</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">init</span>
-    <span class="vi">@window</span><span class="o">.</span><span class="n">makeKeyAndVisible</span>
-    <span class="o">****************************************************************</span>
-    <span class="kp">true</span>
+<span class="hll">    <span class="vi">@window</span> <span class="o">=</span> <span class="no">UIWindow</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithFrame</span><span class="p">(</span><span class="no">UIScreen</span><span class="o">.</span><span class="n">mainScreen</span><span class="o">.</span><span class="n">bounds</span><span class="p">)</span> <span class="c1">#boldBegin</span>
+</span><span class="hll">    <span class="vi">@window</span><span class="o">.</span><span class="n">rootViewController</span> <span class="o">=</span> <span class="no">RootViewController</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">init</span>
+</span><span class="hll">    <span class="vi">@window</span><span class="o">.</span><span class="n">makeKeyAndVisible</span> <span class="c1">#boldBegin</span>
+</span>    <span class="kp">true</span>
   <span class="k">end</span>
 
 <span class="k">end</span>
@@ -935,38 +941,42 @@ asciidoc.install(2);
 <span class="k">end</span>
 </pre></div></div></div>
 <div class="paragraph"><p>Save your file and compile the project to see if everything goes well, and then open the file <strong>root_view_controller.rb</strong> We are going to add our controls, add the code between the starts in it:</p></div>
+<div class="admonitionblock">
+<table><tr>
+<td class="icon">
+<div class="title">Warning</div>
+</td>
+<td class="content">Adding code ahead.</td>
+</tr></table>
+</div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="k">class</span> <span class="nc">RootViewController</span> <span class="o">&lt;</span> <span class="no">UIViewController</span>
 
-<span class="o">****************************************************************</span>
-  <span class="k">def</span> <span class="nf">set_default_time_zone</span>
-
-    <span class="vi">@defaultTimeZoneLabel</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span>  <span class="no">NSTimeZone</span><span class="o">.</span><span class="n">localTimeZone</span><span class="o">.</span><span class="n">name</span>
-  <span class="k">end</span>
-
-  <span class="k">def</span> <span class="nf">set_default_time</span>
-
-    <span class="n">defaultTimeZone</span> <span class="o">=</span> <span class="no">NSTimeZone</span><span class="o">.</span><span class="n">timeZoneWithName</span><span class="p">(</span><span class="vi">@defaultTimeZoneLabel</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
-    <span class="n">formatter</span> <span class="o">=</span> <span class="no">NSDateFormatter</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">init</span>
-    <span class="n">formatter</span><span class="o">.</span><span class="n">setDateFormat</span><span class="p">(</span><span class="s1">&#39;HH:mm&#39;</span><span class="p">)</span>
-    <span class="n">formatter</span><span class="o">.</span><span class="n">setTimeZone</span><span class="p">(</span><span class="n">defaultTimeZone</span><span class="p">)</span>
-    <span class="n">dateFormat</span> <span class="o">=</span> <span class="n">formatter</span><span class="o">.</span><span class="n">stringFromDate</span><span class="p">(</span><span class="no">NSDate</span><span class="o">.</span><span class="n">date</span><span class="p">)</span>
-    <span class="vi">@defaultTimeLabel</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;UTC &quot;</span><span class="o">+</span><span class="p">(</span><span class="no">NSTimeZone</span><span class="o">.</span><span class="n">localTimeZone</span><span class="o">.</span><span class="n">secondsFromGMT</span><span class="o">/</span><span class="mi">3600</span><span class="p">)</span><span class="o">.</span><span class="n">to_s</span> <span class="o">+</span> <span class="s2">&quot;  &quot;</span><span class="o">+</span><span class="n">dateFormat</span>
-  <span class="k">end</span>
-<span class="o">****************************************************************</span>
-
+<span class="hll">  <span class="k">def</span> <span class="nf">set_default_time_zone</span> <span class="c1">#boldBegin</span>
+</span><span class="hll">
+</span><span class="hll">    <span class="vi">@defaultTimeZoneLabel</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span>  <span class="no">NSTimeZone</span><span class="o">.</span><span class="n">localTimeZone</span><span class="o">.</span><span class="n">name</span>
+</span><span class="hll">  <span class="k">end</span>
+</span><span class="hll">
+</span><span class="hll">  <span class="k">def</span> <span class="nf">set_default_time</span>
+</span><span class="hll">
+</span><span class="hll">    <span class="n">defaultTimeZone</span> <span class="o">=</span> <span class="no">NSTimeZone</span><span class="o">.</span><span class="n">timeZoneWithName</span><span class="p">(</span><span class="vi">@defaultTimeZoneLabel</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+</span><span class="hll">    <span class="n">formatter</span> <span class="o">=</span> <span class="no">NSDateFormatter</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">init</span>
+</span><span class="hll">    <span class="n">formatter</span><span class="o">.</span><span class="n">setDateFormat</span><span class="p">(</span><span class="s1">&#39;HH:mm&#39;</span><span class="p">)</span>
+</span><span class="hll">    <span class="n">formatter</span><span class="o">.</span><span class="n">setTimeZone</span><span class="p">(</span><span class="n">defaultTimeZone</span><span class="p">)</span>
+</span><span class="hll">    <span class="n">dateFormat</span> <span class="o">=</span> <span class="n">formatter</span><span class="o">.</span><span class="n">stringFromDate</span><span class="p">(</span><span class="no">NSDate</span><span class="o">.</span><span class="n">date</span><span class="p">)</span>
+</span><span class="hll">    <span class="vi">@defaultTimeLabel</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;UTC &quot;</span><span class="o">+</span><span class="p">(</span><span class="no">NSTimeZone</span><span class="o">.</span><span class="n">localTimeZone</span><span class="o">.</span><span class="n">secondsFromGMT</span><span class="o">/</span><span class="mi">3600</span><span class="p">)</span><span class="o">.</span><span class="n">to_s</span> <span class="o">+</span> <span class="s2">&quot;  &quot;</span><span class="o">+</span><span class="n">dateFormat</span>
+</span><span class="hll">  <span class="k">end</span> <span class="c1">#boldEnd</span>
+</span>
   <span class="k">def</span> <span class="nf">viewDidLoad</span>
-<span class="o">****************************************************************</span>
-    <span class="vi">@defaultTimeZoneLabel</span> <span class="o">=</span> <span class="n">location_label</span><span class="p">(</span><span class="mi">25</span><span class="p">,</span><span class="mi">120</span><span class="p">)</span>
-    <span class="vi">@defaultTimeLabel</span> <span class="o">=</span> <span class="n">time_label</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span><span class="mi">150</span><span class="p">)</span>
-
-    <span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="vi">@defaultTimeZoneLabel</span><span class="p">)</span>
-    <span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="vi">@defaultTimeLabel</span><span class="p">)</span>
-
-    <span class="n">set_default_time_zone</span>
-    <span class="n">set_default_time</span>
-<span class="o">****************************************************************</span>
-    <span class="n">view</span><span class="o">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">scrollViewTexturedBackgroundColor</span>
+<span class="hll">    <span class="vi">@defaultTimeZoneLabel</span> <span class="o">=</span> <span class="n">location_label</span><span class="p">(</span><span class="mi">25</span><span class="p">,</span><span class="mi">120</span><span class="p">)</span>  <span class="c1">#boldBegin</span>
+</span><span class="hll">    <span class="vi">@defaultTimeLabel</span> <span class="o">=</span> <span class="n">time_label</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span><span class="mi">150</span><span class="p">)</span>
+</span><span class="hll">
+</span><span class="hll">    <span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="vi">@defaultTimeZoneLabel</span><span class="p">)</span>
+</span><span class="hll">    <span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="vi">@defaultTimeLabel</span><span class="p">)</span>
+</span><span class="hll">
+</span><span class="hll">    <span class="n">set_default_time_zone</span>
+</span><span class="hll">    <span class="n">set_default_time</span> <span class="c1">#boldEnd</span>
+</span>    <span class="n">view</span><span class="o">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">scrollViewTexturedBackgroundColor</span>
   <span class="k">end</span>
 
 <span class="k">end</span>
@@ -1065,6 +1075,14 @@ asciidoc.install(2);
 <pre><code>[].methods.include?(:'objectAtIndex:')</code></pre>
 </div></div>
 <div class="paragraph"><p>It’s time to add a control that let us select from different time zones, open the <strong>root_view_controller.rb</strong> and add the code the following code to it:</p></div>
+<div class="admonitionblock">
+<table><tr>
+<td class="icon">
+<div class="title">Warning</div>
+</td>
+<td class="content">Adding code ahead.</td>
+</tr></table>
+</div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="k">class</span> <span class="nc">RootViewController</span> <span class="o">&lt;</span> <span class="no">UIViewController</span>
 
@@ -1084,81 +1102,68 @@ asciidoc.install(2);
     <span class="vi">@defaultTimeLabel</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;UTC &quot;</span><span class="o">+</span><span class="p">(</span><span class="no">NSTimeZone</span><span class="o">.</span><span class="n">localTimeZone</span><span class="o">.</span><span class="n">secondsFromGMT</span><span class="o">/</span><span class="mi">3600</span><span class="p">)</span><span class="o">.</span><span class="n">to_s</span> <span class="o">+</span> <span class="s2">&quot;  &quot;</span><span class="o">+</span><span class="n">dateFormat</span>
   <span class="k">end</span>
 
- <span class="o">****************************************************************</span>
-  <span class="k">def</span> <span class="nf">present_local_zone_picker</span><span class="p">(</span><span class="n">sender</span><span class="p">)</span>
-
-    <span class="n">button</span> <span class="o">=</span> <span class="n">sender</span>
-    <span class="vi">@zonePicker</span><span class="o">.</span><span class="n">frame</span> <span class="o">=</span> <span class="no">CGRectMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">244</span><span class="p">,</span> <span class="mi">320</span><span class="p">,</span> <span class="mi">216</span><span class="p">)</span>
-    <span class="vi">@currentZoneLabel</span> <span class="o">=</span> <span class="vi">@defaultTimeZoneLabel</span>
-
-    <span class="k">if</span> <span class="vi">@zonePicker</span><span class="o">.</span><span class="n">isHidden</span>
-      <span class="vi">@zonePicker</span><span class="o">.</span><span class="n">hidden</span> <span class="o">=</span> <span class="kp">false</span>
-      <span class="n">button</span><span class="o">.</span><span class="n">setTitle</span><span class="p">(</span><span class="s2">&quot;Choose&quot;</span><span class="p">,</span><span class="n">forState</span><span class="ss">:UIControlStateNormal</span><span class="p">)</span>
-    <span class="k">else</span>
-      <span class="vi">@zonePicker</span><span class="o">.</span><span class="n">hidden</span> <span class="o">=</span> <span class="kp">true</span>
-      <span class="n">button</span><span class="o">.</span><span class="n">setTitle</span><span class="p">(</span><span class="s2">&quot;Select&quot;</span><span class="p">,</span><span class="n">forState</span><span class="ss">:UIControlStateNormal</span><span class="p">)</span>
-      <span class="n">set_default_time</span>
-    <span class="k">end</span>
-  <span class="k">end</span>
-
-
-<span class="c1"># UIPicker View Controller DataSource</span>
-
-  <span class="k">def</span> <span class="nf">numberOfComponentsInPickerView</span><span class="p">(</span><span class="n">pickerView</span><span class="p">)</span>
-
-    <span class="mi">1</span>
-  <span class="k">end</span>
-
-
-  <span class="k">def</span> <span class="nf">pickerView</span><span class="p">(</span><span class="n">pickerView</span><span class="p">,</span><span class="n">numberOfRowsInComponent</span><span class="ss">:component</span><span class="p">)</span>
-
-    <span class="no">NSTimeZone</span><span class="o">.</span><span class="n">knownTimeZoneNames</span><span class="o">.</span><span class="n">count</span>
-  <span class="k">end</span>
-
-
-<span class="c1"># UIPicker View Controller Delegate</span>
-
-  <span class="k">def</span> <span class="nf">pickerView</span><span class="p">(</span><span class="n">pickerView</span><span class="p">,</span> <span class="n">titleForRow</span><span class="ss">:row</span><span class="p">,</span><span class="n">forComponent</span><span class="ss">:component</span><span class="p">)</span>
-
-    <span class="no">NSTimeZone</span><span class="o">.</span><span class="n">knownTimeZoneNames</span><span class="o">[</span><span class="n">row</span><span class="o">]</span>
-  <span class="k">end</span>
-
-
-  <span class="k">def</span> <span class="nf">pickerView</span><span class="p">(</span><span class="n">pickerView</span><span class="p">,</span> <span class="n">didSelectRow</span><span class="ss">:row</span><span class="p">,</span> <span class="n">inComponent</span><span class="ss">:component</span><span class="p">)</span>
-
-    <span class="vi">@currentZoneLabel</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="no">NSTimeZone</span><span class="o">.</span><span class="n">knownTimeZoneNames</span><span class="o">[</span><span class="n">row</span><span class="o">]</span>
-  <span class="k">end</span>
-
-
-<span class="o">****************************************************************</span>
-  <span class="k">def</span> <span class="nf">viewDidLoad</span>
-
+<span class="hll">  <span class="k">def</span> <span class="nf">present_local_zone_picker</span><span class="p">(</span><span class="n">sender</span><span class="p">)</span> <span class="c1">#BoldBegin</span>
+</span><span class="hll">
+</span><span class="hll">    <span class="n">button</span> <span class="o">=</span> <span class="n">sender</span>
+</span><span class="hll">    <span class="vi">@zonePicker</span><span class="o">.</span><span class="n">frame</span> <span class="o">=</span> <span class="no">CGRectMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">244</span><span class="p">,</span> <span class="mi">320</span><span class="p">,</span> <span class="mi">216</span><span class="p">)</span>
+</span><span class="hll">    <span class="vi">@currentZoneLabel</span> <span class="o">=</span> <span class="vi">@defaultTimeZoneLabel</span>
+</span><span class="hll">
+</span><span class="hll">    <span class="k">if</span> <span class="vi">@zonePicker</span><span class="o">.</span><span class="n">isHidden</span>
+</span><span class="hll">      <span class="vi">@zonePicker</span><span class="o">.</span><span class="n">hidden</span> <span class="o">=</span> <span class="kp">false</span>
+</span><span class="hll">      <span class="n">button</span><span class="o">.</span><span class="n">setTitle</span><span class="p">(</span><span class="s2">&quot;Choose&quot;</span><span class="p">,</span><span class="n">forState</span><span class="ss">:UIControlStateNormal</span><span class="p">)</span>
+</span><span class="hll">    <span class="k">else</span>
+</span><span class="hll">      <span class="vi">@zonePicker</span><span class="o">.</span><span class="n">hidden</span> <span class="o">=</span> <span class="kp">true</span>
+</span><span class="hll">      <span class="n">button</span><span class="o">.</span><span class="n">setTitle</span><span class="p">(</span><span class="s2">&quot;Select&quot;</span><span class="p">,</span><span class="n">forState</span><span class="ss">:UIControlStateNormal</span><span class="p">)</span>
+</span><span class="hll">      <span class="n">set_default_time</span>
+</span><span class="hll">    <span class="k">end</span>
+</span><span class="hll">  <span class="k">end</span>
+</span><span class="hll">
+</span><span class="hll">
+</span><span class="hll"><span class="c1"># UIPicker View Controller DataSource</span>
+</span><span class="hll">
+</span><span class="hll">  <span class="k">def</span> <span class="nf">numberOfComponentsInPickerView</span><span class="p">(</span><span class="n">pickerView</span><span class="p">)</span>
+</span><span class="hll">
+</span><span class="hll">    <span class="mi">1</span>
+</span><span class="hll">  <span class="k">end</span>
+</span><span class="hll">
+</span><span class="hll">
+</span><span class="hll">  <span class="k">def</span> <span class="nf">pickerView</span><span class="p">(</span><span class="n">pickerView</span><span class="p">,</span><span class="n">numberOfRowsInComponent</span><span class="ss">:component</span><span class="p">)</span>
+</span><span class="hll">
+</span><span class="hll">    <span class="no">NSTimeZone</span><span class="o">.</span><span class="n">knownTimeZoneNames</span><span class="o">.</span><span class="n">count</span>
+</span><span class="hll">  <span class="k">end</span>
+</span><span class="hll">
+</span><span class="hll">
+</span><span class="hll"><span class="c1"># UIPicker View Controller Delegate</span>
+</span><span class="hll">
+</span><span class="hll">  <span class="k">def</span> <span class="nf">pickerView</span><span class="p">(</span><span class="n">pickerView</span><span class="p">,</span> <span class="n">titleForRow</span><span class="ss">:row</span><span class="p">,</span><span class="n">forComponent</span><span class="ss">:component</span><span class="p">)</span>
+</span><span class="hll">
+</span><span class="hll">    <span class="no">NSTimeZone</span><span class="o">.</span><span class="n">knownTimeZoneNames</span><span class="o">[</span><span class="n">row</span><span class="o">]</span>
+</span><span class="hll">  <span class="k">end</span>
+</span><span class="hll">
+</span><span class="hll">
+</span><span class="hll">  <span class="k">def</span> <span class="nf">pickerView</span><span class="p">(</span><span class="n">pickerView</span><span class="p">,</span> <span class="n">didSelectRow</span><span class="ss">:row</span><span class="p">,</span> <span class="n">inComponent</span><span class="ss">:component</span><span class="p">)</span>
+</span><span class="hll">
+</span><span class="hll">    <span class="vi">@currentZoneLabel</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="no">NSTimeZone</span><span class="o">.</span><span class="n">knownTimeZoneNames</span><span class="o">[</span><span class="n">row</span><span class="o">]</span>
+</span>  <span class="k">end</span>
+<span class="hll">
+</span><span class="hll">
+</span><span class="hll">  <span class="k">def</span> <span class="nf">viewDidLoad</span> <span class="c1">#boldEnd</span>
+</span>
     <span class="vi">@defaultTimeZoneLabel</span> <span class="o">=</span> <span class="n">location_label</span><span class="p">(</span><span class="mi">25</span><span class="p">,</span><span class="mi">120</span><span class="p">)</span>
     <span class="vi">@defaultTimeLabel</span> <span class="o">=</span> <span class="n">time_label</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span><span class="mi">150</span><span class="p">)</span>
-
-<span class="o">****************************************************************</span>
-
-    <span class="n">chooseLocalButton</span> <span class="o">=</span> <span class="n">select_time_zone_Button</span><span class="p">(</span><span class="mi">220</span><span class="p">,</span><span class="mi">115</span><span class="p">)</span>
-    <span class="n">chooseLocalButton</span><span class="o">.</span><span class="n">addTarget</span><span class="p">(</span><span class="nb">self</span><span class="p">,</span>
-                                  <span class="n">action</span><span class="p">:</span> <span class="ss">:&#39;present_local_zone_picker:&#39;</span><span class="p">,</span>
-                                  <span class="n">forControlEvents</span><span class="ss">:UIControlEventTouchUpInside</span><span class="p">)</span>
-
-    <span class="vi">@zonePicker</span> <span class="o">=</span> <span class="n">zone_picker</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">244</span><span class="p">)</span>
-    <span class="vi">@zonePicker</span><span class="o">.</span><span class="n">dataSource</span> <span class="o">=</span> <span class="nb">self</span>
-    <span class="vi">@zonePicker</span><span class="o">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="nb">self</span>
-
-<span class="o">****************************************************************</span>
-
-    <span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="vi">@defaultTimeZoneLabel</span><span class="p">)</span>
+<span class="hll">    <span class="n">chooseLocalButton</span> <span class="o">=</span> <span class="n">select_time_zone_Button</span><span class="p">(</span><span class="mi">220</span><span class="p">,</span><span class="mi">115</span><span class="p">)</span> <span class="c1">#boldBegin</span>
+</span><span class="hll">    <span class="n">chooseLocalButton</span><span class="o">.</span><span class="n">addTarget</span><span class="p">(</span><span class="nb">self</span><span class="p">,</span>
+</span><span class="hll">                                  <span class="n">action</span><span class="p">:</span> <span class="ss">:&#39;present_local_zone_picker:&#39;</span><span class="p">,</span>
+</span><span class="hll">                                  <span class="n">forControlEvents</span><span class="ss">:UIControlEventTouchUpInside</span><span class="p">)</span>
+</span><span class="hll">
+</span><span class="hll">    <span class="vi">@zonePicker</span> <span class="o">=</span> <span class="n">zone_picker</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">244</span><span class="p">)</span>
+</span><span class="hll">    <span class="vi">@zonePicker</span><span class="o">.</span><span class="n">dataSource</span> <span class="o">=</span> <span class="nb">self</span>
+</span><span class="hll">    <span class="vi">@zonePicker</span><span class="o">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="nb">self</span> <span class="c1">#boldEnd</span>
+</span>    <span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="vi">@defaultTimeZoneLabel</span><span class="p">)</span>
     <span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="vi">@defaultTimeLabel</span><span class="p">)</span>
-
-<span class="o">****************************************************************</span>
-
-    <span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="n">chooseLocalButton</span><span class="p">)</span>
-    <span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="vi">@zonePicker</span><span class="p">)</span>
-
-<span class="o">****************************************************************</span>
-    <span class="n">set_default_time_zone</span>
+    <span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="n">chooseLocalButton</span><span class="p">)</span> <span class="c1">#boldBegin</span>
+<span class="hll">    <span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="vi">@zonePicker</span><span class="p">)</span> <span class="c1">#boldEnd</span>
+</span>    <span class="n">set_default_time_zone</span>
     <span class="n">set_default_time</span>
     <span class="n">view</span><span class="o">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">scrollViewTexturedBackgroundColor</span>
   <span class="k">end</span>
@@ -1538,8 +1543,8 @@ HelveticaNeue-Medium
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">loadView</span>
 
-  <span class="n">layout_view</span>
-
+<span class="hll">  <span class="n">layout_view</span>
+</span>
 <span class="k">end</span>
 </pre></div></div></div>
 <div class="paragraph"><p>Let&#8217;s run the application:</p></div>
@@ -1621,8 +1626,8 @@ HelveticaNeue-Medium
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">loadView</span>
 
-  <span class="n">customize_segmented_control</span>
-  <span class="n">layout_view</span>
+<span class="hll">  <span class="n">customize_segmented_control</span>
+</span>  <span class="n">layout_view</span>
 
 <span class="k">end</span>
 </pre></div></div></div>
