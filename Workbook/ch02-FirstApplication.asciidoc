@@ -50,7 +50,7 @@ Adding a View Controller
 
 Open your file *app_delegate.rb* in app folder. And add the code between starts in it:
 
-[source, ruby]
+["source","ruby", args="-O \"hl_lines=1 2 3\""]
 ---------------------------------------------------------------------------------
 class AppDelegate
  
