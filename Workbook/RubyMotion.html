@@ -870,6 +870,14 @@ Display UTC local and remote time
 </div>
 <div class="title">Figure 1. Empty Application</div>
 </div>
+<div class="admonitionblock">
+<table><tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">Please add the assets to the resources folder of your project. You can find them under the resources folder and inside there is a folder images with the assets necessary for the chapter.</td>
+</tr></table>
+</div>
 <div class="sect2">
 <h3 id="_view_controller">View Controller</h3>
 <div class="paragraph"><p>A view controller class provides a quite utile mechanism to manage views in iOS applications; it could coordinate efforts with the model and other view controllers in order to build an entire application.</p></div>
@@ -2281,7 +2289,8 @@ Assigning a <strong>UIViewController</strong> as the <strong>rootViewController<
   <span class="k">def</span> <span class="nf">loadView</span>
 
     <span class="nb">p</span> <span class="s1">&#39;loading view&#39;</span>
-    <span class="nb">self</span><span class="o">.</span><span class="n">view</span> <span class="o">=</span> <span class="no">UIView</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">init</span>
+    <span class="nb">self</span><span class="o">.</span><span class="n">view</span> <span class="o">=</span> <span class="no">UIView</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithFrame</span><span class="p">(</span> <span class="no">UIScreen</span><span class="o">.</span><span class="n">mainScreen</span><span class="o">.</span><span class="n">bounds</span> <span class="p">)</span>
+    <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">whiteColor</span>
   <span class="k">end</span>
 
 <span class="k">end</span>
@@ -2299,8 +2308,8 @@ Assigning a <strong>UIViewController</strong> as the <strong>rootViewController<
 </div>
 <div class="sect2">
 <h3 id="_using_uiimageview">Using UIImageView</h3>
-<div class="paragraph"><p>Now it&#8217;s time to begin to stylish our app. We are going to add an header and a background image with a nice gradient.</p></div>
-<div class="paragraph"><p>Open the zip file called ch05CocoaOverview_resources.zip, inside you&#8217;ll find the Design assets for this workshop. Copy them into the <strong>resources</strong> folder of our app.</p></div>
+<div class="paragraph"><p>Now it&#8217;s time to begin to stylish our app. We are going to add a header and a background image with a nice gradient.</p></div>
+<div class="paragraph"><p>We have placed the assets for the app in the 05-CocoaOverview/resources/images folder. Copy them into the <strong>resources</strong> folder of our app.</p></div>
 <div class="paragraph"><p>Now inside our View Controller, add these lines:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">viewDidLoad</span>
@@ -2334,11 +2343,11 @@ Assigning a <strong>UIViewController</strong> as the <strong>rootViewController<
 <span class="k">end</span>
 </pre></div></div></div>
 <div class="paragraph"><p>The method <strong>viewDidLoad</strong> is called once the view of the Controller is loaded into memory. It&#8217;s safe, then, to initialize the view inside this method.</p></div>
-<div class="paragraph"><p>Basically, we are adding two images using the <strong>addSubview</strong> method of <strong>UIView</strong>. In the <strong>imageViewWithHeader</strong> method, we are creating the first image: the header image. In CocoaTouch we have the <strong>UIImageView</strong> class to add images to our apps. We are using its initializer method called <strong>initWithImage</strong> that receives a <strong>UIImage</strong>. <strong>UIImage</strong> is the image itself, and <strong>UIImageView</strong> is only a convenient <strong>UIView</strong> that simplifies the process of painting an image on screen.</p></div>
-<div class="paragraph"><p><strong>UIImage</strong> can be created with its class method <strong>imageNamed</strong> that receives an <strong>NSString</strong> with the name of the image file.</p></div>
+<div class="paragraph"><p>Basically, we are adding three images using the <strong>addSubview</strong> method of <strong>UIView</strong>. In the <strong>imageViewWithHeader</strong> method, we are creating the first image: the header image. In CocoaTouch we have the <strong>UIImageView</strong> class to add images to our apps. We are using its initializer method called <strong>initWithImage</strong> that receives a <strong>UIImage</strong>. <strong>UIImage</strong> is the image itself, and <strong>UIImageView</strong> is only a convenient <strong>UIView</strong> that simplifies the process of painting an image on screen.</p></div>
+<div class="paragraph"><p><strong>UIImage</strong> can be created with its class method <strong>imageNamed</strong> that receives an <strong>NSString</strong> with the name of the image file. If the image is a PNG, you don&#8217;t need to specify its extension.</p></div>
 <div class="paragraph"><p>In the <strong>imageViewWithBackground</strong> method we are creating the <strong>UIImageView</strong> with the background image. Notice that we are changing the frame of this image. The frame is a property of type <strong>CGRect</strong> that the class <strong>UIView</strong> uses to specify the location of the view inside its superview and its size.</p></div>
 <div class="paragraph"><p>We are using the <strong>CGRectMake</strong> function to create our frame. The first two arguments define the location coordinates of the object from the top left corner of the superview. For the background we are specifying an X coordinate of 0, thus the object will be at the left-most location of the screen; and a Y coordinate of 64, thus the object will be placed below the header image. The second  and third argument specifies its size.</p></div>
-<div class="paragraph"><p>RubyMotion has another way to create a <strong>CGRect</strong>. Try to change the <strong>CGRectMake</strong> line to this:</p></div>
+<div class="paragraph"><p>RubyMotion has another way to create a <strong>CGRect</strong>. In the <strong>imageViewWithBackground</strong> Try to change the <strong>CGRectMake</strong> line to this:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="n">background_imageview</span><span class="o">.</span><span class="n">frame</span> <span class="o">=</span> <span class="o">[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">64</span><span class="o">]</span><span class="p">,</span> <span class="o">[</span><span class="mi">320</span><span class="p">,</span> <span class="mi">396</span><span class="o">]]</span>
 </pre></div></div></div>
@@ -2379,10 +2388,10 @@ Assigning a <strong>UIViewController</strong> as the <strong>rootViewController<
   <span class="n">days_left_label</span>
 <span class="k">end</span>
 </pre></div></div></div>
-<div class="paragraph"><p>The object used in CocoaTouch to disply lines of text is <strong>UILabel</strong>. We are creating two <strong>UILabel</strong> using the initializer method <strong>initWithFrame</strong> to specify their size and location.</p></div>
+<div class="paragraph"><p>The object used in CocoaTouch to display lines of text is <strong>UILabel</strong>. We are creating two <strong>UILabel</strong> using the initializer method <strong>initWithFrame</strong> to specify their size and location.</p></div>
 <div class="paragraph"><p>Then, we are changing its font and size. An <strong>UILabel</strong> has a property named <strong>font</strong> that allow us to do that. To create a Font, we are using the <strong>UIFont</strong> class and its method <strong>fontWithName:size</strong>. As you can see, you specify the font using a NSString with the Font Family name. If you want to see the available Fonts in CocoaTouch, try to print the array returned by <strong>UIFont.familyNames</strong>.</p></div>
 <div class="paragraph"><p>Next, we are changing the color of the label using the <strong>textColor</strong> property and the text alignment. By default a <strong>UILabel</strong> has a white background color, we are changing this to clearColor. This is a special color to specify transparencies. So, basically we are defining that the background of this <strong>UILabel</strong> should be transparent.</p></div>
-<div class="paragraph"><p>Finally, we are adding a shadow to the label. With <strong>shadowColor</strong> you specify its color and with <strong>shadowOffset</strong> its location. This offset is the number of points that the shadow will be offset from the label. It is a <strong>CGSize</strong> object so you can specify it with the <strong>CGSizeMake</strong> function, but we prefer to use the more convenient RubyMotion way of using an array of two elements, one for width and the other one for weight. With <strong>[-1, -1]</strong> we are defining that the shadow will be 1 point offset to the left and 1 point offset up from the label.</p></div>
+<div class="paragraph"><p>Finally, we are adding a shadow to the label. With <strong>shadowColor</strong> you specify its color and with <strong>shadowOffset</strong> its location. This offset is the number of points that the shadow will be offset from the label. It is a <strong>CGSize</strong> object so you can specify it with the <strong>CGSizeMake</strong> function, but we prefer to use the more convenient RubyMotion way of using an array of two elements, one for width and the other one for height. With <strong>[-1, -1]</strong> we are defining that the shadow will be 1 point offset to the left and 1 point offset up from the label.</p></div>
 <div class="paragraph"><p>We have the methods to create our labels, is time to add them to our view. Inside the viewDidLoad method add this lines:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">viewDidLoad</span>
@@ -2590,11 +2599,12 @@ Assigning a <strong>UIViewController</strong> as the <strong>rootViewController<
 </div>
 <h1 id="_day_2">Day 2</h1>
 <h1 id="_chapter_06_delegate_amp_chapter_07_mapkit">Chapter 06 - Delegate &amp; Chapter 07 - MapKit</h1>
-<div class="paragraph"><p>In this chapter we are going to review some concepts about delegation in CocoaTouch and how to use maps.</p></div>
+<div class="paragraph"><p>The basis of many apps are the Location Services, that help to exploit the location capabilities of the devices and the ability to use maps. We will review in this chapter how to use these two features of CocoaTouch to improve our CocoaHeads app.</p></div>
+<div class="paragraph"><p>Our app needs to show the location of the events in a map. We will add this feature on this chapter. We will also show you how to retrieve the current location of the device user a <strong>CoreLocationManager</strong>.</p></div>
 <div class="sect1">
 <h2 id="_preparing_the_app">Preparing the app</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>Open the file <strong>ch07_mapkit_resources.zip</strong> and unzip it. Inside there is our Cocoaheads app. Run it with the <strong>rake</strong> command. You will see the main screen with the details of an event:</p></div>
+<div class="paragraph"><p>Open the folder <strong>07-MapKit/resources/code</strong> you will find a folder named <strong>Cocoaheads</strong> with the app as we finished in the Chapter 05. From the command line, run it with the <strong>rake</strong> command. You will see the main screen with the details of an event:</p></div>
 <div class="paragraph"><p><span class="image">
 <img src="Resources/ch06-Delegate-ch07-MapKit/ch07_01_app.png" alt="Chapter 7 app" />
 </span></p></div>
@@ -2606,11 +2616,11 @@ Assigning a <strong>UIViewController</strong> as the <strong>rootViewController<
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="n">app</span><span class="o">.</span><span class="n">frameworks</span> <span class="o">=</span> <span class="o">[</span><span class="s1">&#39;CoreLocation&#39;</span><span class="p">,</span> <span class="s1">&#39;MapKit&#39;</span><span class="o">]</span>
 </pre></div></div></div>
-<div class="paragraph"><p>CoreLocation is the framework that allows you to access the geo location and heading of the device. MapKit, in the other hand, provides an interface to embed maps into your applications as well as other advance functionality such as adding custom annotations, reverse-geocoding lookups, etc.</p></div>
+<div class="paragraph"><p>CoreLocation is the framework that allows you to access the geo location and heading of the device. MapKit, on the other hand, provides an interface to embed maps into your applications as well as other advanced functionality such as adding custom annotations, reverse-geocoding lookups, etc.</p></div>
 <div class="sect2">
 <h3 id="_adding_a_location_manager">Adding A Location Manager</h3>
 <div class="paragraph"><p>The first thing we are going to add to our View Controller is a <strong>CLLocationManager</strong> to determine the device location and show how the delegation pattern works in CocoaTouch.</p></div>
-<div class="paragraph"><p>In order to do this, open the <strong>event_detail_view_controller.rb</strong> file and locate the method named <strong>requestUserCurrenLocation</strong> Add the following lines:</p></div>
+<div class="paragraph"><p>In order to do this, open the <strong>event_detail_view_controller.rb</strong> file and locate the method named <strong>requestUserCurrentLocation</strong> Add the following lines:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="k">if</span> <span class="p">(</span><span class="no">CLLocationManager</span><span class="o">.</span><span class="n">locationServicesEnabled</span><span class="p">)</span>
 
@@ -2640,7 +2650,7 @@ Assigning a <strong>UIViewController</strong> as the <strong>rootViewController<
 <div class="ulist"><ul>
 <li>
 <p>
-GPS. For devices with that functionality such and iPhones or iPads with GSM/LTE.
+GPS. For devices with that functionality such as iPhones or iPads with GSM/LTE.
 </p>
 </li>
 <li>
@@ -2683,6 +2693,9 @@ WiFi hotspots.
 <div class="paragraph"><p>CLLocationManager will invoke the method <strong>locationManager:didUpdateToLocation:fromLocation</strong> of its delegate when it can determine a change in the device&#8217;s location. In this case we are updating in a UILabel the coordinates of the device. The object for both newLocation and oldLocation arguments is <strong>CLLocation</strong>. This class gives you access to values such as latitude, longitude and some other variables like altitude and speed.</p></div>
 <div class="paragraph"><p>If an error occurs, the second method <strong>locationManager:didFailWithError</strong> will be called.</p></div>
 <div class="paragraph"><p>Run the example, and try changing the simulator location in the Debug menu using the Location option. There are some predifined locations and you can specify a custom one by entering its latitude and longitude:</p></div>
+<div class="paragraph"><p><span class="image">
+<img src="Resources/ch06-Delegate-ch07-MapKit/ch07_09_locationMenu.png" alt="Chapter 7 location menu" />
+</span></p></div>
 <div class="paragraph"><p><span class="image">
 <img src="Resources/ch06-Delegate-ch07-MapKit/ch07_03_location.png" alt="Chapter 7 location" />
 </span></p></div>
@@ -2788,7 +2801,7 @@ subtitle. Optional, returns an NSString with the subtitle of the annotation.
 </p>
 </li>
 </ul></div>
-<div class="paragraph"><p>Create a new file inside the <strong>models</strong> folder named <strong>event_annotation.rb</strong>. Copy this code inside:</p></div>
+<div class="paragraph"><p>Open the file inside the <strong>models</strong> folder named <strong>event_annotation.rb</strong>. Copy this code inside:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="k">class</span> <span class="nc">EventAnnotation</span>
 
@@ -2822,11 +2835,11 @@ subtitle. Optional, returns an NSString with the subtitle of the annotation.
 <span class="k">end</span>
 </pre></div></div></div>
 <div class="paragraph"><p>We are only defining an initializer method that receives the coordinate, the title and the subtitle and the methods defined in the <strong>MKAnnotation</strong> protocol. Now we are ready to add our annotation to the Map.</p></div>
-<div class="paragraph"><p>Add this method that creates an instance of our custom annotation:</p></div>
+<div class="paragraph"><p>Open the <strong>EventMapViewController</strong> class and add this method that creates an instance of our custom annotation:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">annotationForEvent</span>
 
-  <span class="no">EventAnnotation</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithCoordinate</span><span class="p">(</span><span class="vi">@event</span><span class="o">.</span><span class="n">location</span><span class="p">,</span> <span class="n">title</span><span class="ss">:event</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">andSubTitle</span><span class="ss">:event</span><span class="o">.</span><span class="n">address</span><span class="p">)</span>
+  <span class="no">EventAnnotation</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithCoordinate</span><span class="p">(</span><span class="vi">@event</span><span class="o">.</span><span class="n">location</span><span class="p">,</span> <span class="n">title</span><span class="ss">:@event</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">andSubTitle</span><span class="ss">:@event</span><span class="o">.</span><span class="n">address</span><span class="p">)</span>
 <span class="k">end</span>
 </pre></div></div></div>
 <div class="paragraph"><p>In the <strong>viewDidLoad</strong> method, add the annotation to the map:</p></div>
@@ -4917,13 +4930,22 @@ Drag a UITextView and in the <strong>Attributes</strong> inspector unselect the 
 <div class="sect1">
 <h2 id="_digital_photo_frame">Digital Photo Frame</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>In this chapter we are going to build our own photo frame, but in a more fashion way of course on an iDevice.</p></div>
+<div class="paragraph"><p>Time travel has not been invented yet, so we most preserve our mosts precious memories in one way or another, have done said that, for the next series of chapters we are going to build an application that help us to doing so.
+For this chapter we are going to build the main screen the "photo frame", but in a more fashion way of course on an iDevice.</p></div>
 <div class="paragraph"><p>First at all we have to remember that objects are always sending messages one each other, but some times all objects may be interested in what just one object hast to say, but keep all the objects connected may be not a good strategy, for this reason we have a very handful tool, the notification center.</p></div>
 <div class="paragraph"><p>Now its time to create our ViewController that will hold our photo, run the rake command and give "PhotoFrame" as name of the application</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="nv">$ </span>motion create PhotoFrame
 </pre></div></div></div>
-<div class="paragraph"><p>Now create a new file named <strong>photo_frame_view_controller.rb</strong> in app folder and add the following code. Don&#8217;t forget to add the image that comes in your chapter folder named frame.png and copy it to the resources folder.</p></div>
+<div class="admonitionblock">
+<table><tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">Please add the assets to the resources folder of your project. You can find them under the resources folder and inside there is a folder images with the assets necessary for the chapter.</td>
+</tr></table>
+</div>
+<div class="paragraph"><p>Now create a new file named <strong>photo_frame_view_controller.rb</strong> in app folder and add the following code.</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="k">class</span> <span class="nc">PhotoViewController</span> <span class="o">&lt;</span> <span class="no">UIViewController</span>
 
