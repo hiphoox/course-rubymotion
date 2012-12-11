@@ -205,7 +205,7 @@ Now that we have see the CALayers in action, is time to do somethings more compl
 $ open layer_view_controller.rb
 ------------
 
-[source, ruby]
+["source", "ruby", args="-O \"hl_lines=3 4 5 6\""]
 --------------
 def loadView
 
@@ -254,7 +254,7 @@ Easy right? We create a nice background for our app using a gradient. Lets conti
 
 Please copy the **Determine deployment target** into our app resources folder, after that add the following method to our *LayerViewController* class
 
-[source, ruby]
+["source", "ruby", args="-O \"hl_lines=7\""]
 --------------
 def loadView
 
@@ -287,7 +287,7 @@ image::resources/ch20-CALayers/ch20_GrassLayer.png[Grass Layer]
 Great! Now you see that we are compositing two layers together and learn that you can also include an Image as a content. But how about drawing custom figures? Add the following to the *LayerViewController* class:
 
 
-[source, ruby]
+["source","ruby", "numbered", args="-O \"hl_lines=7\""]
 --------------
 def loadView
 
@@ -388,7 +388,7 @@ If you think it its similar that the old cartoon animation process. Having the m
 
 Enough of theory, lets do this in a practical way. Insert the following to the *LayerViewController* class:
 
-[source, ruby]
+["source", "ruby", args="-O \"hl_lines=10 11 12 13 14\""]
 --------------
 def loadView
 
