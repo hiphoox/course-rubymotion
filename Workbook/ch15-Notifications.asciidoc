@@ -4,7 +4,8 @@ Chapter 15 - Notification Center
 Digital Photo Frame
 -------------------
 
-In this chapter we are going to build our own photo frame, but in a more fashion way of course on an iDevice.
+Time travel has not been invented yet, so we most preserve our mosts precious memories in one way or another, have done said that, for the next series of chapters we are going to build an application that help us to doing so. 
+For this chapter we are going to build the main screen the "photo frame", but in a more fashion way of course on an iDevice.
 
 First at all we have to remember that objects are always sending messages one each other, but some times all objects may be interested in what just one object hast to say, but keep all the objects connected may be not a good strategy, for this reason we have a very handful tool, the notification center.
 
@@ -16,8 +17,10 @@ Now its time to create our ViewController that will hold our photo, run the rake
 $ motion create PhotoFrame
 --------------------------------------
 
+[NOTE]
+Please add the assets to the resources folder of your project. You can find them under the resources folder and inside there is a folder images with the assets necessary for the chapter.  
 
-Now create a new file named *photo_frame_view_controller.rb* in app folder and add the following code. Don't forget to add the image that comes in your chapter folder named frame.png and copy it to the resources folder.
+Now create a new file named *photo_frame_view_controller.rb* in app folder and add the following code.
 
 [source, ruby]
 ----------------------------------------------------------------
