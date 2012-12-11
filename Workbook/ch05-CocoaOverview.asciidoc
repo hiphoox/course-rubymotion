@@ -81,7 +81,8 @@ class NextEventViewController < UIViewController
   def loadView   
  
     p 'loading view'
-    self.view = UIView.alloc.init    
+    self.view = UIView.alloc.initWithFrame( UIScreen.mainScreen.bounds )
+    self.view.backgroundColor = UIColor.whiteColor   
   end
 
 end  
@@ -107,9 +108,9 @@ Using UIImageView
 ~~~~~~~~~~~~~~~~~
 
 
-Now it's time to begin to stylish our app. We are going to add an header and a background image with a nice gradient. 
+Now it's time to begin to stylish our app. We are going to add a header and a background image with a nice gradient. 
 
-Open the zip file called ch05CocoaOverview_resources.zip, inside you'll find the Design assets for this workshop. Copy them into the *resources* folder of our app.
+We have placed the assets for the app in the 05-CocoaOverview/resources/images folder. Copy them into the *resources* folder of our app.
 
 Now inside our View Controller, add these lines:
 
@@ -149,15 +150,15 @@ end
 
 The method *viewDidLoad* is called once the view of the Controller is loaded into memory. It's safe, then, to initialize the view inside this method.
 
-Basically, we are adding two images using the *addSubview* method of *UIView*. In the *imageViewWithHeader* method, we are creating the first image: the header image. In CocoaTouch we have the *UIImageView* class to add images to our apps. We are using its initializer method called *initWithImage* that receives a *UIImage*. *UIImage* is the image itself, and *UIImageView* is only a convenient *UIView* that simplifies the process of painting an image on screen. 
+Basically, we are adding three images using the *addSubview* method of *UIView*. In the *imageViewWithHeader* method, we are creating the first image: the header image. In CocoaTouch we have the *UIImageView* class to add images to our apps. We are using its initializer method called *initWithImage* that receives a *UIImage*. *UIImage* is the image itself, and *UIImageView* is only a convenient *UIView* that simplifies the process of painting an image on screen. 
 
-*UIImage* can be created with its class method *imageNamed* that receives an *NSString* with the name of the image file.
+*UIImage* can be created with its class method *imageNamed* that receives an *NSString* with the name of the image file. If the image is a PNG, you don't need to specify its extension.
 
 In the *imageViewWithBackground* method we are creating the *UIImageView* with the background image. Notice that we are changing the frame of this image. The frame is a property of type *CGRect* that the class *UIView* uses to specify the location of the view inside its superview and its size. 
 
 We are using the *CGRectMake* function to create our frame. The first two arguments define the location coordinates of the object from the top left corner of the superview. For the background we are specifying an X coordinate of 0, thus the object will be at the left-most location of the screen; and a Y coordinate of 64, thus the object will be placed below the header image. The second  and third argument specifies its size.
 
-RubyMotion has another way to create a *CGRect*. Try to change the *CGRectMake* line to this:
+RubyMotion has another way to create a *CGRect*. In the *imageViewWithBackground* Try to change the *CGRectMake* line to this:
 
 [source, ruby]
 ------------------------
@@ -206,13 +207,13 @@ def labelWithDaysLeft
 end
 ------------------------------------------------  
 
-The object used in CocoaTouch to disply lines of text is *UILabel*. We are creating two *UILabel* using the initializer method *initWithFrame* to specify their size and location. 
+The object used in CocoaTouch to display lines of text is *UILabel*. We are creating two *UILabel* using the initializer method *initWithFrame* to specify their size and location. 
 
 Then, we are changing its font and size. An *UILabel* has a property named *font* that allow us to do that. To create a Font, we are using the *UIFont* class and its method *fontWithName:size*. As you can see, you specify the font using a NSString with the Font Family name. If you want to see the available Fonts in CocoaTouch, try to print the array returned by *UIFont.familyNames*.
 
 Next, we are changing the color of the label using the *textColor* property and the text alignment. By default a *UILabel* has a white background color, we are changing this to clearColor. This is a special color to specify transparencies. So, basically we are defining that the background of this *UILabel* should be transparent.
 
-Finally, we are adding a shadow to the label. With *shadowColor* you specify its color and with *shadowOffset* its location. This offset is the number of points that the shadow will be offset from the label. It is a *CGSize* object so you can specify it with the *CGSizeMake* function, but we prefer to use the more convenient RubyMotion way of using an array of two elements, one for width and the other one for weight. With *[-1, -1]* we are defining that the shadow will be 1 point offset to the left and 1 point offset up from the label.
+Finally, we are adding a shadow to the label. With *shadowColor* you specify its color and with *shadowOffset* its location. This offset is the number of points that the shadow will be offset from the label. It is a *CGSize* object so you can specify it with the *CGSizeMake* function, but we prefer to use the more convenient RubyMotion way of using an array of two elements, one for width and the other one for height. With *[-1, -1]* we are defining that the shadow will be 1 point offset to the left and 1 point offset up from the label.
 
 We have the methods to create our labels, is time to add them to our view. Inside the viewDidLoad method add this lines:
 
