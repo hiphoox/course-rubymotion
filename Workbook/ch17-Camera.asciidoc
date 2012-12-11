@@ -11,6 +11,9 @@ In this chapter we are going to use camera and photo roll for capture moments th
 Photo Album
 ~~~~~~~~~~~
 
+[NOTE]
+Please add the assets to the resources folder of your project. You can find them under the resources folder and inside there is a folder images with the assets necessary for the chapter.  
+
 Bring the project for the chapter 16 'Photo Album' and open the file *album_camera_view_controller.rb* and a add the following code that will serve to connect the Graphics elements, also don't forget to assign the correspondent tag numbers on the *CameraView.xib* file.
 
 [source, ruby]

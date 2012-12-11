@@ -17,6 +17,8 @@ Let start creating our project, run the rake command an name it "PhotoAlbum"
 $ motion create PhotoAlbum
 --------------------------------------
 
+[NOTE]
+Please add the assets to the resources folder of your project. You can find them under the resources folder and inside there is a folder images with the assets necessary for the chapter.  
 
 Album View Controller 
 ~~~~~~~~~~~~~~~~~~~~~
