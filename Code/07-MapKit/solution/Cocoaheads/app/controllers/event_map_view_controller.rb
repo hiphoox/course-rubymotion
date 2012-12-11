@@ -13,7 +13,7 @@ class EventMapViewController < UIViewController
     super    
     @map_view_for_event = mapViewWithEventLocation
     self.view.userInteractionEnabled = true
-    annotation = EventAnnotation.alloc.initWithCoordinate(@event.location, title:event.name, andSubTitle:event.address)
+    annotation = annotationForEvent 
     @map_view_for_event.addAnnotation(annotation)    
     
     @map_view_for_event.setRegion(regionForEventLocation)
@@ -23,7 +23,9 @@ class EventMapViewController < UIViewController
     self.view.addSubview( buttonToCloseScreen )
   end
 
-
+  def annotationForEvent
+    EventAnnotation.alloc.initWithCoordinate(@event.location, title:@event.name, andSubTitle:@event.address)
+  end
 
   def mapViewWithEventLocation
     map_view_for_event = MKMapView.alloc.initWithFrame( self.view.bounds )

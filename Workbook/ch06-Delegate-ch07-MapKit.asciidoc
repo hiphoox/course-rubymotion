@@ -1,12 +1,15 @@
 Chapter 06 - Delegate & Chapter 07 - MapKit
 ===========================================
 
-In this chapter we are going to review some concepts about delegation in CocoaTouch and how to use maps.
+The basis of many apps are the Location Services, that help to exploit the location capabilities of the devices and the ability to use maps. We will review in this chapter how to use these two features of CocoaTouch to improve our CocoaHeads app.
+
+Our app needs to show the location of the events in a map. We will add this feature on this chapter. We will also show you how to retrieve the current location of the device user a *CoreLocationManager*.
+
 
 Preparing the app
 -----------------
 
-Open the file *ch07_mapkit_resources.zip* and unzip it. Inside there is our Cocoaheads app. Run it with the *rake* command. You will see the main screen with the details of an event:
+Open the folder *07-MapKit/resources/code* you will find a folder named *Cocoaheads* with the app as we finished in the Chapter 05. From the command line, run it with the *rake* command. You will see the main screen with the details of an event:
 
 image:Resources/ch06-Delegate-ch07-MapKit/ch07_01_app.png[Chapter 7 app]
 
@@ -21,14 +24,14 @@ Now open the Rakefile and examine the configuration. In this lab we are going to
 app.frameworks = ['CoreLocation', 'MapKit']
 ----------------------
 
-CoreLocation is the framework that allows you to access the geo location and heading of the device. MapKit, in the other hand, provides an interface to embed maps into your applications as well as other advance functionality such as adding custom annotations, reverse-geocoding lookups, etc.
+CoreLocation is the framework that allows you to access the geo location and heading of the device. MapKit, on the other hand, provides an interface to embed maps into your applications as well as other advanced functionality such as adding custom annotations, reverse-geocoding lookups, etc.
 
 Adding A Location Manager
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
 The first thing we are going to add to our View Controller is a *CLLocationManager* to determine the device location and show how the delegation pattern works in CocoaTouch.
 
-In order to do this, open the *event_detail_view_controller.rb* file and locate the method named *requestUserCurrenLocation* Add the following lines:
+In order to do this, open the *event_detail_view_controller.rb* file and locate the method named *requestUserCurrentLocation* Add the following lines:
 
 
 [source, ruby]
@@ -65,7 +68,7 @@ Then, we create our CLLocationManager. The first thing we set, is the *desiredAc
 
 Remember that an iOS device can use up to 3 ways to determine its location:
 
-- GPS. For devices with that functionality such and iPhones or iPads with GSM/LTE.
+- GPS. For devices with that functionality such as iPhones or iPads with GSM/LTE.
 - Cell towers triangulation. For devices with GSM/LTE.
 - WiFi hotspots.
 
@@ -114,6 +117,8 @@ CLLocationManager will invoke the method *locationManager:didUpdateToLocation:fr
 If an error occurs, the second method *locationManager:didFailWithError* will be called.
 
 Run the example, and try changing the simulator location in the Debug menu using the Location option. There are some predifined locations and you can specify a custom one by entering its latitude and longitude:
+
+image:Resources/ch06-Delegate-ch07-MapKit/ch07_09_locationMenu.png[Chapter 7 location menu]
 
 image:Resources/ch06-Delegate-ch07-MapKit/ch07_03_location.png[Chapter 7 location]
 
@@ -224,7 +229,7 @@ Finally, we are going to add a Pin -Annotations in MapKit terms. in the venue lo
 - title. NSString with the main title of the Annotation.
 - subtitle. Optional, returns an NSString with the subtitle of the annotation.
 
-Create a new file inside the *models* folder named *event_annotation.rb*. Copy this code inside:
+Open the file inside the *models* folder named *event_annotation.rb*. Copy this code inside:
 
 
 [source, ruby]
@@ -263,14 +268,14 @@ end
 
 We are only defining an initializer method that receives the coordinate, the title and the subtitle and the methods defined in the *MKAnnotation* protocol. Now we are ready to add our annotation to the Map.
 
-Add this method that creates an instance of our custom annotation:
+Open the *EventMapViewController* class and add this method that creates an instance of our custom annotation:
 
 
 [source, ruby]
 ---------------
 def annotationForEvent
 
-  EventAnnotation.alloc.initWithCoordinate(@event.location, title:event.name, andSubTitle:event.address)
+  EventAnnotation.alloc.initWithCoordinate(@event.location, title:@event.name, andSubTitle:@event.address)
 end
 --------------
 
