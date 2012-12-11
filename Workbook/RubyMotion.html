@@ -6486,12 +6486,12 @@ The drawing on a UIView using Core Graphics its not additive, what this means is
 
     <span class="c1"># Add the point to our array, but because is a structure (CGPoint)</span>
     <span class="c1"># we need to store it on a NSValue</span>
-    <span class="vi">@touch_points</span><span class="o">.</span><span class="n">addObject</span><span class="p">(</span><span class="no">NSValue</span><span class="o">.</span><span class="n">valueWithCGPoint</span><span class="p">(</span><span class="n">pointInView</span><span class="p">))</span>
-  <span class="p">}</span>
+<span class="hll">    <span class="vi">@touch_points</span><span class="o">.</span><span class="n">addObject</span><span class="p">(</span><span class="no">NSValue</span><span class="o">.</span><span class="n">valueWithCGPoint</span><span class="p">(</span><span class="n">pointInView</span><span class="p">))</span>
+</span>  <span class="p">}</span>
 
-  <span class="c1"># Ask the view to redraw again</span>
-  <span class="nb">self</span><span class="o">.</span><span class="n">setNeedsDisplay</span>
-
+<span class="hll">  <span class="c1"># Ask the view to redraw again</span>
+</span><span class="hll">  <span class="nb">self</span><span class="o">.</span><span class="n">setNeedsDisplay</span>
+</span>
 <span class="k">end</span>
 </pre></div></div></div>
 <div class="imageblock">
@@ -6522,11 +6522,11 @@ The drawing on a UIView using Core Graphics its not additive, what this means is
     <span class="c1"># to the current view</span>
     <span class="n">pointInView</span> <span class="o">=</span> <span class="n">touch</span><span class="o">.</span><span class="n">locationInView</span><span class="p">(</span><span class="nb">self</span><span class="p">)</span>
 
-    <span class="vi">@touch_points</span><span class="o">.</span><span class="n">addObject</span><span class="p">(</span><span class="no">NSValue</span><span class="o">.</span><span class="n">valueWithCGPoint</span><span class="p">(</span><span class="n">pointInView</span><span class="p">))</span>
-  <span class="p">}</span>
+<span class="hll">    <span class="vi">@touch_points</span><span class="o">.</span><span class="n">addObject</span><span class="p">(</span><span class="no">NSValue</span><span class="o">.</span><span class="n">valueWithCGPoint</span><span class="p">(</span><span class="n">pointInView</span><span class="p">))</span>
+</span>  <span class="p">}</span>
 
-  <span class="nb">self</span><span class="o">.</span><span class="n">setNeedsDisplay</span>
-<span class="k">end</span>
+<span class="hll">  <span class="nb">self</span><span class="o">.</span><span class="n">setNeedsDisplay</span>
+</span><span class="k">end</span>
 </pre></div></div></div>
 <div class="imageblock">
 <div class="content">
@@ -6560,8 +6560,8 @@ The drawing on a UIView using Core Graphics its not additive, what this means is
     <span class="c1"># Instance an Array for storing the user touches</span>
     <span class="vi">@touch_points</span> <span class="o">=</span> <span class="no">NSMutableArray</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">init</span>
 
-    <span class="n">load_kanji_traces</span>
-  <span class="k">end</span>
+<span class="hll">    <span class="n">load_kanji_traces</span>
+</span>  <span class="k">end</span>
 
   <span class="nb">self</span>
 
@@ -6592,31 +6592,31 @@ The drawing on a UIView using Core Graphics its not additive, what this means is
   <span class="n">pointInView</span> <span class="o">=</span> <span class="n">touches</span><span class="o">.</span><span class="n">anyObject</span><span class="o">.</span><span class="n">locationInView</span><span class="p">(</span><span class="nb">self</span><span class="p">)</span>
 
 
-  <span class="n">touch_at_beginning</span> <span class="o">=</span> <span class="kp">false</span>
+<span class="hll">  <span class="n">touch_at_beginning</span> <span class="o">=</span> <span class="kp">false</span>
+</span><span class="hll">
+</span><span class="hll">  <span class="c1"># Iterate through all the Kanji Paths available</span>
+</span><span class="hll">  <span class="vi">@kanji_traces</span><span class="o">.</span><span class="n">each</span> <span class="p">{</span> <span class="o">|</span> <span class="n">kanji_trace</span> <span class="o">|</span>
+</span><span class="hll">
+</span><span class="hll">    <span class="c1"># If the touched point is equal to any Kanji Trace starting</span>
+</span><span class="hll">    <span class="c1"># point</span>
+</span><span class="hll">    <span class="k">if</span> <span class="no">CGPointEqualToPoint</span><span class="p">(</span><span class="n">kanji_trace</span><span class="o">.</span><span class="n">CGPointValue</span><span class="p">,</span> <span class="n">pointInView</span><span class="p">)</span>
+</span><span class="hll">
+</span><span class="hll">      <span class="n">touch_at_beginning</span> <span class="o">=</span> <span class="kp">true</span>
+</span><span class="hll">    <span class="k">end</span>
+</span><span class="hll">  <span class="p">}</span>
+</span>
 
-  <span class="c1"># Iterate through all the Kanji Paths available</span>
-  <span class="vi">@kanji_traces</span><span class="o">.</span><span class="n">each</span> <span class="p">{</span> <span class="o">|</span> <span class="n">kanji_trace</span> <span class="o">|</span>
-
-    <span class="c1"># If the touched point is equal to any Kanji Trace starting</span>
-    <span class="c1"># point</span>
-    <span class="k">if</span> <span class="no">CGPointEqualToPoint</span><span class="p">(</span><span class="n">kanji_trace</span><span class="o">.</span><span class="n">CGPointValue</span><span class="p">,</span> <span class="n">pointInView</span><span class="p">)</span>
-
-      <span class="n">touch_at_beginning</span> <span class="o">=</span> <span class="kp">true</span>
-    <span class="k">end</span>
-  <span class="p">}</span>
-
-
-  <span class="c1"># If the touch was at the beginning of any Kanji Trace</span>
-  <span class="k">unless</span> <span class="n">touch_at_beginning</span>
-
-    <span class="c1"># Add the point to our array, but because is a structure (CGPoint)</span>
-    <span class="c1"># we need to store it on a NSValue</span>
-    <span class="vi">@touch_points</span><span class="o">.</span><span class="n">addObject</span><span class="p">(</span><span class="no">NSValue</span><span class="o">.</span><span class="n">valueWithCGPoint</span><span class="p">(</span><span class="n">pointInView</span><span class="p">))</span>
-
-    <span class="c1"># Ask the view to redraw again</span>
-    <span class="nb">self</span><span class="o">.</span><span class="n">setNeedsDisplay</span>
-  <span class="k">end</span>
-
+<span class="hll">  <span class="c1"># If the touch was at the beginning of any Kanji Trace</span>
+</span><span class="hll">  <span class="k">unless</span> <span class="n">touch_at_beginning</span>
+</span><span class="hll">
+</span><span class="hll">    <span class="c1"># Add the point to our array, but because is a structure (CGPoint)</span>
+</span><span class="hll">    <span class="c1"># we need to store it on a NSValue</span>
+</span><span class="hll">    <span class="vi">@touch_points</span><span class="o">.</span><span class="n">addObject</span><span class="p">(</span><span class="no">NSValue</span><span class="o">.</span><span class="n">valueWithCGPoint</span><span class="p">(</span><span class="n">pointInView</span><span class="p">))</span>
+</span><span class="hll">
+</span><span class="hll">    <span class="c1"># Ask the view to redraw again</span>
+</span><span class="hll">    <span class="nb">self</span><span class="o">.</span><span class="n">setNeedsDisplay</span>
+</span><span class="hll">  <span class="k">end</span>
+</span>
 <span class="k">end</span>
 </pre></div></div></div>
 <div class="paragraph"><p>Impossible do it with the first touch (Without moving the touch), right? This is because we are comparing a small point in the screen with a wide of a finger, making it difficult to touch with precision. The solution to this is creating a rectangle surrounding the starting trace point, so it will be more easy to hit it with the finger.</p></div>
@@ -6685,15 +6685,15 @@ The drawing on a UIView using Core Graphics its not additive, what this means is
   <span class="vi">@kanji_traces</span> <span class="o">=</span> <span class="no">NSMutableArray</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">init</span>
 
 
-  <span class="c1"># Continuing the experiment create only a Kanji Trace</span>
-  <span class="c1"># for the trace number three</span>
-  <span class="n">trace_three</span> <span class="o">=</span> <span class="no">KanjiTrace</span><span class="o">.</span><span class="n">new</span>
-
-  <span class="n">trace_three</span><span class="o">.</span><span class="n">starting_point</span> <span class="o">=</span> <span class="no">CGPointMake</span><span class="p">(</span><span class="mi">150</span><span class="p">,</span> <span class="mi">260</span><span class="p">)</span>
-
-  <span class="c1"># Add the point to the Kanji Paths array</span>
-  <span class="vi">@kanji_traces</span><span class="o">.</span><span class="n">addObject</span><span class="p">(</span><span class="n">trace_three</span><span class="p">)</span>
-<span class="k">end</span>
+<span class="hll">  <span class="c1"># Continuing the experiment create only a Kanji Trace</span>
+</span><span class="hll">  <span class="c1"># for the trace number three</span>
+</span><span class="hll">  <span class="n">trace_three</span> <span class="o">=</span> <span class="no">KanjiTrace</span><span class="o">.</span><span class="n">new</span>
+</span><span class="hll">
+</span><span class="hll">  <span class="n">trace_three</span><span class="o">.</span><span class="n">starting_point</span> <span class="o">=</span> <span class="no">CGPointMake</span><span class="p">(</span><span class="mi">150</span><span class="p">,</span> <span class="mi">260</span><span class="p">)</span>
+</span><span class="hll">
+</span><span class="hll">  <span class="c1"># Add the point to the Kanji Paths array</span>
+</span><span class="hll">  <span class="vi">@kanji_traces</span><span class="o">.</span><span class="n">addObject</span><span class="p">(</span><span class="n">trace_three</span><span class="p">)</span>
+</span><span class="k">end</span>
 
 
 
@@ -6715,31 +6715,31 @@ The drawing on a UIView using Core Graphics its not additive, what this means is
     <span class="c1"># point</span>
     <span class="k">if</span> <span class="no">CGRectContainsPoint</span><span class="p">(</span><span class="n">kanji_trace</span><span class="o">.</span><span class="n">initial_rectangle</span><span class="p">,</span> <span class="n">pointInView</span><span class="p">)</span>
 
-      <span class="c1"># Assign the trace that the user is currently</span>
-      <span class="c1"># drawing</span>
-      <span class="vi">@current_trace</span> <span class="o">=</span> <span class="n">kanji_trace</span>
-      <span class="n">touch_at_beginning</span> <span class="o">=</span> <span class="kp">true</span>
+<span class="hll">      <span class="c1"># Assign the trace that the user is currently</span>
+</span><span class="hll">      <span class="c1"># drawing</span>
+</span><span class="hll">      <span class="vi">@current_trace</span> <span class="o">=</span> <span class="n">kanji_trace</span>
+</span>      <span class="n">touch_at_beginning</span> <span class="o">=</span> <span class="kp">true</span>
     <span class="k">end</span>
   <span class="p">}</span>
 
 
-  <span class="c1"># If the touch was at the beginning of any Kanji Trace</span>
-  <span class="k">if</span> <span class="n">touch_at_beginning</span>
-
-    <span class="c1"># Add the point to our array, but because is a structure (CGPoint)</span>
-    <span class="c1"># we need to store it on a NSValue</span>
-    <span class="vi">@touch_points</span><span class="o">.</span><span class="n">addObject</span><span class="p">(</span><span class="no">NSValue</span><span class="o">.</span><span class="n">valueWithCGPoint</span><span class="p">(</span><span class="n">pointInView</span><span class="p">))</span>
-
-    <span class="c1"># Ask the view to redraw again</span>
-    <span class="nb">self</span><span class="o">.</span><span class="n">setNeedsDisplay</span>
-
-  <span class="k">else</span>
-
-    <span class="c1"># If there is no touch at the beginning means</span>
-    <span class="c1"># that the user is not drawing a new trace</span>
-    <span class="vi">@current_trace</span> <span class="o">=</span> <span class="kp">nil</span>
-  <span class="k">end</span>
-
+<span class="hll">  <span class="c1"># If the touch was at the beginning of any Kanji Trace</span>
+</span><span class="hll">  <span class="k">if</span> <span class="n">touch_at_beginning</span>
+</span><span class="hll">
+</span><span class="hll">    <span class="c1"># Add the point to our array, but because is a structure (CGPoint)</span>
+</span><span class="hll">    <span class="c1"># we need to store it on a NSValue</span>
+</span><span class="hll">    <span class="vi">@touch_points</span><span class="o">.</span><span class="n">addObject</span><span class="p">(</span><span class="no">NSValue</span><span class="o">.</span><span class="n">valueWithCGPoint</span><span class="p">(</span><span class="n">pointInView</span><span class="p">))</span>
+</span><span class="hll">
+</span><span class="hll">    <span class="c1"># Ask the view to redraw again</span>
+</span><span class="hll">    <span class="nb">self</span><span class="o">.</span><span class="n">setNeedsDisplay</span>
+</span><span class="hll">
+</span><span class="hll">  <span class="k">else</span>
+</span><span class="hll">
+</span><span class="hll">    <span class="c1"># If there is no touch at the beginning means</span>
+</span><span class="hll">    <span class="c1"># that the user is not drawing a new trace</span>
+</span><span class="hll">    <span class="vi">@current_trace</span> <span class="o">=</span> <span class="kp">nil</span>
+</span><span class="hll">  <span class="k">end</span>
+</span>
 <span class="k">end</span>
 </pre></div></div></div>
 <div class="imageblock">
@@ -6914,21 +6914,21 @@ The drawing on a UIView using Core Graphics its not additive, what this means is
   <span class="n">pointInView</span> <span class="o">=</span> <span class="n">touches</span><span class="o">.</span><span class="n">anyObject</span><span class="o">.</span><span class="n">locationInView</span><span class="p">(</span><span class="nb">self</span><span class="p">)</span>
 
 
-  <span class="c1"># If the user is drawing a trace</span>
-  <span class="k">unless</span> <span class="vi">@current_trace</span><span class="o">.</span><span class="n">nil?</span>
-
-    <span class="c1"># Add the touch point into the array, so it can be</span>
-    <span class="c1"># drawing later</span>
-    <span class="vi">@touch_points</span><span class="o">.</span><span class="n">addObject</span><span class="p">(</span><span class="no">NSValue</span><span class="o">.</span><span class="n">valueWithCGPoint</span><span class="p">(</span><span class="n">pointInView</span><span class="p">))</span>
-
-    <span class="c1"># Evaluate how accurate is the touch in relationship</span>
-    <span class="c1"># to the trace</span>
-    <span class="vi">@current_trace</span><span class="o">.</span><span class="n">evaluate_point</span><span class="p">(</span><span class="n">pointInView</span><span class="p">)</span>
-
-    <span class="c1"># Ask for repainting</span>
-    <span class="nb">self</span><span class="o">.</span><span class="n">setNeedsDisplay</span>
-  <span class="k">end</span>
-
+<span class="hll">  <span class="c1"># If the user is drawing a trace</span>
+</span><span class="hll">  <span class="k">unless</span> <span class="vi">@current_trace</span><span class="o">.</span><span class="n">nil?</span>
+</span><span class="hll">
+</span><span class="hll">    <span class="c1"># Add the touch point into the array, so it can be</span>
+</span><span class="hll">    <span class="c1"># drawing later</span>
+</span><span class="hll">    <span class="vi">@touch_points</span><span class="o">.</span><span class="n">addObject</span><span class="p">(</span><span class="no">NSValue</span><span class="o">.</span><span class="n">valueWithCGPoint</span><span class="p">(</span><span class="n">pointInView</span><span class="p">))</span>
+</span><span class="hll">
+</span><span class="hll">    <span class="c1"># Evaluate how accurate is the touch in relationship</span>
+</span><span class="hll">    <span class="c1"># to the trace</span>
+</span><span class="hll">    <span class="vi">@current_trace</span><span class="o">.</span><span class="n">evaluate_point</span><span class="p">(</span><span class="n">pointInView</span><span class="p">)</span>
+</span><span class="hll">
+</span><span class="hll">    <span class="c1"># Ask for repainting</span>
+</span><span class="hll">    <span class="nb">self</span><span class="o">.</span><span class="n">setNeedsDisplay</span>
+</span><span class="hll">  <span class="k">end</span>
+</span>
 <span class="k">end</span>
 </pre></div></div></div>
 <div class="paragraph"><p>Yeah now we are keeping a score about how accurate is the user drawing, but we are not doing nothing with it! Our next step is just about that!</p></div>
@@ -6956,8 +6956,8 @@ The drawing on a UIView using Core Graphics its not additive, what this means is
     <span class="c1"># Instance an Array for storing the user touches</span>
     <span class="vi">@touch_points</span> <span class="o">=</span> <span class="no">NSMutableArray</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">init</span>
 
-    <span class="n">layout_cups</span>
-    <span class="n">load_kanji_traces</span>
+<span class="hll">    <span class="n">layout_cups</span>
+</span>    <span class="n">load_kanji_traces</span>
 
   <span class="k">end</span>
 
@@ -7007,8 +7007,8 @@ The drawing on a UIView using Core Graphics its not additive, what this means is
 <div class="content"><div class="highlight"><pre><span class="c1"># Method where we need to do the Core Graphics drawing</span>
 <span class="k">def</span> <span class="nf">drawRect</span><span class="p">(</span><span class="n">rect</span><span class="p">)</span>
 
-  <span class="n">update_score_board</span>
-
+<span class="hll">  <span class="n">update_score_board</span>
+</span>
   <span class="c1"># Get the Core Graphics current context</span>
   <span class="n">context</span> <span class="o">=</span> <span class="no">UIGraphicsGetCurrentContext</span><span class="p">()</span>
 

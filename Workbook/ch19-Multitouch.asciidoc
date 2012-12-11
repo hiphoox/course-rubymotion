@@ -267,7 +267,7 @@ Now that we have detected the touches, its time to paint them on the screen. For
 
 Using the above information lets implement the user touches on the screen:
 
-[source, ruby]
+["source","ruby", args="-O \"hl_lines=46 49 50\""]
 --------------
 # Method where we need to do the Core Graphics drawing
 def drawRect(rect)
@@ -330,7 +330,7 @@ Great! Now we are really seeing where the user touches began, lets continue addi
 
 IMPORTANT: If you are using a simulator probably you will notice that the dot is painted down right of the cursor. This is normal because iOS handle the mouse click as the top left corner of a finger
 
-[source, ruby]
+["source","ruby", args="-O \"hl_lines=13 16\""]
 --------------
 # This method is called when the finger (or fingers) 
 # are moving without leaving the screen
@@ -369,7 +369,7 @@ image::resources/ch19-Multitouch/ch19_StartingPoints.png[Starting Points]
 
 The first thing we can do is to have an array of the trace starting coordinates, that will enable us to evaluate if the touch was on the beginning. Lets do a little experiment to test this part:
 
-[source, ruby]
+["source","ruby", args="-O \"hl_lines=13 45 46 47 48 49 50 51 52 53 54 55 56 59 60 61 62 63 64 65 66 67 68\""]
 --------------
 def initWithFrame(frame)
 
@@ -507,7 +507,7 @@ $ cd controllers
 $ open kanji_view.rb
 ------------
  
-[source, ruby]
+["source","ruby", args="-O \"hl_lines=7 8 9 10 11 12 13 14 37 38 39 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60\""]
 --------------
 def load_kanji_traces
 
@@ -741,7 +741,7 @@ $ open kanji_view.rb
 ------------
 
 
-[source, ruby]
+["source","ruby", args="-O \"hl_lines=10 11 12 13 14 15 16 17 18 19 20 21 22 23\""]
 --------------
 # This method is called when the finger (or fingers) 
 # are moving without leaving the screen
@@ -781,7 +781,7 @@ So as the Kanji description tell us is that is a technique for building cups of 
 
 So the first thing will be copy the images in **DEFINE DEPLOYMENT PATH** into our app resource's folder, next add the follow to the **kanji_view.rb**:
 
-[source, ruby]
+["source","ruby", args="-O \"hl_lines=13\""]
 --------------
 def initWithFrame(frame)
 
@@ -841,7 +841,7 @@ image::resources/ch19-Multitouch/ch19_ScoreBoard.png[Score Board]
 
 The last part of the exercise consist of analyzing the score of all the traces and according to that change the images of the cups. Making a little scoreboard!
 
-[source, ruby]
+["source","ruby", args="-O \"hl_lines=4\""]
 --------------
 # Method where we need to do the Core Graphics drawing
 def drawRect(rect)
