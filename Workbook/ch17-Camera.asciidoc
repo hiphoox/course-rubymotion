@@ -9,7 +9,7 @@ In this chapter we are going to use camera and photo roll for capture moments th
 
 
 Photo Album
------------
+~~~~~~~~~~~
 
 Bring the project for the chapter 16 'Photo Album' and open the file *album_camera_view_controller.rb* and a add the following code that will serve to connect the Graphics elements, also don't forget to assign the correspondent tag numbers on the *CameraView.xib* file.
 
@@ -64,7 +64,7 @@ Now run your application with the 'rake' command and if you are running the appl
 image::Resources/ch17-Camera/image1.png[Take Photo]
 
 Camera Picker Delegate
-----------------------
+~~~~~~~~~~~~~~~~~~~~~~
 
 How can we know when the photo its selected well, UIMagePickerController has a delegate method when the picture its selected and when is not selected A.K.A. (cancel)
 
@@ -89,7 +89,7 @@ end
 
 
 Modal View Controllers
-----------------------
+~~~~~~~~~~~~~~~~~~~~~~
 
 You may notice two new methods 
 

@@ -19,7 +19,7 @@ $ motion create PhotoAlbum
 
 
 Album View Controller 
----------------------
+~~~~~~~~~~~~~~~~~~~~~
 
 We are going to begin with the controller that will hold the entire application, so create an file named album_view_controller.rb and the following code:
 
