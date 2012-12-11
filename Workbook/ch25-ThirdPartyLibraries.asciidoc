@@ -217,7 +217,7 @@ $ cd ..
 $ open app_delegate.rb
 ------------
 
-[source, ruby]
+["source", "ruby", args="-O \"hl_lines=55 56 57 58 59 60 61\""]
 --------------
 def application(application, didFinishLaunchingWithOptions:launchOptions)
 
@@ -349,7 +349,7 @@ $ cd scenes
 $ open space_scene.rb
 ------------
 
-[source, ruby]
+["source", "ruby", args="-O \"hl_lines=5 6 7 8 9\""]
 --------------
 def init
 
@@ -383,7 +383,7 @@ $ open background_layer.rb
 ------------
 
 
-[source, ruby]
+["source", "ruby", args="-O \"hl_lines=5 6 7 8 9 10 11 12 13 14 15 16 17\""]
 --------------
 def init
 
@@ -461,7 +461,7 @@ $ cd scenes
 $ open space_scene.rb
 ------------
 
-[source, ruby]
+["source", "ruby", args="-O \"hl_lines=12 13 14 15 16\""]
 --------------
 def init
 
@@ -527,7 +527,7 @@ Animations in the Space
 ~~~~~~~~~~~~~~~~~~~~~~~
 The animations in Cocos 2D are called actions, so lets create a action for the ship so it will move to the location of the touch in a animated way:
 
-[source, ruby]
+["source", "ruby", args="-O \"hl_lines=13 14 15 16 17 18\""]
 --------------
 # Method for handling the initial touch of the user
 # Very similar to the way iOS manage it
@@ -559,7 +559,7 @@ Upps! What when wrong? The problem is the actions must receive the number of poi
 
 The fix is the following:
 
-[source, ruby]
+["source", "ruby", args="-O \"hl_lines=13 14 15 16 17 18 19 20 21 22\""]
 --------------
 # Method for handling the initial touch of the user
 # Very similar to the way iOS manage it
@@ -628,7 +628,7 @@ class AsteroidSprite < CCSprite
 
   # Method for optimizing the code needed to instantiate
   # a new asteroid
-	def self.sprite
+  def self.sprite
 
     AsteroidSprite.spriteWithFile('bgAsteroid.png')
   end
@@ -647,7 +647,7 @@ $ cd layers
 $ open game_play_layer.rb
 ------------
 
-[source, ruby]
+["source", "ruby", args="-O \"hl_lines=22 23\""]
 --------------
 def init
 
@@ -694,7 +694,7 @@ $ cd sprites
 $ open asteroid_sprite.rb
 ------------
 
-[source, ruby]
+["source", "ruby", args="-O \"hl_lines=7 8 9\""]
 --------------
 attr_accessor :state
 
@@ -789,7 +789,7 @@ end
 
 Now lets use this method for assign an initial position to our asteroid and create an action for its movement across the screen: 
 
-[source, ruby]
+["source", "ruby", args="-O \"hl_lines=15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35\""]
 --------------
 # Method that will manage the spawning points, size 
 # and trayectory of the asteroid
@@ -815,7 +815,7 @@ def spawn
 
 
   # Lets use another random that we will use for the movement speed
-  action_speed = random.rand(1..5)
+  action_speed = random.rand(4..7)
   
   # Create a Move By Action for its movement across the screen
   action = CCMoveBy.actionWithDuration(action_speed, 
@@ -836,7 +836,7 @@ You should see the asteroid fly across the screen! If you don't please run it a 
 
 But the asteroids does not move like that! They rotate:
 
-[source, ruby]
+["source", "ruby", args="-O \"hl_lines=37 38 39 40 41 42 43 44\""]
 --------------
 # Method that will manage the spawning points, size 
 # and trayectory of the asteroid
@@ -891,7 +891,7 @@ image::Resources/ch25-ThirdPartyLibraries/ch25_SpinningAsteroid.png[Spinning Ast
 
 Last part! We need to change the status of the sprite to **:ended** when the movement action ends:
 
-[source, ruby]
+["source", "ruby", args="-O \"hl_lines=34 35 36 37 38 39 40 41 42 43 44\""]
 --------------
 # Method that will manage the spawning points, size 
 # and trayectory of the asteroid
@@ -975,7 +975,7 @@ $ cd layers
 $ open game_play_layer.rb
 ------------
 
-[source, ruby]
+["source", "ruby", args="-O \"hl_lines=22 23 24 25 26\""]
 --------------
 def init
 
@@ -1019,7 +1019,7 @@ IMPORTANT: Please take a closer look to the code because we remove the add of th
 
 Now is time to add some asteroids to our game, implement the following on the **update** method:
 
-[source, ruby]
+["source", "ruby", args="-O \"hl_lines=4\""]
 --------------
 # Loop callback method
 def update(time)
@@ -1069,7 +1069,7 @@ Please don't crash!
 ~~~~~~~~~~~~~~~~~~~
 The last part of our exercise is to detect when the asteroid crashes with our space ship! For this lets add the following method:
 
-[source, ruby]
+["source", "ruby", args="-O \"hl_lines=5\""]
 --------------
 # Loop callback method
 def update(time)

@@ -9418,14 +9418,14 @@ You need Ruby Gems, follow this <a href="https://rvm.io/rubies/rubygems/">https:
   <span class="c1"># &quot;@2x&quot;</span>
   <span class="n">file_utils</span><span class="o">.</span><span class="n">setiPhoneRetinaDisplaySuffix</span> <span class="s2">&quot;-hd&quot;</span>
 
-  <span class="c1"># Tell the director to present the SpaceScene, it works similar to a</span>
-  <span class="c1"># navigation controller: Push to present &amp; Pop to dismiss</span>
-  <span class="c1">#</span>
-  <span class="c1"># If you look closelly to the initialization of the scene we are using</span>
-  <span class="c1"># the node method, instead of new or alloc init this is because Cocos 2D</span>
-  <span class="c1"># do some memory allocation performance upgrades</span>
-  <span class="vi">@director</span><span class="o">.</span><span class="n">pushScene</span><span class="p">(</span><span class="no">SpaceScene</span><span class="o">.</span><span class="n">node</span><span class="p">)</span>
-
+<span class="hll">  <span class="c1"># Tell the director to present the SpaceScene, it works similar to a</span>
+</span><span class="hll">  <span class="c1"># navigation controller: Push to present &amp; Pop to dismiss</span>
+</span><span class="hll">  <span class="c1">#</span>
+</span><span class="hll">  <span class="c1"># If you look closelly to the initialization of the scene we are using</span>
+</span><span class="hll">  <span class="c1"># the node method, instead of new or alloc init this is because Cocos 2D</span>
+</span><span class="hll">  <span class="c1"># do some memory allocation performance upgrades</span>
+</span><span class="hll">  <span class="vi">@director</span><span class="o">.</span><span class="n">pushScene</span><span class="p">(</span><span class="no">SpaceScene</span><span class="o">.</span><span class="n">node</span><span class="p">)</span>
+</span>
   <span class="kp">true</span>
 <span class="k">end</span>
 </pre></div></div></div>
@@ -9495,12 +9495,12 @@ You need Ruby Gems, follow this <a href="https://rvm.io/rubies/rubygems/">https:
 
   <span class="k">if</span> <span class="k">super</span>
 
-    <span class="c1"># Create a new instance of a Background Layer</span>
-    <span class="n">background_layer</span> <span class="o">=</span> <span class="no">BackgroundLayer</span><span class="o">.</span><span class="n">node</span>
-
-    <span class="c1"># Add it to the scene</span>
-    <span class="nb">self</span><span class="o">.</span><span class="n">addChild</span><span class="p">(</span><span class="n">background_layer</span><span class="p">)</span>
-  <span class="k">end</span>
+<span class="hll">    <span class="c1"># Create a new instance of a Background Layer</span>
+</span><span class="hll">    <span class="n">background_layer</span> <span class="o">=</span> <span class="no">BackgroundLayer</span><span class="o">.</span><span class="n">node</span>
+</span><span class="hll">
+</span><span class="hll">    <span class="c1"># Add it to the scene</span>
+</span><span class="hll">    <span class="nb">self</span><span class="o">.</span><span class="n">addChild</span><span class="p">(</span><span class="n">background_layer</span><span class="p">)</span>
+</span>  <span class="k">end</span>
 
   <span class="nb">self</span>
 <span class="k">end</span>
@@ -9525,20 +9525,20 @@ You need Ruby Gems, follow this <a href="https://rvm.io/rubies/rubygems/">https:
 
   <span class="k">if</span> <span class="k">super</span>
 
-    <span class="c1"># Create a new sprite with our background image</span>
-    <span class="n">background_sprite</span> <span class="o">=</span> <span class="no">CCSprite</span><span class="o">.</span><span class="n">spriteWithFile</span><span class="p">(</span><span class="s1">&#39;bgSpace.png&#39;</span><span class="p">)</span>
-
-    <span class="c1"># We need to get the screen size for positioning the sprite</span>
-    <span class="n">screen_size</span> <span class="o">=</span> <span class="no">CCDirector</span><span class="o">.</span><span class="n">sharedDirector</span><span class="o">.</span><span class="n">winSize</span>
-
-    <span class="c1"># Like the CALayers the position is set in reference to the center</span>
-    <span class="c1"># of the label, in this case we want the sprite to be in the middle</span>
-    <span class="c1"># of the screen</span>
-    <span class="n">background_sprite</span><span class="o">.</span><span class="n">position</span> <span class="o">=</span> <span class="no">CGPointMake</span><span class="p">(</span><span class="n">screen_size</span><span class="o">.</span><span class="n">width</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">screen_size</span><span class="o">.</span><span class="n">height</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
-
-    <span class="c1"># Add the sprite to the Layer</span>
-    <span class="nb">self</span><span class="o">.</span><span class="n">addChild</span><span class="p">(</span><span class="n">background_sprite</span><span class="p">)</span>
-  <span class="k">end</span>
+<span class="hll">    <span class="c1"># Create a new sprite with our background image</span>
+</span><span class="hll">    <span class="n">background_sprite</span> <span class="o">=</span> <span class="no">CCSprite</span><span class="o">.</span><span class="n">spriteWithFile</span><span class="p">(</span><span class="s1">&#39;bgSpace.png&#39;</span><span class="p">)</span>
+</span><span class="hll">
+</span><span class="hll">    <span class="c1"># We need to get the screen size for positioning the sprite</span>
+</span><span class="hll">    <span class="n">screen_size</span> <span class="o">=</span> <span class="no">CCDirector</span><span class="o">.</span><span class="n">sharedDirector</span><span class="o">.</span><span class="n">winSize</span>
+</span><span class="hll">
+</span><span class="hll">    <span class="c1"># Like the CALayers the position is set in reference to the center</span>
+</span><span class="hll">    <span class="c1"># of the label, in this case we want the sprite to be in the middle</span>
+</span><span class="hll">    <span class="c1"># of the screen</span>
+</span><span class="hll">    <span class="n">background_sprite</span><span class="o">.</span><span class="n">position</span> <span class="o">=</span> <span class="no">CGPointMake</span><span class="p">(</span><span class="n">screen_size</span><span class="o">.</span><span class="n">width</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">screen_size</span><span class="o">.</span><span class="n">height</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+</span><span class="hll">
+</span><span class="hll">    <span class="c1"># Add the sprite to the Layer</span>
+</span><span class="hll">    <span class="nb">self</span><span class="o">.</span><span class="n">addChild</span><span class="p">(</span><span class="n">background_sprite</span><span class="p">)</span>
+</span>  <span class="k">end</span>
 
   <span class="nb">self</span>
 <span class="k">end</span>
@@ -9603,12 +9603,12 @@ You need Ruby Gems, follow this <a href="https://rvm.io/rubies/rubygems/">https:
     <span class="nb">self</span><span class="o">.</span><span class="n">addChild</span><span class="p">(</span><span class="n">background_layer</span><span class="p">)</span>
 
 
-    <span class="c1"># Create a new instance of a Game Play Layer</span>
-    <span class="n">game_play_layer</span> <span class="o">=</span> <span class="no">GamePlayLayer</span><span class="o">.</span><span class="n">node</span>
-
-    <span class="c1"># Add it to the scene</span>
-    <span class="nb">self</span><span class="o">.</span><span class="n">addChild</span><span class="p">(</span><span class="n">game_play_layer</span><span class="p">)</span>
-  <span class="k">end</span>
+<span class="hll">    <span class="c1"># Create a new instance of a Game Play Layer</span>
+</span><span class="hll">    <span class="n">game_play_layer</span> <span class="o">=</span> <span class="no">GamePlayLayer</span><span class="o">.</span><span class="n">node</span>
+</span><span class="hll">
+</span><span class="hll">    <span class="c1"># Add it to the scene</span>
+</span><span class="hll">    <span class="nb">self</span><span class="o">.</span><span class="n">addChild</span><span class="p">(</span><span class="n">game_play_layer</span><span class="p">)</span>
+</span>  <span class="k">end</span>
 
   <span class="nb">self</span>
 <span class="k">end</span>
@@ -9668,13 +9668,13 @@ You need Ruby Gems, follow this <a href="https://rvm.io/rubies/rubygems/">https:
   <span class="c1"># coordinate space into the layer space</span>
   <span class="n">touch_location</span> <span class="o">=</span> <span class="nb">self</span><span class="o">.</span><span class="n">convertTouchToNodeSpace</span><span class="p">(</span><span class="n">touch</span><span class="p">)</span>
 
-  <span class="c1"># We need to create a MoveBy action for the animated movement</span>
-  <span class="n">action</span> <span class="o">=</span> <span class="no">CCMoveBy</span><span class="o">.</span><span class="n">actionWithDuration</span><span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">3</span><span class="p">,</span>
-                                       <span class="n">position</span><span class="ss">:touch_location</span><span class="p">)</span>
-
-  <span class="c1"># Execute the action in our Space Ship Sprite</span>
-  <span class="vi">@space_ship_sprite</span><span class="o">.</span><span class="n">runAction</span><span class="p">(</span><span class="n">action</span><span class="p">)</span>
-<span class="k">end</span>
+<span class="hll">  <span class="c1"># We need to create a MoveBy action for the animated movement</span>
+</span><span class="hll">  <span class="n">action</span> <span class="o">=</span> <span class="no">CCMoveBy</span><span class="o">.</span><span class="n">actionWithDuration</span><span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">3</span><span class="p">,</span>
+</span><span class="hll">                                       <span class="n">position</span><span class="ss">:touch_location</span><span class="p">)</span>
+</span><span class="hll">
+</span><span class="hll">  <span class="c1"># Execute the action in our Space Ship Sprite</span>
+</span><span class="hll">  <span class="vi">@space_ship_sprite</span><span class="o">.</span><span class="n">runAction</span><span class="p">(</span><span class="n">action</span><span class="p">)</span>
+</span><span class="k">end</span>
 </pre></div></div></div>
 <div class="admonitionblock">
 <table><tr>
@@ -9705,17 +9705,17 @@ You need Ruby Gems, follow this <a href="https://rvm.io/rubies/rubygems/">https:
   <span class="c1"># coordinate space into the layer space</span>
   <span class="n">touch_location</span> <span class="o">=</span> <span class="nb">self</span><span class="o">.</span><span class="n">convertTouchToNodeSpace</span><span class="p">(</span><span class="n">touch</span><span class="p">)</span>
 
-  <span class="c1"># Get the current position of the space ship</span>
-  <span class="n">current_location</span> <span class="o">=</span> <span class="vi">@space_ship_sprite</span><span class="o">.</span><span class="n">position</span>
-
-  <span class="c1"># Calculate the difference between the two points</span>
-  <span class="n">location_difference</span> <span class="o">=</span> <span class="no">CGPointMake</span><span class="p">(</span><span class="n">touch_location</span><span class="o">.</span><span class="n">x</span> <span class="o">-</span> <span class="n">current_location</span><span class="o">.</span><span class="n">x</span><span class="p">,</span>
-                                    <span class="n">touch_location</span><span class="o">.</span><span class="n">y</span> <span class="o">-</span> <span class="n">current_location</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
-
-  <span class="c1"># We need to create a MoveBy action for the animated movement</span>
-  <span class="n">action</span> <span class="o">=</span> <span class="no">CCMoveBy</span><span class="o">.</span><span class="n">actionWithDuration</span><span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">3</span><span class="p">,</span>
-                                       <span class="n">position</span><span class="ss">:location_difference</span><span class="p">)</span>
-
+<span class="hll">  <span class="c1"># Get the current position of the space ship</span>
+</span><span class="hll">  <span class="n">current_location</span> <span class="o">=</span> <span class="vi">@space_ship_sprite</span><span class="o">.</span><span class="n">position</span>
+</span><span class="hll">
+</span><span class="hll">  <span class="c1"># Calculate the difference between the two points</span>
+</span><span class="hll">  <span class="n">location_difference</span> <span class="o">=</span> <span class="no">CGPointMake</span><span class="p">(</span><span class="n">touch_location</span><span class="o">.</span><span class="n">x</span> <span class="o">-</span> <span class="n">current_location</span><span class="o">.</span><span class="n">x</span><span class="p">,</span>
+</span><span class="hll">                                    <span class="n">touch_location</span><span class="o">.</span><span class="n">y</span> <span class="o">-</span> <span class="n">current_location</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
+</span><span class="hll">
+</span><span class="hll">  <span class="c1"># We need to create a MoveBy action for the animated movement</span>
+</span><span class="hll">  <span class="n">action</span> <span class="o">=</span> <span class="no">CCMoveBy</span><span class="o">.</span><span class="n">actionWithDuration</span><span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">3</span><span class="p">,</span>
+</span><span class="hll">                                       <span class="n">position</span><span class="ss">:location_difference</span><span class="p">)</span>
+</span>
   <span class="c1"># Execute the action in our Space Ship Sprite</span>
   <span class="vi">@space_ship_sprite</span><span class="o">.</span><span class="n">runAction</span><span class="p">(</span><span class="n">action</span><span class="p">)</span>
 <span class="k">end</span>
@@ -9757,7 +9757,7 @@ You need Ruby Gems, follow this <a href="https://rvm.io/rubies/rubygems/">https:
 
   <span class="c1"># Method for optimizing the code needed to instantiate</span>
   <span class="c1"># a new asteroid</span>
-        <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">sprite</span>
+  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">sprite</span>
 
     <span class="no">AsteroidSprite</span><span class="o">.</span><span class="n">spriteWithFile</span><span class="p">(</span><span class="s1">&#39;bgAsteroid.png&#39;</span><span class="p">)</span>
   <span class="k">end</span>
@@ -9794,9 +9794,9 @@ You need Ruby Gems, follow this <a href="https://rvm.io/rubies/rubygems/">https:
     <span class="c1"># Enable handle touches on the layer</span>
     <span class="nb">self</span><span class="o">.</span><span class="n">isTouchEnabled</span> <span class="o">=</span> <span class="kp">true</span>
 
-    <span class="c1"># Add an asteroid sprite to our layer</span>
-    <span class="nb">self</span><span class="o">.</span><span class="n">addChild</span><span class="p">(</span><span class="no">AsteroidSprite</span><span class="o">.</span><span class="n">sprite</span><span class="p">)</span>
-  <span class="k">end</span>
+<span class="hll">    <span class="c1"># Add an asteroid sprite to our layer</span>
+</span><span class="hll">    <span class="nb">self</span><span class="o">.</span><span class="n">addChild</span><span class="p">(</span><span class="no">AsteroidSprite</span><span class="o">.</span><span class="n">sprite</span><span class="p">)</span>
+</span>  <span class="k">end</span>
 
   <span class="nb">self</span>
 <span class="k">end</span>
@@ -9823,10 +9823,10 @@ You need Ruby Gems, follow this <a href="https://rvm.io/rubies/rubygems/">https:
 <span class="k">def</span> <span class="nf">initWithTexture</span><span class="p">(</span><span class="n">texture</span><span class="p">,</span> <span class="n">rect</span><span class="ss">:rect</span><span class="p">)</span>
 
   <span class="k">if</span> <span class="k">super</span>
-    <span class="vi">@state</span> <span class="o">=</span> <span class="ss">:spawning</span>
-
-    <span class="n">spawn</span>
-  <span class="k">end</span>
+<span class="hll">    <span class="vi">@state</span> <span class="o">=</span> <span class="ss">:spawning</span>
+</span><span class="hll">
+</span><span class="hll">    <span class="n">spawn</span>
+</span>  <span class="k">end</span>
 
   <span class="nb">self</span>
 
@@ -9922,28 +9922,28 @@ You need Ruby Gems, follow this <a href="https://rvm.io/rubies/rubygems/">https:
   <span class="nb">self</span><span class="o">.</span><span class="n">setScaleY</span><span class="p">(</span><span class="n">sprite_size</span> <span class="o">/</span> <span class="nb">self</span><span class="o">.</span><span class="n">contentSize</span><span class="o">.</span><span class="n">height</span><span class="p">)</span>
 
 
-  <span class="c1"># Generate an initial and final position for the asteroid</span>
-  <span class="n">initial_position</span> <span class="o">=</span> <span class="n">position_outside_screen</span>
-  <span class="n">final_position</span> <span class="o">=</span> <span class="n">position_outside_screen</span>
-
-  <span class="c1"># Calculate the difference between the two positions</span>
-  <span class="n">position_difference</span> <span class="o">=</span> <span class="no">CGPointMake</span><span class="p">(</span><span class="n">final_position</span><span class="o">.</span><span class="n">x</span> <span class="o">-</span> <span class="n">initial_position</span><span class="o">.</span><span class="n">x</span><span class="p">,</span>
-                                    <span class="n">final_position</span><span class="o">.</span><span class="n">y</span> <span class="o">-</span> <span class="n">initial_position</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
-
-
-  <span class="c1"># Lets use another random that we will use for the movement speed</span>
-  <span class="n">action_speed</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">1</span><span class="o">.</span><span class="n">.</span><span class="mi">5</span><span class="p">)</span>
-
-  <span class="c1"># Create a Move By Action for its movement across the screen</span>
-  <span class="n">action</span> <span class="o">=</span> <span class="no">CCMoveBy</span><span class="o">.</span><span class="n">actionWithDuration</span><span class="p">(</span><span class="n">action_speed</span><span class="p">,</span>
-                                       <span class="n">position</span><span class="ss">:position_difference</span><span class="p">)</span>
-
-  <span class="c1"># Assign the initial position</span>
-  <span class="nb">self</span><span class="o">.</span><span class="n">position</span> <span class="o">=</span> <span class="n">initial_position</span>
-
-  <span class="c1"># Run the movement action</span>
-  <span class="nb">self</span><span class="o">.</span><span class="n">runAction</span><span class="p">(</span><span class="n">action</span><span class="p">)</span>
-<span class="k">end</span>
+<span class="hll">  <span class="c1"># Generate an initial and final position for the asteroid</span>
+</span><span class="hll">  <span class="n">initial_position</span> <span class="o">=</span> <span class="n">position_outside_screen</span>
+</span><span class="hll">  <span class="n">final_position</span> <span class="o">=</span> <span class="n">position_outside_screen</span>
+</span><span class="hll">
+</span><span class="hll">  <span class="c1"># Calculate the difference between the two positions</span>
+</span><span class="hll">  <span class="n">position_difference</span> <span class="o">=</span> <span class="no">CGPointMake</span><span class="p">(</span><span class="n">final_position</span><span class="o">.</span><span class="n">x</span> <span class="o">-</span> <span class="n">initial_position</span><span class="o">.</span><span class="n">x</span><span class="p">,</span>
+</span><span class="hll">                                    <span class="n">final_position</span><span class="o">.</span><span class="n">y</span> <span class="o">-</span> <span class="n">initial_position</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
+</span><span class="hll">
+</span><span class="hll">
+</span><span class="hll">  <span class="c1"># Lets use another random that we will use for the movement speed</span>
+</span><span class="hll">  <span class="n">action_speed</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">4</span><span class="o">.</span><span class="n">.</span><span class="mi">7</span><span class="p">)</span>
+</span><span class="hll">
+</span><span class="hll">  <span class="c1"># Create a Move By Action for its movement across the screen</span>
+</span><span class="hll">  <span class="n">action</span> <span class="o">=</span> <span class="no">CCMoveBy</span><span class="o">.</span><span class="n">actionWithDuration</span><span class="p">(</span><span class="n">action_speed</span><span class="p">,</span>
+</span><span class="hll">                                       <span class="n">position</span><span class="ss">:position_difference</span><span class="p">)</span>
+</span><span class="hll">
+</span><span class="hll">  <span class="c1"># Assign the initial position</span>
+</span><span class="hll">  <span class="nb">self</span><span class="o">.</span><span class="n">position</span> <span class="o">=</span> <span class="n">initial_position</span>
+</span><span class="hll">
+</span><span class="hll">  <span class="c1"># Run the movement action</span>
+</span><span class="hll">  <span class="nb">self</span><span class="o">.</span><span class="n">runAction</span><span class="p">(</span><span class="n">action</span><span class="p">)</span>
+</span><span class="k">end</span>
 </pre></div></div></div>
 <div class="imageblock">
 <div class="content">
@@ -9990,15 +9990,15 @@ You need Ruby Gems, follow this <a href="https://rvm.io/rubies/rubygems/">https:
   <span class="c1"># Run the movement action</span>
   <span class="nb">self</span><span class="o">.</span><span class="n">runAction</span><span class="p">(</span><span class="n">action</span><span class="p">)</span>
 
-  <span class="c1"># Create a spinning action with the same speed that the movement one</span>
-  <span class="c1"># also because we want it to spin a couple of times set the angle</span>
-  <span class="c1"># to 1000 degrees</span>
-  <span class="n">spinning_action</span> <span class="o">=</span> <span class="no">CCRotateTo</span><span class="o">.</span><span class="n">actionWithDuration</span><span class="p">(</span><span class="n">action_speed</span><span class="p">,</span>
-                                                  <span class="n">angle</span><span class="p">:</span><span class="mi">1000</span><span class="p">)</span>
-
-  <span class="c1"># Run the spinning action</span>
-  <span class="nb">self</span><span class="o">.</span><span class="n">runAction</span><span class="p">(</span><span class="n">spinning_action</span><span class="p">)</span>
-
+<span class="hll">  <span class="c1"># Create a spinning action with the same speed that the movement one</span>
+</span><span class="hll">  <span class="c1"># also because we want it to spin a couple of times set the angle</span>
+</span><span class="hll">  <span class="c1"># to 1000 degrees</span>
+</span><span class="hll">  <span class="n">spinning_action</span> <span class="o">=</span> <span class="no">CCRotateTo</span><span class="o">.</span><span class="n">actionWithDuration</span><span class="p">(</span><span class="n">action_speed</span><span class="p">,</span>
+</span><span class="hll">                                                  <span class="n">angle</span><span class="p">:</span><span class="mi">1000</span><span class="p">)</span>
+</span><span class="hll">
+</span><span class="hll">  <span class="c1"># Run the spinning action</span>
+</span><span class="hll">  <span class="nb">self</span><span class="o">.</span><span class="n">runAction</span><span class="p">(</span><span class="n">spinning_action</span><span class="p">)</span>
+</span>
 <span class="k">end</span>
 </pre></div></div></div>
 <div class="imageblock">
@@ -10042,18 +10042,18 @@ You need Ruby Gems, follow this <a href="https://rvm.io/rubies/rubygems/">https:
   <span class="n">action</span> <span class="o">=</span> <span class="no">CCMoveBy</span><span class="o">.</span><span class="n">actionWithDuration</span><span class="p">(</span><span class="n">action_speed</span><span class="p">,</span>
                                        <span class="n">position</span><span class="ss">:position_difference</span><span class="p">)</span>
 
-  <span class="c1"># Instantiate a Call Function to excecute a method when the movement</span>
-  <span class="c1"># action finished</span>
-  <span class="n">finish_callback_action</span> <span class="o">=</span> <span class="no">CCCallFuncND</span><span class="o">.</span><span class="n">actionWithTarget</span><span class="p">(</span><span class="nb">self</span><span class="p">,</span>
-                                                         <span class="n">selector</span><span class="ss">:&#39;movement_action_ended&#39;</span><span class="p">,</span>
-                                                         <span class="n">data</span><span class="ss">:nil</span><span class="p">)</span>
-
-  <span class="c1"># Chain the both actions using a sequence</span>
-  <span class="n">movement_action_sequence</span> <span class="o">=</span> <span class="no">CCSequence</span><span class="o">.</span><span class="n">actionsWithArray</span><span class="p">(</span><span class="o">[</span><span class="n">action</span><span class="p">,</span> <span class="n">finish_callback_action</span><span class="o">]</span><span class="p">)</span>
-
-  <span class="c1"># Run the movement action sequence</span>
-  <span class="nb">self</span><span class="o">.</span><span class="n">runAction</span><span class="p">(</span><span class="n">movement_action_sequence</span><span class="p">)</span>
-
+<span class="hll">  <span class="c1"># Instantiate a Call Function to excecute a method when the movement</span>
+</span><span class="hll">  <span class="c1"># action finished</span>
+</span><span class="hll">  <span class="n">finish_callback_action</span> <span class="o">=</span> <span class="no">CCCallFuncND</span><span class="o">.</span><span class="n">actionWithTarget</span><span class="p">(</span><span class="nb">self</span><span class="p">,</span>
+</span><span class="hll">                                                         <span class="n">selector</span><span class="ss">:&#39;movement_action_ended&#39;</span><span class="p">,</span>
+</span><span class="hll">                                                         <span class="n">data</span><span class="ss">:nil</span><span class="p">)</span>
+</span><span class="hll">
+</span><span class="hll">  <span class="c1"># Chain the both actions using a sequence</span>
+</span><span class="hll">  <span class="n">movement_action_sequence</span> <span class="o">=</span> <span class="no">CCSequence</span><span class="o">.</span><span class="n">actionsWithArray</span><span class="p">(</span><span class="o">[</span><span class="n">action</span><span class="p">,</span> <span class="n">finish_callback_action</span><span class="o">]</span><span class="p">)</span>
+</span><span class="hll">
+</span><span class="hll">  <span class="c1"># Run the movement action sequence</span>
+</span><span class="hll">  <span class="nb">self</span><span class="o">.</span><span class="n">runAction</span><span class="p">(</span><span class="n">movement_action_sequence</span><span class="p">)</span>
+</span>
 
   <span class="c1"># Create a spinning action with the same speed that the movement one</span>
   <span class="c1"># also because we want it to spin a couple of times set the angle</span>
@@ -10108,12 +10108,12 @@ You need Ruby Gems, follow this <a href="https://rvm.io/rubies/rubygems/">https:
     <span class="c1"># Enable handle touches on the layer</span>
     <span class="nb">self</span><span class="o">.</span><span class="n">isTouchEnabled</span> <span class="o">=</span> <span class="kp">true</span>
 
-    <span class="c1">#Create an array for storing our asteroid sprites</span>
-    <span class="vi">@asteroids</span> <span class="o">=</span> <span class="no">NSMutableArray</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">init</span>
-
-    <span class="c1"># Subscribe to the loop call</span>
-    <span class="n">scheduleUpdate</span>
-
+<span class="hll">    <span class="c1">#Create an array for storing our asteroid sprites</span>
+</span><span class="hll">    <span class="vi">@asteroids</span> <span class="o">=</span> <span class="no">NSMutableArray</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">init</span>
+</span><span class="hll">
+</span><span class="hll">    <span class="c1"># Subscribe to the loop call</span>
+</span><span class="hll">    <span class="n">scheduleUpdate</span>
+</span>
   <span class="k">end</span>
 
   <span class="nb">self</span>
@@ -10137,8 +10137,8 @@ You need Ruby Gems, follow this <a href="https://rvm.io/rubies/rubygems/">https:
 <div class="content"><div class="highlight"><pre><span class="c1"># Loop callback method</span>
 <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="n">time</span><span class="p">)</span>
 
-  <span class="n">spawn_asteroids</span>
-<span class="k">end</span>
+<span class="hll">  <span class="n">spawn_asteroids</span>
+</span><span class="k">end</span>
 
 
 <span class="k">def</span> <span class="nf">spawn_asteroids</span>
@@ -10188,8 +10188,8 @@ You need Ruby Gems, follow this <a href="https://rvm.io/rubies/rubygems/">https:
 <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="n">time</span><span class="p">)</span>
 
   <span class="n">spawn_asteroids</span>
-  <span class="n">check_for_collisions</span>
-<span class="k">end</span>
+<span class="hll">  <span class="n">check_for_collisions</span>
+</span><span class="k">end</span>
 
 <span class="k">def</span> <span class="nf">check_for_collisions</span>
 
