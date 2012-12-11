@@ -6233,6 +6233,224 @@ self.dismissViewControllerAnimated(true,completion:nil)
 </div>
 </div>
 </div>
+<h1 id="_chapter_18_application_sandbox_and_memory_warnings">Chapter 18 - Application Sandbox and Memory Warnings</h1>
+<div class="sect1">
+<h2 id="_file_system_structure">File System Structure</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>We are going to learn in this chapter how to save our photos to disk, and when the application finish for any reason, the photos remains, have done say that which is the perfect place for store our files? Well we have more than one option, but for now we are going to use the application sandbox.</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_application_sandbox">Application Sandbox</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>An application sandbox its a directory enclosed and protected so no one ca access to it but the application itself. Inside of it we have the following directories:</p></div>
+<div class="sect2">
+<h3 id="_application_bundle">application bundle</h3>
+<div class="paragraph"><p>This directory contains all the resources and the executable file and its read only</p></div>
+</div>
+<div class="sect2">
+<h3 id="_library_preferences">Library/Preferences/</h3>
+<div class="paragraph"><p>We have a directory in which store the preferences are saved, this directory is managed by the class <strong>NSUserDefaults</strong> and its backed up when the device synchronizes with iTunes or iCloud</p></div>
+</div>
+<div class="sect2">
+<h3 id="_tmp">tmp/</h3>
+<div class="paragraph"><p>You have a directory where you can can store temporal dat during run time and you are responsible for erase it when you are done with it, also the operating system may purge dat when the application its not running. An important think to remember its that this information its not backed up, you get access to this directory using, the function <strong>NSTemporaryDirectory</strong>.</p></div>
+</div>
+<div class="sect2">
+<h3 id="_documents">Documents/</h3>
+<div class="paragraph"><p>In this directory you can save store data that your application generates during run time and want to persist. This information its synchronized with iTunes or iCloud.</p></div>
+</div>
+<div class="sect2">
+<h3 id="_library_caches">Library/Caches/</h3>
+<div class="paragraph"><p>In essence it has the same functionality as documents directory, but its <strong>NOT</strong> synchronized or backed up, also this data can be deleted when the operating system requires the space, so you should have a mechanism to regenerate this info.</p></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_photo_model">Photo Model</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>We are going to create an object <em>photo</em> that takes the responsibility of code and decode the attributes of the photo, bring back the files from the previous chapter and add the the file named <strong>photo.rb</strong> to the app folder</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Photo</span>
+
+  <span class="kp">attr_accessor</span> <span class="ss">:photoName</span>
+  <span class="kp">attr_accessor</span> <span class="ss">:photoImage</span>
+
+  <span class="k">def</span> <span class="nf">encodeWithCoder</span><span class="p">(</span><span class="n">encoder</span><span class="p">)</span>
+
+    <span class="n">encoder</span><span class="o">.</span><span class="n">encodeObject</span><span class="p">(</span><span class="vi">@photoName</span><span class="p">,</span><span class="n">forKey</span><span class="ss">:&quot;photoName&quot;</span><span class="p">)</span>
+    <span class="n">encoder</span><span class="o">.</span><span class="n">encodeObject</span><span class="p">(</span><span class="vi">@photoImage</span><span class="p">,</span><span class="n">forKey</span><span class="ss">:&quot;photoImage&quot;</span><span class="p">)</span>
+  <span class="k">end</span>
+
+
+  <span class="k">def</span> <span class="nf">initWithCoder</span><span class="p">(</span><span class="n">decoder</span><span class="p">)</span>
+
+    <span class="vi">@photoName</span> <span class="o">=</span> <span class="n">decoder</span><span class="o">.</span><span class="n">decodeObjectForKey</span><span class="p">(</span><span class="s2">&quot;photoName&quot;</span><span class="p">)</span>
+    <span class="vi">@photoImage</span> <span class="o">=</span> <span class="n">decoder</span><span class="o">.</span><span class="n">decodeObjectForKey</span><span class="p">(</span><span class="s2">&quot;photoImage&quot;</span><span class="p">)</span>
+  <span class="k">end</span>
+
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>You may wondering why do we need to <em>code</em> the attributes of the object, well its because we are going store the object in a binary format, in the documents directory.</p></div>
+<div class="paragraph"><p>Once we set up our photo object, we are going to create another object that saves and retrieves photos from the library, now create a file named <strong>photo_library.rb</strong> and add the following code</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">class</span> <span class="nc">PhotoLibrary</span>
+
+  <span class="kp">attr_accessor</span> <span class="ss">:photos</span>
+
+
+  <span class="k">def</span> <span class="nf">photosArchivePath</span>
+
+    <span class="n">documentDirectories</span> <span class="o">=</span> <span class="no">NSSearchPathForDirectoriesInDomains</span><span class="p">(</span><span class="no">NSDocumentDirectory</span><span class="p">,</span><span class="no">NSUserDomainMask</span><span class="p">,</span> <span class="kp">true</span><span class="p">)</span>
+    <span class="c1">#Get one and only document directory from that list</span>
+    <span class="n">documentDirectory</span> <span class="o">=</span> <span class="n">documentDirectories</span><span class="o">.</span><span class="n">objectAtIndex</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">documentDirectory</span><span class="o">.</span><span class="n">stringByAppendingPathComponent</span><span class="p">(</span><span class="s2">&quot;photos.archive&quot;</span><span class="p">)</span>
+  <span class="k">end</span>
+
+
+  <span class="k">def</span> <span class="nf">saveChanges</span> <span class="p">(</span><span class="n">photo</span><span class="p">)</span>
+
+    <span class="n">allPhotos</span> <span class="o">=</span> <span class="n">storedPhotos</span>
+    <span class="n">allPhotos</span><span class="o">.</span><span class="n">addObject</span><span class="p">(</span><span class="n">photo</span><span class="p">)</span>
+    <span class="vi">@photos</span> <span class="o">=</span> <span class="n">allPhotos</span>
+    <span class="no">NSKeyedArchiver</span><span class="o">.</span><span class="n">archiveRootObject</span><span class="p">(</span><span class="vi">@photos</span> <span class="p">,</span> <span class="n">toFile</span><span class="ss">:photosArchivePath</span><span class="p">)</span>
+  <span class="k">end</span>
+
+
+  <span class="k">def</span> <span class="nf">storedPhotos</span>
+
+    <span class="n">finalArray</span> <span class="o">=</span> <span class="no">NSKeyedUnarchiver</span><span class="o">.</span><span class="n">unarchiveObjectWithFile</span><span class="p">(</span><span class="n">photosArchivePath</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="o">!</span><span class="n">finalArray</span>
+
+      <span class="n">finalArray</span> <span class="o">=</span> <span class="no">NSMutableArray</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">init</span>
+    <span class="k">end</span>
+
+    <span class="n">finalArray</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>Now we should save photo once it have been taken, open the album_camera_view_controller.rb and add the following methods</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">savePhoto</span><span class="p">(</span><span class="n">sender</span><span class="p">)</span>
+
+  <span class="nb">puts</span> <span class="s2">&quot;saving&quot;</span>
+
+  <span class="n">library</span> <span class="o">=</span> <span class="no">PhotoLibrary</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">init</span>
+
+  <span class="n">photoObject</span> <span class="o">=</span> <span class="no">Photo</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">init</span>
+  <span class="n">photoObject</span><span class="o">.</span><span class="n">photoName</span> <span class="o">=</span> <span class="s2">&quot;name&quot;</span>
+  <span class="n">photoObject</span><span class="o">.</span><span class="n">photoImage</span> <span class="o">=</span> <span class="vi">@imageView</span><span class="o">.</span><span class="n">image</span>
+
+  <span class="n">library</span><span class="o">.</span><span class="n">saveChanges</span><span class="p">(</span><span class="n">photoObject</span><span class="p">)</span>
+<span class="k">end</span>
+
+
+<span class="k">def</span> <span class="nf">setSaveButton</span>
+
+  <span class="vi">@savebuttonWithImage</span> <span class="o">=</span> <span class="n">saveButtonItem</span>
+  <span class="vi">@savebuttonWithImage</span><span class="o">.</span><span class="n">addTarget</span><span class="p">(</span><span class="nb">self</span><span class="p">,</span> <span class="n">action</span><span class="p">:</span> <span class="ss">:&#39;savePhoto:&#39;</span><span class="p">,</span><span class="n">forControlEvents</span><span class="ss">:UIControlEventTouchUpInside</span><span class="p">)</span>
+  <span class="n">barButton</span> <span class="o">=</span> <span class="no">UIBarButtonItem</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithCustomView</span><span class="p">(</span><span class="vi">@savebuttonWithImage</span><span class="p">)</span>
+
+  <span class="nb">self</span><span class="o">.</span><span class="n">navigationItem</span><span class="o">.</span><span class="n">rightBarButtonItem</span> <span class="o">=</span> <span class="n">barButton</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>The <em>menuButtonItem</em> should be created somewhere in this case in the <strong>album_utilities.rb</strong> so open the file and add the following method</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">saveButtonItem</span>
+
+  <span class="n">buttonWithImage</span> <span class="o">=</span> <span class="no">UIButton</span><span class="o">.</span><span class="n">buttonWithType</span> <span class="no">UIButtonTypeCustom</span>
+  <span class="n">buttonWithImage</span><span class="o">.</span><span class="n">setFrame</span> <span class="no">CGRectMake</span><span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="p">,</span> <span class="mi">40</span><span class="o">.</span><span class="mi">0</span><span class="p">,</span> <span class="mi">35</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span>
+  <span class="n">buttonWithImage</span><span class="o">.</span><span class="n">setImage</span> <span class="no">UIImage</span><span class="o">.</span><span class="n">imageNamed</span><span class="p">(</span><span class="s2">&quot;sendEnabled&quot;</span><span class="p">),</span> <span class="n">forState</span><span class="ss">:UIControlStateSelected</span>
+  <span class="n">buttonWithImage</span><span class="o">.</span><span class="n">setImage</span> <span class="no">UIImage</span><span class="o">.</span><span class="n">imageNamed</span><span class="p">(</span><span class="s2">&quot;sendEnabled&quot;</span><span class="p">),</span> <span class="n">forState</span><span class="ss">:UIControlStateHighlighted</span>
+  <span class="n">buttonWithImage</span><span class="o">.</span><span class="n">setImage</span> <span class="no">UIImage</span><span class="o">.</span><span class="n">imageNamed</span><span class="p">(</span><span class="s2">&quot;sendDisabled&quot;</span><span class="p">),</span> <span class="n">forState</span><span class="ss">:UIControlStateNormal</span>
+  <span class="n">buttonWithImage</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>Run the application to make sure that everything it&#8217;s going well, now we can store photos, but we do not have a place to show them, wait a minute we have
+<em>Photo Album</em>, we are saved !! we just need to set collection view <em>dataSource</em> to get the photos from the library, in order to do that open the <strong>album_collection_view_controller.rb</strong> file and replace the following methods</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">viewDidLoad</span>
+
+  <span class="k">super</span><span class="p">()</span>
+  <span class="c1"># Load the NIB file</span>
+  <span class="n">nib</span> <span class="o">=</span> <span class="no">UINib</span><span class="o">.</span><span class="n">nibWithNibName</span><span class="p">(</span><span class="s1">&#39;PhotoCollectionCellView&#39;</span><span class="p">,</span> <span class="n">bundle</span><span class="ss">:nil</span><span class="p">)</span>
+  <span class="c1"># Register this NIB which contains the cell</span>
+  <span class="nb">self</span><span class="o">.</span><span class="n">collectionView</span><span class="o">.</span><span class="n">registerNib</span><span class="p">(</span><span class="n">nib</span><span class="p">,</span> <span class="n">forCellWithReuseIdentifier</span><span class="ss">:&#39;PhotoCollectionCellView&#39;</span><span class="p">)</span>
+  <span class="nb">self</span><span class="o">.</span><span class="n">collectionView</span><span class="o">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">colorWithPatternImage</span><span class="p">(</span><span class="no">UIImage</span><span class="o">.</span><span class="n">imageNamed</span><span class="p">(</span><span class="s2">&quot;bgTile&quot;</span><span class="p">))</span>
+
+  <span class="vi">@library</span> <span class="o">=</span> <span class="no">PhotoLibrary</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">init</span>
+<span class="k">end</span>
+
+
+<span class="k">def</span> <span class="nf">phothos</span>
+
+  <span class="n">photosArray</span> <span class="o">=</span> <span class="vi">@library</span><span class="o">.</span><span class="n">storedPhotos</span>
+  <span class="n">photosArray</span>
+<span class="k">end</span>
+
+
+<span class="k">def</span> <span class="nf">collectionView</span><span class="p">(</span><span class="n">collectionView</span><span class="p">,</span> <span class="n">cellForItemAtIndexPath</span><span class="ss">:indexPath</span><span class="p">)</span>
+
+  <span class="n">cell</span> <span class="o">=</span> <span class="n">collectionView</span><span class="o">.</span><span class="n">dequeueReusableCellWithReuseIdentifier</span><span class="p">(</span><span class="s1">&#39;PhotoCollectionCellView&#39;</span> <span class="p">,</span><span class="n">forIndexPath</span><span class="ss">:indexPath</span><span class="p">)</span>
+  <span class="n">cell</span><span class="o">.</span><span class="n">customizeCollectionCell</span><span class="p">(</span><span class="n">phothos</span><span class="o">[</span><span class="n">indexPath</span><span class="o">.</span><span class="n">row</span><span class="o">]</span><span class="p">)</span>
+  <span class="n">cell</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>Also we have to create a method that refresh the content in the collectionView</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">updateCollectionView</span>
+
+  <span class="nb">self</span><span class="o">.</span><span class="n">collectionView</span><span class="o">.</span><span class="n">reloadData</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>We should not forget to modify the custom cell to accept the object from the library, modify <strong>collection_view_cell.rb</strong> file and replace the <em>customizeCollectionCell</em> method</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">customizeCollectionCell</span><span class="p">(</span><span class="n">photo</span><span class="p">)</span>
+
+  <span class="vi">@photoImageView</span> <span class="o">=</span> <span class="nb">self</span><span class="o">.</span><span class="n">viewWithTag</span><span class="p">(</span><span class="no">CELL_IMAGE_VIEW</span><span class="p">)</span>
+  <span class="vi">@photoImageView</span><span class="o">.</span><span class="n">image</span> <span class="o">=</span> <span class="n">photo</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>At last we need to modify the <strong>album_view_controller.rb</strong> file for reload the collection view</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">loadCollectionView</span>
+
+<span class="c1">#avoid to create the same instance of the controllers more than once</span>
+  <span class="k">if</span> <span class="o">!</span><span class="vi">@photoCollectionViewControllerr</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="vi">@photoCollectionNavigationViewController</span>
+
+    <span class="vi">@photoCollectionViewController</span> <span class="o">=</span> <span class="no">PhotoCollectionViewController</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">init</span>
+    <span class="vi">@photoCollectionNavigationViewController</span> <span class="o">=</span> <span class="no">UINavigationController</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithRootViewController</span><span class="p">(</span><span class="vi">@photoCollectionViewController</span><span class="p">)</span>
+  <span class="k">end</span>
+
+  <span class="vi">@photoCollectionNavigationViewController</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">frame</span> <span class="o">=</span> <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">bounds</span>
+  <span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="vi">@photoCollectionNavigationViewController</span><span class="o">.</span><span class="n">view</span><span class="p">)</span>
+  <span class="vi">@photoCollectionViewController</span><span class="o">.</span><span class="n">updateCollectionView</span>
+
+  <span class="c1">#set the current section</span>
+  <span class="vi">@selectedRows</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span> <span class="o">=</span> <span class="kp">true</span>
+  <span class="vi">@currentSection</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>Now once that you take a photo press the save button and you will be able to see it on the album view</p></div>
+<div class="imageblock">
+<div class="content">
+<img src="Resources/ch18-Sandbox/image1.png" alt="Save Photo" />
+</div>
+<div class="title">Figure 71. Save Photo</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="Resources/ch18-Sandbox/image2.png" alt="Photo Added" />
+</div>
+<div class="title">Figure 72. Photo Added</div>
+</div>
+<div class="sect2">
+<h3 id="_challenge_name_property">Challenge - Name Property</h3>
+<div class="paragraph"><p>Connect the name property to the model in order save tha name of the picture.</p></div>
+</div>
+</div>
+</div>
 <h1 id="_chapter_19_multitouch">Chapter 19 - Multitouch</h1>
 <div class="paragraph"><p>One of the best features of the iPhone or iPad is the touch screen, in this chapter we will use it to make a app for drawing on the screen</p></div>
 <div class="sect1">
@@ -6244,7 +6462,7 @@ self.dismissViewControllerAnimated(true,completion:nil)
 <div class="content">
 <img src="resources/ch19-Multitouch/ch19_Kanji.png" alt="Kanji" />
 </div>
-<div class="title">Figure 71. Kanji</div>
+<div class="title">Figure 73. Kanji</div>
 </div>
 <div class="sect2">
 <h3 id="_preparing_the_canvas">Preparing the Canvas</h3>
@@ -6360,7 +6578,7 @@ self.dismissViewControllerAnimated(true,completion:nil)
 <div class="content">
 <img src="resources/ch19-Multitouch/ch19_InitialApplication.png" alt="Initial Application" />
 </div>
-<div class="title">Figure 72. Initial Application</div>
+<div class="title">Figure 74. Initial Application</div>
 </div>
 </div>
 <div class="sect2">
@@ -6540,7 +6758,7 @@ The drawing on a UIView using Core Graphics its not additive, what this means is
 <div class="content">
 <img src="resources/ch19-Multitouch/ch19_InitialTouches.png" alt="Initial Touches" />
 </div>
-<div class="title">Figure 73. Initial Touches</div>
+<div class="title">Figure 75. Initial Touches</div>
 </div>
 <div class="paragraph"><p>Great! Now we are really seeing where the user touches began, lets continue adding the touch movements:</p></div>
 <div class="admonitionblock">
@@ -6574,7 +6792,7 @@ The drawing on a UIView using Core Graphics its not additive, what this means is
 <div class="content">
 <img src="resources/ch19-Multitouch/ch19_InitialLines.png" alt="Initial Lines" />
 </div>
-<div class="title">Figure 74. Initial Lines</div>
+<div class="title">Figure 76. Initial Lines</div>
 </div>
 <div class="paragraph"><p>Now we are drawing the initial touches and the movement in the screen, it looks like a line but if we move the finger faster will become more like a dotted line right? No problem we will fix that later</p></div>
 </div>
@@ -6586,7 +6804,7 @@ The drawing on a UIView using Core Graphics its not additive, what this means is
 <div class="content">
 <img src="resources/ch19-Multitouch/ch19_StartingPoints.png" alt="Starting Points" />
 </div>
-<div class="title">Figure 75. Starting Points</div>
+<div class="title">Figure 77. Starting Points</div>
 </div>
 <div class="paragraph"><p>The first thing we can do is to have an array of the trace starting coordinates, that will enable us to evaluate if the touch was on the beginning. Lets do a little experiment to test this part:</p></div>
 <div class="listingblock">
@@ -6788,7 +7006,7 @@ The drawing on a UIView using Core Graphics its not additive, what this means is
 <div class="content">
 <img src="resources/ch19-Multitouch/ch19_StartTrace3.png" alt="Start Trace #3" />
 </div>
-<div class="title">Figure 76. Start Trace #3</div>
+<div class="title">Figure 78. Start Trace #3</div>
 </div>
 <div class="paragraph"><p>Is working now! Is more easy for the user to touch the start of the trace, so lets continue adding the all the Kanji Traces:</p></div>
 <div class="listingblock">
@@ -6897,7 +7115,7 @@ The drawing on a UIView using Core Graphics its not additive, what this means is
 <div class="content">
 <img src="resources/ch19-Multitouch/ch19_AllStartingTraces.png" alt="All Starting Traces" />
 </div>
-<div class="title">Figure 77. All Starting Traces</div>
+<div class="title">Figure 79. All Starting Traces</div>
 </div>
 <div class="paragraph"><p>Yes! We can start painting on any trace now, so lets continue adding a method to our <strong>KanjiTrace</strong> for evaluate if the user is following the line and assigning a score for the drawing:</p></div>
 <div class="listingblock">
@@ -6978,7 +7196,7 @@ The drawing on a UIView using Core Graphics its not additive, what this means is
 <div class="content">
 <img src="resources/ch19-Multitouch/ch19_PaintedTrace.png" alt="Painted Trace" />
 </div>
-<div class="title">Figure 78. Painted Trace</div>
+<div class="title">Figure 80. Painted Trace</div>
 </div>
 </div>
 <div class="sect2">
@@ -7042,7 +7260,7 @@ The drawing on a UIView using Core Graphics its not additive, what this means is
 <div class="content">
 <img src="resources/ch19-Multitouch/ch19_ScoreBoard.png" alt="Score Board" />
 </div>
-<div class="title">Figure 79. Score Board</div>
+<div class="title">Figure 81. Score Board</div>
 </div>
 <div class="paragraph"><p>The last part of the exercise consist of analyzing the score of all the traces and according to that change the images of the cups. Making a little scoreboard!</p></div>
 <div class="listingblock">
@@ -7112,7 +7330,7 @@ The drawing on a UIView using Core Graphics its not additive, what this means is
 <div class="content">
 <img src="resources/ch19-Multitouch/ch19_HighScore.png" alt="High Score" />
 </div>
-<div class="title">Figure 80. High Score</div>
+<div class="title">Figure 82. High Score</div>
 </div>
 <div class="paragraph"><p>Now is finished! It looks like it will need some animations for the cups to look amazing, in the next chapters we will see how to make animations</p></div>
 </div>
@@ -7249,7 +7467,7 @@ The current implementation is drawing every point into the view, the challenge i
 <div class="content">
 <img src="resources/ch20-CALayers/ch20_REPL1.png" alt="Initial Run" />
 </div>
-<div class="title">Figure 81. Initial Run</div>
+<div class="title">Figure 83. Initial Run</div>
 </div>
 </div>
 <div class="sect2">
@@ -7275,7 +7493,7 @@ The current implementation is drawing every point into the view, the challenge i
 <div class="content">
 <img src="resources/ch20-CALayers/ch20_REPL2.png" alt="Yellow Square" />
 </div>
-<div class="title">Figure 82. Yellow Square</div>
+<div class="title">Figure 84. Yellow Square</div>
 </div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="o">(</span><span class="c">#&lt;UIView:0x000000)&gt; layer.position = CGPointMake(100, 100)</span>
@@ -7284,7 +7502,7 @@ The current implementation is drawing every point into the view, the challenge i
 <div class="content">
 <img src="resources/ch20-CALayers/ch20_REPL3.png" alt="Yellow Square in a Different Position" />
 </div>
-<div class="title">Figure 83. Yellow Square in a Different Position</div>
+<div class="title">Figure 85. Yellow Square in a Different Position</div>
 </div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="o">(</span><span class="c">#&lt;UIView:0x000000)&gt; layer.cornerRadius = 20</span>
@@ -7293,7 +7511,7 @@ The current implementation is drawing every point into the view, the challenge i
 <div class="content">
 <img src="resources/ch20-CALayers/ch20_REPL4.png" alt="Yellow Square with Rounded Corners" />
 </div>
-<div class="title">Figure 84. Yellow Square with Rounded Corners</div>
+<div class="title">Figure 86. Yellow Square with Rounded Corners</div>
 </div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="o">(</span><span class="c">#&lt;UIView:0x000000)&gt; layer.borderWidth = 10</span>
@@ -7303,7 +7521,7 @@ The current implementation is drawing every point into the view, the challenge i
 <div class="content">
 <img src="resources/ch20-CALayers/ch20_REPL5.png" alt="Yellow Square with Border" />
 </div>
-<div class="title">Figure 85. Yellow Square with Border</div>
+<div class="title">Figure 87. Yellow Square with Border</div>
 </div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="o">(</span><span class="c">#&lt;UIView:0x000000)&gt; layer.shadowRadius = 5.0</span>
@@ -7314,7 +7532,7 @@ The current implementation is drawing every point into the view, the challenge i
 <div class="content">
 <img src="resources/ch20-CALayers/ch20_REPL6.png" alt="Yellow Square with Shadow" />
 </div>
-<div class="title">Figure 86. Yellow Square with Shadow</div>
+<div class="title">Figure 88. Yellow Square with Shadow</div>
 </div>
 <div class="paragraph"><p>They are two things important in this part, the first is that you can manipulate the appearance in more ways using a CALayer than a UIView like the Rounded Corners, Shadows, etc. Also if you look closely you must see that when you change some properties of the layer it animates it self, we will look into more deeply later on.</p></div>
 </div>
@@ -7368,7 +7586,7 @@ The current implementation is drawing every point into the view, the challenge i
 <div class="content">
 <img src="resources/ch20-CALayers/ch20_GradientBackground.png" alt="Background with Gradient" />
 </div>
-<div class="title">Figure 87. Background with Gradient</div>
+<div class="title">Figure 89. Background with Gradient</div>
 </div>
 <div class="paragraph"><p>Easy right? We create a nice background for our app using a gradient. Lets continue adding some grass into the composition:</p></div>
 <div class="paragraph"><p>Please copy the grass images from the <strong>resources/images</strong> folder into our app resources folder, after that add the following method to our <strong>LayerViewController</strong> class</p></div>
@@ -7401,7 +7619,7 @@ The current implementation is drawing every point into the view, the challenge i
 <div class="content">
 <img src="resources/ch20-CALayers/ch20_GrassLayer.png" alt="Grass Layer" />
 </div>
-<div class="title">Figure 88. Grass Layer</div>
+<div class="title">Figure 90. Grass Layer</div>
 </div>
 <div class="paragraph"><p>Great! Now you see that we are compositing two layers together and learn that you can also include an Image as a content. But how about drawing custom figures? Add the following to the <strong>LayerViewController</strong> class:</p></div>
 <div class="listingblock">
@@ -7532,7 +7750,7 @@ The current implementation is drawing every point into the view, the challenge i
 <div class="content">
 <img src="resources/ch20-CALayers/ch20_SunLayer.png" alt="Sun Layer" />
 </div>
-<div class="title">Figure 89. Sun Layer</div>
+<div class="title">Figure 91. Sun Layer</div>
 </div>
 </div>
 <div class="sect2">
@@ -7659,7 +7877,7 @@ Then the resulting matrix property values and times is executed, giving the effe
 <div class="content">
 <img src="resources/ch20-CALayers/ch20_AnimatedLayer.png" alt="Sun Layer" />
 </div>
-<div class="title">Figure 90. Animated Layer</div>
+<div class="title">Figure 92. Animated Layer</div>
 </div>
 </div>
 <div class="sect2">
@@ -7764,7 +7982,7 @@ Repeat the animation indefinitely
 <div class="content">
 <img src="resources/ch21-CoreAnimation/ch21_AnimationBlinkToStart.png" alt="Animation Blinking to Start" />
 </div>
-<div class="title">Figure 91. Animation Blinking to Start</div>
+<div class="title">Figure 93. Animation Blinking to Start</div>
 </div>
 <div class="paragraph"><p>Uh? What happen? The sun move to the position we touch, but at the end of the animation it return to its initial value. This happens because the animation is independent of the layer that is running into, it will move the layer to the touch position but at the end if you don&#8217;t change the layer property it will return to the initial state.</p></div>
 <div class="paragraph"><p>Try the following:</p></div>
@@ -7802,7 +8020,7 @@ Repeat the animation indefinitely
 <div class="content">
 <img src="resources/ch21-CoreAnimation/ch21_AnimationComplete.png" alt="Animation Complete" />
 </div>
-<div class="title">Figure 92. Animation Complete</div>
+<div class="title">Figure 94. Animation Complete</div>
 </div>
 <div class="paragraph"><p>Now it works as expected! The animation is pretty slow because we set to it 1 second, try changing it for more fun.</p></div>
 <div class="admonitionblock">
@@ -7849,7 +8067,7 @@ Repeat the animation indefinitely
 <div class="content">
 <img src="resources/ch21-CoreAnimation/ch21_AnimationReturningToStartingPoint.png" alt="Animation Returning to Starting Point" />
 </div>
-<div class="title">Figure 93. Animation Returning to Starting Point</div>
+<div class="title">Figure 95. Animation Returning to Starting Point</div>
 </div>
 <div class="paragraph"><p>If we want to make that cycle of moving and returning happen 100 times?</p></div>
 <div class="listingblock">
@@ -7887,7 +8105,7 @@ Repeat the animation indefinitely
 <div class="content">
 <img src="resources/ch21-CoreAnimation/ch21_AnimationLoop.png" alt="Animation Loop" />
 </div>
-<div class="title">Figure 94. Animation Loop</div>
+<div class="title">Figure 96. Animation Loop</div>
 </div>
 <div class="paragraph"><p>What about combining two animations: a spinning one with the moving one</p></div>
 <div class="listingblock">
@@ -7940,7 +8158,7 @@ Repeat the animation indefinitely
 <div class="content">
 <img src="resources/ch21-CoreAnimation/ch21_AnimationSpinning.png" alt="Animation Spinning and Moving" />
 </div>
-<div class="title">Figure 95. Animation Spinning and Moving</div>
+<div class="title">Figure 97. Animation Spinning and Moving</div>
 </div>
 </div>
 </div>
@@ -8001,7 +8219,7 @@ Repeat the animation indefinitely
 <div class="content">
 <img src="resources/ch21-CoreAnimation/ch21_SunAndClouds.png" alt="Sun & Clouds" />
 </div>
-<div class="title">Figure 96. Sun &amp; Clouds</div>
+<div class="title">Figure 98. Sun &amp; Clouds</div>
 </div>
 <div class="paragraph"><p>Pretty but not amazing!, Now lets add some animation to the clouds:</p></div>
 <div class="listingblock">
@@ -8086,7 +8304,7 @@ Repeat the animation indefinitely
 <div class="content">
 <img src="resources/ch21-CoreAnimation/ch21_AnimationClouds.png" alt="Cloud Animation" />
 </div>
-<div class="title">Figure 97. Cloud Animation</div>
+<div class="title">Figure 99. Cloud Animation</div>
 </div>
 <div class="paragraph"><p>Yes, it looks kind of good. But the animation is too linear the clouds does not look like the real life, what we can do is adding some easing with a timing function. The objective is when the cloud appear on the screen go faster and then it decelerate until its finished. This kind of easing is called EasyOut:</p></div>
 <div class="paragraph"><p>Lets apply it to the code:</p></div>
@@ -8171,7 +8389,7 @@ Repeat the animation indefinitely
 <div class="content">
 <img src="resources/ch21-CoreAnimation/ch21_AnimationCloudsWithEasing.png" alt="Cloud Animation with Easing" />
 </div>
-<div class="title">Figure 98. Cloud Animation with Easing</div>
+<div class="title">Figure 100. Cloud Animation with Easing</div>
 </div>
 <div class="paragraph"><p>Subtle right? Thats the idea! It now looks more that the wind blows stronger at the first and then it slows down. But what is really happening?</p></div>
 <div class="paragraph"><p>Do you remember the part of the interpolation? We were saying in that moment that it is the calculus between the initial value and the final every millisecond of the sequence. It means that if we move 3 points during 3 seconds, it will move one point per second right?</p></div>
@@ -8181,7 +8399,7 @@ Repeat the animation indefinitely
 <div class="content">
 <img src="resources/ch21-CoreAnimation/ch21_Easings.png" alt="iOS Easings" />
 </div>
-<div class="title">Figure 99. iOS Easings</div>
+<div class="title">Figure 101. iOS Easings</div>
 </div>
 <div class="paragraph"><p>Also if you don&#8217;t like anyone, you can implement your custom timing function.</p></div>
 </div>
@@ -8243,7 +8461,7 @@ Repeat the animation indefinitely
 <div class="content">
 <img src="resources/ch21-CoreAnimation/ch21_SunStraightAnimation.png" alt="Sun Straight Animation" />
 </div>
-<div class="title">Figure 100. Sun Straight Animation</div>
+<div class="title">Figure 102. Sun Straight Animation</div>
 </div>
 <div class="paragraph"><p>We are improving! But the sun does not move in a straight line, so lets change does points into an arc:</p></div>
 <div class="listingblock">
@@ -8282,7 +8500,7 @@ Repeat the animation indefinitely
 <div class="content">
 <img src="resources/ch21-CoreAnimation/ch21_SunArcAnimation.png" alt="Sun Arc Animation" />
 </div>
-<div class="title">Figure 101. Sun Arc Animation</div>
+<div class="title">Figure 103. Sun Arc Animation</div>
 </div>
 <div class="paragraph"><p>Great! Now this is working, but how about combining the translation animation with a spinning one? (CABasicAnimation &amp; CAKeyframeAnimation):</p></div>
 <div class="listingblock">
@@ -8446,7 +8664,7 @@ Repeat the animation indefinitely
 <div class="content">
 <img src="resources/ch21-CoreAnimation/ch21_SunSunsetAnimation.png" alt="Sun Sunset Animation" />
 </div>
-<div class="title">Figure 102. Sun Sunset Animation</div>
+<div class="title">Figure 104. Sun Sunset Animation</div>
 </div>
 <div class="paragraph"><p>It looks pretty good! But we are missing the night part right? Thats the next part of the exercise</p></div>
 </div>
@@ -8720,7 +8938,7 @@ Repeat the animation indefinitely
 <div class="content">
 <img src="resources/ch21-CoreAnimation/ch21_SunAndMoonAnimation.png" alt="Sun & Moon Animation" />
 </div>
-<div class="title">Figure 103. Sun &amp; Moon Animation</div>
+<div class="title">Figure 105. Sun &amp; Moon Animation</div>
 </div>
 </div>
 </div>
@@ -8752,7 +8970,7 @@ Change the past animation to look like shooting stars, enter and leaving the scr
 <div class="content">
 <img src="Resources/ch22-Settings/ch22_01_app.png" alt="Current Application" />
 </div>
-<div class="title">Figure 104. Current Application</div>
+<div class="title">Figure 106. Current Application</div>
 </div>
 </div>
 </div>
@@ -8863,7 +9081,7 @@ Change the past animation to look like shooting stars, enter and leaving the scr
 <div class="content">
 <img src="Resources/ch22-Settings/ch22_02_logout.png" alt="Application Logout" />
 </div>
-<div class="title">Figure 105. Application Logout</div>
+<div class="title">Figure 107. Application Logout</div>
 </div>
 </div>
 </div>
@@ -8886,7 +9104,7 @@ object with key <strong>loggedUser</strong> from the User Defaults and set as a 
 <div class="content">
 <img src="Resources/ch23-WebServices/ch23_01_app.png" alt="Current Application" />
 </div>
-<div class="title">Figure 106. Current Application</div>
+<div class="title">Figure 108. Current Application</div>
 </div>
 </div>
 </div>
@@ -9092,7 +9310,7 @@ If there was an error, we return an error message.
 <div class="content">
 <img src="Resources/ch23-WebServices/ch23_02_activityindicator.png" alt="Activity Indicator" />
 </div>
-<div class="title">Figure 107. Activity Indicator</div>
+<div class="title">Figure 109. Activity Indicator</div>
 </div>
 <div class="paragraph"><p>You will see the Activity Indicator and if you touch the screen, you&#8217;ll see that the Table is refreshed with the latest news from the service. Why is the table view not refreshed automatically? Because we are running this operation in a background task. And the UI should be updated only in the Main thread. Let&#8217;s fix this:</p></div>
 <div class="listingblock">
@@ -9119,7 +9337,7 @@ If there was an error, we return an error message.
 <div class="content">
 <img src="Resources/ch23-WebServices/ch23_03_table.png" alt="News Table View" />
 </div>
-<div class="title">Figure 108. News Table View</div>
+<div class="title">Figure 110. News Table View</div>
 </div>
 <div class="paragraph"><p>We are done with this task, if you have time you could do the challenges.</p></div>
 </div>
@@ -9134,14 +9352,14 @@ If there was an error, we return an error message.
 <div class="content">
 <img src="Resources/ch23-WebServices/ch23_04_error.png" alt="Error Message" />
 </div>
-<div class="title">Figure 109. Error Message</div>
+<div class="title">Figure 111. Error Message</div>
 </div>
 <div class="paragraph"><p>As you can see, if there are news or if there is an error, the UIActivityIndicator remains on the screen until you touch it. Why? because we are not calling the its <strong>stopAnimating</strong> method from the Main Thread, correct this.</p></div>
 <div class="imageblock">
 <div class="content">
 <img src="Resources/ch23-WebServices/ch23_05_activitystopped.png" alt="Activity Indicator Stopped" />
 </div>
-<div class="title">Figure 110. Activity Indicator Stopped</div>
+<div class="title">Figure 112. Activity Indicator Stopped</div>
 </div>
 </div>
 </div>
@@ -9176,7 +9394,7 @@ You need Ruby Gems, follow this <a href="https://rvm.io/rubies/rubygems/">https:
 <div class="content">
 <img src="Resources/ch23-WebServices/ch23_06_console.png" alt="Sinatra Console" />
 </div>
-<div class="title">Figure 111. Sinatra Console</div>
+<div class="title">Figure 113. Sinatra Console</div>
 </div>
 </div>
 </div>
@@ -9341,7 +9559,7 @@ You need Ruby Gems, follow this <a href="https://rvm.io/rubies/rubygems/">https:
 <div class="content">
 <img src="Resources/ch25-ThirdPartyLibraries/ch25_Cocos2DInitialApplication.png" alt="Initial Cocos 2D Application" />
 </div>
-<div class="title">Figure 112. Initial Cocos 2D Application</div>
+<div class="title">Figure 114. Initial Cocos 2D Application</div>
 </div>
 <div class="paragraph"><p>If you look closely in the bottom left part of the screen are a bunch of numbers, they are the FPS of our game. The general idea is that our game have consistently 60.0 but you will look as we advance in the exercise that some times it drops, this is normal.</p></div>
 </div>
@@ -9524,7 +9742,7 @@ You need Ruby Gems, follow this <a href="https://rvm.io/rubies/rubygems/">https:
 <div class="content">
 <img src="Resources/ch25-ThirdPartyLibraries/ch25_Cocos2DLayer.png" alt="Cocos 2D Layer" />
 </div>
-<div class="title">Figure 113. Cocos 2D Layer</div>
+<div class="title">Figure 115. Cocos 2D Layer</div>
 </div>
 <div class="paragraph"><p>Now we have all the necessary structure to make the game run: A director, scene and a layer! Its time to change the label into a space background:</p></div>
 <div class="listingblock">
@@ -9561,7 +9779,7 @@ You need Ruby Gems, follow this <a href="https://rvm.io/rubies/rubygems/">https:
 <div class="content">
 <img src="Resources/ch25-ThirdPartyLibraries/ch25_BackgroundLayer.png" alt="Background Layer" />
 </div>
-<div class="title">Figure 114. Background Layer</div>
+<div class="title">Figure 116. Background Layer</div>
 </div>
 <div class="paragraph"><p>We have a background for the game! Lets do something more fun: adding the space ship into the scene, for this we need to create a new layer called <strong>game_play_layer.rb</strong>:</p></div>
 <div class="listingblock">
@@ -9631,7 +9849,7 @@ You need Ruby Gems, follow this <a href="https://rvm.io/rubies/rubygems/">https:
 <div class="content">
 <img src="Resources/ch25-ThirdPartyLibraries/ch25_StaticSpaceShip.png" alt="Static Space Ship" />
 </div>
-<div class="title">Figure 115. Static Space Ship</div>
+<div class="title">Figure 117. Static Space Ship</div>
 </div>
 <div class="paragraph"><p>Awesome! The next step is to allow the user to move the space ship with his touches on the screen. Lets open again our <strong>game_play_layer.rb</strong> and add the following method:</p></div>
 <div class="listingblock">
@@ -9662,7 +9880,7 @@ You need Ruby Gems, follow this <a href="https://rvm.io/rubies/rubygems/">https:
 <div class="content">
 <img src="Resources/ch25-ThirdPartyLibraries/ch25_JumpingSpaceShip.png" alt="Jumping Space Ship" />
 </div>
-<div class="title">Figure 116. Jumping Space Ship</div>
+<div class="title">Figure 118. Jumping Space Ship</div>
 </div>
 <div class="paragraph"><p>Yes it moves! But it does without animation, this is because the sprites does not have implicit animations like a CALayer.</p></div>
 </div>
@@ -9702,7 +9920,7 @@ You need Ruby Gems, follow this <a href="https://rvm.io/rubies/rubygems/">https:
 <div class="content">
 <img src="Resources/ch25-ThirdPartyLibraries/ch25_SpaceShipOutsideScreen.png" alt="Space Ship Outside Screen" />
 </div>
-<div class="title">Figure 117. Space Ship Outside Screen</div>
+<div class="title">Figure 119. Space Ship Outside Screen</div>
 </div>
 <div class="paragraph"><p>Upps! What when wrong? The problem is the actions must receive the number of points of movement in a direction, not a exact position! You can try it! Just assign a <strong>CGPoint(100, 100)</strong> to the position parameter of the action.</p></div>
 <div class="paragraph"><p>The fix is the following:</p></div>
@@ -9738,7 +9956,7 @@ You need Ruby Gems, follow this <a href="https://rvm.io/rubies/rubygems/">https:
 <div class="content">
 <img src="Resources/ch25-ThirdPartyLibraries/ch25_MovingSpaceShip.png" alt="Moving Space Ship" />
 </div>
-<div class="title">Figure 118. Moving Space Ship</div>
+<div class="title">Figure 120. Moving Space Ship</div>
 </div>
 <div class="paragraph"><p>Now is working! We are done with the space ship, the next is to add some asteroids flying into the scene.</p></div>
 </div>
@@ -9819,7 +10037,7 @@ You need Ruby Gems, follow this <a href="https://rvm.io/rubies/rubygems/">https:
 <div class="content">
 <img src="Resources/ch25-ThirdPartyLibraries/ch25_BigAsteroid.png" alt="Big Asteroid" />
 </div>
-<div class="title">Figure 119. Big Asteroid</div>
+<div class="title">Figure 121. Big Asteroid</div>
 </div>
 <div class="paragraph"><p>Easy right? But we have a problem the asteroid is too big: Imagine five of them flying into the screen, impossible to dodge!</p></div>
 <div class="paragraph"><p>So lets create something more complex, the idea is to have asteroids of different sizes moving across the screen. So lets use some randoms for determinate the size of the asteroid:</p></div>
@@ -9866,7 +10084,7 @@ You need Ruby Gems, follow this <a href="https://rvm.io/rubies/rubygems/">https:
 <div class="content">
 <img src="Resources/ch25-ThirdPartyLibraries/ch25_RandomSizeAsteroid.png" alt="Random Size Asteroid" />
 </div>
-<div class="title">Figure 120. Random Size Asteroid</div>
+<div class="title">Figure 122. Random Size Asteroid</div>
 </div>
 <div class="paragraph"><p>Great! Now the size of the asteroid is completely random, to test it run the app multiple times!</p></div>
 <div class="paragraph"><p>For make the illusion that the asteroids are coming from the space we need to set the initial position of it outside the screen and then move it across the screen. Again some randoms we will help us, lets add the following method to our file:</p></div>
@@ -9963,7 +10181,7 @@ You need Ruby Gems, follow this <a href="https://rvm.io/rubies/rubygems/">https:
 <div class="content">
 <img src="Resources/ch25-ThirdPartyLibraries/ch25_FlyingAsteroid.png" alt="Flying Asteroid" />
 </div>
-<div class="title">Figure 121. Flying Asteroid</div>
+<div class="title">Figure 123. Flying Asteroid</div>
 </div>
 <div class="paragraph"><p>You should see the asteroid fly across the screen! If you don&#8217;t please run it a couple of times remember we are using randoms! (The asteroid can fly too fast or in the edges of the screen, this is part of the magic ;)</p></div>
 <div class="paragraph"><p>But the asteroids does not move like that! They rotate:</p></div>
@@ -10019,7 +10237,7 @@ You need Ruby Gems, follow this <a href="https://rvm.io/rubies/rubygems/">https:
 <div class="content">
 <img src="Resources/ch25-ThirdPartyLibraries/ch25_SpinningAsteroid.png" alt="Spinning Asteroid" />
 </div>
-<div class="title">Figure 122. Spinning Asteroid</div>
+<div class="title">Figure 124. Spinning Asteroid</div>
 </div>
 <div class="paragraph"><p>Last part! We need to change the status of the sprite to <strong>:ended</strong> when the movement action ends:</p></div>
 <div class="listingblock">
@@ -10190,7 +10408,7 @@ You need Ruby Gems, follow this <a href="https://rvm.io/rubies/rubygems/">https:
 <div class="content">
 <img src="Resources/ch25-ThirdPartyLibraries/ch25_MultipleAsteroids.png" alt="Multiple Asteroids" />
 </div>
-<div class="title">Figure 123. Multiple Asteroids</div>
+<div class="title">Figure 125. Multiple Asteroids</div>
 </div>
 <div class="paragraph"><p>Awesome! Now the scene is complete, but is something missing right? Detect when the ship crashes with an asteroid!</p></div>
 </div>
@@ -10234,7 +10452,7 @@ You need Ruby Gems, follow this <a href="https://rvm.io/rubies/rubygems/">https:
 <div class="content">
 <img src="Resources/ch25-ThirdPartyLibraries/ch25_PleaseDontCrash.png" alt="Please Don't Crash" />
 </div>
-<div class="title">Figure 124. Please Don&#8217;t Crash</div>
+<div class="title">Figure 126. Please Don&#8217;t Crash</div>
 </div>
 <div class="paragraph"><p>Great! Now our little game is complete, if the user crashes into an asteroid the space ship explodes and the game is ended</p></div>
 <div class="admonitionblock">
@@ -10374,7 +10592,7 @@ Some Cocoa Frameworks and 3rd Party are not multi-thread
 <div class="content">
 <img src="Resources/ch26-Concurrency/ch26_ImagePicker.png" alt="Image Picker" />
 </div>
-<div class="title">Figure 125. Image Picker</div>
+<div class="title">Figure 127. Image Picker</div>
 </div>
 <div class="admonitionblock">
 <table><tr>
@@ -10389,7 +10607,7 @@ Some Cocoa Frameworks and 3rd Party are not multi-thread
 <div class="content">
 <img src="Resources/ch26-Concurrency/ch26_InitialAnimation.png" alt="Initial Application" />
 </div>
-<div class="title">Figure 126. Initial Application</div>
+<div class="title">Figure 128. Initial Application</div>
 </div>
 <div class="paragraph"><p>The next step will be adding the user selected image to the controller&#8217;s view, please add the following lines to the <strong>photo_view_controller.rb</strong> file:</p></div>
 <div class="listingblock">
@@ -10455,7 +10673,7 @@ Some Cocoa Frameworks and 3rd Party are not multi-thread
 <div class="content">
 <img src="Resources/ch26-Concurrency/ch26_PhotoView.png" alt="Photo View" />
 </div>
-<div class="title">Figure 127. Photo View</div>
+<div class="title">Figure 129. Photo View</div>
 </div>
 <div class="paragraph"><p>The last part of our initial project is to add some buttons for the user to select the photo filters, please add the following to our <strong>PhotoViewController</strong>:</p></div>
 <div class="listingblock">
@@ -10517,7 +10735,7 @@ Some Cocoa Frameworks and 3rd Party are not multi-thread
 <div class="content">
 <img src="Resources/ch26-Concurrency/ch26_FilterButtons.png" alt="Filter Buttons" />
 </div>
-<div class="title">Figure 128. Filter Buttons</div>
+<div class="title">Figure 130. Filter Buttons</div>
 </div>
 </div>
 <div class="sect2">
@@ -10787,7 +11005,7 @@ Some Cocoa Frameworks and 3rd Party are not multi-thread
 <div class="content">
 <img src="Resources/ch26-Concurrency/ch26_FirstFilter.png" alt="First Filter" />
 </div>
-<div class="title">Figure 129. First Filter</div>
+<div class="title">Figure 131. First Filter</div>
 </div>
 <div class="paragraph"><p>The filters are working but it takes some time to change filters right? It will be better if we show the user a <strong>UIActivityView</strong> indicating that we are working on the new filter, to add it please insert the following into the <strong>photo_view_controller.rb</strong> class:</p></div>
 <div class="admonitionblock">
@@ -10911,7 +11129,7 @@ Some Cocoa Frameworks and 3rd Party are not multi-thread
 <div class="content">
 <img src="Resources/ch26-Concurrency/ch26_FilteringActivityIndicator.png" alt="Filter with Activity Indicator" />
 </div>
-<div class="title">Figure 130. Filter with Activity Indicator</div>
+<div class="title">Figure 132. Filter with Activity Indicator</div>
 </div>
 <div class="paragraph"><p>If we run this on the device it will be more easy to distinguish  that the activity indicator is also getting freeze at the time we select a new filter to apply. We are hanging the main thread right now and the app feels a little unresponsive!</p></div>
 </div>
@@ -11130,7 +11348,7 @@ Some Cocoa Frameworks and 3rd Party are not multi-thread
 <div class="content">
 <img src="Resources/ch26-Concurrency/ch26_FilteringGCD.png" alt="Filter with Gran Central Dispatch" />
 </div>
-<div class="title">Figure 131. Filter with Gran Central Dispatch</div>
+<div class="title">Figure 133. Filter with Gran Central Dispatch</div>
 </div>
 <div class="paragraph"><p>Now all of them are working using GCD! But something is missing… how about control the intensity of the filters?, thats the next part of our exercise</p></div>
 <div class="admonitionblock">
@@ -11263,7 +11481,7 @@ Some Cocoa Frameworks and 3rd Party are not multi-thread
 <div class="content">
 <img src="Resources/ch26-Concurrency/ch26_FilterIntensity.png" alt="Filter Intensity" />
 </div>
-<div class="title">Figure 132. Filter Intensity</div>
+<div class="title">Figure 134. Filter Intensity</div>
 </div>
 <div class="paragraph"><p>Great! If you run the app and you drag your fingers up and down on the screen the intensity of the filter will increase or decrease accordingly. But the same as before we are hanging the main thread and the activity indicator view is not appearing on the screen.</p></div>
 </div>
@@ -11392,7 +11610,7 @@ Some Cocoa Frameworks and 3rd Party are not multi-thread
 <div class="content">
 <img src="Resources/ch26-Concurrency/ch26_FilterIntensityNSOperation.png" alt="Filter Intensity with NSOperation" />
 </div>
-<div class="title">Figure 133. Filter Intensity with NSOperation</div>
+<div class="title">Figure 135. Filter Intensity with NSOperation</div>
 </div>
 <div class="paragraph"><p>Awesome! Now we add concurrent operations using NSOperation and also fix the activity indicator view.</p></div>
 <div class="paragraph"><p>Our Image Filtering application is now complete!</p></div>
@@ -11419,7 +11637,7 @@ Add some buttons to our Application for increasing and decreasing the Intensity 
 <div id="footer">
 <div id="footer-text">
 Version 0.1<br />
-Last updated 2012-12-05 21:53:32 CST
+Last updated 2012-12-11 13:38:57 CST
 </div>
 </div>
 </body>
