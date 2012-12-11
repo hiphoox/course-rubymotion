@@ -830,7 +830,21 @@ asciidoc.install(2);
 <div class="sect1">
 <h2 id="_time_zone_converter_app">Time Zone Converter App</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>It is time to create a new Ruby Motion app for doing time zone conversions, run the following command in your terminal:</p></div>
+<div class="paragraph"><p>Time it&#8217;s one of the most precious resources that we have, and for travelers around the world it&#8217;s essential to keep synced between one place an another so they can accomplish goals and requirements on time.
+So we are going to build and application for them, so they can check local time and time in the place where they are traveling. The app should cover the next functionality:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+Ability to select know Time Regions (local and remote)
+</p>
+</li>
+<li>
+<p>
+Display UTC local and remote time
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Run the following command in your terminal:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="nv">$ </span>motion create TimeZoneConverter
 </pre></div></div></div>
@@ -1194,9 +1208,9 @@ asciidoc.install(2);
 </tr></table>
 </div>
 <div class="listingblock">
-<div class="content"><div class="highlight"><pre><span class="hll"><span class="k">def</span> <span class="nf">viewDidLoad</span>
-</span><span class="hll">
-</span><span class="hll">  <span class="n">chooseLocalButton</span><span class="o">.</span><span class="n">addTarget</span><span class="p">(</span><span class="nb">self</span><span class="p">,</span> <span class="n">action</span><span class="o">::</span><span class="s1">&#39;present_local_zone_picker:&#39;</span><span class="p">,</span> <span class="c1">#boldBegin</span>
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">viewDidLoad</span>
+
+<span class="hll">  <span class="n">chooseLocalButton</span><span class="o">.</span><span class="n">addTarget</span><span class="p">(</span><span class="nb">self</span><span class="p">,</span> <span class="n">action</span><span class="o">::</span><span class="s1">&#39;present_local_zone_picker:&#39;</span><span class="p">,</span>
 </span><span class="hll">                                  <span class="n">forControlEvents</span><span class="ss">:UIControlEventTouchUpInside</span><span class="p">)</span>
 </span><span class="hll">
 </span><span class="hll">  <span class="vi">@converTimeZoneLabel</span> <span class="o">=</span>  <span class="n">location_label</span><span class="p">(</span><span class="mi">25</span><span class="p">,</span><span class="mi">290</span><span class="p">)</span>
@@ -1208,7 +1222,7 @@ asciidoc.install(2);
 </span><span class="hll">
 </span><span class="hll">  <span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="vi">@converTimeZoneLabel</span><span class="p">)</span>
 </span><span class="hll">  <span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="vi">@convertTimeLabel</span><span class="p">)</span>
-</span><span class="hll">  <span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="n">chooseconvertButton</span><span class="p">)</span> <span class="c1">#boldEnd</span>
+</span><span class="hll">  <span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="n">chooseconvertButton</span><span class="p">)</span>
 </span>
 <span class="k">end</span>
 </pre></div></div></div>
