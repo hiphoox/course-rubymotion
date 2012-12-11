@@ -1160,9 +1160,9 @@ Display UTC local and remote time
 </span><span class="hll">    <span class="vi">@currentZoneLabel</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="no">NSTimeZone</span><span class="o">.</span><span class="n">knownTimeZoneNames</span><span class="o">[</span><span class="n">row</span><span class="o">]</span>
 </span><span class="hll">  <span class="k">end</span>
 </span><span class="hll">
-</span><span class="hll">
-</span><span class="hll">  <span class="k">def</span> <span class="nf">viewDidLoad</span>
 </span>
+  <span class="k">def</span> <span class="nf">viewDidLoad</span>
+
     <span class="vi">@defaultTimeZoneLabel</span> <span class="o">=</span> <span class="n">location_label</span><span class="p">(</span><span class="mi">25</span><span class="p">,</span><span class="mi">120</span><span class="p">)</span>
     <span class="vi">@defaultTimeLabel</span> <span class="o">=</span> <span class="n">time_label</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span><span class="mi">150</span><span class="p">)</span>
 <span class="hll">    <span class="n">chooseLocalButton</span> <span class="o">=</span> <span class="n">select_time_zone_Button</span><span class="p">(</span><span class="mi">220</span><span class="p">,</span><span class="mi">115</span><span class="p">)</span>
@@ -1210,20 +1210,28 @@ Display UTC local and remote time
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">viewDidLoad</span>
 
-<span class="hll">  <span class="n">chooseLocalButton</span><span class="o">.</span><span class="n">addTarget</span><span class="p">(</span><span class="nb">self</span><span class="p">,</span> <span class="n">action</span><span class="o">::</span><span class="s1">&#39;present_local_zone_picker:&#39;</span><span class="p">,</span>
-</span><span class="hll">                                  <span class="n">forControlEvents</span><span class="ss">:UIControlEventTouchUpInside</span><span class="p">)</span>
-</span><span class="hll">
-</span><span class="hll">  <span class="vi">@converTimeZoneLabel</span> <span class="o">=</span>  <span class="n">location_label</span><span class="p">(</span><span class="mi">25</span><span class="p">,</span><span class="mi">290</span><span class="p">)</span>
+  <span class="vi">@defaultTimeZoneLabel</span> <span class="o">=</span> <span class="n">location_label</span><span class="p">(</span><span class="mi">25</span><span class="p">,</span><span class="mi">120</span><span class="p">)</span>
+  <span class="vi">@defaultTimeLabel</span> <span class="o">=</span> <span class="n">time_label</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span><span class="mi">150</span><span class="p">)</span>
+  <span class="n">chooseLocalButton</span> <span class="o">=</span> <span class="n">select_time_zone_Button</span><span class="p">(</span><span class="mi">220</span><span class="p">,</span><span class="mi">115</span><span class="p">)</span>
+  <span class="n">chooseLocalButton</span><span class="o">.</span><span class="n">addTarget</span><span class="p">(</span><span class="nb">self</span><span class="p">,</span> <span class="n">action</span><span class="p">:</span> <span class="ss">:&#39;present_local_zone_picker:&#39;</span><span class="p">,</span> <span class="n">forControlEvents</span><span class="ss">:UIControlEventTouchUpInside</span><span class="p">)</span>
+<span class="hll">  <span class="vi">@converTimeZoneLabel</span> <span class="o">=</span>  <span class="n">location_label</span><span class="p">(</span><span class="mi">25</span><span class="p">,</span><span class="mi">290</span><span class="p">)</span> <span class="c1">#bold</span>
 </span><span class="hll">  <span class="vi">@convertTimeLabel</span> <span class="o">=</span> <span class="n">time_label</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span><span class="mi">320</span><span class="p">)</span>
 </span><span class="hll">  <span class="n">chooseconvertButton</span> <span class="o">=</span> <span class="n">select_time_zone_Button</span><span class="p">(</span><span class="mi">220</span><span class="p">,</span><span class="mi">300</span><span class="p">)</span>
-</span><span class="hll">
-</span><span class="hll">  <span class="n">chooseconvertButton</span><span class="o">.</span><span class="n">addTarget</span><span class="p">(</span><span class="nb">self</span><span class="p">,</span> <span class="n">action</span><span class="p">:</span> <span class="ss">:&#39;present_convert_zone_picker:&#39;</span><span class="p">,</span>
-</span><span class="hll">                                                                <span class="n">forControlEvents</span><span class="ss">:UIControlEventTouchUpInside</span><span class="p">)</span>
-</span><span class="hll">
+</span><span class="hll">  <span class="n">chooseconvertButton</span><span class="o">.</span><span class="n">addTarget</span><span class="p">(</span><span class="nb">self</span><span class="p">,</span> <span class="n">action</span><span class="p">:</span> <span class="ss">:&#39;present_convert_zone_picker:&#39;</span><span class="p">,</span><span class="n">forControlEvents</span><span class="ss">:UIControlEventTouchUpInside</span><span class="p">)</span>
 </span><span class="hll">  <span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="vi">@converTimeZoneLabel</span><span class="p">)</span>
 </span><span class="hll">  <span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="vi">@convertTimeLabel</span><span class="p">)</span>
-</span><span class="hll">  <span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="n">chooseconvertButton</span><span class="p">)</span>
-</span>
+</span><span class="hll">  <span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="n">chooseconvertButton</span><span class="p">)</span><span class="c1">#bold</span>
+</span>  <span class="vi">@zonePicker</span> <span class="o">=</span> <span class="n">zone_picker</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">244</span><span class="p">)</span>
+  <span class="vi">@zonePicker</span><span class="o">.</span><span class="n">dataSource</span> <span class="o">=</span> <span class="nb">self</span>
+  <span class="vi">@zonePicker</span><span class="o">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="nb">self</span>
+  <span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="vi">@defaultTimeZoneLabel</span><span class="p">)</span>
+  <span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="vi">@defaultTimeLabel</span><span class="p">)</span>
+  <span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="n">chooseLocalButton</span><span class="p">)</span>
+  <span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="vi">@zonePicker</span><span class="p">)</span>
+  <span class="n">set_default_time_zone</span>
+  <span class="n">set_default_time</span>
+  <span class="n">view</span><span class="o">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">scrollViewTexturedBackgroundColor</span>
+
 <span class="k">end</span>
 </pre></div></div></div>
 <div class="paragraph"><p>Don’t forget to add the following method in the same file:</p></div>
