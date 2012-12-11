@@ -264,9 +264,11 @@ UIApplication.sharedApplication.setStatusBarHidden(true ,animated:false)
 ----------------------------------------------------------------
 
 
-Challenges
-~~~~~~~~~~
-*It will be nice if our digital photo frame could tell us the battery level, subscribe to UIDeviceBatteryLevelDidChangeNotification and enable batteryMonitoringEnabled.
+Challenge - Battery Level
+~~~~~~~~~~~~~~~~~~~~~~~~~
+It will be nice if our digital photo frame could tell us the battery level, subscribe to UIDeviceBatteryLevelDidChangeNotification and enable batteryMonitoringEnabled.
 Add a label that indicates the level of the battery, green when its above 10% and red when get lower or equal than 10%   
 
-*Allow only portrait mode for the app, because in land scape we can looks like a little bit stretch
+Challenge - Lock Portrait
+~~~~~~~~~~~~~~~~~~~~~~~~~
+Allow only portrait mode for the app, because in land scape we may look a little bit stretch
