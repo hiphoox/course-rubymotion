@@ -58,7 +58,7 @@ class AppDelegate
 end
 ----------------------------------------------------------------
 
-The next step is add an UIImage to our PhotoFrameViewController feel free to create a file for the uielemtens like *photo_view_utilities.rb*
+The next step is add an UIImage to our PhotoFrameViewController feel free to create a file for the UIElements like *photo_view_utilities.rb*
 
 [source, ruby]
 ----------------------------------------------------------------
@@ -167,9 +167,9 @@ image::resources/ch15-Notifications/ch15_LandscapePicture.png[Landscape Picture]
 
 Autorotation
 ~~~~~~~~~~~~
-Rotation it’s a very common task between iOS applications, you can use UIDevice Notification, but this may be a lot of work, instead we can use autorotation for this purpose.
+Rotation it’s a very common task between iOS applications, you can use UIDevice Notification, but this may be a lot of work, instead we can use auto rotation for this purpose.
 
-We can achieve this if the view is controlled by an UIViewController, we ask to a view controller if its okay to rotate the view, if the view controller agrees, the view it's rotated and resized also it's subviews.
+We can achieve this if the view is controlled by an UIViewController, we ask to a view controller if its okay to rotate the view, if the view controller agrees, the view it's rotated and resized also it's sub-views.
 
 For this purpose we need to add the following method to our *photo_frame_view_controller.rb*, and don't subscribe to the UIDevice Notifications in the viewDidLoad Method
 
@@ -199,7 +199,7 @@ def shouldAutorotateToInterfaceOrientation(interfaceOrientation)
 end 
 ----------------------------------------------------------------  
 
-At this point it seems that our previous work has disappeared, and its because we did not tell how the UIImage should be resized, let's modified the methods that return the UIImageView whit the following autoresizing mask:
+At this point it seems that our previous work has disappeared, and its because we did not tell how the UIImage should be resized, let's modified the methods that return the UIImageView whit the following auto resizing mask:
 
 [source, ruby]
 ----------------------------------------------------------------
