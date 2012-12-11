@@ -252,7 +252,7 @@ image::resources/ch20-CALayers/ch20_GradientBackground.png[Background with Gradi
 
 Easy right? We create a nice background for our app using a gradient. Lets continue adding some grass into the composition:
 
-Please copy the **Determine deployment target** into our app resources folder, after that add the following method to our *LayerViewController* class
+Please copy the grass images from the **resources/images** folder into our app resources folder, after that add the following method to our *LayerViewController* class
 
 ["source", "ruby", args="-O \"hl_lines=7\""]
 --------------

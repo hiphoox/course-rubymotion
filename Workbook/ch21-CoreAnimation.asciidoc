@@ -243,7 +243,7 @@ Moving the clouds
 
 The sun looks a little lonely right? What about adding some clouds and make them move across the screen?
 
-The first step is adding the images of the clouds, please copy them from **Define deployment target** into the resources folder of the app.
+The first step is adding the images of the clouds, please copy them from **resources/images** folder into the resources folder of the app.
 
 Next lets add the layers into our view, in the following way:
 
@@ -877,7 +877,7 @@ If you look close at the code, we don't change pretty much right? Only we remove
 
 IMPORTANT: Also we add one more color into the background transition, this last is important for the day break transition.
 
-For the next step please copy the **bgMoon.png** from the **Define deployment target** into our application resources folder.
+For the next step please copy the **bgMoon.png** from the **resources/images** folder into our application resources folder.
 
 Lets add a new layer to include the new moon image:
 
@@ -1031,7 +1031,7 @@ image::resources/ch21-CoreAnimation/ch21_SunAndMoonAnimation.png[Sun & Moon Anim
 
 Challenges
 ----------
-. In the **Define deployment path** are a couple of star images, the challenge is make a animation with them moving from top to bottom, only when the moon is rising. And remove them with another animation when the sun is appears
+. In the **resources/images** folder are a couple of star images, the challenge is make a animation with them moving from top to bottom, only when the moon is rising. And remove them with another animation when the sun is appears
 
 . Change the past animation to look like shooting stars, enter and leaving the screen
 

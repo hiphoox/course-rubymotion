@@ -68,7 +68,7 @@ Well! Lets build our project (It can take a couple of seconds because the weight
 $ rake
 ------------
 
-Now please copy the file **RubyMotionSchedule.h** from **Define Deployment Target** into /vendor/Pods/cocos2d/cocos2d, next delete the file **Pods.bridgesupport** that is on /vendor/Pods and finally clean the project:
+Now please copy the file **RubyMotionSchedule.h** from **resources/code** folder into /vendor/Pods/cocos2d/cocos2d, next delete the file **Pods.bridgesupport** that is on /vendor/Pods and finally clean the project:
 
 [source, sh]
 ------------
@@ -86,7 +86,7 @@ Building a Game
 
 The first thing we need to understand is how the video games work, different from a regular application where the code is executed when an event happen (User interaction, Notification, etc) on video games there is always a loop calling methods for different proposes like refreshing screen, calling the game physics or asking something to the AI. Thankfully in Cocos 2D we have an object that its main responsibility is manage the loop, this class is called **CCDirector**
 
-Before start coding please copy the images from **DEFINE DEPLOYMENT PATH** into the project resources folder. Now implement the following on our **AppDelegate**:
+Before start coding please copy the images from **resources/images** folder into the project resources folder. Now implement the following on our **AppDelegate**:
 
 NOTE: The CCDirector is the responsible for running the game or pausing it, also it can handle when a phone call or text message happen so it can automatically pause the game
 
