@@ -6238,7 +6238,7 @@ self.dismissViewControllerAnimated(true,completion:nil)
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="nv">$ </span>motion create KanjiMaster
 </pre></div></div></div>
-<div class="paragraph"><p>Please copy the resources from <strong>DEFINE DEPLOYMENT PATH</strong> into the project resources folder, after that create the following file:</p></div>
+<div class="paragraph"><p>Please copy the resources from <strong>resources/images</strong> folder into the project resources folder, after that create the following file:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="nv">$ </span><span class="nb">cd </span>KanjiMaster/app
 
@@ -6970,7 +6970,7 @@ The drawing on a UIView using Core Graphics its not additive, what this means is
 <div class="sect2">
 <h3 id="_high_score">High Score!</h3>
 <div class="paragraph"><p>So as the Kanji description tell us is that is a technique for building cups of tea, so what about adding some disable cups on the top of the app to symbolize the score of the user (3 disable cups mean 0 right?)</p></div>
-<div class="paragraph"><p>So the first thing will be copy the images in <strong>DEFINE DEPLOYMENT PATH</strong> into our app resource&#8217;s folder, next add the follow to the <strong>kanji_view.rb</strong>:</p></div>
+<div class="paragraph"><p>So the first thing will be copy the images in <strong>resources/images</strong> folder into our app resource&#8217;s folder, next add the follow to the <strong>kanji_view.rb</strong>:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">initWithFrame</span><span class="p">(</span><span class="n">frame</span><span class="p">)</span>
 
@@ -7357,7 +7357,7 @@ The current implementation is drawing every point into the view, the challenge i
 <div class="title">Figure 87. Background with Gradient</div>
 </div>
 <div class="paragraph"><p>Easy right? We create a nice background for our app using a gradient. Lets continue adding some grass into the composition:</p></div>
-<div class="paragraph"><p>Please copy the <strong>Determine deployment target</strong> into our app resources folder, after that add the following method to our <strong>LayerViewController</strong> class</p></div>
+<div class="paragraph"><p>Please copy the grass images from the <strong>resources/images</strong> folder into our app resources folder, after that add the following method to our <strong>LayerViewController</strong> class</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">loadView</span>
 
@@ -7934,7 +7934,7 @@ Repeat the animation indefinitely
 <h2 id="_moving_the_clouds">Moving the clouds</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>The sun looks a little lonely right? What about adding some clouds and make them move across the screen?</p></div>
-<div class="paragraph"><p>The first step is adding the images of the clouds, please copy them from <strong>Define deployment target</strong> into the resources folder of the app.</p></div>
+<div class="paragraph"><p>The first step is adding the images of the clouds, please copy them from <strong>resources/images</strong> folder into the resources folder of the app.</p></div>
 <div class="paragraph"><p>Next lets add the layers into our view, in the following way:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">loadView</span>
@@ -8567,7 +8567,7 @@ Repeat the animation indefinitely
 <td class="content">Also we add one more color into the background transition, this last is important for the day break transition.</td>
 </tr></table>
 </div>
-<div class="paragraph"><p>For the next step please copy the <strong>bgMoon.png</strong> from the <strong>Define deployment target</strong> into our application resources folder.</p></div>
+<div class="paragraph"><p>For the next step please copy the <strong>bgMoon.png</strong> from the <strong>resources/images</strong> folder into our application resources folder.</p></div>
 <div class="paragraph"><p>Lets add a new layer to include the new moon image:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">loadView</span>
@@ -8716,7 +8716,7 @@ Repeat the animation indefinitely
 <div class="olist arabic"><ol class="arabic">
 <li>
 <p>
-In the <strong>Define deployment path</strong> are a couple of star images, the challenge is make a animation with them moving from top to bottom, only when the moon is rising. And remove them with another animation when the sun is appears
+In the <strong>resources/images</strong> folder are a couple of star images, the challenge is make a animation with them moving from top to bottom, only when the moon is rising. And remove them with another animation when the sun is appears
 </p>
 </li>
 <li>
@@ -9221,7 +9221,7 @@ You need Ruby Gems, follow this <a href="https://rvm.io/rubies/rubygems/">https:
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="nv">$ </span>rake
 </pre></div></div></div>
-<div class="paragraph"><p>Now please copy the file <strong>RubyMotionSchedule.h</strong> from <strong>Define Deployment Target</strong> into /vendor/Pods/cocos2d/cocos2d, next delete the file <strong>Pods.bridgesupport</strong> that is on /vendor/Pods and finally clean the project:</p></div>
+<div class="paragraph"><p>Now please copy the file <strong>RubyMotionSchedule.h</strong> from <strong>resources/code</strong> folder into /vendor/Pods/cocos2d/cocos2d, next delete the file <strong>Pods.bridgesupport</strong> that is on /vendor/Pods and finally clean the project:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="nv">$ </span>rake clean
 
@@ -9232,7 +9232,7 @@ You need Ruby Gems, follow this <a href="https://rvm.io/rubies/rubygems/">https:
 <div class="sect2">
 <h3 id="_building_a_game">Building a Game</h3>
 <div class="paragraph"><p>The first thing we need to understand is how the video games work, different from a regular application where the code is executed when an event happen (User interaction, Notification, etc) on video games there is always a loop calling methods for different proposes like refreshing screen, calling the game physics or asking something to the AI. Thankfully in Cocos 2D we have an object that its main responsibility is manage the loop, this class is called <strong>CCDirector</strong></p></div>
-<div class="paragraph"><p>Before start coding please copy the images from <strong>DEFINE DEPLOYMENT PATH</strong> into the project resources folder. Now implement the following on our <strong>AppDelegate</strong>:</p></div>
+<div class="paragraph"><p>Before start coding please copy the images from <strong>resources/images</strong> folder into the project resources folder. Now implement the following on our <strong>AppDelegate</strong>:</p></div>
 <div class="admonitionblock">
 <table><tr>
 <td class="icon">
@@ -10384,14 +10384,16 @@ Some Cocoa Frameworks and 3rd Party are not multi-thread
   <span class="c1"># Create a new view for our controller and add a nice</span>
   <span class="c1"># background color</span>
   <span class="nb">self</span><span class="o">.</span><span class="n">view</span> <span class="o">=</span> <span class="no">UIView</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">init</span>
-  <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">colorWithRed</span><span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">157</span><span class="p">,</span> <span class="n">green</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mi">165</span><span class="p">,</span> <span class="n">blue</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mi">180</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span>
 
+  <span class="c1"># Add a Background Image for the app using a UIImageView</span>
+  <span class="n">background_view</span> <span class="o">=</span> <span class="no">UIImageView</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithFrame</span><span class="p">(</span><span class="no">UIScreen</span><span class="o">.</span><span class="n">mainScreen</span><span class="o">.</span><span class="n">bounds</span><span class="p">)</span>
+  <span class="n">background_view</span><span class="o">.</span><span class="n">image</span> <span class="o">=</span> <span class="no">UIImage</span><span class="o">.</span><span class="n">imageNamed</span><span class="p">(</span><span class="s2">&quot;bgBackground.png&quot;</span><span class="p">)</span>
+  <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="n">background_view</span><span class="p">)</span>
 
-  <span class="c1"># Layout an image view for us to draw the user</span>
-  <span class="c1"># selected image</span>
-  <span class="n">layout_photo_image_view</span>
-
-
+<span class="hll">  <span class="c1"># Layout an image view for us to draw the user</span>
+</span><span class="hll">  <span class="c1"># selected image</span>
+</span><span class="hll">  <span class="n">layout_photo_image_view</span>
+</span>
   <span class="c1"># Layout the image picker for the user to take</span>
   <span class="c1"># or select a photo</span>
   <span class="n">layout_image_picker_controller</span>
@@ -10428,12 +10430,12 @@ Some Cocoa Frameworks and 3rd Party are not multi-thread
   <span class="c1"># Remove the Image Picker from our Controller View</span>
   <span class="vi">@image_picker_controller</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">removeFromSuperview</span>
 
-  <span class="c1"># Save the user selected image</span>
-  <span class="vi">@selected_image</span> <span class="o">=</span> <span class="n">info</span><span class="o">.</span><span class="n">objectForKey</span><span class="p">(</span><span class="no">UIImagePickerControllerOriginalImage</span><span class="p">)</span>
-
-  <span class="c1"># Add the user selected image to our photo image view</span>
-  <span class="vi">@photo_image_view</span><span class="o">.</span><span class="n">image</span> <span class="o">=</span> <span class="vi">@selected_image</span>
-<span class="k">end</span>
+<span class="hll">  <span class="c1"># Save the user selected image</span>
+</span><span class="hll">  <span class="vi">@selected_image</span> <span class="o">=</span> <span class="n">info</span><span class="o">.</span><span class="n">objectForKey</span><span class="p">(</span><span class="no">UIImagePickerControllerOriginalImage</span><span class="p">)</span>
+</span><span class="hll">
+</span><span class="hll">  <span class="c1"># Add the user selected image to our photo image view</span>
+</span><span class="hll">  <span class="vi">@photo_image_view</span><span class="o">.</span><span class="n">image</span> <span class="o">=</span> <span class="vi">@selected_image</span>
+</span><span class="k">end</span>
 </pre></div></div></div>
 <div class="imageblock">
 <div class="content">
@@ -10710,15 +10712,19 @@ Some Cocoa Frameworks and 3rd Party are not multi-thread
   <span class="c1"># Create a new view for our controller and add a nice</span>
   <span class="c1"># background color</span>
   <span class="nb">self</span><span class="o">.</span><span class="n">view</span> <span class="o">=</span> <span class="no">UIView</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">init</span>
-  <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">colorWithRed</span><span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">157</span><span class="p">,</span> <span class="n">green</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mi">165</span><span class="p">,</span> <span class="n">blue</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mi">180</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span>
 
-  <span class="c1"># Create a new instance of the Photo Filter Controller</span>
-  <span class="vi">@photo_filter_controller</span> <span class="o">=</span> <span class="no">PhotoFilterController</span><span class="o">.</span><span class="n">new</span>
+  <span class="c1"># Add a Background Image for the app using a UIImageView</span>
+  <span class="n">background_view</span> <span class="o">=</span> <span class="no">UIImageView</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithFrame</span><span class="p">(</span><span class="no">UIScreen</span><span class="o">.</span><span class="n">mainScreen</span><span class="o">.</span><span class="n">bounds</span><span class="p">)</span>
+  <span class="n">background_view</span><span class="o">.</span><span class="n">image</span> <span class="o">=</span> <span class="no">UIImage</span><span class="o">.</span><span class="n">imageNamed</span><span class="p">(</span><span class="s2">&quot;bgBackground.png&quot;</span><span class="p">)</span>
+  <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="n">background_view</span><span class="p">)</span>
 
-  <span class="c1"># Layout four buttons for the user to select</span>
-  <span class="c1"># the Photo Filters</span>
-  <span class="n">layout_filter_buttons</span>
-
+<span class="hll">  <span class="c1"># Create a new instance of the Photo Filter Controller</span>
+</span><span class="hll">  <span class="vi">@photo_filter_controller</span> <span class="o">=</span> <span class="no">PhotoFilterController</span><span class="o">.</span><span class="n">new</span>
+</span><span class="hll">
+</span><span class="hll">  <span class="c1"># Layout four buttons for the user to select</span>
+</span><span class="hll">  <span class="c1"># the Photo Filters</span>
+</span><span class="hll">  <span class="n">layout_filter_buttons</span>
+</span>
 
   <span class="c1"># Layout an image view for us to draw the user</span>
   <span class="c1"># selected image</span>
@@ -10784,7 +10790,11 @@ Some Cocoa Frameworks and 3rd Party are not multi-thread
   <span class="c1"># Create a new view for our controller and add a nice</span>
   <span class="c1"># background color</span>
   <span class="nb">self</span><span class="o">.</span><span class="n">view</span> <span class="o">=</span> <span class="no">UIView</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">init</span>
-  <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">colorWithRed</span><span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">157</span><span class="p">,</span> <span class="n">green</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mi">165</span><span class="p">,</span> <span class="n">blue</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mi">180</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span>
+
+  <span class="c1"># Add a Background Image for the app using a UIImageView</span>
+  <span class="n">background_view</span> <span class="o">=</span> <span class="no">UIImageView</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithFrame</span><span class="p">(</span><span class="no">UIScreen</span><span class="o">.</span><span class="n">mainScreen</span><span class="o">.</span><span class="n">bounds</span><span class="p">)</span>
+  <span class="n">background_view</span><span class="o">.</span><span class="n">image</span> <span class="o">=</span> <span class="no">UIImage</span><span class="o">.</span><span class="n">imageNamed</span><span class="p">(</span><span class="s2">&quot;bgBackground.png&quot;</span><span class="p">)</span>
+  <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="n">background_view</span><span class="p">)</span>
 
 
   <span class="c1"># Layout four buttons for the user to select</span>
@@ -10795,10 +10805,10 @@ Some Cocoa Frameworks and 3rd Party are not multi-thread
   <span class="c1"># selected image</span>
   <span class="n">layout_photo_image_view</span>
 
-  <span class="c1"># Layout an activity indicator that will tell the</span>
-  <span class="c1"># user that we are working on something</span>
-  <span class="n">layout_activity_indicator</span>
-
+<span class="hll">  <span class="c1"># Layout an activity indicator that will tell the</span>
+</span><span class="hll">  <span class="c1"># user that we are working on something</span>
+</span><span class="hll">  <span class="n">layout_activity_indicator</span>
+</span>
   <span class="c1"># Layout the image picker for the user to take</span>
   <span class="c1"># or select a photo</span>
   <span class="n">layout_image_picker_controller</span>
@@ -10826,61 +10836,61 @@ Some Cocoa Frameworks and 3rd Party are not multi-thread
 <span class="c1"># Pixellate Filter Button Callback</span>
 <span class="k">def</span> <span class="nf">add_pixellate_filter</span>
 
-  <span class="c1"># Start the activity animator</span>
-  <span class="vi">@activity_indicator</span><span class="o">.</span><span class="n">startAnimating</span>
-
+<span class="hll">  <span class="c1"># Start the activity animator</span>
+</span><span class="hll">  <span class="vi">@activity_indicator</span><span class="o">.</span><span class="n">startAnimating</span>
+</span>
   <span class="c1"># Generate a new Filtered Image and set it to our photo</span>
   <span class="c1"># image view</span>
   <span class="vi">@photo_image_view</span><span class="o">.</span><span class="n">image</span> <span class="o">=</span> <span class="vi">@photo_filter_controller</span><span class="o">.</span><span class="n">image_for_filter</span><span class="p">(</span><span class="ss">:pixellate</span><span class="p">,</span> <span class="vi">@selected_image</span><span class="p">,</span> <span class="mi">8</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span>
 
-  <span class="c1"># Stop the activity animator</span>
-  <span class="vi">@activity_indicator</span><span class="o">.</span><span class="n">stopAnimating</span>
-
+<span class="hll">  <span class="c1"># Stop the activity animator</span>
+</span><span class="hll">  <span class="vi">@activity_indicator</span><span class="o">.</span><span class="n">stopAnimating</span>
+</span>
 <span class="k">end</span>
 
 <span class="c1"># Sepia Tone Filter Button Callback</span>
 <span class="k">def</span> <span class="nf">add_sepia_tone_filter</span>
 
-  <span class="c1"># Start the activity animator</span>
-  <span class="vi">@activity_indicator</span><span class="o">.</span><span class="n">startAnimating</span>
-
+<span class="hll">  <span class="c1"># Start the activity animator</span>
+</span><span class="hll">  <span class="vi">@activity_indicator</span><span class="o">.</span><span class="n">startAnimating</span>
+</span>
   <span class="c1"># Generate a new Filtered Image and set it to our photo</span>
   <span class="c1"># image view</span>
   <span class="vi">@photo_image_view</span><span class="o">.</span><span class="n">image</span> <span class="o">=</span> <span class="vi">@photo_filter_controller</span><span class="o">.</span><span class="n">image_for_filter</span><span class="p">(</span><span class="ss">:sepia_tone</span><span class="p">,</span> <span class="vi">@selected_image</span><span class="p">,</span> <span class="mi">0</span><span class="o">.</span><span class="mi">5</span><span class="p">)</span>
 
-  <span class="c1"># Stop the activity animator</span>
-  <span class="vi">@activity_indicator</span><span class="o">.</span><span class="n">stopAnimating</span>
-
+<span class="hll">  <span class="c1"># Stop the activity animator</span>
+</span><span class="hll">  <span class="vi">@activity_indicator</span><span class="o">.</span><span class="n">stopAnimating</span>
+</span>
 <span class="k">end</span>
 
 <span class="c1"># Color Monochrome Filter Button Callback</span>
 <span class="k">def</span> <span class="nf">add_color_monochrome_filter</span>
 
-  <span class="c1"># Start the activity animator</span>
-  <span class="vi">@activity_indicator</span><span class="o">.</span><span class="n">startAnimating</span>
-
+<span class="hll">  <span class="c1"># Start the activity animator</span>
+</span><span class="hll">  <span class="vi">@activity_indicator</span><span class="o">.</span><span class="n">startAnimating</span>
+</span>
   <span class="c1"># Generate a new Filtered Image and set it to our photo</span>
   <span class="c1"># image view</span>
   <span class="vi">@photo_image_view</span><span class="o">.</span><span class="n">image</span> <span class="o">=</span> <span class="vi">@photo_filter_controller</span><span class="o">.</span><span class="n">image_for_filter</span><span class="p">(</span><span class="ss">:color_monochrome</span><span class="p">,</span> <span class="vi">@selected_image</span><span class="p">,</span> <span class="mi">0</span><span class="o">.</span><span class="mi">5</span><span class="p">)</span>
 
-  <span class="c1"># Stop the activity animator</span>
-  <span class="vi">@activity_indicator</span><span class="o">.</span><span class="n">stopAnimating</span>
-
+<span class="hll">  <span class="c1"># Stop the activity animator</span>
+</span><span class="hll">  <span class="vi">@activity_indicator</span><span class="o">.</span><span class="n">stopAnimating</span>
+</span>
 <span class="k">end</span>
 
 <span class="c1"># Gaussian Blur Filter Button Callback</span>
 <span class="k">def</span> <span class="nf">add_gaussian_blur_filter</span>
 
-  <span class="c1"># Start the activity animator</span>
-  <span class="vi">@activity_indicator</span><span class="o">.</span><span class="n">startAnimating</span>
-
+<span class="hll">  <span class="c1"># Start the activity animator</span>
+</span><span class="hll">  <span class="vi">@activity_indicator</span><span class="o">.</span><span class="n">startAnimating</span>
+</span>
  <span class="c1"># Generate a new Filtered Image and set it to our photo</span>
   <span class="c1"># image view</span>
   <span class="vi">@photo_image_view</span><span class="o">.</span><span class="n">image</span> <span class="o">=</span> <span class="vi">@photo_filter_controller</span><span class="o">.</span><span class="n">image_for_filter</span><span class="p">(</span><span class="ss">:gaussian_blur</span><span class="p">,</span> <span class="vi">@selected_image</span><span class="p">,</span> <span class="mi">3</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span>
 
-  <span class="c1"># Stop the activity animator</span>
-  <span class="vi">@activity_indicator</span><span class="o">.</span><span class="n">stopAnimating</span>
-
+<span class="hll">  <span class="c1"># Stop the activity animator</span>
+</span><span class="hll">  <span class="vi">@activity_indicator</span><span class="o">.</span><span class="n">stopAnimating</span>
+</span>
 <span class="k">end</span>
 </pre></div></div></div>
 <div class="imageblock">
@@ -10906,42 +10916,42 @@ Some Cocoa Frameworks and 3rd Party are not multi-thread
   <span class="c1"># Start the activity animator</span>
   <span class="vi">@activity_indicator</span><span class="o">.</span><span class="n">startAnimating</span>
 
-  <span class="c1"># Get a GCD Queue in this case a High one, but the options are</span>
-  <span class="c1"># :high, :low, :default, :default</span>
-  <span class="n">high_priority_queue</span> <span class="o">=</span> <span class="no">Dispatch</span><span class="o">::</span><span class="no">Queue</span><span class="o">.</span><span class="n">concurrent</span><span class="p">(</span><span class="n">priority</span><span class="o">=</span><span class="ss">:high</span><span class="p">)</span>
-
-  <span class="c1"># Send a block to be executed asynchronously on the High Priority</span>
-  <span class="c1"># Queue</span>
-  <span class="c1">#</span>
-  <span class="c1"># The code inside the block will be run in another thread</span>
-  <span class="n">high_priority_queue</span><span class="o">.</span><span class="n">async</span> <span class="p">{</span>
-
-    <span class="c1"># Generate the Filtered Image</span>
-    <span class="n">filtered_image</span> <span class="o">=</span> <span class="vi">@photo_filter_controller</span><span class="o">.</span><span class="n">image_for_filter</span><span class="p">(</span><span class="ss">:pixellate</span><span class="p">,</span> <span class="vi">@selected_image</span><span class="p">,</span> <span class="mi">8</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span>
-
-    <span class="c1"># We need to excecute the Photo Image View change on the</span>
-    <span class="c1"># main thread, because we are modifying the User Interface</span>
-    <span class="c1">#</span>
-    <span class="c1"># For this we can also use GCD getting the Main Thread queue,</span>
-    <span class="c1"># remember we are running on another thread</span>
-    <span class="n">main_queue</span> <span class="o">=</span> <span class="no">Dispatch</span><span class="o">::</span><span class="no">Queue</span><span class="o">.</span><span class="n">main</span>
-
-    <span class="c1"># Only for testing propouses let&#39;s sleep the thread a little</span>
-    <span class="c1"># bit</span>
-    <span class="nb">sleep</span> <span class="mi">1</span>
-
-    <span class="c1"># Now we can excecute any code on the Main Thread using the Main</span>
-    <span class="c1"># Queue</span>
-    <span class="n">main_queue</span><span class="o">.</span><span class="n">async</span> <span class="p">{</span>
-
-      <span class="c1"># Set the Filtered Image to our Photo Image View</span>
-      <span class="vi">@photo_image_view</span><span class="o">.</span><span class="n">image</span> <span class="o">=</span> <span class="n">filtered_image</span>
-
-      <span class="c1"># Stop the activity animator</span>
-      <span class="vi">@activity_indicator</span><span class="o">.</span><span class="n">stopAnimating</span>
-    <span class="p">}</span>
-  <span class="p">}</span>
-<span class="k">end</span>
+<span class="hll">  <span class="c1"># Get a GCD Queue in this case a High one, but the options are</span>
+</span><span class="hll">  <span class="c1"># :high, :low, :default, :default</span>
+</span><span class="hll">  <span class="n">high_priority_queue</span> <span class="o">=</span> <span class="no">Dispatch</span><span class="o">::</span><span class="no">Queue</span><span class="o">.</span><span class="n">concurrent</span><span class="p">(</span><span class="n">priority</span><span class="o">=</span><span class="ss">:high</span><span class="p">)</span>
+</span><span class="hll">
+</span><span class="hll">  <span class="c1"># Send a block to be executed asynchronously on the High Priority</span>
+</span><span class="hll">  <span class="c1"># Queue</span>
+</span><span class="hll">  <span class="c1">#</span>
+</span><span class="hll">  <span class="c1"># The code inside the block will be run in another thread</span>
+</span><span class="hll">  <span class="n">high_priority_queue</span><span class="o">.</span><span class="n">async</span> <span class="p">{</span>
+</span><span class="hll">
+</span><span class="hll">    <span class="c1"># Generate the Filtered Image</span>
+</span><span class="hll">    <span class="n">filtered_image</span> <span class="o">=</span> <span class="vi">@photo_filter_controller</span><span class="o">.</span><span class="n">image_for_filter</span><span class="p">(</span><span class="ss">:pixellate</span><span class="p">,</span> <span class="vi">@selected_image</span><span class="p">,</span> <span class="mi">8</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span>
+</span><span class="hll">
+</span><span class="hll">    <span class="c1"># We need to excecute the Photo Image View change on the</span>
+</span><span class="hll">    <span class="c1"># main thread, because we are modifying the User Interface</span>
+</span><span class="hll">    <span class="c1">#</span>
+</span><span class="hll">    <span class="c1"># For this we can also use GCD getting the Main Thread queue,</span>
+</span><span class="hll">    <span class="c1"># remember we are running on another thread</span>
+</span><span class="hll">    <span class="n">main_queue</span> <span class="o">=</span> <span class="no">Dispatch</span><span class="o">::</span><span class="no">Queue</span><span class="o">.</span><span class="n">main</span>
+</span><span class="hll">
+</span><span class="hll">    <span class="c1"># Only for testing propouses let&#39;s sleep the thread a little</span>
+</span><span class="hll">    <span class="c1"># bit</span>
+</span><span class="hll">    <span class="nb">sleep</span> <span class="mi">1</span>
+</span><span class="hll">
+</span><span class="hll">    <span class="c1"># Now we can excecute any code on the Main Thread using the Main</span>
+</span><span class="hll">    <span class="c1"># Queue</span>
+</span><span class="hll">    <span class="n">main_queue</span><span class="o">.</span><span class="n">async</span> <span class="p">{</span>
+</span><span class="hll">
+</span><span class="hll">      <span class="c1"># Set the Filtered Image to our Photo Image View</span>
+</span><span class="hll">      <span class="vi">@photo_image_view</span><span class="o">.</span><span class="n">image</span> <span class="o">=</span> <span class="n">filtered_image</span>
+</span><span class="hll">
+</span><span class="hll">      <span class="c1"># Stop the activity animator</span>
+</span><span class="hll">      <span class="vi">@activity_indicator</span><span class="o">.</span><span class="n">stopAnimating</span>
+</span><span class="hll">    <span class="p">}</span>
+</span><span class="hll">  <span class="p">}</span>
+</span><span class="k">end</span>
 </pre></div></div></div>
 <div class="paragraph"><p>If we select Pixellate Filter now the Activity Indicator is showing properly to the user and the Filtering operation is running on another Thread using GDC. That was easy right? We implement concurrent code on our application that simple and almost for free!</p></div>
 <div class="paragraph"><p>Now its time to implement it on all the Filtering Operations:</p></div>
@@ -10991,38 +11001,38 @@ Some Cocoa Frameworks and 3rd Party are not multi-thread
   <span class="c1"># Start the activity animator</span>
   <span class="vi">@activity_indicator</span><span class="o">.</span><span class="n">startAnimating</span>
 
-  <span class="c1"># Get a GCD Queue in this case a High one, but the options are</span>
-  <span class="c1"># :high, :low, :default, :default</span>
-  <span class="n">high_priority_queue</span> <span class="o">=</span> <span class="no">Dispatch</span><span class="o">::</span><span class="no">Queue</span><span class="o">.</span><span class="n">concurrent</span><span class="p">(</span><span class="n">priority</span><span class="o">=</span><span class="ss">:high</span><span class="p">)</span>
-
-  <span class="c1"># Send a block to be executed asynchronously on the High Priority</span>
-  <span class="c1"># Queue</span>
-  <span class="c1">#</span>
-  <span class="c1"># The code inside the block will be run in another thread</span>
-  <span class="n">high_priority_queue</span><span class="o">.</span><span class="n">async</span> <span class="p">{</span>
-
-    <span class="c1"># Generate the Filtered Image</span>
-    <span class="n">filtered_image</span> <span class="o">=</span> <span class="vi">@photo_filter_controller</span><span class="o">.</span><span class="n">image_for_filter</span><span class="p">(</span><span class="ss">:sepia_tone</span><span class="p">,</span> <span class="vi">@selected_image</span><span class="p">,</span> <span class="mi">0</span><span class="o">.</span><span class="mi">5</span><span class="p">)</span>
-
-    <span class="c1"># We need to excecute the Photo Image View change on the</span>
-    <span class="c1"># main thread, because we are modifying the User Interface</span>
-    <span class="c1">#</span>
-    <span class="c1"># For this we can also use GCD getting the Main Thread queue,</span>
-    <span class="c1"># remember we are running on another thread</span>
-    <span class="n">main_queue</span> <span class="o">=</span> <span class="no">Dispatch</span><span class="o">::</span><span class="no">Queue</span><span class="o">.</span><span class="n">main</span>
-
-    <span class="c1"># Now we can excecute any code on the Main Thread using the Main</span>
-    <span class="c1"># Queue</span>
-    <span class="n">main_queue</span><span class="o">.</span><span class="n">async</span> <span class="p">{</span>
-
-      <span class="c1"># Set the Filtered Image to our Photo Image View</span>
-      <span class="vi">@photo_image_view</span><span class="o">.</span><span class="n">image</span> <span class="o">=</span> <span class="n">filtered_image</span>
-
-      <span class="c1"># Stop the activity animator</span>
-      <span class="vi">@activity_indicator</span><span class="o">.</span><span class="n">stopAnimating</span>
-    <span class="p">}</span>
-  <span class="p">}</span>
-<span class="k">end</span>
+<span class="hll">  <span class="c1"># Get a GCD Queue in this case a High one, but the options are</span>
+</span><span class="hll">  <span class="c1"># :high, :low, :default, :default</span>
+</span><span class="hll">  <span class="n">high_priority_queue</span> <span class="o">=</span> <span class="no">Dispatch</span><span class="o">::</span><span class="no">Queue</span><span class="o">.</span><span class="n">concurrent</span><span class="p">(</span><span class="n">priority</span><span class="o">=</span><span class="ss">:high</span><span class="p">)</span>
+</span><span class="hll">
+</span><span class="hll">  <span class="c1"># Send a block to be executed asynchronously on the High Priority</span>
+</span><span class="hll">  <span class="c1"># Queue</span>
+</span><span class="hll">  <span class="c1">#</span>
+</span><span class="hll">  <span class="c1"># The code inside the block will be run in another thread</span>
+</span><span class="hll">  <span class="n">high_priority_queue</span><span class="o">.</span><span class="n">async</span> <span class="p">{</span>
+</span><span class="hll">
+</span><span class="hll">    <span class="c1"># Generate the Filtered Image</span>
+</span><span class="hll">    <span class="n">filtered_image</span> <span class="o">=</span> <span class="vi">@photo_filter_controller</span><span class="o">.</span><span class="n">image_for_filter</span><span class="p">(</span><span class="ss">:sepia_tone</span><span class="p">,</span> <span class="vi">@selected_image</span><span class="p">,</span> <span class="mi">0</span><span class="o">.</span><span class="mi">5</span><span class="p">)</span>
+</span><span class="hll">
+</span><span class="hll">    <span class="c1"># We need to excecute the Photo Image View change on the</span>
+</span><span class="hll">    <span class="c1"># main thread, because we are modifying the User Interface</span>
+</span><span class="hll">    <span class="c1">#</span>
+</span><span class="hll">    <span class="c1"># For this we can also use GCD getting the Main Thread queue,</span>
+</span><span class="hll">    <span class="c1"># remember we are running on another thread</span>
+</span><span class="hll">    <span class="n">main_queue</span> <span class="o">=</span> <span class="no">Dispatch</span><span class="o">::</span><span class="no">Queue</span><span class="o">.</span><span class="n">main</span>
+</span><span class="hll">
+</span><span class="hll">    <span class="c1"># Now we can excecute any code on the Main Thread using the Main</span>
+</span><span class="hll">    <span class="c1"># Queue</span>
+</span><span class="hll">    <span class="n">main_queue</span><span class="o">.</span><span class="n">async</span> <span class="p">{</span>
+</span><span class="hll">
+</span><span class="hll">      <span class="c1"># Set the Filtered Image to our Photo Image View</span>
+</span><span class="hll">      <span class="vi">@photo_image_view</span><span class="o">.</span><span class="n">image</span> <span class="o">=</span> <span class="n">filtered_image</span>
+</span><span class="hll">
+</span><span class="hll">      <span class="c1"># Stop the activity animator</span>
+</span><span class="hll">      <span class="vi">@activity_indicator</span><span class="o">.</span><span class="n">stopAnimating</span>
+</span><span class="hll">    <span class="p">}</span>
+</span><span class="hll">  <span class="p">}</span>
+</span><span class="k">end</span>
 
 <span class="c1"># Color Monochrome Filter Button Callback</span>
 <span class="k">def</span> <span class="nf">add_color_monochrome_filter</span>
@@ -11030,38 +11040,38 @@ Some Cocoa Frameworks and 3rd Party are not multi-thread
   <span class="c1"># Start the activity animator</span>
   <span class="vi">@activity_indicator</span><span class="o">.</span><span class="n">startAnimating</span>
 
-  <span class="c1"># Get a GCD Queue in this case a High one, but the options are</span>
-  <span class="c1"># :high, :low, :default, :default</span>
-  <span class="n">high_priority_queue</span> <span class="o">=</span> <span class="no">Dispatch</span><span class="o">::</span><span class="no">Queue</span><span class="o">.</span><span class="n">concurrent</span><span class="p">(</span><span class="n">priority</span><span class="o">=</span><span class="ss">:high</span><span class="p">)</span>
-
-  <span class="c1"># Send a block to be executed asynchronously on the High Priority</span>
-  <span class="c1"># Queue</span>
-  <span class="c1">#</span>
-  <span class="c1"># The code inside the block will be run in another thread</span>
-  <span class="n">high_priority_queue</span><span class="o">.</span><span class="n">async</span> <span class="p">{</span>
-
-    <span class="c1"># Generate the Filtered Image</span>
-    <span class="n">filtered_image</span> <span class="o">=</span> <span class="vi">@photo_filter_controller</span><span class="o">.</span><span class="n">image_for_filter</span><span class="p">(</span><span class="ss">:color_monochrome</span><span class="p">,</span> <span class="vi">@selected_image</span><span class="p">,</span> <span class="mi">0</span><span class="o">.</span><span class="mi">5</span><span class="p">)</span>
-
-    <span class="c1"># We need to excecute the Photo Image View change on the</span>
-    <span class="c1"># main thread, because we are modifying the User Interface</span>
-    <span class="c1">#</span>
-    <span class="c1"># For this we can also use GCD getting the Main Thread queue,</span>
-    <span class="c1"># remember we are running on another thread</span>
-    <span class="n">main_queue</span> <span class="o">=</span> <span class="no">Dispatch</span><span class="o">::</span><span class="no">Queue</span><span class="o">.</span><span class="n">main</span>
-
-    <span class="c1"># Now we can excecute any code on the Main Thread using the Main</span>
-    <span class="c1"># Queue</span>
-    <span class="n">main_queue</span><span class="o">.</span><span class="n">async</span> <span class="p">{</span>
-
-      <span class="c1"># Set the Filtered Image to our Photo Image View</span>
-      <span class="vi">@photo_image_view</span><span class="o">.</span><span class="n">image</span> <span class="o">=</span> <span class="n">filtered_image</span>
-
-      <span class="c1"># Stop the activity animator</span>
-      <span class="vi">@activity_indicator</span><span class="o">.</span><span class="n">stopAnimating</span>
-    <span class="p">}</span>
-  <span class="p">}</span>
-<span class="k">end</span>
+<span class="hll">  <span class="c1"># Get a GCD Queue in this case a High one, but the options are</span>
+</span><span class="hll">  <span class="c1"># :high, :low, :default, :default</span>
+</span><span class="hll">  <span class="n">high_priority_queue</span> <span class="o">=</span> <span class="no">Dispatch</span><span class="o">::</span><span class="no">Queue</span><span class="o">.</span><span class="n">concurrent</span><span class="p">(</span><span class="n">priority</span><span class="o">=</span><span class="ss">:high</span><span class="p">)</span>
+</span><span class="hll">
+</span><span class="hll">  <span class="c1"># Send a block to be executed asynchronously on the High Priority</span>
+</span><span class="hll">  <span class="c1"># Queue</span>
+</span><span class="hll">  <span class="c1">#</span>
+</span><span class="hll">  <span class="c1"># The code inside the block will be run in another thread</span>
+</span><span class="hll">  <span class="n">high_priority_queue</span><span class="o">.</span><span class="n">async</span> <span class="p">{</span>
+</span><span class="hll">
+</span><span class="hll">    <span class="c1"># Generate the Filtered Image</span>
+</span><span class="hll">    <span class="n">filtered_image</span> <span class="o">=</span> <span class="vi">@photo_filter_controller</span><span class="o">.</span><span class="n">image_for_filter</span><span class="p">(</span><span class="ss">:color_monochrome</span><span class="p">,</span> <span class="vi">@selected_image</span><span class="p">,</span> <span class="mi">0</span><span class="o">.</span><span class="mi">5</span><span class="p">)</span>
+</span><span class="hll">
+</span><span class="hll">    <span class="c1"># We need to excecute the Photo Image View change on the</span>
+</span><span class="hll">    <span class="c1"># main thread, because we are modifying the User Interface</span>
+</span><span class="hll">    <span class="c1">#</span>
+</span><span class="hll">    <span class="c1"># For this we can also use GCD getting the Main Thread queue,</span>
+</span><span class="hll">    <span class="c1"># remember we are running on another thread</span>
+</span><span class="hll">    <span class="n">main_queue</span> <span class="o">=</span> <span class="no">Dispatch</span><span class="o">::</span><span class="no">Queue</span><span class="o">.</span><span class="n">main</span>
+</span><span class="hll">
+</span><span class="hll">    <span class="c1"># Now we can excecute any code on the Main Thread using the Main</span>
+</span><span class="hll">    <span class="c1"># Queue</span>
+</span><span class="hll">    <span class="n">main_queue</span><span class="o">.</span><span class="n">async</span> <span class="p">{</span>
+</span><span class="hll">
+</span><span class="hll">      <span class="c1"># Set the Filtered Image to our Photo Image View</span>
+</span><span class="hll">      <span class="vi">@photo_image_view</span><span class="o">.</span><span class="n">image</span> <span class="o">=</span> <span class="n">filtered_image</span>
+</span><span class="hll">
+</span><span class="hll">      <span class="c1"># Stop the activity animator</span>
+</span><span class="hll">      <span class="vi">@activity_indicator</span><span class="o">.</span><span class="n">stopAnimating</span>
+</span><span class="hll">    <span class="p">}</span>
+</span><span class="hll">  <span class="p">}</span>
+</span><span class="k">end</span>
 
 <span class="c1"># Gaussian Blur Filter Button Callback</span>
 <span class="k">def</span> <span class="nf">add_gaussian_blur_filter</span>
@@ -11069,38 +11079,38 @@ Some Cocoa Frameworks and 3rd Party are not multi-thread
   <span class="c1"># Start the activity animator</span>
   <span class="vi">@activity_indicator</span><span class="o">.</span><span class="n">startAnimating</span>
 
-  <span class="c1"># Get a GCD Queue in this case a High one, but the options are</span>
-  <span class="c1"># :high, :low, :default, :default</span>
-  <span class="n">high_priority_queue</span> <span class="o">=</span> <span class="no">Dispatch</span><span class="o">::</span><span class="no">Queue</span><span class="o">.</span><span class="n">concurrent</span><span class="p">(</span><span class="n">priority</span><span class="o">=</span><span class="ss">:high</span><span class="p">)</span>
-
-  <span class="c1"># Send a block to be executed asynchronously on the High Priority</span>
-  <span class="c1"># Queue</span>
-  <span class="c1">#</span>
-  <span class="c1"># The code inside the block will be run in another thread</span>
-  <span class="n">high_priority_queue</span><span class="o">.</span><span class="n">async</span> <span class="p">{</span>
-
-    <span class="c1"># Generate the Filtered Image</span>
-    <span class="n">filtered_image</span> <span class="o">=</span> <span class="vi">@photo_filter_controller</span><span class="o">.</span><span class="n">image_for_filter</span><span class="p">(</span><span class="ss">:gaussian_blur</span><span class="p">,</span> <span class="vi">@selected_image</span><span class="p">,</span> <span class="mi">3</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span>
-
-    <span class="c1"># We need to execute the Photo Image View change on the</span>
-    <span class="c1"># main thread, because we are modifying the User Interface</span>
-    <span class="c1">#</span>
-    <span class="c1"># For this we can also use GCD getting the Main Thread queue,</span>
-    <span class="c1"># remember we are running on another thread</span>
-    <span class="n">main_queue</span> <span class="o">=</span> <span class="no">Dispatch</span><span class="o">::</span><span class="no">Queue</span><span class="o">.</span><span class="n">main</span>
-
-    <span class="c1"># Now we can execute any code on the Main Thread using the Main</span>
-    <span class="c1"># Queue</span>
-    <span class="n">main_queue</span><span class="o">.</span><span class="n">async</span> <span class="p">{</span>
-
-      <span class="c1"># Set the Filtered Image to our Photo Image View</span>
-      <span class="vi">@photo_image_view</span><span class="o">.</span><span class="n">image</span> <span class="o">=</span> <span class="n">filtered_image</span>
-
-      <span class="c1"># Stop the activity animator</span>
-      <span class="vi">@activity_indicator</span><span class="o">.</span><span class="n">stopAnimating</span>
-    <span class="p">}</span>
-  <span class="p">}</span>
-<span class="k">end</span>
+<span class="hll">  <span class="c1"># Get a GCD Queue in this case a High one, but the options are</span>
+</span><span class="hll">  <span class="c1"># :high, :low, :default, :default</span>
+</span><span class="hll">  <span class="n">high_priority_queue</span> <span class="o">=</span> <span class="no">Dispatch</span><span class="o">::</span><span class="no">Queue</span><span class="o">.</span><span class="n">concurrent</span><span class="p">(</span><span class="n">priority</span><span class="o">=</span><span class="ss">:high</span><span class="p">)</span>
+</span><span class="hll">
+</span><span class="hll">  <span class="c1"># Send a block to be executed asynchronously on the High Priority</span>
+</span><span class="hll">  <span class="c1"># Queue</span>
+</span><span class="hll">  <span class="c1">#</span>
+</span><span class="hll">  <span class="c1"># The code inside the block will be run in another thread</span>
+</span><span class="hll">  <span class="n">high_priority_queue</span><span class="o">.</span><span class="n">async</span> <span class="p">{</span>
+</span><span class="hll">
+</span><span class="hll">    <span class="c1"># Generate the Filtered Image</span>
+</span><span class="hll">    <span class="n">filtered_image</span> <span class="o">=</span> <span class="vi">@photo_filter_controller</span><span class="o">.</span><span class="n">image_for_filter</span><span class="p">(</span><span class="ss">:gaussian_blur</span><span class="p">,</span> <span class="vi">@selected_image</span><span class="p">,</span> <span class="mi">3</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span>
+</span><span class="hll">
+</span><span class="hll">    <span class="c1"># We need to execute the Photo Image View change on the</span>
+</span><span class="hll">    <span class="c1"># main thread, because we are modifying the User Interface</span>
+</span><span class="hll">    <span class="c1">#</span>
+</span><span class="hll">    <span class="c1"># For this we can also use GCD getting the Main Thread queue,</span>
+</span><span class="hll">    <span class="c1"># remember we are running on another thread</span>
+</span><span class="hll">    <span class="n">main_queue</span> <span class="o">=</span> <span class="no">Dispatch</span><span class="o">::</span><span class="no">Queue</span><span class="o">.</span><span class="n">main</span>
+</span><span class="hll">
+</span><span class="hll">    <span class="c1"># Now we can execute any code on the Main Thread using the Main</span>
+</span><span class="hll">    <span class="c1"># Queue</span>
+</span><span class="hll">    <span class="n">main_queue</span><span class="o">.</span><span class="n">async</span> <span class="p">{</span>
+</span><span class="hll">
+</span><span class="hll">      <span class="c1"># Set the Filtered Image to our Photo Image View</span>
+</span><span class="hll">      <span class="vi">@photo_image_view</span><span class="o">.</span><span class="n">image</span> <span class="o">=</span> <span class="n">filtered_image</span>
+</span><span class="hll">
+</span><span class="hll">      <span class="c1"># Stop the activity animator</span>
+</span><span class="hll">      <span class="vi">@activity_indicator</span><span class="o">.</span><span class="n">stopAnimating</span>
+</span><span class="hll">    <span class="p">}</span>
+</span><span class="hll">  <span class="p">}</span>
+</span><span class="k">end</span>
 </pre></div></div></div>
 <div class="imageblock">
 <div class="content">
@@ -11159,17 +11169,21 @@ Some Cocoa Frameworks and 3rd Party are not multi-thread
   <span class="c1"># Create a new view for our controller and add a nice</span>
   <span class="c1"># background color</span>
   <span class="nb">self</span><span class="o">.</span><span class="n">view</span> <span class="o">=</span> <span class="no">UIView</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">init</span>
-  <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">colorWithRed</span><span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">157</span><span class="p">,</span> <span class="n">green</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mi">165</span><span class="p">,</span> <span class="n">blue</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mi">180</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span>
 
-  <span class="c1"># Create a new UIPanGestureRecognizer to detect the</span>
-  <span class="c1"># user drag on the view</span>
-  <span class="n">pan_gesture_recognizer</span> <span class="o">=</span> <span class="no">UIPanGestureRecognizer</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithTarget</span><span class="p">(</span><span class="nb">self</span><span class="p">,</span>
-                                                                       <span class="n">action</span><span class="ss">:&#39;pan_gesture_was_recognizer:&#39;</span><span class="p">)</span>
+  <span class="c1"># Add a Background Image for the app using a UIImageView</span>
+  <span class="n">background_view</span> <span class="o">=</span> <span class="no">UIImageView</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithFrame</span><span class="p">(</span><span class="no">UIScreen</span><span class="o">.</span><span class="n">mainScreen</span><span class="o">.</span><span class="n">bounds</span><span class="p">)</span>
+  <span class="n">background_view</span><span class="o">.</span><span class="n">image</span> <span class="o">=</span> <span class="no">UIImage</span><span class="o">.</span><span class="n">imageNamed</span><span class="p">(</span><span class="s2">&quot;bgBackground.png&quot;</span><span class="p">)</span>
+  <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="n">background_view</span><span class="p">)</span>
 
-  <span class="c1"># Add the Pan Gesture Recognizer to the controller</span>
-  <span class="c1"># view</span>
-  <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">addGestureRecognizer</span><span class="p">(</span><span class="n">pan_gesture_recognizer</span><span class="p">)</span>
-
+<span class="hll">  <span class="c1"># Create a new UIPanGestureRecognizer to detect the</span>
+</span><span class="hll">  <span class="c1"># user drag on the view</span>
+</span><span class="hll">  <span class="n">pan_gesture_recognizer</span> <span class="o">=</span> <span class="no">UIPanGestureRecognizer</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithTarget</span><span class="p">(</span><span class="nb">self</span><span class="p">,</span>
+</span><span class="hll">                                                                       <span class="n">action</span><span class="ss">:&#39;pan_gesture_was_recognizer:&#39;</span><span class="p">)</span>
+</span><span class="hll">
+</span><span class="hll">  <span class="c1"># Add the Pan Gesture Recognizer to the controller</span>
+</span><span class="hll">  <span class="c1"># view</span>
+</span><span class="hll">  <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">addGestureRecognizer</span><span class="p">(</span><span class="n">pan_gesture_recognizer</span><span class="p">)</span>
+</span>
   <span class="c1"># Layout four buttons for the user to select</span>
   <span class="c1"># the Photo Filters</span>
   <span class="n">layout_filter_buttons</span>
@@ -11249,7 +11263,11 @@ Some Cocoa Frameworks and 3rd Party are not multi-thread
   <span class="c1"># Create a new view for our controller and add a nice</span>
   <span class="c1"># background color</span>
   <span class="nb">self</span><span class="o">.</span><span class="n">view</span> <span class="o">=</span> <span class="no">UIView</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">init</span>
-  <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">colorWithRed</span><span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">157</span><span class="p">,</span> <span class="n">green</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mi">165</span><span class="p">,</span> <span class="n">blue</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mi">180</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span>
+
+  <span class="c1"># Add a Background Image for the app using a UIImageView</span>
+  <span class="n">background_view</span> <span class="o">=</span> <span class="no">UIImageView</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithFrame</span><span class="p">(</span><span class="no">UIScreen</span><span class="o">.</span><span class="n">mainScreen</span><span class="o">.</span><span class="n">bounds</span><span class="p">)</span>
+  <span class="n">background_view</span><span class="o">.</span><span class="n">image</span> <span class="o">=</span> <span class="no">UIImage</span><span class="o">.</span><span class="n">imageNamed</span><span class="p">(</span><span class="s2">&quot;bgBackground.png&quot;</span><span class="p">)</span>
+  <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="n">background_view</span><span class="p">)</span>
 
   <span class="c1"># Create a new UIPanGestureRecognizer to detect the</span>
   <span class="c1"># user drag on the view</span>
@@ -11261,13 +11279,13 @@ Some Cocoa Frameworks and 3rd Party are not multi-thread
   <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">addGestureRecognizer</span><span class="p">(</span><span class="n">pan_gesture_recognizer</span><span class="p">)</span>
 
 
-  <span class="c1"># Create a new instance of the Photo Filter Controller</span>
-  <span class="vi">@photo_filter_controller</span> <span class="o">=</span> <span class="no">PhotoFilterController</span><span class="o">.</span><span class="n">new</span>
-
-  <span class="c1"># Create a new NSOperationQueue for excecuting the</span>
-  <span class="c1"># filter intensity changes</span>
-  <span class="vi">@filter_intensity_queue</span> <span class="o">=</span> <span class="no">NSOperationQueue</span><span class="o">.</span><span class="n">new</span>
-
+<span class="hll">  <span class="c1"># Create a new instance of the Photo Filter Controller</span>
+</span><span class="hll">  <span class="vi">@photo_filter_controller</span> <span class="o">=</span> <span class="no">PhotoFilterController</span><span class="o">.</span><span class="n">new</span>
+</span><span class="hll">
+</span><span class="hll">  <span class="c1"># Create a new NSOperationQueue for excecuting the</span>
+</span><span class="hll">  <span class="c1"># filter intensity changes</span>
+</span><span class="hll">  <span class="vi">@filter_intensity_queue</span> <span class="o">=</span> <span class="no">NSOperationQueue</span><span class="o">.</span><span class="n">new</span>
+</span>
 
   <span class="c1"># Layout four buttons for the user to select</span>
   <span class="c1"># the Photo Filters</span>
@@ -11289,38 +11307,38 @@ Some Cocoa Frameworks and 3rd Party are not multi-thread
 
 <span class="c1"># Pan Gesture Recognizer Callback</span>
 <span class="k">def</span> <span class="nf">pan_gesture_was_recognizer</span><span class="p">(</span><span class="n">pan_gesture_recognizer</span><span class="p">)</span>
-
-  <span class="c1"># We need the velocity of the gesture to determinate</span>
-  <span class="c1"># de direction of the touch drag</span>
-  <span class="n">gesture_velocity</span> <span class="o">=</span> <span class="n">pan_gesture_recognizer</span><span class="o">.</span><span class="n">velocityInView</span><span class="p">(</span><span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="p">)</span>
-
-  <span class="c1"># If the velocity is less than cero means that the</span>
-  <span class="c1"># user is dragging up</span>
-  <span class="k">if</span><span class="p">(</span><span class="n">gesture_velocity</span><span class="o">.</span><span class="n">y</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span>
-
-    <span class="c1"># Create a NSInvocationOperation that will allow us to run some method</span>
-    <span class="c1"># on another thread</span>
-    <span class="n">increase_image_filter_operation</span> <span class="o">=</span> <span class="no">NSInvocationOperation</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithTarget</span><span class="p">(</span><span class="nb">self</span><span class="p">,</span>
-                                                                                 <span class="n">selector</span><span class="ss">:&#39;increase_image_filter&#39;</span><span class="p">,</span>
-                                                                                 <span class="n">object</span><span class="ss">:nil</span><span class="p">)</span>
-
-    <span class="c1"># Add the Invocation Operation to the NSOperationQueue</span>
-    <span class="vi">@filter_intensity_queue</span><span class="o">.</span><span class="n">addOperation</span><span class="p">(</span><span class="n">increase_image_filter_operation</span><span class="p">)</span>
-
-  <span class="c1"># And if the velocity is more than cero, the user</span>
-  <span class="c1"># is dragging down</span>
-  <span class="k">else</span>
-
-    <span class="c1"># Create a NSInvocationOperation that will allow us to run some method</span>
-    <span class="c1"># on another thread</span>
-    <span class="n">increase_image_filter_operation</span> <span class="o">=</span> <span class="no">NSInvocationOperation</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithTarget</span><span class="p">(</span><span class="nb">self</span><span class="p">,</span>
-                                                                                 <span class="n">selector</span><span class="ss">:&#39;decrease_image_filter&#39;</span><span class="p">,</span>
-                                                                                 <span class="n">object</span><span class="ss">:nil</span><span class="p">)</span>
-
-    <span class="c1"># Add the Invocation Operation to the NSOperationQueue</span>
-    <span class="vi">@filter_intensity_queue</span><span class="o">.</span><span class="n">addOperation</span><span class="p">(</span><span class="n">increase_image_filter_operation</span><span class="p">)</span>
-
-  <span class="k">end</span>
+<span class="hll">
+</span><span class="hll">  <span class="c1"># We need the velocity of the gesture to determinate</span>
+</span><span class="hll">  <span class="c1"># de direction of the touch drag</span>
+</span><span class="hll">  <span class="n">gesture_velocity</span> <span class="o">=</span> <span class="n">pan_gesture_recognizer</span><span class="o">.</span><span class="n">velocityInView</span><span class="p">(</span><span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="p">)</span>
+</span><span class="hll">
+</span><span class="hll">  <span class="c1"># If the velocity is less than cero means that the</span>
+</span><span class="hll">  <span class="c1"># user is dragging up</span>
+</span><span class="hll">  <span class="k">if</span><span class="p">(</span><span class="n">gesture_velocity</span><span class="o">.</span><span class="n">y</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span>
+</span><span class="hll">
+</span><span class="hll">    <span class="c1"># Create a NSInvocationOperation that will allow us to run some method</span>
+</span><span class="hll">    <span class="c1"># on another thread</span>
+</span><span class="hll">    <span class="n">increase_image_filter_operation</span> <span class="o">=</span> <span class="no">NSInvocationOperation</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithTarget</span><span class="p">(</span><span class="nb">self</span><span class="p">,</span>
+</span><span class="hll">                                                                                 <span class="n">selector</span><span class="ss">:&#39;increase_image_filter&#39;</span><span class="p">,</span>
+</span><span class="hll">                                                                                 <span class="n">object</span><span class="ss">:nil</span><span class="p">)</span>
+</span><span class="hll">
+</span><span class="hll">    <span class="c1"># Add the Invocation Operation to the NSOperationQueue</span>
+</span><span class="hll">    <span class="vi">@filter_intensity_queue</span><span class="o">.</span><span class="n">addOperation</span><span class="p">(</span><span class="n">increase_image_filter_operation</span><span class="p">)</span>
+</span><span class="hll">
+</span><span class="hll">  <span class="c1"># And if the velocity is more than cero, the user</span>
+</span><span class="hll">  <span class="c1"># is dragging down</span>
+</span><span class="hll">  <span class="k">else</span>
+</span><span class="hll">
+</span><span class="hll">    <span class="c1"># Create a NSInvocationOperation that will allow us to run some method</span>
+</span><span class="hll">    <span class="c1"># on another thread</span>
+</span><span class="hll">    <span class="n">increase_image_filter_operation</span> <span class="o">=</span> <span class="no">NSInvocationOperation</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithTarget</span><span class="p">(</span><span class="nb">self</span><span class="p">,</span>
+</span><span class="hll">                                                                                 <span class="n">selector</span><span class="ss">:&#39;decrease_image_filter&#39;</span><span class="p">,</span>
+</span><span class="hll">                                                                                 <span class="n">object</span><span class="ss">:nil</span><span class="p">)</span>
+</span><span class="hll">
+</span><span class="hll">    <span class="c1"># Add the Invocation Operation to the NSOperationQueue</span>
+</span><span class="hll">    <span class="vi">@filter_intensity_queue</span><span class="o">.</span><span class="n">addOperation</span><span class="p">(</span><span class="n">increase_image_filter_operation</span><span class="p">)</span>
+</span><span class="hll">
+</span>  <span class="k">end</span>
 
 <span class="k">end</span>
 

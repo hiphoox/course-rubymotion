@@ -25,7 +25,7 @@ Lets start creating a new project called **KanjiMaster**:
 $ motion create KanjiMaster
 ------------
 
-Please copy the resources from **DEFINE DEPLOYMENT PATH** into the project resources folder, after that create the following file:
+Please copy the resources from **resources/images** folder into the project resources folder, after that create the following file:
 
 [source, sh]
 ------------
@@ -779,7 +779,7 @@ High Score!
 ~~~~~~~~~~~
 So as the Kanji description tell us is that is a technique for building cups of tea, so what about adding some disable cups on the top of the app to symbolize the score of the user (3 disable cups mean 0 right?)
 
-So the first thing will be copy the images in **DEFINE DEPLOYMENT PATH** into our app resource's folder, next add the follow to the **kanji_view.rb**:
+So the first thing will be copy the images in **resources/images** folder into our app resource's folder, next add the follow to the **kanji_view.rb**:
 
 ["source","ruby", args="-O \"hl_lines=13\""]
 --------------
