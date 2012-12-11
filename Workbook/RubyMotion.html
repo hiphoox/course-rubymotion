@@ -5185,11 +5185,8 @@ Add a label that indicates the level of the battery, green when its above 10% an
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="nv">$ </span>motion create PhotoAlbum
 </pre></div></div></div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_album_view_controller">Album View Controller</h2>
-<div class="sectionbody">
+<div class="sect2">
+<h3 id="_album_view_controller">Album View Controller</h3>
 <div class="paragraph"><p>We are going to begin with the controller that will hold the entire application, so create an file named album_view_controller.rb and the following code:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="k">class</span> <span class="nc">AlbumViewController</span> <span class="o">&lt;</span> <span class="no">UIViewController</span>
@@ -5606,6 +5603,7 @@ Notice that in the <strong>viewDidLoad</strong> method we set segment that we wa
 <img src="Resources/ch16-CollectionViews/image14.png" alt="Show Menu" />
 </div>
 <div class="title">Figure 53. Show Menu</div>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_collection_view">Collection View</h3>
@@ -6134,11 +6132,8 @@ UILabel (label)
 <h2 id="_camera">Camera</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>In this chapter we are going to use camera and photo roll for capture moments that we want to save.</p></div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_photo_album_2">Photo Album</h2>
-<div class="sectionbody">
+<div class="sect2">
+<h3 id="_photo_album_2">Photo Album</h3>
 <div class="paragraph"><p>Bring the project for the chapter 16 <em>Photo Album</em> and open the file <strong>album_camera_view_controller.rb</strong> and a add the following code that will serve to connect the Graphics elements, also don&#8217;t forget to assign the correspondent tag numbers on the <strong>CameraView.xib</strong> file.</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="no">CHOOSE_BUTTON_TAG</span> <span class="o">=</span> <span class="mi">1</span>
@@ -6191,10 +6186,8 @@ UILabel (label)
 <div class="title">Figure 70. Take Photo</div>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_camera_picker_delegate">Camera Picker Delegate</h2>
-<div class="sectionbody">
+<div class="sect2">
+<h3 id="_camera_picker_delegate">Camera Picker Delegate</h3>
 <div class="paragraph"><p>How can we know when the photo its selected well, UIMagePickerController has a delegate method when the picture its selected and when is not selected A.K.A. (cancel)</p></div>
 <div class="ulist"><ul>
 <li>
@@ -6221,10 +6214,8 @@ imagePickerControllerDidCancel:
 <span class="k">end</span>
 </pre></div></div></div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_modal_view_controllers">Modal View Controllers</h2>
-<div class="sectionbody">
+<div class="sect2">
+<h3 id="_modal_view_controllers">Modal View Controllers</h3>
 <div class="paragraph"><p>You may notice two new methods</p></div>
 <div class="ulist"><ul>
 <li>
@@ -6239,6 +6230,7 @@ self.dismissViewControllerAnimated(true,completion:nil)
 </li>
 </ul></div>
 <div class="paragraph"><p>From a UIViewController we ca present another view controllers modally, specially if we want to perform a new functionality for our app, and we can dismiss it when we were done.</p></div>
+</div>
 </div>
 </div>
 <h1 id="_chapter_19_multitouch">Chapter 19 - Multitouch</h1>
