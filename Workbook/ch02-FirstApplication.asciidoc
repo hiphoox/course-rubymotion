@@ -389,11 +389,11 @@ First at all open your *root_view_controller.rb* file and add the following high
 [WARNING]
 Adding code ahead. 
 
-["source","ruby", args="-O \"hl_lines=1 2 3 4 5 6 7 8 9 10 11 12 13 14 15\""]
+["source","ruby", args="-O \"hl_lines=3 4 5 6 7 8 9 10 11 12 13 14 15\""]
 --------------
 def viewDidLoad
 
-  chooseLocalButton.addTarget(self, action::'present_local_zone_picker:', #boldBegin
+  chooseLocalButton.addTarget(self, action::'present_local_zone_picker:', 
 	                          forControlEvents:UIControlEventTouchUpInside)
 
   @converTimeZoneLabel =  location_label(25,290)
@@ -405,7 +405,7 @@ def viewDidLoad
 
   view.addSubview(@converTimeZoneLabel) 
   view.addSubview(@convertTimeLabel)
-  view.addSubview(chooseconvertButton) #boldEnd
+  view.addSubview(chooseconvertButton) 
 
 end
 -------------------
