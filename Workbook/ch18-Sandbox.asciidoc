@@ -238,3 +238,8 @@ image::Resources/ch18-Sandbox/image1.png[Save Photo]
 
 .Photo Added
 image::Resources/ch18-Sandbox/image2.png[Photo Added]
+
+Challenge - Name Property
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Connect the name property to the model in order save tha name of the picture. 
