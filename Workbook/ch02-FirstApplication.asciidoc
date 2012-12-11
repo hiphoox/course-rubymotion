@@ -4,7 +4,13 @@ Chapter 02 - First Application
 Time Zone Converter App
 -----------------------
 
-It is time to create a new Ruby Motion app for doing time zone conversions, run the following command in your terminal:
+Time it's one of the most precious resources that we have, and for travelers around the world it's essential to keep synced between one place an another so they can accomplish goals and requirements on time.
+So we are going to build and application for them, so they can check local time and time in the place where they are traveling. The app should cover the next functionality:
+
+- Ability to select know Time Regions (local and remote)
+- Display UTC local and remote time
+
+Run the following command in your terminal:
 
 [source, sh]
 --------------------------------------
