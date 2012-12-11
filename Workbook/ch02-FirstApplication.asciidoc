@@ -403,13 +403,13 @@ def viewDidLoad
   @defaultTimeLabel = time_label(50,150)
   chooseLocalButton = select_time_zone_Button(220,115)
   chooseLocalButton.addTarget(self, action: :'present_local_zone_picker:', forControlEvents:UIControlEventTouchUpInside)
-  @converTimeZoneLabel =  location_label(25,290) #bold
+  @converTimeZoneLabel =  location_label(25,290) 
   @convertTimeLabel = time_label(50,320)
   chooseconvertButton = select_time_zone_Button(220,300)
   chooseconvertButton.addTarget(self, action: :'present_convert_zone_picker:',forControlEvents:UIControlEventTouchUpInside)
   view.addSubview(@converTimeZoneLabel)
   view.addSubview(@convertTimeLabel)
-  view.addSubview(chooseconvertButton)#bold
+  view.addSubview(chooseconvertButton)
   @zonePicker = zone_picker(0,244)
   @zonePicker.dataSource = self
   @zonePicker.delegate = self
