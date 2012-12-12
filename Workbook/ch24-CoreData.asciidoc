@@ -1,0 +1,763 @@
+Chapter 24 - Core Data
+======================
+
+Core Data is an object graph manager with lifecycle, searching and persistence features. What these means is that is a object manager that will allow us to create and destroy objects, make and validate relationships between them and finally search for specific objects using predicates. 
+
+Contrary as many think Core Data is not a database and the best example of it is that Core Data can be used totally in-memory without any form of persistence. But of course the main feature of Core Data is the persistence so lets take a little look on the differences between it and a database:
+
+. The primary function of Core Data is object management, the primary function of a Database is storing and fetching data
+
+. Core Data works using objects stored in memory (Which can be persisted on disk), which can have behavior and attributes. Instead of the database than only stores the plain data
+
+. The databases can work on the data without load it into memory, Core Data can not do it: The objects to manipulate must be loaded first into memory before we can alter them
+
+. Core Data requires a save process before it write all the changes (New, Alter or Deleted objects) into disk
+
+. The data integrity and relationships are managed in the database by using features like "unique" keys. In Core Data they are managed by business logic inside our app
+
+
+IMPORTANT: Core Data is not fully multi-threaded, if you have the need to use them in such scenarios please consider that some of its objects like NSManagedContext and NSManagedObject are single threaded. 
+
+
+Remember the Movies
+-------------------
+With all the possibilities today for watching a movie (Streaming, Online Rent, Physical Rent, Theaters, etc) some times we can forget if we have already watched a movie or in another way remember those recommendations of friends and family. Lets create an app for that! (Using Core Data ;)
+
+
+Core Data Model
+~~~~~~~~~~~~~~~
+
+Please create a new project called **Remember the Movies**:
+
+[source, sh]
+------------
+$ motion create "Remember the Movies"
+
+$ cd app
+
+$ mkdir extensions
+------------
+
+Before we can start coding our project is needed for us to copy some Core Data Object extensions, these extensions are designed to make our Core Data implementation more easy and simple. Please copy all the files from **resources/extensions** to our **extensions folder**
+
+Now is time to code our model for the app, starting with the **Director** object:
+
+[source, sh]
+------------
+$ cd "Remember the Movies"
+
+$ cd app
+
+$ mkdir model
+
+$ cd model
+
+$ touch director.rb
+
+$ open director.rb
+------------
+
+[source, ruby]
+--------------
+# Please note that the Director Model object is child
+# of the class NSManagedObject
+class Director < NSManagedObject
+
+  # Core Data attributes for the object, this attributes will be used
+  # for all the operations like Persisting and Searching
+  @attributes ||= [
+
+    # We have to define the names and types of the attributes, also
+    # you can set a default value or if it is required
+
+    #Attribute Name, Type, Default Value, Is Optional, Is Transient, Is Indexed
+    ['name', NSStringAttributeType, '', false, false, false]
+  ]
+
+end
+--------------
+
+Did you notice that our **Director model** is child of **NSManagedObject**? Core Data needs to add some methods to the object so it can work with it, so the way that these work is using inheritance, according to these every object that we want Core Data to track must inherit from NSManagedObject
+
+Lets continue creating the **Movie** model class:
+
+[source, sh]
+------------
+$ touch movie.rb
+
+$ open movie.rb
+------------
+
+[source, ruby]
+--------------
+class Movie < NSManagedObject
+
+  # Core Data attributes for the object, this attributes will be used
+  # for all the operations like Persisting and Searching
+  @attributes ||= [
+
+    # We have to define the names and types of the attributes, also
+    # you can set a default value or if it is required
+
+    #Attribute Name, Type, Default Value, Is Optional, Is Transient, Is Indexed
+    ['name', NSStringAttributeType, '', false, false, false],
+    ['release_year', NSInteger32AttributeType, 0, false, false, false],
+    ['studio', NSStringAttributeType, '', false, false, false]
+
+  ]
+
+end
+--------------
+
+Yes! Now we got a object for representing the Movie, but as you already notice the attributes can have many types. The more important ones are:
+
+. NSInteger32AttributeType
+. NSDoubleAttributeType
+. NSStringAttributeType
+. NSBooleanAttributeType
+. NSDateAttributeType
+. NSBinaryDataAttributeType
+
+Now lets add an a relationship between the **Director** and the **Movie**, for these we need to edit both files:
+
+[source, sh]
+------------
+$ open movie.rb
+------------
+
+["source", "ruby", args="-O \"hl_lines=17 18 19 20 21 22 23 24 25 26 27 28 29\""]
+--------------------------------------------
+class Movie < NSManagedObject
+
+  # Core Data attributes for the object, this attributes will be used
+  # for all the operations like Persisting and Searching
+  @attributes ||= [
+
+    # We have to define the names and types of the attributes, also
+    # you can set a default value or if it is required
+
+    #Attribute Name, Type, Default Value, Is Optional, Is Transient, Is Indexed
+    ['name', NSStringAttributeType, '', false, false, false],
+    ['release_year', NSInteger32AttributeType, 0, false, false, false],
+    ['studio', NSStringAttributeType, '', false, false, false]
+
+  ]
+
+  # In Core Data we can have relationship between objects, so lets add one 
+  # to the Director Object
+  @relationships ||= [
+
+    # IMPORTANT: In Core Data is required to have a circular relationships between
+    # the two objects. In these case we are adding a Relationship from Movie to Director
+    # but also we will need one from Director to Movie, these relationship is called Inverse
+    # Relationship
+    
+    # Relationship Name, Relationship Class, Inverse Relationship, Is Optional, Is Indexed, 
+    # Is Ordered, Min Count, Max Count, Delete Rule
+    ['director', 'Director', 'movie', true, false, true, 0, 1, NSNullifyDeleteRule]
+  ]
+
+end
+--------------------------------------------
+
+IMPORTANT: The relationships in Core Data are circular, what these means is that if we want to create a relationship from Movie to Director we also need another one from Director to Movie
+
+Based on these lets open our Director class to add the Inverse Relationship:
+
+[source, sh]
+------------
+$ open director.rb
+------------
+
+["source", "ruby", args="-O \"hl_lines=17 18 19 20 21 22 23 24 25 26 27\""]
+--------------------------------------------
+# Please note that the Director Model object is child
+# of the class NSManagedObject
+class Director < NSManagedObject
+
+  # Core Data attributes for the object, this attributes will be used
+  # for all the operations like Persisting and Searching
+  @attributes ||= [
+
+    # We have to define the names and types of the attributes, also
+    # you can set a default value or if it is required
+
+    #Attribute Name, Type, Default Value, Is Optional, Is Transient, Is Indexed
+    ['name', NSStringAttributeType, '', false, false, false]
+  ]
+
+
+  # In Core Data we can have relationship between objects, so lets add one 
+  # to the Movie Object
+  @relationships ||= [
+
+    # IMPORTANT: In Core Data is required to have a circular relationships between
+    # the two objects. So lets create the inverse relationship from Director to Movie 
+    
+    # Relationship Name, Relationship Class, Inverse Relationship, Is Optional, Is Indexed, 
+    # Is Ordered, Min Count, Max Count, Delete Rule
+    ['movie', 'Movie', 'director', true, false, true, 0, NSIntegerMax, NSCascadeDeleteRule]
+  ]
+
+end
+--------------------------------------------
+
+Continuing on the app lets open our **app_delegate.rb** and add the following:
+
+[source, ruby]
+--------------
+class AppDelegate
+
+  # Lets keep all of our Core Data Objects in here
+  ManageObjectClases = [Director, Movie]
+
+  def application(application, didFinishLaunchingWithOptions:launchOptions)
+    
+    initialize_core_data
+
+    true
+  end
+
+
+  def initialize_core_data
+
+    # First we need to create the NSManagedObjectModel with
+    # all the entities and their relationships. You can think of 
+    # these object as a reference of the objects for Core Data 
+    # to use
+    managed_object_model = NSManagedObjectModel.alloc.init
+    managed_object_model.entities = ManageObjectClases.collect { |c| c.entity }
+    managed_object_model.entities.each { |entity| entity.wireRelationships }
+
+    # The next object needed is the NSPersistentStoreCoordinator
+    # which will allow Core Data to persist the information.
+    #
+    # IMPORT: The NSPersistentStoreCoordinator is not the file or 
+    # the database, is just the enabler to write on them
+    persistent_store_coordinator = NSPersistentStoreCoordinator.alloc.initWithManagedObjectModel(managed_object_model)
+    
+    # Now lets get a URL for where do we want Core Data to create
+    # the persist file, in this case a SQLite Database File
+    persistent_store_file_url = NSURL.fileURLWithPath(File.join(NSHomeDirectory(), 
+                                                                'Documents', 
+                                                                'RememberTheMovies.sqlite'))
+
+
+    error_pointer = Pointer.new(:object)
+
+    # Add a new Persistent Store to our Persistent Store Coordinator
+    # which these means is that we are telling the Persistent Store 
+    # Coordinator where to perform the save of our objects.
+    #
+    # In these case we are setting that our objects must be stored in
+    # a SQLite database in the path we already created previously
+    unless persistent_store_coordinator.addPersistentStoreWithType(NSSQLiteStoreType,
+                                                                   configuration: nil,
+                                                                   URL: persistent_store_file_url,
+                                                                   options: nil,
+                                                                   error: error_pointer)
+
+      # In case that we can't initialize the Persistance Store File
+      raise "Can not initialize Core Data Persistance Store Coordinator: #{error_pointer[0].description}"
+    end
+
+    # Finally our most important object the Managed Object Context
+    # this object is the responsible for creating, destroying and 
+    # fetching the objects
+    #
+    # Of course for it to work we need to assign who is coordinating
+    # the object persistence
+    @managed_object_context = NSManagedObjectContext.alloc.init
+    @managed_object_context.persistentStoreCoordinator = persistent_store_coordinator
+  end
+
+end
+--------------
+
+Great! With these code we initialize Core Data in our app using Sqlite as persistence and adding our new Model Objects to it
+
+The final step is to add the **Core Data Framework** to our project, this is done editing the **RakeFile**:
+
+[source, sh]
+------------
+$ cd ..
+
+$ open RakeFile
+------------
+
+["source", "ruby", args="-O \"hl_lines=9\""]
+--------------
+# -*- coding: utf-8 -*-
+$:.unshift("/Library/RubyMotion/lib")
+require 'motion/project'
+
+Motion::Project::App.setup do |app|
+  # Use `rake config' to see complete project settings.
+  app.name = 'Remember the Movies'
+
+  app.frameworks += ['CoreData']
+end
+--------------
+
+If we run our app you should see the following:
+
+**IMAGE**
+
+IMPORTANT: If you make some changes to the Model objects after you initialize the Core Data Persistent Store, its needed to clean the project using **rake clean** and rebuild it using **rake**
+
+
+Some Views for Some Records
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Lets start adding some view controllers to our app so we can visualize and add new data, lets begin creating a new view controller called **movies_view_controller.rb**:
+
+[source, sh]
+------------
+$ cd app
+
+$ mkdir controllers
+
+$ cd controllers
+
+$ touch movies_view_controller.rb
+
+$ open movies_view_controller.rb
+------------  
+
+[source, ruby]
+--------------
+class MoviesViewController < UIViewController
+
+  attr_accessor :managed_object_context
+
+  def loadView
+
+    # Create a new Bar Button Item with the Add System Default
+    add_movie_bar_button_item = UIBarButtonItem.alloc.initWithBarButtonSystemItem(UIBarButtonSystemItemAdd,
+                                                                                  target: self,
+                                                                                  action: 'add_new_movie')
+
+    # Add the Bar Button Item to the Navigation Bar
+    self.navigationItem.rightBarButtonItem = add_movie_bar_button_item
+  end
+
+end
+--------------
+
+Lets load our new controller into the window, please open the **app_delegate.rb** file:
+
+[source, sh]
+------------
+$ cd ..
+
+$ open app_delegate.rb
+------------
+
+["source", "ruby", args="-O \"hl_lines=5 6 7 8 9 10 11 12 13 14 15 16 17 18 19\""]
+------------------
+def application(application, didFinishLaunchingWithOptions:launchOptions)
+
+  initialize_core_data
+
+  # Create a new instance of our Movies View Controller
+  movies_view_controller = MoviesViewController.alloc.init
+
+  # We need to pass the Managed Object Context to the next controller
+  # so we can use it later for creating, fetching or deleting objects
+  movies_view_controller.managed_object_context = @managed_object_context
+
+
+  # Add it as a root view controller of a UINavigationController
+  navigation_controller = UINavigationController.alloc.initWithRootViewController(movies_view_controller)
+
+  # Create a new UIWindow and add our UINavigationController to it
+  @window = UIWindow.alloc.initWithFrame(UIScreen.mainScreen.bounds)
+  @window.rootViewController = navigation_controller
+  @window.makeKeyAndVisible
+
+  true
+end
+------------------
+
+If we run our app we should se the following:
+
+**Image**
+
+Awesome! The next step is to create a new view controller called **Add Movie View Controller**:
+
+[source, sh]
+------------
+$ cd controllers
+
+$ touch add_movie_view_controller.rb
+
+$ open add_movie_view_controller.rb
+------------
+
+[source, ruby]
+--------------
+class AddMovieViewController < UITableViewController
+
+  attr_accessor :managed_object_context
+
+  def loadView
+
+    # Set up the title for the View Controller
+    self.title = 'Add Movie'
+
+    # Create a new Table View for showing the Text Fields
+    table_view = UITableView.alloc.initWithFrame(UIScreen.mainScreen.bounds,
+                                                 style:UITableViewStyleGrouped)
+
+    # Set up the view controller as a Data Source
+    # of the table view
+    table_view.dataSource = self
+
+    # Add the table view as view of the view controller
+    self.view = table_view
+  end
+
+
+  # UITableView Data Source
+
+  def numberOfSectionsInTableView(tableView)
+
+    # Lets set two sections one for the Movie General
+    # Data and another for a list of Directors
+    2
+  end
+
+
+  def tableView(tableView, titleForHeaderInSection: section)
+
+    # Create a new variable to store our header title
+    title_for_header = ''
+
+
+    # If the section is the Directors One
+    if section == 1
+
+      # Set the title to the title variable
+      title_for_header = 'Choose a Director...'
+    end
+
+    # Return the title variable
+    title_for_header
+  end
+
+
+  def tableView(tableView, numberOfRowsInSection: section)
+
+    # Lets create a new instance variable for storing 
+    # the number of rows in the section
+    number_of_rows = 0
+
+    # If the section is General Data
+    if section == 0
+
+      # We need two rows
+      number_of_rows = 2
+
+    else
+
+      # If the section is Directors we need only one
+      number_of_rows = 1
+
+    end
+
+    # Return the number of rows for the section
+    number_of_rows
+  end
+
+
+  def tableView(tableView, cellForRowAtIndexPath: indexPath)
+
+    # If the section is General Data
+    if indexPath.section == 0
+
+      # Return a General Data Cell
+      general_information_cell_for_table_view(tableView, index_path: indexPath)
+    else
+
+      # Return a Add Director Cell
+      add_director_cell_for_table_view(tableView)
+    end
+  end
+
+
+  def general_information_cell_for_table_view(tableView, index_path: index_path)
+
+    # Create a cell identifier for the General Information Cell
+    cell_identifier = 'GeneralInformationCell'
+
+    # Dequeue a cell with the identifier
+    cell = tableView.dequeueReusableCellWithIdentifier(cell_identifier)
+
+
+    # If we are not cells to use we need to create one
+    if cell == nil
+
+      # Lets create a new UITableViewCell with the identifier
+      cell = UITableViewCell.alloc.initWithStyle(UITableViewCellStyleDefault, reuseIdentifier:cell_identifier)
+      cell.selectionStyle = UITableViewCellSelectionStyleNone
+
+      # Instantiate a new UITextField for editing some values
+      cell_text_field = UITextField.alloc.initWithFrame(CGRectMake(100, 11, 200, 30))
+      cell_text_field.autocorrectionType = UITextAutocorrectionTypeNo;
+      cell_text_field.placeholder = 'Required'
+      cell_text_field.textColor = UIColor.colorWithRed(0.235, green:0.325, blue:0.506, alpha:1.000)
+
+      # Set the view controller as delegate of the Text Field
+      cell_text_field.delegate = self
+
+      # Add the Text Field into the cell view
+      cell.addSubview(cell_text_field)
+    end
+
+
+    # If the row is the first one
+    if index_path.row == 0
+
+      # Set the title to Name
+      cell.textLabel.text = 'Name'
+    else
+
+      # Else set the title to Year
+      cell.textLabel.text = 'Year'
+    end
+
+    cell
+  end
+
+
+  def add_director_cell_for_table_view(tableView)
+
+    #Create a cell identifier for the Add Director Cell
+    cell_identifier = 'AddDirectorCell'
+
+    # Dequeue a cell with the identifier
+    cell = tableView.dequeueReusableCellWithIdentifier(cell_identifier)
+
+
+    # If we are not cells to use we need to create one
+    if cell == nil
+
+      # Lets create a new UITableViewCell with the identifier
+      cell = UITableViewCell.alloc.initWithStyle(UITableViewCellStyleDefault, reuseIdentifier:cell_identifier)
+      cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator
+    end
+
+    # Add text to the cell
+    cell.textLabel.text = 'Add Director...'
+
+    cell
+  end
+
+
+  # UITextField Delegate
+  def textFieldShouldReturn(textField)
+
+    # Resign the UITextField as first responder to hide
+    # the keyboard
+    textField.resignFirstResponder
+
+    true
+  end
+
+
+end
+--------------
+
+Great now that we have our **add_movie_view_controller.rb** lets  present it using our **movies_view_controller.rb**, so lets open it and add the following method:
+
+[source, sh]
+------------
+$ open movies_view_controller.rb
+------------
+
+[source, ruby]
+--------------
+def add_new_movie
+
+  # Create a new AddMovieViewController
+  add_movie_view_controller = AddMovieViewController.alloc.init
+
+  # We need to pass the Managed Object Context to the next controller
+  # so we can use it later for creating, fetching or deleting objects
+  add_movie_view_controller.managed_object_context = @managed_object_context 
+
+
+  # Push it using the Navigation Controller
+  self.navigationController.pushViewController(add_movie_view_controller, 
+                                               animated:true)
+end
+--------------
+
+Now if we run the app and select the plus button we should see the following:
+
+**IMAGE**
+
+Before we can start adding movies is required to add a Director first, so lets create a view controller called **add_director_view_controller.rb** for this task:
+
+[source, sh]
+------------
+$ touch add_director_view_controller.rb
+
+$ open add_director_view_controller.rb
+------------
+
+[source, ruby]
+--------------
+class AddDirectorViewController < UITableViewController
+
+  attr_accessor :managed_object_context
+
+  def loadView
+
+    # Set up the title for the View Controller
+    self.title = 'Add Director'
+
+    # Create a new Table View for showing the Text Fields
+    table_view = UITableView.alloc.initWithFrame(UIScreen.mainScreen.bounds,
+                                                 style:UITableViewStyleGrouped)
+
+    # Set up the view controller as a Data Source
+    # of the table view
+    table_view.dataSource = self
+
+    # Add the table view as view of the view controller
+    self.view = table_view
+  end
+
+
+  # UITableView Data Source
+
+  def tableView(tableView, numberOfRowsInSection: section)
+
+    # Because the Director only has one attribute, we only
+    # need one cell
+    1
+  end
+
+
+  def tableView(tableView, cellForRowAtIndexPath: indexPath)
+
+    # Create a cell identifier for the General Information Cell
+    cell_identifier = 'GeneralInformationCell'
+
+    # Dequeue a cell with the identifier
+    cell = tableView.dequeueReusableCellWithIdentifier(cell_identifier)
+
+
+    # If we are not cells to use we need to create one
+    if cell == nil
+
+      # Lets create a new UITableViewCell with the identifier
+      cell = UITableViewCell.alloc.initWithStyle(UITableViewCellStyleDefault, reuseIdentifier:cell_identifier)
+      cell.selectionStyle = UITableViewCellSelectionStyleNone
+
+      # Instantiate a new UITextField for editing some values
+      cell_text_field = UITextField.alloc.initWithFrame(CGRectMake(100, 11, 200, 30))
+      cell_text_field.autocorrectionType = UITextAutocorrectionTypeNo;
+      cell_text_field.placeholder = 'Required'
+      cell_text_field.textColor = UIColor.colorWithRed(0.235, green:0.325, blue:0.506, alpha:1.000)
+
+      # Set the view controller as delegate of the Text Field
+      cell_text_field.delegate = self
+
+      # Add the Text Field into the cell view
+      cell.addSubview(cell_text_field)
+    end
+
+
+    # Set the title to Name
+    cell.textLabel.text = 'Name'
+
+    cell
+  end
+
+
+  # UITextField Delegate
+  def textFieldShouldReturn(textField)
+
+    # Resign the UITextField as first responder to hide
+    # the keyboard
+    textField.resignFirstResponder
+
+    true
+  end
+
+end
+--------------
+
+Great! The only thing left to do is present the **add_director_view_controller.rb** when the user select the **Add Director..** cell. For this we need to open our **add_movie_view_controller.rb** and edit the following:
+
+[source, sh]
+------------
+$ open add_movie_view_controller.rb
+------------
+
+
+["source", "ruby", args="-O \"hl_lines=14 15 16\""]
+--------------
+def loadView
+
+  # Set up the title for the View Controller
+  self.title = 'Add Movie'
+
+  # Create a new Table View for showing the Text Fields
+  table_view = UITableView.alloc.initWithFrame(UIScreen.mainScreen.bounds,
+                                               style:UITableViewStyleGrouped)
+
+  # Set up the view controller as a Data Source
+  # of the table view
+  table_view.dataSource = self
+
+  # Set up the view controller as a Delegate
+  # of the table view
+  table_view.delegate = self
+
+  # Add the table view as view of the view controller
+  self.view = table_view
+end
+
+
+# UITableView Delegate
+
+def tableView(tableView, didSelectRowAtIndexPath: indexPath)
+
+  # If the section is the Directors one
+  if indexPath.section == 1 
+
+    # Create a new AddDirectorViewController
+    add_director_view_controller = AddDirectorViewController.alloc.init
+
+    # We need to pass the Managed Object Context to the next controller
+    # so we can use it later for creating, fetching or deleting objects
+    add_director_view_controller.managed_object_context = @managed_object_context 
+
+    # Push it using the Navigation Controller
+    self.navigationController.pushViewController(add_director_view_controller, 
+                                                 animated:true)
+  end
+
+end
+--------------
+
+Now our **AddDirectorViewController** is visible:
+
+**IMAGE**
+
+
+New Objects
+~~~~~~~~~~~
+Lets create our first Core Data Object in this case **Director**, please open your **add_director_view_controller.rb**:
+
+[source, sh]
+------------
+$ open add_director_view_controller.rb
+------------
+
+[source, ruby]
+--------------
+--------------
