@@ -128,20 +128,22 @@ image::Resources/ch26-Concurrency/ch26_InitialAnimation.png[Initial Application]
 
 The next step will be adding the user selected image to the controller's view, please add the following lines to the **photo_view_controller.rb** file:
 
-[source, ruby]
+["source", "ruby", args="-O \"hl_lines=12 13 14 52 53 54 55 56\""]
 --------------
 def loadView
 
   # Create a new view for our controller and add a nice
   # background color
   self.view = UIView.alloc.init
-  self.view.backgroundColor = UIColor.colorWithRed(0.157, green:0.165, blue:0.180, alpha:1.0)
 
+  # Add a Background Image for the app using a UIImageView
+  background_view = UIImageView.alloc.initWithFrame(UIScreen.mainScreen.bounds)
+  background_view.image = UIImage.imageNamed("bgBackground.png")
+  self.view.addSubview(background_view)
 
   # Layout an image view for us to draw the user
   # selected image
   layout_photo_image_view
-
 
   # Layout the image picker for the user to take
   # or select a photo
@@ -462,14 +464,18 @@ Yes! Now we have a class that can add filters to our images using Core Image. It
 $ open photo_view_controller.rb
 ------------ 
 
-[source, ruby]
+["source", "ruby", args="-O \"hl_lines=12 13 14 15 16 17\""]
 --------------
 def loadView
 
   # Create a new view for our controller and add a nice
   # background color
   self.view = UIView.alloc.init
-  self.view.backgroundColor = UIColor.colorWithRed(0.157, green:0.165, blue:0.180, alpha:1.0)
+ 
+  # Add a Background Image for the app using a UIImageView
+  background_view = UIImageView.alloc.initWithFrame(UIScreen.mainScreen.bounds)
+  background_view.image = UIImage.imageNamed("bgBackground.png")
+  self.view.addSubview(background_view)
 
   # Create a new instance of the Photo Filter Controller
   @photo_filter_controller = PhotoFilterController.new
@@ -531,14 +537,18 @@ The filters are working but it takes some time to change filters right? It will 
 
 IMPORTANT: If you are testing on the iOS Simulator the operation can be much faster than in the real device, also take note that some of your possible future users will not have the latest iPhone available either. So if an operation takes a little in the simulator possible it will take a lot on a device like an iPhone 3Gs
 
-[source, ruby]
+["source", "ruby", args="-O \"hl_lines=21 22 23 52 53 59 60 67 68 74 75 82 83 89 90 97 98 104 105\""]
 --------------
 def loadView
 
   # Create a new view for our controller and add a nice
   # background color
   self.view = UIView.alloc.init
-  self.view.backgroundColor = UIColor.colorWithRed(0.157, green:0.165, blue:0.180, alpha:1.0)
+  
+  # Add a Background Image for the app using a UIImageView
+  background_view = UIImageView.alloc.initWithFrame(UIScreen.mainScreen.bounds)
+  background_view.image = UIImage.imageNamed("bgBackground.png")
+  self.view.addSubview(background_view)
 
 
   # Layout four buttons for the user to select
@@ -658,7 +668,7 @@ Also you will notice on the following part of the exercise that is the most simp
 $ open photo_view_controller.rb
 ------------
 
-[source, ruby]
+["source", "ruby", args="-O \"hl_lines=7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41\""]
 --------------
 # Pixellate Filter Button Callback
 def add_pixellate_filter
@@ -708,7 +718,7 @@ If we select Pixellate Filter now the Activity Indicator is showing properly to 
 
 Now its time to implement it on all the Filtering Operations:
 
-[source, ruby]
+["source", "ruby", args="-O \"hl_lines=46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 75 76 85 86 87 88 89 90 91 92 93 94 95 96 97 98 99 100 101 102 103 104 105 106 107 108 109 110 111 112 113 114 115 124 125 126 127 128 129 130 131 132 133 134 135 136 137 138 139 140 141 142 143 144 145 146 147 148 149 150 151 152 153 154\""]
 --------------
 # Pixellate Filter Button Callback
 def add_pixellate_filter
@@ -919,14 +929,18 @@ Lets open our **photo_view_controller.rb** and add a gesture recognizer for us t
 $ open photo_view_controller.rb
 ------------
 
-[source, ruby]
+["source", "ruby", args="-O \"hl_lines=12 13 14 15 16 17 18 19\""]
 --------------
 def loadView
 
   # Create a new view for our controller and add a nice
   # background color
   self.view = UIView.alloc.init
-  self.view.backgroundColor = UIColor.colorWithRed(0.157, green:0.165, blue:0.180, alpha:1.0)
+
+  # Add a Background Image for the app using a UIImageView
+  background_view = UIImageView.alloc.initWithFrame(UIScreen.mainScreen.bounds)
+  background_view.image = UIImage.imageNamed("bgBackground.png")
+  self.view.addSubview(background_view)
 
   # Create a new UIPanGestureRecognizer to detect the 
   # user drag on the view
@@ -1015,14 +1029,18 @@ Its time to use another technology for concurrent operations, in this case **NSO
 Lets implement it for our intensity filter change, lets continue changing our **photo_view_controller.rb**:
 
 
-[source, ruby]
+["source", "ruby", args="-O \"hl_lines=22 23 24 25 26 27 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80\""]
 --------------
 def loadView
 
   # Create a new view for our controller and add a nice
   # background color
   self.view = UIView.alloc.init
-  self.view.backgroundColor = UIColor.colorWithRed(0.157, green:0.165, blue:0.180, alpha:1.0)
+
+  # Add a Background Image for the app using a UIImageView
+  background_view = UIImageView.alloc.initWithFrame(UIScreen.mainScreen.bounds)
+  background_view.image = UIImage.imageNamed("bgBackground.png")
+  self.view.addSubview(background_view)
 
   # Create a new UIPanGestureRecognizer to detect the 
   # user drag on the view

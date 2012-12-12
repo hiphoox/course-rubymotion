@@ -44,7 +44,8 @@ If everything goes well, you will see an ugly black window.
 .Empty Application
 image::resources/ch02-FirstApplication/image1.png[Empty Application]
 
-
+[NOTE]
+Please add the assets to the resources folder of your project. You can find them under the resources folder and inside there is a folder images with the assets necessary for the chapter.  
 
 View Controller
 ~~~~~~~~~~~~~~~

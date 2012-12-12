@@ -7,6 +7,14 @@ File System Structure
 
 We are going to learn in this chapter how to save our photos to disk, and when the application finish for any reason, the photos remains, have done say that which is the perfect place for store our files? Well we have more than one option, but for now we are going to use the application sandbox.
 
+
+
+[NOTE]
+Please add the assets to the resources folder of your project. You can find them under the resources folder and inside there is a folder images with the assets necessary for the chapter.  
+
+[NOTE]
+Bring files from chapter 17 'Camera'.  
+
 Application Sandbox
 -------------------    
 
@@ -238,3 +246,13 @@ image::Resources/ch18-Sandbox/image1.png[Save Photo]
 
 .Photo Added
 image::Resources/ch18-Sandbox/image2.png[Photo Added]
+
+Challenge - Set Photo Frame
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Use the UICollectionView delegate *collectionView:didSelectItemAtIndexPath:* in order to set the selected photo in the photo frame section
+
+Challenge - Name Property
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Connect the name property to the model in order save tha name of the picture, and add it as a label on the UICollectionView (Album)

@@ -17,9 +17,11 @@ Let start creating our project, run the rake command an name it "PhotoAlbum"
 $ motion create PhotoAlbum
 --------------------------------------
 
+[NOTE]
+Please add the assets to the resources folder of your project. You can find them under the resources folder and inside there is a folder images with the assets necessary for the chapter.  
 
 Album View Controller 
----------------------
+~~~~~~~~~~~~~~~~~~~~~
 
 We are going to begin with the controller that will hold the entire application, so create an file named album_view_controller.rb and the following code:
 
@@ -257,7 +259,7 @@ def viewDidLoad
 end
 ----------------------------------------------------------------
 
-Also we need to implement the delegate method that takes responsibility when a cell its selected *tableView tableView,didSelectRowAtIndexPath:indexPath* , in this method we need to set the selected style to the current selected cell, and deselect the previous that was selected, we are going to take advantage of a ruby hash to store the cell that is currently selected. 
+Also we need to implement the delegate method that takes responsibility when a cell its selected *tableView tableView,didSelectRowAtIndexPath:indexPath* , in this method we need to set the selected style to the current selected cell, and deselected the previous that was selected, we are going to take advantage of a ruby hash to store the cell that is currently selected. 
 Notice that in the *viewDidLoad* method we set segment that we want to be selected when the application launch 
 
 [source, ruby]
@@ -763,7 +765,7 @@ class CameraViewController < UIViewController
 end
 ----------------------------------------------------------------
 
-For this chapter we are going to use a new feature that comes in iOS6 *AutoLayout*, as we have seen on chapter 15 Auto Rotation help us to handle size of the components when the device rotates, we let the view take care of everything by setting its autoresizing masks, but when the arrival of the new iDevices "iPhone 5" we may need another set of constrains to maintain the visual look in our apps.
+For this chapter we are going to use a new feature that comes in iOS6 *AutoLayout*, as we have seen on chapter 15 Auto Rotation help us to handle size of the components when the device rotates, we let the view take care of everything by setting its auto resizing masks, but when the arrival of the new iDevices "iPhone 5" we may need another set of constrains to maintain the visual look in our apps.
 
 Now its time to create the nib file for the view of this section, open Xcode and in the menu select file>new>file select user interface and choose the empty template then click on next and chose iPhone family give the name "CameraView" to the file and save it to your resources folder of your application.
 
@@ -935,7 +937,7 @@ What went wrong for this part? actually nothing, UIImageView are just following 
 .Top Space
 image::Resources/ch16-CollectionViews/image27.png[Top Space]
 
-Now the UIImageView are going to resize depending on the size of the its superview,doing so we have a unwanted constrain "UIImageView Vertical Size" as we may know one can no be serve two masters, for this reason we have to eliminate one, on the left section under UIIMageView remove  *Height constrain* 'Height (423) - Image View', save your changes an run the app.
+Now the UIImageView are going to resize depending on the size of the its super view, doing so we have a unwanted constrain "UIImageView Vertical Size" as we may know one can no be serve two masters, for this reason we have to eliminate one, on the left section under UIIMageView remove  *Height constrain* 'Height (423) - Image View', save your changes an run the app.
 
 .Remove Constrain
 image::Resources/ch16-CollectionViews/image28.png[Remove Constrain]

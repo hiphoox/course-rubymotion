@@ -4,7 +4,8 @@ Chapter 15 - Notification Center
 Digital Photo Frame
 -------------------
 
-In this chapter we are going to build our own photo frame, but in a more fashion way of course on an iDevice.
+Time travel has not been invented yet, so we most preserve our mosts precious memories in one way or another, have done said that, for the next series of chapters we are going to build an application that help us to doing so. 
+For this chapter we are going to build the main screen the "photo frame", but in a more fashion way of course on an iDevice.
 
 First at all we have to remember that objects are always sending messages one each other, but some times all objects may be interested in what just one object hast to say, but keep all the objects connected may be not a good strategy, for this reason we have a very handful tool, the notification center.
 
@@ -16,8 +17,10 @@ Now its time to create our ViewController that will hold our photo, run the rake
 $ motion create PhotoFrame
 --------------------------------------
 
+[NOTE]
+Please add the assets to the resources folder of your project. You can find them under the resources folder and inside there is a folder images with the assets necessary for the chapter.  
 
-Now create a new file named *photo_frame_view_controller.rb* in app folder and add the following code. Don't forget to add the image that comes in your chapter folder named frame.png and copy it to the resources folder.
+Now create a new file named *photo_frame_view_controller.rb* in app folder and add the following code.
 
 [source, ruby]
 ----------------------------------------------------------------
@@ -55,7 +58,7 @@ class AppDelegate
 end
 ----------------------------------------------------------------
 
-The next step is add an UIImage to our PhotoFrameViewController feel free to create a file for the uielemtens like *photo_view_utilities.rb*
+The next step is add an UIImage to our PhotoFrameViewController feel free to create a file for the UIElements like *photo_view_utilities.rb*
 
 [source, ruby]
 ----------------------------------------------------------------
@@ -164,9 +167,9 @@ image::resources/ch15-Notifications/ch15_LandscapePicture.png[Landscape Picture]
 
 Autorotation
 ~~~~~~~~~~~~
-Rotation it’s a very common task between iOS applications, you can use UIDevice Notification, but this may be a lot of work, instead we can use autorotation for this purpose.
+Rotation it’s a very common task between iOS applications, you can use UIDevice Notification, but this may be a lot of work, instead we can use auto rotation for this purpose.
 
-We can achieve this if the view is controlled by an UIViewController, we ask to a view controller if its okay to rotate the view, if the view controller agrees, the view it's rotated and resized also it's subviews.
+We can achieve this if the view is controlled by an UIViewController, we ask to a view controller if its okay to rotate the view, if the view controller agrees, the view it's rotated and resized also it's sub-views.
 
 For this purpose we need to add the following method to our *photo_frame_view_controller.rb*, and don't subscribe to the UIDevice Notifications in the viewDidLoad Method
 
@@ -196,7 +199,7 @@ def shouldAutorotateToInterfaceOrientation(interfaceOrientation)
 end 
 ----------------------------------------------------------------  
 
-At this point it seems that our previous work has disappeared, and its because we did not tell how the UIImage should be resized, let's modified the methods that return the UIImageView whit the following autoresizing mask:
+At this point it seems that our previous work has disappeared, and its because we did not tell how the UIImage should be resized, let's modified the methods that return the UIImageView whit the following auto resizing mask:
 
 [source, ruby]
 ----------------------------------------------------------------
@@ -261,9 +264,11 @@ UIApplication.sharedApplication.setStatusBarHidden(true ,animated:false)
 ----------------------------------------------------------------
 
 
-Challenges
-~~~~~~~~~~
-*It will be nice if our digital photo frame could tell us the battery level, subscribe to UIDeviceBatteryLevelDidChangeNotification and enable batteryMonitoringEnabled.
+Challenge - Battery Level
+~~~~~~~~~~~~~~~~~~~~~~~~~
+It will be nice if our digital photo frame could tell us the battery level, subscribe to UIDeviceBatteryLevelDidChangeNotification and enable batteryMonitoringEnabled.
 Add a label that indicates the level of the battery, green when its above 10% and red when get lower or equal than 10%   
 
-*Allow only portrait mode for the app, because in land scape we can looks like a little bit stretch
+Challenge - Lock Portrait
+~~~~~~~~~~~~~~~~~~~~~~~~~
+Allow only portrait mode for the app, because in land scape we may look a little bit stretch

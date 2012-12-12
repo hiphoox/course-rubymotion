@@ -46,6 +46,8 @@ include::ch16-CollectionViews.asciidoc[]
 
 include::ch17-Camera.asciidoc[]
 
+include::ch18-Sandbox.asciidoc[]
+
 include::ch19-Multitouch.asciidoc[]
 
 include::ch20-CALayers.asciidoc[]
