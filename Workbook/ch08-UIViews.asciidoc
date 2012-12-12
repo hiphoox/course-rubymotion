@@ -5,7 +5,7 @@ Our designer has came up with a better design for our first screen, the one we d
 
 image:Resources/ch08-UIViews/ch08_01_app.png[Chapter 8 final app]
 
-So we have deleted the old label with the days left, open the file *ch08-uiviews.zip* and unzip the RubyMotion project. Run it, you should see our old view without the days left information:
+So we have deleted the old label with the days left, open the folder 08-UIViews/resources/code/Cocoaheads you will find our base project. Run it, you should see our old view without the days left information:
 
 image:Resources/ch08-UIViews/ch08_02_starting_app.png[Chapter 8 starting app]
 
@@ -15,7 +15,7 @@ Creating a custom UIView
 
 When you face the challenge of creating a custom component such as this flip calendar, is often required to create a custom UIView. Custom UIViews gives you complete control over the look and logic of a UIView. 
 
-To implement them, you must begin creating a class that inherits from UIView. Create a new file named *flipcount_view.rb* . Inside this file, declare a new class:+
+To implement them, you must begin creating a class that inherits from UIView. Create a new file named *flipcount_view.rb* . Inside this file, declare a new class:
 
 [source, ruby]
 ------------------
@@ -199,7 +199,7 @@ image:Resources/ch08-UIViews/ch08_06_image.png[Chapter 8 drawn image]
 Invalidating a view
 ~~~~~~~~~~~~~~~~~
 
-As you can see, we have a *UIButton* with the title "Increase days left". We want to use it to test our custom view by changing the days left attribute. Locate the method named *change_days_left* and implement the logic to increase the *@days_left* property and update it in our custom view instance:
+As you can see, we have a *UIButton* with the title "Increase days left". We want to use it to test our custom view by changing the days left attribute. Open the *NextEventViewController* file and locate the method named *change_days_left* and implement the logic to increase the *@days_left* property and update it in our custom view instance:
 
 [source, ruby]
 -----------------
@@ -224,4 +224,4 @@ Nothing happens. Why? because our custom *UIView* only renders the days left in 
 image:Resources/ch08-UIViews/ch08_07_needdisplay.png[Chapter 8 need display]
 
 
-If you see the view being updated when you tap on the button, you have finish this lab.
+If you see the view being updated when you tap on the button, you have finished this lab.

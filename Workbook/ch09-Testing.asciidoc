@@ -1,11 +1,13 @@
 Chapter 09 - Testing
 ===================
 
-Testing is a fundamental part of any application, and it is also a hard task for developers. However, RubyMotion provides us with one tool that will ease the task of testing our apps: *MacBacon*, a special flavour of *Bacon* prepared to test iOS apps.
+Testing is a fundamental part of any application, and it is also a hard task for developers. However, RubyMotion provides us with one tool that will ease the task of testing our apps: *MacBacon*, a special flavour of the Ruby tool *Bacon* prepared to test iOS apps.
+
+In this chapter we will add automated tests to the Cocoaheads app. You will learn how to test isolated logic and how to automate UI tests.
 
 App Setup
 ---------
-Before we being testing our app, we actually need an app. Open the *ch09_testing_resources.zip* and unzip it. Run the app with the command
+Before we being testing our app, we actually need an app. Open the folder 09-Testing/resources/code. We have placed a version of the CocoaHeads app ready to be tested.. Run the app with the command
 
 [source, sh]
 ------------
@@ -23,20 +25,20 @@ We have added an extra functionality to the app, if you tap the *Book Event* but
 image::Resources/ch09-Testing/ch09_02_book_event.png[Book Event]
 
 
-Besides that, we have added a method to the *event.rb* model class. Open that file and locate the method called *days_left_until:* that gives you the number of dates until a future date. If the date is not a future date but is in the past, is will return a 0. This method will be used to paint the correct days left in our Custom View we did in the previous workshop.
+Besides that, we have added a method to the *event.rb* model class. Open that file and locate the method called *days_left_until:* that gives you the number of dates until a future date. If the date is not a future date but is in the past, it will return a 0. This method will be used to paint the correct days left in our Custom View we did in the previous workshop.
 
 You can check how we are calculating the number of days between two dates in the *days_between:and:* method. We are using the *NSDateComponents* class. That class, is the one we used in CocoaTouch to make *NSDate* operations. Remember that the traditional Ruby class *Time* inherits from NSDate so we can use it in its place.
 
 
 Functional Testing
 ~~~~~~~~~~~~~~~~~~ 
-The first we are going to test is this *days_left_until:* method. We want to be sure that it works in these three cases:
+The first thing we are going to test is this *days_left_until:* method. We want to be sure that it works in these three cases:
 
 - When given a future date, it calculates accurately the number of days until that date.
 - When given the current date, it returns a 0.
 - When given a past date, it returns a 0 (we don't want negative number in our view).
 
-The first step is to create a *Spec* for our *Event* class. In the *spec* folder, create a folder named *models* and inside a file named *event_spec.rb*
+The first step is to create a *Spec* for our *Event* class. In the Cocoaheads folder, there is a *spec* folder, open it and create a folder named *models* and inside a file named *event_spec.rb*
 
 To define the Spec, write this lines:
 
