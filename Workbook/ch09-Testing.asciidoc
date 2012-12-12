@@ -98,8 +98,14 @@ $ rake spec
 
 You should see the output with the specifications passed:
 
-.First Spec Passed
-image::Resources/ch09-Testing/ch09_03_first_spec.png[First Spec Passed]
+[source, sh]
+------------
+ Event
+  -should count days left until future date
+
+  1 specifications (1 requirements), 0 failures, 0 errors
+------------
+
 
 Try to change the expected value in the *should.equal* evaluation to see how MacBacon displays an error message when the spec is broken.
 
@@ -176,8 +182,17 @@ end
 
 The *view* method allows us to select views with a given title. In this case we are selecting the *UIButton* with the "Book Event" title, and testing that is not nil. Run the example, verifiy that the *EventDetailsViewController* is briefly shown in the simulator and that the spec is succesfully satisfied:
 
-.UI Spec Passed
-image::Resources/ch09-Testing/ch09_04_ui_spec.png[UI Spec Passed]
+[source, sh]
+------------
+ The Event Details view controller
+  - has book button
+
+ Event
+  - should count days left until future date
+  - should count days left as 0 for past date
+
+3 specifications (3 requirements), 0 failures, 0 errors
+------------
 
 The next step is to test if when you tap on the button, its state changes to disabled and its title to "Event Booked". You will see that the idiom of MacBacon allows us to write such a test very easilly:
 

@@ -1,14 +1,14 @@
 Chapter 22 - Settings
 =====================
 
-In this chapter we are going to learn how to use *NSUserDefaults* to store values in our app.
+In this chapter you are going to learn how to use *NSUserDefaults* to store values in our app. Storing values in an app is a common functionality. CocoaTouch offers different alternatives to accomplish that task, *User Defaults* is the easiest one of them. 
 
 
 
 Setting up the project
 ---------------------
 
-We are going to use the *Cocoaheads* app as an example. Unzip the file *ch22-Settings_resources.zip*. You will find the project as we finished it in chapter 14.
+We are going to use the *Cocoaheads* app as an example. Open the folder *22-Settings/resources/code/Cocoaheads*. You will find the project as we finished it in chapter 14.
 
 .Current Application
 image::Resources/ch22-Settings/ch22_01_app.png[Current Application]
@@ -35,9 +35,9 @@ end
 -------
 
 
-iOS creates a default *NSUserDefaults* per user, but when an app writes data to it, it is sandboxed. Thus, other apps can not acces that data.
+iOS creates a default *NSUserDefaults* per user, but when an app writes data to it, it is sandboxed. Thus, other apps can not access that data.
 
-To work with NSUserDefaults we ask for this default instance, with the method *standardUserDefaults*. In the *User* class add this method
+To work with NSUserDefaults we ask for the default instance using the method *standardUserDefaults*. In the *User* class add this method
 
 [source, ruby]
 -------------------
@@ -52,7 +52,7 @@ def logIn
 end
 ------------------
 
-As you can see we are storing two things: the first one is a String with the username of the user and the second one is a Boolean to set that there is a user logged in the app. As you can see is very similar as working with Hashes. We pass a value and a String that is the key. Finally, we call *synchronize*. NSUserDefaults caches the values in memory and periodically flushes them to its persistent store on disk. You can force this flush by calling directly to *synchronize*. Althought, you should do this only on those times where your app needs that the data is persisted immediately and you can not wait until the automatic flush.
+As you can see we are storing two things: the first one is a String with the username of the user and the second one is a Boolean to set that there is a user logged in the app. As you can see is very similar as working with Hashes. We pass a value and a String that is its key. Finally, we call *synchronize*. NSUserDefaults caches the values in memory and periodically flushes them to its persistent store on disk. You can force this flush by calling directly to *synchronize*. Although, you should do this only on those times where your app needs that the data is persisted immediately and you can not wait until the automatic flush happens.
 
 Now, lets create our user and call this method on our *LoginViewController* class:
 
@@ -98,7 +98,7 @@ end
 ---------
 
 
-Now we can add the behaviour to our *next_event_view_controller.rb*. First, in the *viewDidLoad* store the Sign In button in an instance variable:
+Now we can add the behavior to our *next_event_view_controller.rb*. First, in the *viewDidLoad* store the Sign In button in an instance variable:
 
 [source, ruby]
 ---------

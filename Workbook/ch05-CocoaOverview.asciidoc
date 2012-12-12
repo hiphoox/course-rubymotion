@@ -101,7 +101,12 @@ $ rake
 
 to test the application, you will see a white screen. And in the console you will notice that first the init method was invoked and then the loadView.
 
-image:Resources/ch05-CocoaOverview/ch05_04_console.png[Console output]
+[source, sh]
+------
+"Initializing NextEventViewController"
+"viewDidLoad"
+(main)> 
+------
 
 
 Using UIImageView

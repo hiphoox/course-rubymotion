@@ -1,16 +1,18 @@
 Chapter 23 - Web Services
 =========================
 
-The ability to consume remote web services form mobile apps is a core component of today's applications. Normally you will connect to web services to perform tasks like synchonize data, to authenticate users, to consume a third party API (think in stuff like the Facebook API or the Instagram API).
+The ability to consume remote web services from mobile apps is a core component of today's applications. Normally you will connect to web services to perform tasks like synchonize data, authenticate users or consume a third party API (think in stuff like the Facebook API or the Instagram API).
 
-We have been working with local data in our Cocoaheads app. In this exercise we are going to learn how to consume remote web services.
+We have been working with local data in our Cocoaheads app. In this exercise you are going to learn how to consume remote web services.
 
 
 Setting Up the Project
 ----------------------
 
 
-Unzip the file *ch23-WebServices_resources.zip*. You will find the project as we finished it in chapter 22. During this workshop we'll need a webapp with our services. This webapp is included in the folder *web_services*. Normally the instructor will run the webapp in its computer and he will provide you with the correct URL to invoke, but you can run the webapp by yourself using the Ruby framwework *Sinatra*. Please, refer to Appendix A for instructions on how to to that.
+Open the folder *23-WebServices/resources/code/Cocoaheads*. You will find the project as we finished it in chapter 22. During this workshop we'll need a webapp with our services. This webapp is included in the folder *web_services*. 
+
+The instructor will run the webapp in its computer and he will provide you with the correct URL to invoke, but you can run the webapp by yourself using the Ruby framwework *Sinatra* if you prefer it. Please, refer to Appendix A for instructions on how to to that.
 
 .Current Application
 image::Resources/ch23-WebServices/ch23_01_app.png[Current Application]
@@ -67,12 +69,12 @@ def self.latest_news(completion_block)
 
 As you can see we can define some *attributes* of our request, such as the time out in seconds and the HTTP method to use.
 
-Now we are ready to send the request to the web service. Web services work using an approach of *Request-Reply*. We send the request to a given web service and wait. Once the Web Service finished, it will reply with an answer. During that time the only we can do is to wait, we don't have control of the remote service. Here we have two options: 
+Now we are ready to send the request to the web service. Web services work using an approach of *Request-Reply*. We send the request to a given web service and wait. Once the Web Service finishes, it will reply with an answer. During that time the only thing we can do is to wait, we don't have control of the remote service. Here we have two options: 
 
 - Block the whole app execution until the web service responds.
-- Send the request and forget about it, not blocking the app execution. Once the service responds we process the result.
+- Send the request and forget about it, avoiding blocking the app execution. Once the service responds we process the result.
 
-The correct way to handle web services is to use the second option. *NSURLConnection*, the class of CocoaTouch to send requests to web services, can handle both options. But the first option that blocks the whole app, is not even worth to reviewed. So we will stick with the second one:
+The correct way to handle web services is to use the second option. *NSURLConnection*, the class of CocoaTouch to send requests to web services, can handle both. But the first option that blocks the whole app, is not even worth to be reviewed. So we will stick with the second one. *Modify* the *self.latest_news* method:
 
 [source, ruby]
 --------------
@@ -98,7 +100,7 @@ We send and *Asynchronous* request to the service using a *NSOperationQueue*. Th
 - data: The response returned by the service as a *NSData* object.
 - error: An *NSError* with the error, if any, returned by the service.
 
-We can now process the result. Our service returns an Array of *News* items in JSON format. We need to parse that JSON using the class *NSJSONSerialization*. This class parses JSON data into *NSArray*, for JSON arrays, and into *NSDictionary* for JSON objects. Thus, we need to convert from this *NSDictionary*s to instances of *News*:
+We can now process the result. Our service returns an Array of *News* items in JSON format. We need to parse it. *CocoaTouch* provides us with the class *NSJSONSerialization* to parse JSON objects. This class parses JSON data into *NSArray*, for JSON arrays, and into *NSDictionary* for JSON objects. Thus, we need to convert from thess *NSDictionary*s to instances of *News*:
 
 
 [source, ruby]
@@ -130,11 +132,11 @@ We have three possible results:
 
 - If the server returned and empty result, we return an empty array.
 
-- If there is no error and the data object is not nil, the service returned the news. We parse them from JSON and the we use the method *news_hashes_to_news* to convert the news hashes to instances of *News*. As you can see we are invoking the *completion_block* parameter of our method to return the result: an Array of *News* item. The second parameter of the *completion_block* is an Error message, we return an empty error in this case.
+- If there is no error and the data object is not nil, the service returned the news. We parse them from JSON and then we use the method *news_hashes_to_news* to convert the news hashes to instances of *News*. As you can see we are invoking the *completion_block* parameter of our method to return the result: an Array of *News* item. The second parameter of the *completion_block* is an Error message, we return an empty error in this case.
 
 - If there was an error, we return an error message.
 
-Next, we need the implementation of *news_hashes_to_news*:
+Next, we need to implement the method *news_hashes_to_news*:
 
 [source, ruby]
 -------------
@@ -210,7 +212,7 @@ def showErrorMessage(error)
 end
 ------------
 
-We first show our Activity Indicator, the we invoke the *latest_news* method and pass a block as a parameter. If there was no error, we refresh the table view with the news. If there was an error we pass it to the *showErrorMessage* that prints it on the console.
+We first show our Activity Indicator, then we invoke the *latest_news* method and pass a block as a parameter. If there was no error, we refresh the table view with the news. If there was an error we pass it to the *showErrorMessage* that prints it on the console.
 
 Call this method from the *viewWillAppear:* method:
 
@@ -230,7 +232,7 @@ Now run your app, remember that the web service should be running:
 image::Resources/ch23-WebServices/ch23_02_activityindicator.png[Activity Indicator]
 
 
-You will see the Activity Indicator and if you touch the screen, you'll see that the Table is refreshed with the latest news from the service. Why is the table view not refreshed automatically? Because we are running this operation in a background task. And the UI should be updated only in the Main thread. Let's fix this:
+You will see the Activity Indicator and if you touch the screen, you'll see that the Table is refreshed with the latest news from the service. Why is the table view not refreshed automatically? Because we are running this operation in a background task. And the UI should be updated only in the Main thread. We are going to fix this, *modify* the method *load_latest_news*:
 
 
 [source, ruby]
@@ -267,7 +269,7 @@ We are done with this task, if you have time you could do the challenges.
 Challenges
 ---------
 
-Implement the *showErrorMessage* method. This method should show an UIAlertView with the message. Call this method from the *load_latest_news*, remember to execute it from the Main Thread, since it updates the UI. To test it, change in *NEWS* the url of the web service to an non existing one, such as:
+Implement the *showErrorMessage* method. This method should show an UIAlertView with the message. Call this method from the *load_latest_news*, remember to execute it from the Main Thread, since it updates the UI. To test it, change the url of the web service to an non existing one, such as:
 
 NEWS_SERVICE_BASE_URL = "http://dontexists:4567"
 
@@ -275,7 +277,7 @@ NEWS_SERVICE_BASE_URL = "http://dontexists:4567"
 image::Resources/ch23-WebServices/ch23_04_error.png[Error Message]
 
 
-As you can see, if there are news or if there is an error, the UIActivityIndicator remains on the screen until you touch it. Why? because we are not calling the its *stopAnimating* method from the Main Thread, correct this.
+As you can see, if there are no news or if there is an error, the UIActivityIndicator remains on the screen until you touch it. Why? because we are not calling the  *stopAnimating* method from the Main Thread, correct this.
 
 .Activity Indicator Stopped
 image::Resources/ch23-WebServices/ch23_05_activitystopped.png[Activity Indicator Stopped]
@@ -289,7 +291,7 @@ The web services are implemented using the Ruby framework *Sinatra*. If you want
 
 Prerequisites:
 
-1. You need a Ruby environment. The simplest way to install is to do it with http://rvm.io Follow the instructions on the site to install it.
+1. You need a Ruby environment. The simplest way to install it is with http://rvm.io Follow the instructions on the site to install it.
 2. You need Ruby Gems, follow this https://rvm.io/rubies/rubygems/ instructions to install them.
 
 Steps:
@@ -310,5 +312,9 @@ $ ruby -rubygems app.rb
 
 In the console you will see the port in which the server is running. Use this port in your app. The server is *localhost*. In this case the complete url is *http://localhost:4567*
 
-.Sinatra Console
-image::Resources/ch23-WebServices/ch23_06_console.png[Sinatra Console]
+[source, sh]
+----------------
+== Sinatra/1.3.3 has taken the stage on 4567 for development with backup from Thin
+>> WEBrick 1.3.1
+>> Listening on 0.0.0.0:4567, CTRL+C to stop
+----------------

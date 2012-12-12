@@ -9,7 +9,7 @@ We will do that using a navigation controller.
 Setting up the project.
 -----------------------
 
-As usual, we will begin by setting up our project. Uncompress the *ch14-navigationcontrollers_resource.zip*. You will the project as we finished in chapter 13 and the Xcode project we did in chapter 10. 
+As usual, we will begin by setting up our project. Open the *14-NavigationController/resources/code/* folder. You will find the project as we finished in chapter 13 in the *Cocoaheads* folder and the Xcode project we did in chapter 10 inside the *CocoaheadsViews* folder. 
 
 .Current Application
 image::Resources/ch14-NavigationController/ch14_01_app.png[Current Application]
@@ -18,7 +18,7 @@ image::Resources/ch14-NavigationController/ch14_01_app.png[Current Application]
 Creating our Navigation Controller
 ---------------------------------
 
-The first step is to present the NewsViewController inside a Navigation Controller. Open the file *app_delegate.rb*. In the method *appTabBarController* is where we are creating our Tab Bar and its view controller. Change it so the third tab will present a Navigation Controller with the NewsViewController in it:
+The first step is to show the NewsViewController inside a Navigation Controller. Open the file *app_delegate.rb*. In the method *appTabBarController* is where we are creating our Tab Bar and the view controllers of the app. Change it so the third tab will present a Navigation Controller with the NewsViewController in it:
 
 [source, ruby]
 -------------------
@@ -36,7 +36,7 @@ end
 ------------------
 
 
-Remember that a UINavigationController mantains a stack of view controllers. Thus, we should initialize the controller with a *root* that will be the first controller to be presented.
+Remember that a UINavigationController keeps a stack of view controllers. Thus, we should initialize the controller with a *root* that will be the first controller to be presented.
 
 Run the app
 
@@ -50,9 +50,9 @@ We have two problems:
 1. The Table header looks weird below the Navigation Bar.
 2. The Navigation Bar has its default blueish color that does not match the look and feel of the app.
 
-To solve thess problems we will remove the table header and customize the Navigation Bar.
+To solve these problems we will remove the table header and customize the Navigation Bar.
 
-First, delete these methods from the NewsViewController class:
+First, *delete* these methods from the NewsViewController class:
 
 [source, ruby]
 -----------------
@@ -68,7 +68,7 @@ def tableView(tableView, heightForHeaderInSection:section)
 end  
 ----------------  
 
-Now let's add our background image to the navigation bar:
+Now let's add our background image to the navigation bar. *Create* this method in the NewsViewController.
 
 [source, ruby]
 --------------------
@@ -80,7 +80,7 @@ end
 -------------------
 
 
-For the Navigation Bar we can specify a background images for two different types of metrics:
+For the Navigation Bar we can specify a background image for two different types of metrics:
 
 - UIBarMetricsDefault. Portrait mode, thus the image for the iPhone should have a width of 320px.
 - UIBarMetricsLandscapePhone. Landscape mode, the image must have 480px. of width.
@@ -102,7 +102,7 @@ Run the app:
 image::Resources/ch14-NavigationController/ch14_03_navbar.png[Navigation Bar]
 
 
-Our final step is to add the Add and Delete buttons to the bar. A Navigation Bar can only have two buttons, one to the left and one to right. Moreover, the buttons should be instances of *UIBarButtonItem* not of UIButton. If you remember, we have code a deleteButton and an addButton methods that build UIButtons. We can use this buttons as a base to generate our Bar Button Items:
+Our final step is to add the Add and Delete buttons to the bar. A Navigation Bar can only have two buttons, one to the left and one to right. Moreover, the buttons should be instances of *UIBarButtonItem* not of UIButton. If you remember, we have the methods deleteButton and  addButton to build UIButtons. We can use these buttons as a base to generate our Bar Button Items. *Modify* the setupNavigationBar method to add the buttons to the navigation bar:
 
 [source, ruby]
 ------------------
@@ -128,7 +128,7 @@ Creating the News Detail Controller
 
 We have setup our Navigation Controller, now we are going to create the controller to which we are going to navigate to. This controller will show the full text of the news item. We are going to use the Interface Builder to create the View of this controller.
 
-Open the CocoaheadsViews.xcodeproj. Add a new file, in the Wizard select a View with the name *NewsItemDetailView*:
+Open the CocoaheadsViews.xcodeproj that is inside the *CocoaheadsViews* folder. Add a new file, in the Wizard select a *View*  and set its name to *NewsItemDetailView*:
 
 .View Creation
 image::Resources/ch14-NavigationController/ch14_05_view_creation.png[View Creation]
@@ -246,7 +246,7 @@ Challenge
 
 We've been using the bgTitle.png header image as our navigation bar background. But it looks weird, the navigation bar should have a height of 44 px. and the image is 64 px. that is why the *Cancel* and *Save* buttons look like they are too aligned to the top of the view. Our designer has corrected this situation and created a *bgNavigationBar.png* image of 44 px. Replace it.
 
-In the news_detail_view_controller.rb we need to change the default *back* button. Our designer has made an asset to replace it: *btnBack.png*. Create a UIButton with that image and replace the leftItem of *navigationItemo* with that button. The button should call a method called *back*. We have seen that with the method *pushViewController:animated:* we push views to the Navigation Controller View's stack, research the method needed to pop them form the stack. That is the method that you should call in the *back* method:
+In the news_detail_view_controller.rb we need to change the default *back* button. Our designer has made an asset to replace it: *btnBack.png*. Create a UIButton with that image and replace the leftItem of *navigationItem* with that button. The button should call a method called *back*. We have seen that with the method *pushViewController:animated:* we push views to the Navigation Controller View's stack, research the method needed to pop them from the stack. That is the method that you should call in the *back* method:
 
 .Back Button
 image::Resources/ch14-NavigationController/ch14_08_detail.png[Back Button]
