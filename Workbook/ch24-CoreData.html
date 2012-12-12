@@ -1,0 +1,1576 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+    "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<meta name="generator" content="AsciiDoc 8.6.8" />
+<title>Chapter 24 - Core Data</title>
+<style type="text/css">
+/* Shared CSS for AsciiDoc xhtml11 and html5 backends */
+
+/* Default font. */
+body {
+  font-family: Helvetica,sans-serif;
+}
+
+/* Title font. */
+h1, h2, h3, h4, h5, h6,
+div.title, caption.title,
+thead, p.table.header,
+#toctitle,
+#author, #revnumber, #revdate, #revremark,
+#footer {
+  font-family: Helvetica,sans-serif;
+}
+
+body {
+  margin: 1em 5% 1em 5%;
+}
+
+a {
+  color: #666666;
+  text-decoration: underline;
+}
+a:visited {
+  color: #880009;
+}
+
+em {
+  font-style: italic;
+  color: #880009;
+}
+
+strong {
+  font-weight: bold;
+  color: #880009;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #880009;
+  margin-top: 1.2em;
+  margin-bottom: 0.5em;
+  line-height: 1.3;
+}
+
+h1 {
+  border-bottom: 1px solid #dddddd;
+}
+h2 {
+  padding-top: 0.5em;
+}
+h3 {
+  float: left;
+}
+h3 + * {
+  clear: left;
+}
+h5 {
+  font-size: 1.0em;
+}
+
+div.sectionbody {
+  margin-left: 0;
+}
+
+hr {
+  border: 1px solid silver;
+}
+
+p {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+  color: #666666;
+}
+
+ul, ol, li > p {
+  margin-top: 0;
+}
+ul > li     { color: #4f4f4f; }
+ul > li > * { color: #666666; }
+
+.monospaced, code, pre {
+  font-family: Inconsolata;
+  font-size: inherit;
+  color: #4d4d4c;
+  padding: 0;
+  margin: 0;
+}
+
+
+#author {
+  color: #880009;
+  font-weight: bold;
+  font-size: 1.1em;
+}
+#email {
+}
+#revnumber, #revdate, #revremark {
+  color: #666666;
+}
+
+#footer {
+  font-size: small;
+  border-top: 2px solid silver;
+  padding-top: 0.5em;
+  margin-top: 4.0em;
+}
+#footer-text {
+  float: left;
+  padding-bottom: 0.5em;
+  color: #666666;
+}
+#footer-badges {
+  float: right;
+  padding-bottom: 0.5em;
+}
+
+#preamble {
+  margin-top: 1.5em;
+  margin-bottom: 1.5em;
+}
+div.imageblock, div.exampleblock, div.verseblock,
+div.quoteblock, div.literalblock, div.listingblock, div.sidebarblock,
+div.admonitionblock {
+  margin-top: 1.0em;
+  margin-bottom: 1.5em;
+}
+div.admonitionblock {
+  margin-top: 2.0em;
+  margin-bottom: 2.0em;
+  margin-right: 10%;
+  color: #606060;
+}
+
+div.content { /* Block element content. */
+  padding:: 0;
+}
+
+/* Block element titles. */
+div.title, caption.title {
+  color: #4f4f4f;
+  font-weight: bold;
+  text-align: left;
+  margin-top: 1.0em;
+  margin-bottom: 0.5em;
+}
+div.title + * {
+  margin-top: 0;
+}
+
+td div.title:first-child {
+  margin-top: 0.0em;
+}
+div.content div.title:first-child {
+  margin-top: 0.0em;
+}
+div.content + div.title {
+  margin-top: 0.0em;
+}
+
+div.sidebarblock > div.content {
+  background: #ffffee;
+  border: 1px solid #dddddd;
+  border-left: 4px solid #f0f0f0;
+  padding: 0.5em;
+}
+
+div.listingblock > div.content {
+  border: 1.5px solid #dddddd;
+  background: #f4f4f4;
+  padding: 0.5em;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  font-family: Inconsolata;
+}
+
+div.quoteblock, div.verseblock {
+  padding-left: 1.0em;
+  margin-left: 1.0em;
+  margin-right: 10%;
+  border-left: 5px solid #f0f0f0;
+  color: #f2f2f2;
+}
+
+div.quoteblock > div.attribution {
+  padding-top: 0.5em;
+  text-align: right;
+}
+
+div.verseblock > pre.content {
+  font-family: inherit;
+  font-size: inherit;
+}
+div.verseblock > div.attribution {
+  padding-top: 0.75em;
+  text-align: left;
+}
+/* DEPRECATED: Pre version 8.2.7 verse style literal block. */
+div.verseblock + div.attribution {
+  text-align: left;
+}
+
+div.admonitionblock .icon {
+  vertical-align: top;
+  font-size: 1.1em;
+  font-weight: bold;
+  text-decoration: underline;
+  color: #666666;
+  padding-right: 0.5em;
+}
+div.admonitionblock td.content {
+  padding-left: 0.5em;
+  border-left: 3px solid #dddddd;
+}
+
+div.exampleblock > div.content {
+  border-left: 3px solid #dddddd;
+  padding-left: 0.5em;
+}
+
+div.imageblock div.content { padding-left: 0; }
+span.image img { border-style: none; }
+a.image:visited { color: white; }
+
+dl {
+  margin-top: 0.8em;
+  margin-bottom: 0.8em;
+}
+dt {
+  margin-top: 0.5em;
+  margin-bottom: 0;
+  font-style: normal;
+  color: navy;
+}
+dd > *:first-child {
+  margin-top: 0.1em;
+}
+
+ul, ol {
+    list-style-position: outside;
+}
+ol.arabic {
+  list-style-type: decimal;
+  color: #4f4f4f;
+}
+ol.loweralpha {
+  list-style-type: lower-alpha;
+}
+ol.upperalpha {
+  list-style-type: upper-alpha;
+}
+ol.lowerroman {
+  list-style-type: lower-roman;
+}
+ol.upperroman {
+  list-style-type: upper-roman;
+}
+
+div.compact ul, div.compact ol,
+div.compact p, div.compact p,
+div.compact div, div.compact div {
+  margin-top: 0.1em;
+  margin-bottom: 0.1em;
+}
+
+tfoot {
+  font-weight: bold;
+}
+td > div.verse {
+  white-space: pre;
+}
+
+div.hdlist {
+  margin-top: 0.8em;
+  margin-bottom: 0.8em;
+}
+div.hdlist tr {
+  padding-bottom: 15px;
+}
+dt.hdlist1.strong, td.hdlist1.strong {
+  font-weight: bold;
+}
+td.hdlist1 {
+  vertical-align: top;
+  font-style: normal;
+  padding-right: 0.8em;
+  color: navy;
+}
+td.hdlist2 {
+  vertical-align: top;
+}
+div.hdlist.compact tr {
+  margin: 0;
+  padding-bottom: 0;
+}
+
+.comment {
+  background: yellow;
+}
+
+.footnote, .footnoteref {
+  font-size: 0.8em;
+}
+
+span.footnote, span.footnoteref {
+  vertical-align: super;
+}
+
+#footnotes {
+  margin: 20px 0 20px 0;
+  padding: 7px 0 0 0;
+}
+
+#footnotes div.footnote {
+  margin: 0 0 5px 0;
+}
+
+#footnotes hr {
+  border: none;
+  border-top: 1px solid silver;
+  height: 1px;
+  text-align: left;
+  margin-left: 0;
+  width: 20%;
+  min-width: 100px;
+}
+
+div.colist td {
+  padding-right: 0.5em;
+  padding-bottom: 0.3em;
+  vertical-align: top;
+}
+div.colist td img {
+  margin-top: 0.3em;
+}
+
+@media print {
+  #footer-badges { display: none; }
+}
+
+#toc {
+  margin-bottom: 2.5em;
+}
+
+#toctitle {
+  color: #880009;
+  font-size: 1.1em;
+  font-weight: bold;
+  margin-top: 1.0em;
+  margin-bottom: 0.1em;
+}
+
+div.toclevel0, div.toclevel1, div.toclevel2, div.toclevel3, div.toclevel4 {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+div.toclevel2 {
+  margin-left: 2em;
+  font-size: 0.9em;
+}
+div.toclevel3 {
+  margin-left: 4em;
+  font-size: 0.9em;
+}
+div.toclevel4 {
+  margin-left: 6em;
+  font-size: 0.9em;
+}
+
+span.aqua { color: aqua; }
+span.black { color: black; }
+span.blue { color: blue; }
+span.fuchsia { color: fuchsia; }
+span.gray { color: gray; }
+span.green { color: green; }
+span.lime { color: lime; }
+span.maroon { color: maroon; }
+span.navy { color: navy; }
+span.olive { color: olive; }
+span.purple { color: purple; }
+span.red { color: red; }
+span.silver { color: silver; }
+span.teal { color: teal; }
+span.white { color: white; }
+span.yellow { color: yellow; }
+
+span.aqua-background { background: aqua; }
+span.black-background { background: black; }
+span.blue-background { background: blue; }
+span.fuchsia-background { background: fuchsia; }
+span.gray-background { background: gray; }
+span.green-background { background: green; }
+span.lime-background { background: lime; }
+span.maroon-background { background: maroon; }
+span.navy-background { background: navy; }
+span.olive-background { background: olive; }
+span.purple-background { background: purple; }
+span.red-background { background: red; }
+span.silver-background { background: silver; }
+span.teal-background { background: teal; }
+span.white-background { background: white; }
+span.yellow-background { background: yellow; }
+
+span.big { font-size: 2em; }
+span.small { font-size: 0.6em; }
+
+span.underline { text-decoration: underline; }
+span.overline { text-decoration: overline; }
+span.line-through { text-decoration: line-through; }
+
+div.unbreakable { page-break-inside: avoid; }
+
+
+/*
+ * xhtml11 specific
+ *
+ * */
+
+div.tableblock {
+  margin-top: 1.0em;
+  margin-bottom: 1.5em;
+}
+div.tableblock > table {
+  border: 3px solid #527bbd;
+}
+thead, p.table.header {
+  font-weight: bold;
+  color: #527bbd;
+}
+p.table {
+  margin-top: 0;
+}
+/* Because the table frame attribute is overriden by CSS in most browsers. */
+div.tableblock > table[frame="void"] {
+  border-style: none;
+}
+div.tableblock > table[frame="hsides"] {
+  border-left-style: none;
+  border-right-style: none;
+}
+div.tableblock > table[frame="vsides"] {
+  border-top-style: none;
+  border-bottom-style: none;
+}
+
+
+/*
+ * html5 specific
+ *
+ * */
+
+table.tableblock {
+  margin-top: 1.0em;
+  margin-bottom: 1.5em;
+}
+thead, p.tableblock.header {
+  font-weight: bold;
+  color: #527bbd;
+}
+p.tableblock {
+  margin-top: 0;
+}
+table.tableblock {
+  border-width: 3px;
+  border-spacing: 0px;
+  border-style: solid;
+  border-color: #527bbd;
+  border-collapse: collapse;
+}
+th.tableblock, td.tableblock {
+  border-width: 1px;
+  padding: 4px;
+  border-style: solid;
+  border-color: #527bbd;
+}
+
+table.tableblock.frame-topbot {
+  border-left-style: hidden;
+  border-right-style: hidden;
+}
+table.tableblock.frame-sides {
+  border-top-style: hidden;
+  border-bottom-style: hidden;
+}
+table.tableblock.frame-none {
+  border-style: hidden;
+}
+
+th.tableblock.halign-left, td.tableblock.halign-left {
+  text-align: left;
+}
+th.tableblock.halign-center, td.tableblock.halign-center {
+  text-align: center;
+}
+th.tableblock.halign-right, td.tableblock.halign-right {
+  text-align: right;
+}
+
+th.tableblock.valign-top, td.tableblock.valign-top {
+  vertical-align: top;
+}
+th.tableblock.valign-middle, td.tableblock.valign-middle {
+  vertical-align: middle;
+}
+th.tableblock.valign-bottom, td.tableblock.valign-bottom {
+  vertical-align: bottom;
+}
+
+
+/*
+ * manpage specific
+ *
+ * */
+
+body.manpage h1 {
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+  border-top: 2px solid red;
+  border-bottom: 2px solid silver;
+}
+body.manpage h2 {
+  border-style: none;
+}
+body.manpage div.sectionbody {
+  margin-left: 3em;
+}
+
+@media print {
+  body.manpage div#toc { display: none; }
+}
+
+/*
+  pygmentize filter
+*/
+.highlight .hll { border-left:solid 7px #880009; font-size:100%; font-family:Inconsolata; color:#4d4d4c;  }
+.highlight  { background: #f4f4f4; font-family: Inconsolata; }
+.highlight .c { color: #8e908c; font-style: italic; font-family: Inconsolata; } /* Comment */
+.highlight .err { border: 1px solid #FF0000; font-family: Inconsolata; } /* Error */
+.highlight .k { color: #8959a8; font-family: Inconsolata; } /* Keyword */
+.highlight .o { color: #666666; font-family: Inconsolata; } /* Operator */
+
+.highlight .cm { color: #8e908c; font-style: italic; font-family: Inconsolata; } /* Comment.Multiline */
+.highlight .cp { color: #8e908c; font-family: Inconsolata; } /* Comment.Preproc */
+.highlight .c1 { color: #8e908c; font-style: italic; font-family: Inconsolata; } /* Comment.Single */
+.highlight .cs { color: #8e908c; font-weight: bold; font-family: Inconsolata; } /* Comment.Special */
+.highlight .gd { color: #A00000; font-family: Inconsolata; } /* Generic.Deleted */
+.highlight .ge { font-style: italic; font-family: Inconsolata; } /* Generic.Emph */
+.highlight .gr { color: #FF0000; font-family: Inconsolata; } /* Generic.Error */
+
+.highlight .gh { color: #000080; font-weight: bold; font-family: Inconsolata; } /* Generic.Heading */
+.highlight .gi { color: #00A000; font-family: Inconsolata; } /* Generic.Inserted */
+.highlight .go { color: #808080; font-family: Inconsolata; } /* Generic.Output */
+.highlight .gp { color: #4d4d4c; font-weight: bold; font-family: Inconsolata; } /* Generic.Prompt */
+.highlight .gs { font-weight: bold; font-family: Inconsolata; } /* Generic.Strong */
+.highlight .gu { color: #800080; font-weight: bold; font-family: Inconsolata; } /* Generic.Subheading */
+.highlight .gt { color: #800080; font-family: Inconsolata; } /* Generic.Traceback */
+
+
+.highlight .kc { color: #8959a8; font-family: Inconsolata; } /* Keyword.Constant */
+.highlight .kd { color: #8959a8; font-family: Inconsolata; } /* Keyword.Declaration */
+.highlight .kn { color: #8959a8; font-family: Inconsolata; } /* Keyword.Namespace */
+.highlight .kp { color: #8959a8; font-family: Inconsolata; } /* Keyword.Pseudo */
+.highlight .kr { color: #8959a8; font-family: Inconsolata; } /* Keyword.Reserved */
+.highlight .kt { color: #8959a8; font-family: Inconsolata; } /* Keyword.Type */
+
+
+.highlight .m { color: #666666; font-family: Inconsolata; } /* Literal.Number */
+.highlight .s { color: #BB4444; font-family: Inconsolata; } /* Literal.String */
+
+.highlight .na { color: #BB4444; font-family: Inconsolata; } /* Name.Attribute */
+.highlight .nb { color: #718c00; font-family: Inconsolata; } /* Name.Builtin */
+.highlight .nc { color: #c82829; font-family: Inconsolata; } /* Name.Class */
+.highlight .no { color: #c82829; font-family: Inconsolata; } /* Name.Constant */
+.highlight .nd { color: #AA22FF; font-family: Inconsolata; } /* Name.Decorator */
+.highlight .ni { color: #999999; font-family: Inconsolata; } /* Name.Entity */
+.highlight .ne { color: #D2413A; font-family: Inconsolata; } /* Name.Exception */
+.highlight .nf { color: #4271ae; font-family: Inconsolata; } /* Name.Function */
+.highlight .nl { color: #A0A000; font-family: Inconsolata; } /* Name.Label */
+.highlight .nn { color: #0000FF; font-family: Inconsolata; } /* Name.Namespace */
+.highlight .nt { color: #008000; font-family: Inconsolata; } /* Name.Tag */
+.highlight .nv { color: #4d4d4c; font-family: Inconsolata; } /* Name.Variable */
+.highlight .bp { color: #AA22FF; font-family: Inconsolata; } /* Name.Builtin.Pseudo */
+.highlight .vc { color: #4d4d4c; font-family: Inconsolata; } /* Name.Variable.Class */
+.highlight .vg { color: #3e999f; font-family: Inconsolata; } /* Name.Variable.Global */
+.highlight .vi { color: #3e999f; font-family: Inconsolata; } /* Name.Variable.Instance */
+
+
+.highlight .ow { color: #f5871f; font-family: Inconsolata; } /* Operator.Word */
+.highlight .w { color: #f5871f; font-family: Inconsolata; } /* Text.Whitespace */
+.highlight .mf { color: #f5871f; font-family: Inconsolata; } /* Literal.Number.Float */
+.highlight .mh { color: #f5871f; font-family: Inconsolata; } /* Literal.Number.Hex */
+.highlight .mi { color: #f5871f; font-family: Inconsolata; } /* Literal.Number.Integer */
+.highlight .mo { color: #f5871f; font-family: Inconsolata; } /* Literal.Number.Oct */
+.highlight .sb { color: #f5871f; font-family: Inconsolata; } /* Literal.String.Backtick */
+.highlight .sc { color: #f5871f; font-family: Inconsolata; } /* Literal.String.Char */
+.highlight .sd { color: #f5871f; font-family: Inconsolata; } /* Literal.String.Doc */
+.highlight .s2 { color: #f5871f; font-family: Inconsolata; } /* Literal.String.Double */
+.highlight .se { color: #f5871f; font-family: Inconsolata; } /* Literal.String.Escape */
+.highlight .sh { color: #f5871f; font-family: Inconsolata; } /* Literal.String.Heredoc */
+.highlight .si { color: #f5871f; font-family: Inconsolata; } /* Literal.String.Interpol */
+.highlight .sx { color: #f5871f; font-family: Inconsolata; } /* Literal.String.Other */
+.highlight .sr { color: #f5871f; font-family: Inconsolata; } /* Literal.String.Regex */
+.highlight .s1 { color: #f5871f; font-family: Inconsolata; } /* Literal.String.Single */
+.highlight .ss { color: #f5871f; font-family: Inconsolata; } /* Literal.String.Symbol */
+
+
+.highlight .il { color: #f5871f; font-family: Inconsolata; } /* Literal.Number.Integer.Long */
+
+
+</style>
+<script type="text/javascript">
+/*<![CDATA[*/
+var asciidoc = {  // Namespace.
+
+/////////////////////////////////////////////////////////////////////
+// Table Of Contents generator
+/////////////////////////////////////////////////////////////////////
+
+/* Author: Mihai Bazon, September 2002
+ * http://students.infoiasi.ro/~mishoo
+ *
+ * Table Of Content generator
+ * Version: 0.4
+ *
+ * Feel free to use this script under the terms of the GNU General Public
+ * License, as long as you do not remove or alter this notice.
+ */
+
+ /* modified by Troy D. Hanson, September 2006. License: GPL */
+ /* modified by Stuart Rackham, 2006, 2009. License: GPL */
+
+// toclevels = 1..4.
+toc: function (toclevels) {
+
+  function getText(el) {
+    var text = "";
+    for (var i = el.firstChild; i != null; i = i.nextSibling) {
+      if (i.nodeType == 3 /* Node.TEXT_NODE */) // IE doesn't speak constants.
+        text += i.data;
+      else if (i.firstChild != null)
+        text += getText(i);
+    }
+    return text;
+  }
+
+  function TocEntry(el, text, toclevel) {
+    this.element = el;
+    this.text = text;
+    this.toclevel = toclevel;
+  }
+
+  function tocEntries(el, toclevels) {
+    var result = new Array;
+    var re = new RegExp('[hH]([1-'+(toclevels+1)+'])');
+    // Function that scans the DOM tree for header elements (the DOM2
+    // nodeIterator API would be a better technique but not supported by all
+    // browsers).
+    var iterate = function (el) {
+      for (var i = el.firstChild; i != null; i = i.nextSibling) {
+        if (i.nodeType == 1 /* Node.ELEMENT_NODE */) {
+          var mo = re.exec(i.tagName);
+          if (mo && (i.getAttribute("class") || i.getAttribute("className")) != "float") {
+            result[result.length] = new TocEntry(i, getText(i), mo[1]-1);
+          }
+          iterate(i);
+        }
+      }
+    }
+    iterate(el);
+    return result;
+  }
+
+  var toc = document.getElementById("toc");
+  if (!toc) {
+    return;
+  }
+
+  // Delete existing TOC entries in case we're reloading the TOC.
+  var tocEntriesToRemove = [];
+  var i;
+  for (i = 0; i < toc.childNodes.length; i++) {
+    var entry = toc.childNodes[i];
+    if (entry.nodeName.toLowerCase() == 'div'
+     && entry.getAttribute("class")
+     && entry.getAttribute("class").match(/^toclevel/))
+      tocEntriesToRemove.push(entry);
+  }
+  for (i = 0; i < tocEntriesToRemove.length; i++) {
+    toc.removeChild(tocEntriesToRemove[i]);
+  }
+
+  // Rebuild TOC entries.
+  var entries = tocEntries(document.getElementById("content"), toclevels);
+  for (var i = 0; i < entries.length; ++i) {
+    var entry = entries[i];
+    if (entry.element.id == "")
+      entry.element.id = "_toc_" + i;
+    var a = document.createElement("a");
+    a.href = "#" + entry.element.id;
+    a.appendChild(document.createTextNode(entry.text));
+    var div = document.createElement("div");
+    div.appendChild(a);
+    div.className = "toclevel" + entry.toclevel;
+    toc.appendChild(div);
+  }
+  if (entries.length == 0)
+    toc.parentNode.removeChild(toc);
+},
+
+
+/////////////////////////////////////////////////////////////////////
+// Footnotes generator
+/////////////////////////////////////////////////////////////////////
+
+/* Based on footnote generation code from:
+ * http://www.brandspankingnew.net/archive/2005/07/format_footnote.html
+ */
+
+footnotes: function () {
+  // Delete existing footnote entries in case we're reloading the footnodes.
+  var i;
+  var noteholder = document.getElementById("footnotes");
+  if (!noteholder) {
+    return;
+  }
+  var entriesToRemove = [];
+  for (i = 0; i < noteholder.childNodes.length; i++) {
+    var entry = noteholder.childNodes[i];
+    if (entry.nodeName.toLowerCase() == 'div' && entry.getAttribute("class") == "footnote")
+      entriesToRemove.push(entry);
+  }
+  for (i = 0; i < entriesToRemove.length; i++) {
+    noteholder.removeChild(entriesToRemove[i]);
+  }
+
+  // Rebuild footnote entries.
+  var cont = document.getElementById("content");
+  var spans = cont.getElementsByTagName("span");
+  var refs = {};
+  var n = 0;
+  for (i=0; i<spans.length; i++) {
+    if (spans[i].className == "footnote") {
+      n++;
+      var note = spans[i].getAttribute("data-note");
+      if (!note) {
+        // Use [\s\S] in place of . so multi-line matches work.
+        // Because JavaScript has no s (dotall) regex flag.
+        note = spans[i].innerHTML.match(/\s*\[([\s\S]*)]\s*/)[1];
+        spans[i].innerHTML =
+          "[<a id='_footnoteref_" + n + "' href='#_footnote_" + n +
+          "' title='View footnote' class='footnote'>" + n + "</a>]";
+        spans[i].setAttribute("data-note", note);
+      }
+      noteholder.innerHTML +=
+        "<div class='footnote' id='_footnote_" + n + "'>" +
+        "<a href='#_footnoteref_" + n + "' title='Return to text'>" +
+        n + "</a>. " + note + "</div>";
+      var id =spans[i].getAttribute("id");
+      if (id != null) refs["#"+id] = n;
+    }
+  }
+  if (n == 0)
+    noteholder.parentNode.removeChild(noteholder);
+  else {
+    // Process footnoterefs.
+    for (i=0; i<spans.length; i++) {
+      if (spans[i].className == "footnoteref") {
+        var href = spans[i].getElementsByTagName("a")[0].getAttribute("href");
+        href = href.match(/#.*/)[0];  // Because IE return full URL.
+        n = refs[href];
+        spans[i].innerHTML =
+          "[<a href='#_footnote_" + n +
+          "' title='View footnote' class='footnote'>" + n + "</a>]";
+      }
+    }
+  }
+},
+
+install: function(toclevels) {
+  var timerId;
+
+  function reinstall() {
+    asciidoc.footnotes();
+    if (toclevels) {
+      asciidoc.toc(toclevels);
+    }
+  }
+
+  function reinstallAndRemoveTimer() {
+    clearInterval(timerId);
+    reinstall();
+  }
+
+  timerId = setInterval(reinstall, 500);
+  if (document.addEventListener)
+    document.addEventListener("DOMContentLoaded", reinstallAndRemoveTimer, false);
+  else
+    window.onload = reinstallAndRemoveTimer;
+}
+
+}
+asciidoc.install(2);
+/*]]>*/
+</script>
+</head>
+<body class="article">
+<div id="header">
+<h1>Chapter 24 - Core Data</h1>
+<div id="toc">
+  <div id="toctitle">Table of Contents</div>
+  <noscript><p><b>JavaScript must be enabled in your browser to display the table of contents.</b></p></noscript>
+</div>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph"><p>Core Data is an object graph manager with lifecycle, searching and persistence features. What these means is that is a object manager that will allow us to create and destroy objects, make and validate relationships between them and finally search for specific objects using predicates.</p></div>
+<div class="paragraph"><p>Contrary as many think Core Data is not a database and the best example of it is that Core Data can be used totally in-memory without any form of persistence. But of course the main feature of Core Data is the persistence so lets take a little look on the differences between it and a database:</p></div>
+<div class="olist arabic"><ol class="arabic">
+<li>
+<p>
+The primary function of Core Data is object management, the primary function of a Database is storing and fetching data
+</p>
+</li>
+<li>
+<p>
+Core Data works using objects stored in memory (Which can be persisted on disk), which can have behavior and attributes. Instead of the database than only stores the plain data
+</p>
+</li>
+<li>
+<p>
+The databases can work on the data without load it into memory, Core Data can not do it: The objects to manipulate must be loaded first into memory before we can alter them
+</p>
+</li>
+<li>
+<p>
+Core Data requires a save process before it write all the changes (New, Alter or Deleted objects) into disk
+</p>
+</li>
+<li>
+<p>
+The data integrity and relationships are managed in the database by using features like "unique" keys. In Core Data they are managed by business logic inside our app
+</p>
+</li>
+</ol></div>
+<div class="admonitionblock">
+<table><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">Core Data is not fully multi-threaded, if you have the need to use them in such scenarios please consider that some of its objects like NSManagedContext and NSManagedObject are single threaded.</td>
+</tr></table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_remember_the_movies">Remember the Movies</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>With all the possibilities today for watching a movie (Streaming, Online Rent, Physical Rent, Theaters, etc) some times we can forget if we have already watched a movie or in another way remember those recommendations of friends and family. Lets create an app for that! (Using Core Data ;)</p></div>
+<div class="sect2">
+<h3 id="_core_data_model">Core Data Model</h3>
+<div class="paragraph"><p>Please create a new project called <strong>Remember the Movies</strong>:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="nv">$ </span>motion create <span class="s2">&quot;Remember the Movies&quot;</span>
+
+<span class="nv">$ </span><span class="nb">cd </span>app
+
+<span class="nv">$ </span>mkdir extensions
+</pre></div></div></div>
+<div class="paragraph"><p>Before we can start coding our project is needed for us to copy some Core Data Object extensions, these extensions are designed to make our Core Data implementation more easy and simple. Please copy all the files from <strong>resources/extensions</strong> to our <strong>extensions folder</strong></p></div>
+<div class="paragraph"><p>Now is time to code our model for the app, starting with the <strong>Director</strong> object:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="nv">$ </span><span class="nb">cd</span> <span class="s2">&quot;Remember the Movies&quot;</span>
+
+<span class="nv">$ </span><span class="nb">cd </span>app
+
+<span class="nv">$ </span>mkdir model
+
+<span class="nv">$ </span><span class="nb">cd </span>model
+
+<span class="nv">$ </span>touch director.rb
+
+<span class="nv">$ </span>open director.rb
+</pre></div></div></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="c1"># Please note that the Director Model object is child</span>
+<span class="c1"># of the class NSManagedObject</span>
+<span class="k">class</span> <span class="nc">Director</span> <span class="o">&lt;</span> <span class="no">NSManagedObject</span>
+
+  <span class="c1"># Core Data attributes for the object, this attributes will be used</span>
+  <span class="c1"># for all the operations like Persisting and Searching</span>
+  <span class="vi">@attributes</span> <span class="o">||=</span> <span class="o">[</span>
+
+    <span class="c1"># We have to define the names and types of the attributes, also</span>
+    <span class="c1"># you can set a default value or if it is required</span>
+
+    <span class="c1">#Attribute Name, Type, Default Value, Is Optional, Is Transient, Is Indexed</span>
+    <span class="o">[</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="no">NSStringAttributeType</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="kp">false</span><span class="p">,</span> <span class="kp">false</span><span class="p">,</span> <span class="kp">false</span><span class="o">]</span>
+  <span class="o">]</span>
+
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>Did you notice that our <strong>Director model</strong> is child of <strong>NSManagedObject</strong>? Core Data needs to add some methods to the object so it can work with it, so the way that these work is using inheritance, according to these every object that we want Core Data to track must inherit from NSManagedObject</p></div>
+<div class="paragraph"><p>Lets continue creating the <strong>Movie</strong> model class:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="nv">$ </span>touch movie.rb
+
+<span class="nv">$ </span>open movie.rb
+</pre></div></div></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Movie</span> <span class="o">&lt;</span> <span class="no">NSManagedObject</span>
+
+  <span class="c1"># Core Data attributes for the object, this attributes will be used</span>
+  <span class="c1"># for all the operations like Persisting and Searching</span>
+  <span class="vi">@attributes</span> <span class="o">||=</span> <span class="o">[</span>
+
+    <span class="c1"># We have to define the names and types of the attributes, also</span>
+    <span class="c1"># you can set a default value or if it is required</span>
+
+    <span class="c1">#Attribute Name, Type, Default Value, Is Optional, Is Transient, Is Indexed</span>
+    <span class="o">[</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="no">NSStringAttributeType</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="kp">false</span><span class="p">,</span> <span class="kp">false</span><span class="p">,</span> <span class="kp">false</span><span class="o">]</span><span class="p">,</span>
+    <span class="o">[</span><span class="s1">&#39;release_year&#39;</span><span class="p">,</span> <span class="no">NSInteger32AttributeType</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="kp">false</span><span class="p">,</span> <span class="kp">false</span><span class="p">,</span> <span class="kp">false</span><span class="o">]</span><span class="p">,</span>
+    <span class="o">[</span><span class="s1">&#39;studio&#39;</span><span class="p">,</span> <span class="no">NSStringAttributeType</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="kp">false</span><span class="p">,</span> <span class="kp">false</span><span class="p">,</span> <span class="kp">false</span><span class="o">]</span>
+
+  <span class="o">]</span>
+
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>Yes! Now we got a object for representing the Movie, but as you already notice the attributes can have many types. The more important ones are:</p></div>
+<div class="olist arabic"><ol class="arabic">
+<li>
+<p>
+NSInteger32AttributeType
+</p>
+</li>
+<li>
+<p>
+NSDoubleAttributeType
+</p>
+</li>
+<li>
+<p>
+NSStringAttributeType
+</p>
+</li>
+<li>
+<p>
+NSBooleanAttributeType
+</p>
+</li>
+<li>
+<p>
+NSDateAttributeType
+</p>
+</li>
+<li>
+<p>
+NSBinaryDataAttributeType
+</p>
+</li>
+</ol></div>
+<div class="paragraph"><p>Now lets add an a relationship between the <strong>Director</strong> and the <strong>Movie</strong>, for these we need to edit both files:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="nv">$ </span>open movie.rb
+</pre></div></div></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Movie</span> <span class="o">&lt;</span> <span class="no">NSManagedObject</span>
+
+  <span class="c1"># Core Data attributes for the object, this attributes will be used</span>
+  <span class="c1"># for all the operations like Persisting and Searching</span>
+  <span class="vi">@attributes</span> <span class="o">||=</span> <span class="o">[</span>
+
+    <span class="c1"># We have to define the names and types of the attributes, also</span>
+    <span class="c1"># you can set a default value or if it is required</span>
+
+    <span class="c1">#Attribute Name, Type, Default Value, Is Optional, Is Transient, Is Indexed</span>
+    <span class="o">[</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="no">NSStringAttributeType</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="kp">false</span><span class="p">,</span> <span class="kp">false</span><span class="p">,</span> <span class="kp">false</span><span class="o">]</span><span class="p">,</span>
+    <span class="o">[</span><span class="s1">&#39;release_year&#39;</span><span class="p">,</span> <span class="no">NSInteger32AttributeType</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="kp">false</span><span class="p">,</span> <span class="kp">false</span><span class="p">,</span> <span class="kp">false</span><span class="o">]</span><span class="p">,</span>
+    <span class="o">[</span><span class="s1">&#39;studio&#39;</span><span class="p">,</span> <span class="no">NSStringAttributeType</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="kp">false</span><span class="p">,</span> <span class="kp">false</span><span class="p">,</span> <span class="kp">false</span><span class="o">]</span>
+
+  <span class="o">]</span>
+
+<span class="hll">  <span class="c1"># In Core Data we can have relationship between objects, so lets add one</span>
+</span><span class="hll">  <span class="c1"># to the Director Object</span>
+</span><span class="hll">  <span class="vi">@relationships</span> <span class="o">||=</span> <span class="o">[</span>
+</span><span class="hll">
+</span><span class="hll">    <span class="c1"># IMPORTANT: In Core Data is required to have a circular relationships between</span>
+</span><span class="hll">    <span class="c1"># the two objects. In these case we are adding a Relationship from Movie to Director</span>
+</span><span class="hll">    <span class="c1"># but also we will need one from Director to Movie, these relationship is called Inverse</span>
+</span><span class="hll">    <span class="c1"># Relationship</span>
+</span><span class="hll">
+</span><span class="hll">    <span class="c1"># Relationship Name, Relationship Class, Inverse Relationship, Is Optional, Is Indexed,</span>
+</span><span class="hll">    <span class="c1"># Is Ordered, Min Count, Max Count, Delete Rule</span>
+</span><span class="hll">    <span class="o">[</span><span class="s1">&#39;director&#39;</span><span class="p">,</span> <span class="s1">&#39;Director&#39;</span><span class="p">,</span> <span class="s1">&#39;movie&#39;</span><span class="p">,</span> <span class="kp">true</span><span class="p">,</span> <span class="kp">false</span><span class="p">,</span> <span class="kp">true</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="no">NSNullifyDeleteRule</span><span class="o">]</span>
+</span><span class="hll">  <span class="o">]</span>
+</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="admonitionblock">
+<table><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">The relationships in Core Data are circular, what these means is that if we want to create a relationship from Movie to Director we also need another one from Director to Movie</td>
+</tr></table>
+</div>
+<div class="paragraph"><p>Based on these lets open our Director class to add the Inverse Relationship:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="nv">$ </span>open director.rb
+</pre></div></div></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="c1"># Please note that the Director Model object is child</span>
+<span class="c1"># of the class NSManagedObject</span>
+<span class="k">class</span> <span class="nc">Director</span> <span class="o">&lt;</span> <span class="no">NSManagedObject</span>
+
+  <span class="c1"># Core Data attributes for the object, this attributes will be used</span>
+  <span class="c1"># for all the operations like Persisting and Searching</span>
+  <span class="vi">@attributes</span> <span class="o">||=</span> <span class="o">[</span>
+
+    <span class="c1"># We have to define the names and types of the attributes, also</span>
+    <span class="c1"># you can set a default value or if it is required</span>
+
+    <span class="c1">#Attribute Name, Type, Default Value, Is Optional, Is Transient, Is Indexed</span>
+    <span class="o">[</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="no">NSStringAttributeType</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="kp">false</span><span class="p">,</span> <span class="kp">false</span><span class="p">,</span> <span class="kp">false</span><span class="o">]</span>
+  <span class="o">]</span>
+
+
+<span class="hll">  <span class="c1"># In Core Data we can have relationship between objects, so lets add one</span>
+</span><span class="hll">  <span class="c1"># to the Movie Object</span>
+</span><span class="hll">  <span class="vi">@relationships</span> <span class="o">||=</span> <span class="o">[</span>
+</span><span class="hll">
+</span><span class="hll">    <span class="c1"># IMPORTANT: In Core Data is required to have a circular relationships between</span>
+</span><span class="hll">    <span class="c1"># the two objects. So lets create the inverse relationship from Director to Movie</span>
+</span><span class="hll">
+</span><span class="hll">    <span class="c1"># Relationship Name, Relationship Class, Inverse Relationship, Is Optional, Is Indexed,</span>
+</span><span class="hll">    <span class="c1"># Is Ordered, Min Count, Max Count, Delete Rule</span>
+</span><span class="hll">    <span class="o">[</span><span class="s1">&#39;movie&#39;</span><span class="p">,</span> <span class="s1">&#39;Movie&#39;</span><span class="p">,</span> <span class="s1">&#39;director&#39;</span><span class="p">,</span> <span class="kp">true</span><span class="p">,</span> <span class="kp">false</span><span class="p">,</span> <span class="kp">true</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="no">NSIntegerMax</span><span class="p">,</span> <span class="no">NSCascadeDeleteRule</span><span class="o">]</span>
+</span><span class="hll">  <span class="o">]</span>
+</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>Continuing on the app lets open our <strong>app_delegate.rb</strong> and add the following:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">class</span> <span class="nc">AppDelegate</span>
+
+  <span class="c1"># Lets keep all of our Core Data Objects in here</span>
+  <span class="no">ManageObjectClases</span> <span class="o">=</span> <span class="o">[</span><span class="no">Director</span><span class="p">,</span> <span class="no">Movie</span><span class="o">]</span>
+
+  <span class="k">def</span> <span class="nf">application</span><span class="p">(</span><span class="n">application</span><span class="p">,</span> <span class="n">didFinishLaunchingWithOptions</span><span class="ss">:launchOptions</span><span class="p">)</span>
+
+    <span class="n">initialize_core_data</span>
+
+    <span class="kp">true</span>
+  <span class="k">end</span>
+
+
+  <span class="k">def</span> <span class="nf">initialize_core_data</span>
+
+    <span class="c1"># First we need to create the NSManagedObjectModel with</span>
+    <span class="c1"># all the entities and their relationships. You can think of</span>
+    <span class="c1"># these object as a reference of the objects for Core Data</span>
+    <span class="c1"># to use</span>
+    <span class="n">managed_object_model</span> <span class="o">=</span> <span class="no">NSManagedObjectModel</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">init</span>
+    <span class="n">managed_object_model</span><span class="o">.</span><span class="n">entities</span> <span class="o">=</span> <span class="no">ManageObjectClases</span><span class="o">.</span><span class="n">collect</span> <span class="p">{</span> <span class="o">|</span><span class="n">c</span><span class="o">|</span> <span class="n">c</span><span class="o">.</span><span class="n">entity</span> <span class="p">}</span>
+    <span class="n">managed_object_model</span><span class="o">.</span><span class="n">entities</span><span class="o">.</span><span class="n">each</span> <span class="p">{</span> <span class="o">|</span><span class="n">entity</span><span class="o">|</span> <span class="n">entity</span><span class="o">.</span><span class="n">wireRelationships</span> <span class="p">}</span>
+
+    <span class="c1"># The next object needed is the NSPersistentStoreCoordinator</span>
+    <span class="c1"># which will allow Core Data to persist the information.</span>
+    <span class="c1">#</span>
+    <span class="c1"># IMPORT: The NSPersistentStoreCoordinator is not the file or</span>
+    <span class="c1"># the database, is just the enabler to write on them</span>
+    <span class="n">persistent_store_coordinator</span> <span class="o">=</span> <span class="no">NSPersistentStoreCoordinator</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithManagedObjectModel</span><span class="p">(</span><span class="n">managed_object_model</span><span class="p">)</span>
+
+    <span class="c1"># Now lets get a URL for where do we want Core Data to create</span>
+    <span class="c1"># the persist file, in this case a SQLite Database File</span>
+    <span class="n">persistent_store_file_url</span> <span class="o">=</span> <span class="no">NSURL</span><span class="o">.</span><span class="n">fileURLWithPath</span><span class="p">(</span><span class="no">File</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="no">NSHomeDirectory</span><span class="p">(),</span>
+                                                                <span class="s1">&#39;Documents&#39;</span><span class="p">,</span>
+                                                                <span class="s1">&#39;RememberTheMovies.sqlite&#39;</span><span class="p">))</span>
+
+
+    <span class="n">error_pointer</span> <span class="o">=</span> <span class="no">Pointer</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">:object</span><span class="p">)</span>
+
+    <span class="c1"># Add a new Persistent Store to our Persistent Store Coordinator</span>
+    <span class="c1"># which these means is that we are telling the Persistent Store</span>
+    <span class="c1"># Coordinator where to perform the save of our objects.</span>
+    <span class="c1">#</span>
+    <span class="c1"># In these case we are setting that our objects must be stored in</span>
+    <span class="c1"># a SQLite database in the path we already created previously</span>
+    <span class="k">unless</span> <span class="n">persistent_store_coordinator</span><span class="o">.</span><span class="n">addPersistentStoreWithType</span><span class="p">(</span><span class="no">NSSQLiteStoreType</span><span class="p">,</span>
+                                                                   <span class="n">configuration</span><span class="p">:</span> <span class="kp">nil</span><span class="p">,</span>
+                                                                   <span class="no">URL</span><span class="p">:</span> <span class="n">persistent_store_file_url</span><span class="p">,</span>
+                                                                   <span class="n">options</span><span class="p">:</span> <span class="kp">nil</span><span class="p">,</span>
+                                                                   <span class="n">error</span><span class="p">:</span> <span class="n">error_pointer</span><span class="p">)</span>
+
+      <span class="c1"># In case that we can&#39;t initialize the Persistance Store File</span>
+      <span class="k">raise</span> <span class="s2">&quot;Can not initialize Core Data Persistance Store Coordinator: </span><span class="si">#{</span><span class="n">error_pointer</span><span class="o">[</span><span class="mi">0</span><span class="o">].</span><span class="n">description</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="k">end</span>
+
+    <span class="c1"># Finally our most important object the Managed Object Context</span>
+    <span class="c1"># this object is the responsible for creating, destroying and</span>
+    <span class="c1"># fetching the objects</span>
+    <span class="c1">#</span>
+    <span class="c1"># Of course for it to work we need to assign who is coordinating</span>
+    <span class="c1"># the object persistence</span>
+    <span class="vi">@managed_object_context</span> <span class="o">=</span> <span class="no">NSManagedObjectContext</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">init</span>
+    <span class="vi">@managed_object_context</span><span class="o">.</span><span class="n">persistentStoreCoordinator</span> <span class="o">=</span> <span class="n">persistent_store_coordinator</span>
+  <span class="k">end</span>
+
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>Great! With these code we initialize Core Data in our app using Sqlite as persistence and adding our new Model Objects to it</p></div>
+<div class="paragraph"><p>The final step is to add the <strong>Core Data Framework</strong> to our project, this is done editing the <strong>RakeFile</strong>:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="nv">$ </span><span class="nb">cd</span> ..
+
+<span class="nv">$ </span>open RakeFile
+</pre></div></div></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="vg">$:</span><span class="o">.</span><span class="n">unshift</span><span class="p">(</span><span class="s2">&quot;/Library/RubyMotion/lib&quot;</span><span class="p">)</span>
+<span class="nb">require</span> <span class="s1">&#39;motion/project&#39;</span>
+
+<span class="no">Motion</span><span class="o">::</span><span class="no">Project</span><span class="o">::</span><span class="no">App</span><span class="o">.</span><span class="n">setup</span> <span class="k">do</span> <span class="o">|</span><span class="n">app</span><span class="o">|</span>
+  <span class="c1"># Use `rake config&#39; to see complete project settings.</span>
+  <span class="n">app</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;Remember the Movies&#39;</span>
+
+<span class="hll">  <span class="n">app</span><span class="o">.</span><span class="n">frameworks</span> <span class="o">+=</span> <span class="o">[</span><span class="s1">&#39;CoreData&#39;</span><span class="o">]</span>
+</span><span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>If we run our app you should see the following:</p></div>
+<div class="paragraph"><p><strong>IMAGE</strong></p></div>
+<div class="admonitionblock">
+<table><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">If you make some changes to the Model objects after you initialize the Core Data Persistent Store, its needed to clean the project using <strong>rake clean</strong> and rebuild it using <strong>rake</strong></td>
+</tr></table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_some_views_for_some_records">Some Views for Some Records</h3>
+<div class="paragraph"><p>Lets start adding some view controllers to our app so we can visualize and add new data, lets begin creating a new view controller called <strong>movies_view_controller.rb</strong>:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="nv">$ </span><span class="nb">cd </span>app
+
+<span class="nv">$ </span>mkdir controllers
+
+<span class="nv">$ </span><span class="nb">cd </span>controllers
+
+<span class="nv">$ </span>touch movies_view_controller.rb
+
+<span class="nv">$ </span>open movies_view_controller.rb
+</pre></div></div></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">class</span> <span class="nc">MoviesViewController</span> <span class="o">&lt;</span> <span class="no">UIViewController</span>
+
+  <span class="kp">attr_accessor</span> <span class="ss">:managed_object_context</span>
+
+  <span class="k">def</span> <span class="nf">loadView</span>
+
+    <span class="c1"># Create a new Bar Button Item with the Add System Default</span>
+    <span class="n">add_movie_bar_button_item</span> <span class="o">=</span> <span class="no">UIBarButtonItem</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithBarButtonSystemItem</span><span class="p">(</span><span class="no">UIBarButtonSystemItemAdd</span><span class="p">,</span>
+                                                                                  <span class="n">target</span><span class="p">:</span> <span class="nb">self</span><span class="p">,</span>
+                                                                                  <span class="n">action</span><span class="p">:</span> <span class="s1">&#39;add_new_movie&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Add the Bar Button Item to the Navigation Bar</span>
+    <span class="nb">self</span><span class="o">.</span><span class="n">navigationItem</span><span class="o">.</span><span class="n">rightBarButtonItem</span> <span class="o">=</span> <span class="n">add_movie_bar_button_item</span>
+  <span class="k">end</span>
+
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>Lets load our new controller into the window, please open the <strong>app_delegate.rb</strong> file:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="nv">$ </span><span class="nb">cd</span> ..
+
+<span class="nv">$ </span>open app_delegate.rb
+</pre></div></div></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">application</span><span class="p">(</span><span class="n">application</span><span class="p">,</span> <span class="n">didFinishLaunchingWithOptions</span><span class="ss">:launchOptions</span><span class="p">)</span>
+
+  <span class="n">initialize_core_data</span>
+
+<span class="hll">  <span class="c1"># Create a new instance of our Movies View Controller</span>
+</span><span class="hll">  <span class="n">movies_view_controller</span> <span class="o">=</span> <span class="no">MoviesViewController</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">init</span>
+</span><span class="hll">
+</span><span class="hll">  <span class="c1"># We need to pass the Managed Object Context to the next controller</span>
+</span><span class="hll">  <span class="c1"># so we can use it later for creating, fetching or deleting objects</span>
+</span><span class="hll">  <span class="n">movies_view_controller</span><span class="o">.</span><span class="n">managed_object_context</span> <span class="o">=</span> <span class="vi">@managed_object_context</span>
+</span><span class="hll">
+</span><span class="hll">
+</span><span class="hll">  <span class="c1"># Add it as a root view controller of a UINavigationController</span>
+</span><span class="hll">  <span class="n">navigation_controller</span> <span class="o">=</span> <span class="no">UINavigationController</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithRootViewController</span><span class="p">(</span><span class="n">movies_view_controller</span><span class="p">)</span>
+</span><span class="hll">
+</span><span class="hll">  <span class="c1"># Create a new UIWindow and add our UINavigationController to it</span>
+</span><span class="hll">  <span class="vi">@window</span> <span class="o">=</span> <span class="no">UIWindow</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithFrame</span><span class="p">(</span><span class="no">UIScreen</span><span class="o">.</span><span class="n">mainScreen</span><span class="o">.</span><span class="n">bounds</span><span class="p">)</span>
+</span><span class="hll">  <span class="vi">@window</span><span class="o">.</span><span class="n">rootViewController</span> <span class="o">=</span> <span class="n">navigation_controller</span>
+</span><span class="hll">  <span class="vi">@window</span><span class="o">.</span><span class="n">makeKeyAndVisible</span>
+</span>
+  <span class="kp">true</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>If we run our app we should se the following:</p></div>
+<div class="paragraph"><p><strong>Image</strong></p></div>
+<div class="paragraph"><p>Awesome! The next step is to create a new view controller called <strong>Add Movie View Controller</strong>:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="nv">$ </span><span class="nb">cd </span>controllers
+
+<span class="nv">$ </span>touch add_movie_view_controller.rb
+
+<span class="nv">$ </span>open add_movie_view_controller.rb
+</pre></div></div></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">class</span> <span class="nc">AddMovieViewController</span> <span class="o">&lt;</span> <span class="no">UITableViewController</span>
+
+  <span class="kp">attr_accessor</span> <span class="ss">:managed_object_context</span>
+
+  <span class="k">def</span> <span class="nf">loadView</span>
+
+    <span class="c1"># Set up the title for the View Controller</span>
+    <span class="nb">self</span><span class="o">.</span><span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;Add Movie&#39;</span>
+
+    <span class="c1"># Create a new Table View for showing the Text Fields</span>
+    <span class="n">table_view</span> <span class="o">=</span> <span class="no">UITableView</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithFrame</span><span class="p">(</span><span class="no">UIScreen</span><span class="o">.</span><span class="n">mainScreen</span><span class="o">.</span><span class="n">bounds</span><span class="p">,</span>
+                                                 <span class="n">style</span><span class="ss">:UITableViewStyleGrouped</span><span class="p">)</span>
+
+    <span class="c1"># Set up the view controller as a Data Source</span>
+    <span class="c1"># of the table view</span>
+    <span class="n">table_view</span><span class="o">.</span><span class="n">dataSource</span> <span class="o">=</span> <span class="nb">self</span>
+
+    <span class="c1"># Add the table view as view of the view controller</span>
+    <span class="nb">self</span><span class="o">.</span><span class="n">view</span> <span class="o">=</span> <span class="n">table_view</span>
+  <span class="k">end</span>
+
+
+  <span class="c1"># UITableView Data Source</span>
+
+  <span class="k">def</span> <span class="nf">numberOfSectionsInTableView</span><span class="p">(</span><span class="n">tableView</span><span class="p">)</span>
+
+    <span class="c1"># Lets set two sections one for the Movie General</span>
+    <span class="c1"># Data and another for a list of Directors</span>
+    <span class="mi">2</span>
+  <span class="k">end</span>
+
+
+  <span class="k">def</span> <span class="nf">tableView</span><span class="p">(</span><span class="n">tableView</span><span class="p">,</span> <span class="n">titleForHeaderInSection</span><span class="p">:</span> <span class="n">section</span><span class="p">)</span>
+
+    <span class="c1"># Create a new variable to store our header title</span>
+    <span class="n">title_for_header</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+
+
+    <span class="c1"># If the section is the Directors One</span>
+    <span class="k">if</span> <span class="n">section</span> <span class="o">==</span> <span class="mi">1</span>
+
+      <span class="c1"># Set the title to the title variable</span>
+      <span class="n">title_for_header</span> <span class="o">=</span> <span class="s1">&#39;Choose a Director...&#39;</span>
+    <span class="k">end</span>
+
+    <span class="c1"># Return the title variable</span>
+    <span class="n">title_for_header</span>
+  <span class="k">end</span>
+
+
+  <span class="k">def</span> <span class="nf">tableView</span><span class="p">(</span><span class="n">tableView</span><span class="p">,</span> <span class="n">numberOfRowsInSection</span><span class="p">:</span> <span class="n">section</span><span class="p">)</span>
+
+    <span class="c1"># Lets create a new instance variable for storing</span>
+    <span class="c1"># the number of rows in the section</span>
+    <span class="n">number_of_rows</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="c1"># If the section is General Data</span>
+    <span class="k">if</span> <span class="n">section</span> <span class="o">==</span> <span class="mi">0</span>
+
+      <span class="c1"># We need two rows</span>
+      <span class="n">number_of_rows</span> <span class="o">=</span> <span class="mi">2</span>
+
+    <span class="k">else</span>
+
+      <span class="c1"># If the section is Directors we need only one</span>
+      <span class="n">number_of_rows</span> <span class="o">=</span> <span class="mi">1</span>
+
+    <span class="k">end</span>
+
+    <span class="c1"># Return the number of rows for the section</span>
+    <span class="n">number_of_rows</span>
+  <span class="k">end</span>
+
+
+  <span class="k">def</span> <span class="nf">tableView</span><span class="p">(</span><span class="n">tableView</span><span class="p">,</span> <span class="n">cellForRowAtIndexPath</span><span class="p">:</span> <span class="n">indexPath</span><span class="p">)</span>
+
+    <span class="c1"># If the section is General Data</span>
+    <span class="k">if</span> <span class="n">indexPath</span><span class="o">.</span><span class="n">section</span> <span class="o">==</span> <span class="mi">0</span>
+
+      <span class="c1"># Return a General Data Cell</span>
+      <span class="n">general_information_cell_for_table_view</span><span class="p">(</span><span class="n">tableView</span><span class="p">,</span> <span class="n">index_path</span><span class="p">:</span> <span class="n">indexPath</span><span class="p">)</span>
+    <span class="k">else</span>
+
+      <span class="c1"># Return a Add Director Cell</span>
+      <span class="n">add_director_cell_for_table_view</span><span class="p">(</span><span class="n">tableView</span><span class="p">)</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+
+
+  <span class="k">def</span> <span class="nf">general_information_cell_for_table_view</span><span class="p">(</span><span class="n">tableView</span><span class="p">,</span> <span class="n">index_path</span><span class="p">:</span> <span class="n">index_path</span><span class="p">)</span>
+
+    <span class="c1"># Create a cell identifier for the General Information Cell</span>
+    <span class="n">cell_identifier</span> <span class="o">=</span> <span class="s1">&#39;GeneralInformationCell&#39;</span>
+
+    <span class="c1"># Dequeue a cell with the identifier</span>
+    <span class="n">cell</span> <span class="o">=</span> <span class="n">tableView</span><span class="o">.</span><span class="n">dequeueReusableCellWithIdentifier</span><span class="p">(</span><span class="n">cell_identifier</span><span class="p">)</span>
+
+
+    <span class="c1"># If we are not cells to use we need to create one</span>
+    <span class="k">if</span> <span class="n">cell</span> <span class="o">==</span> <span class="kp">nil</span>
+
+      <span class="c1"># Lets create a new UITableViewCell with the identifier</span>
+      <span class="n">cell</span> <span class="o">=</span> <span class="no">UITableViewCell</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithStyle</span><span class="p">(</span><span class="no">UITableViewCellStyleDefault</span><span class="p">,</span> <span class="n">reuseIdentifier</span><span class="ss">:cell_identifier</span><span class="p">)</span>
+      <span class="n">cell</span><span class="o">.</span><span class="n">selectionStyle</span> <span class="o">=</span> <span class="no">UITableViewCellSelectionStyleNone</span>
+
+      <span class="c1"># Instantiate a new UITextField for editing some values</span>
+      <span class="n">cell_text_field</span> <span class="o">=</span> <span class="no">UITextField</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithFrame</span><span class="p">(</span><span class="no">CGRectMake</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">30</span><span class="p">))</span>
+      <span class="n">cell_text_field</span><span class="o">.</span><span class="n">autocorrectionType</span> <span class="o">=</span> <span class="no">UITextAutocorrectionTypeNo</span><span class="p">;</span>
+      <span class="n">cell_text_field</span><span class="o">.</span><span class="n">placeholder</span> <span class="o">=</span> <span class="s1">&#39;Required&#39;</span>
+      <span class="n">cell_text_field</span><span class="o">.</span><span class="n">textColor</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">colorWithRed</span><span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">235</span><span class="p">,</span> <span class="n">green</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mi">325</span><span class="p">,</span> <span class="n">blue</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mi">506</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span><span class="mi">1</span><span class="o">.</span><span class="mo">000</span><span class="p">)</span>
+
+      <span class="c1"># Set the view controller as delegate of the Text Field</span>
+      <span class="n">cell_text_field</span><span class="o">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="nb">self</span>
+
+      <span class="c1"># Add the Text Field into the cell view</span>
+      <span class="n">cell</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="n">cell_text_field</span><span class="p">)</span>
+    <span class="k">end</span>
+
+
+    <span class="c1"># If the row is the first one</span>
+    <span class="k">if</span> <span class="n">index_path</span><span class="o">.</span><span class="n">row</span> <span class="o">==</span> <span class="mi">0</span>
+
+      <span class="c1"># Set the title to Name</span>
+      <span class="n">cell</span><span class="o">.</span><span class="n">textLabel</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="s1">&#39;Name&#39;</span>
+    <span class="k">else</span>
+
+      <span class="c1"># Else set the title to Year</span>
+      <span class="n">cell</span><span class="o">.</span><span class="n">textLabel</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="s1">&#39;Year&#39;</span>
+    <span class="k">end</span>
+
+    <span class="n">cell</span>
+  <span class="k">end</span>
+
+
+  <span class="k">def</span> <span class="nf">add_director_cell_for_table_view</span><span class="p">(</span><span class="n">tableView</span><span class="p">)</span>
+
+    <span class="c1">#Create a cell identifier for the Add Director Cell</span>
+    <span class="n">cell_identifier</span> <span class="o">=</span> <span class="s1">&#39;AddDirectorCell&#39;</span>
+
+    <span class="c1"># Dequeue a cell with the identifier</span>
+    <span class="n">cell</span> <span class="o">=</span> <span class="n">tableView</span><span class="o">.</span><span class="n">dequeueReusableCellWithIdentifier</span><span class="p">(</span><span class="n">cell_identifier</span><span class="p">)</span>
+
+
+    <span class="c1"># If we are not cells to use we need to create one</span>
+    <span class="k">if</span> <span class="n">cell</span> <span class="o">==</span> <span class="kp">nil</span>
+
+      <span class="c1"># Lets create a new UITableViewCell with the identifier</span>
+      <span class="n">cell</span> <span class="o">=</span> <span class="no">UITableViewCell</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithStyle</span><span class="p">(</span><span class="no">UITableViewCellStyleDefault</span><span class="p">,</span> <span class="n">reuseIdentifier</span><span class="ss">:cell_identifier</span><span class="p">)</span>
+      <span class="n">cell</span><span class="o">.</span><span class="n">accessoryType</span> <span class="o">=</span> <span class="no">UITableViewCellAccessoryDisclosureIndicator</span>
+    <span class="k">end</span>
+
+    <span class="c1"># Add text to the cell</span>
+    <span class="n">cell</span><span class="o">.</span><span class="n">textLabel</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="s1">&#39;Add Director...&#39;</span>
+
+    <span class="n">cell</span>
+  <span class="k">end</span>
+
+
+  <span class="c1"># UITextField Delegate</span>
+  <span class="k">def</span> <span class="nf">textFieldShouldReturn</span><span class="p">(</span><span class="n">textField</span><span class="p">)</span>
+
+    <span class="c1"># Resign the UITextField as first responder to hide</span>
+    <span class="c1"># the keyboard</span>
+    <span class="n">textField</span><span class="o">.</span><span class="n">resignFirstResponder</span>
+
+    <span class="kp">true</span>
+  <span class="k">end</span>
+
+
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>Great now that we have our <strong>add_movie_view_controller.rb</strong> lets  present it using our <strong>movies_view_controller.rb</strong>, so lets open it and add the following method:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="nv">$ </span>open movies_view_controller.rb
+</pre></div></div></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">add_new_movie</span>
+
+  <span class="c1"># Create a new AddMovieViewController</span>
+  <span class="n">add_movie_view_controller</span> <span class="o">=</span> <span class="no">AddMovieViewController</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">init</span>
+
+  <span class="c1"># We need to pass the Managed Object Context to the next controller</span>
+  <span class="c1"># so we can use it later for creating, fetching or deleting objects</span>
+  <span class="n">add_movie_view_controller</span><span class="o">.</span><span class="n">managed_object_context</span> <span class="o">=</span> <span class="vi">@managed_object_context</span>
+
+
+  <span class="c1"># Push it using the Navigation Controller</span>
+  <span class="nb">self</span><span class="o">.</span><span class="n">navigationController</span><span class="o">.</span><span class="n">pushViewController</span><span class="p">(</span><span class="n">add_movie_view_controller</span><span class="p">,</span>
+                                               <span class="n">animated</span><span class="ss">:true</span><span class="p">)</span>
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>Now if we run the app and select the plus button we should see the following:</p></div>
+<div class="paragraph"><p><strong>IMAGE</strong></p></div>
+<div class="paragraph"><p>Before we can start adding movies is required to add a Director first, so lets create a view controller called <strong>add_director_view_controller.rb</strong> for this task:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="nv">$ </span>touch add_director_view_controller.rb
+
+<span class="nv">$ </span>open add_director_view_controller.rb
+</pre></div></div></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">class</span> <span class="nc">AddDirectorViewController</span> <span class="o">&lt;</span> <span class="no">UITableViewController</span>
+
+  <span class="kp">attr_accessor</span> <span class="ss">:managed_object_context</span>
+
+  <span class="k">def</span> <span class="nf">loadView</span>
+
+    <span class="c1"># Set up the title for the View Controller</span>
+    <span class="nb">self</span><span class="o">.</span><span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;Add Director&#39;</span>
+
+    <span class="c1"># Create a new Table View for showing the Text Fields</span>
+    <span class="n">table_view</span> <span class="o">=</span> <span class="no">UITableView</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithFrame</span><span class="p">(</span><span class="no">UIScreen</span><span class="o">.</span><span class="n">mainScreen</span><span class="o">.</span><span class="n">bounds</span><span class="p">,</span>
+                                                 <span class="n">style</span><span class="ss">:UITableViewStyleGrouped</span><span class="p">)</span>
+
+    <span class="c1"># Set up the view controller as a Data Source</span>
+    <span class="c1"># of the table view</span>
+    <span class="n">table_view</span><span class="o">.</span><span class="n">dataSource</span> <span class="o">=</span> <span class="nb">self</span>
+
+    <span class="c1"># Add the table view as view of the view controller</span>
+    <span class="nb">self</span><span class="o">.</span><span class="n">view</span> <span class="o">=</span> <span class="n">table_view</span>
+  <span class="k">end</span>
+
+
+  <span class="c1"># UITableView Data Source</span>
+
+  <span class="k">def</span> <span class="nf">tableView</span><span class="p">(</span><span class="n">tableView</span><span class="p">,</span> <span class="n">numberOfRowsInSection</span><span class="p">:</span> <span class="n">section</span><span class="p">)</span>
+
+    <span class="c1"># Because the Director only has one attribute, we only</span>
+    <span class="c1"># need one cell</span>
+    <span class="mi">1</span>
+  <span class="k">end</span>
+
+
+  <span class="k">def</span> <span class="nf">tableView</span><span class="p">(</span><span class="n">tableView</span><span class="p">,</span> <span class="n">cellForRowAtIndexPath</span><span class="p">:</span> <span class="n">indexPath</span><span class="p">)</span>
+
+    <span class="c1"># Create a cell identifier for the General Information Cell</span>
+    <span class="n">cell_identifier</span> <span class="o">=</span> <span class="s1">&#39;GeneralInformationCell&#39;</span>
+
+    <span class="c1"># Dequeue a cell with the identifier</span>
+    <span class="n">cell</span> <span class="o">=</span> <span class="n">tableView</span><span class="o">.</span><span class="n">dequeueReusableCellWithIdentifier</span><span class="p">(</span><span class="n">cell_identifier</span><span class="p">)</span>
+
+
+    <span class="c1"># If we are not cells to use we need to create one</span>
+    <span class="k">if</span> <span class="n">cell</span> <span class="o">==</span> <span class="kp">nil</span>
+
+      <span class="c1"># Lets create a new UITableViewCell with the identifier</span>
+      <span class="n">cell</span> <span class="o">=</span> <span class="no">UITableViewCell</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithStyle</span><span class="p">(</span><span class="no">UITableViewCellStyleDefault</span><span class="p">,</span> <span class="n">reuseIdentifier</span><span class="ss">:cell_identifier</span><span class="p">)</span>
+      <span class="n">cell</span><span class="o">.</span><span class="n">selectionStyle</span> <span class="o">=</span> <span class="no">UITableViewCellSelectionStyleNone</span>
+
+      <span class="c1"># Instantiate a new UITextField for editing some values</span>
+      <span class="n">cell_text_field</span> <span class="o">=</span> <span class="no">UITextField</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithFrame</span><span class="p">(</span><span class="no">CGRectMake</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">30</span><span class="p">))</span>
+      <span class="n">cell_text_field</span><span class="o">.</span><span class="n">autocorrectionType</span> <span class="o">=</span> <span class="no">UITextAutocorrectionTypeNo</span><span class="p">;</span>
+      <span class="n">cell_text_field</span><span class="o">.</span><span class="n">placeholder</span> <span class="o">=</span> <span class="s1">&#39;Required&#39;</span>
+      <span class="n">cell_text_field</span><span class="o">.</span><span class="n">textColor</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">colorWithRed</span><span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">235</span><span class="p">,</span> <span class="n">green</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mi">325</span><span class="p">,</span> <span class="n">blue</span><span class="p">:</span><span class="mi">0</span><span class="o">.</span><span class="mi">506</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span><span class="mi">1</span><span class="o">.</span><span class="mo">000</span><span class="p">)</span>
+
+      <span class="c1"># Set the view controller as delegate of the Text Field</span>
+      <span class="n">cell_text_field</span><span class="o">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="nb">self</span>
+
+      <span class="c1"># Add the Text Field into the cell view</span>
+      <span class="n">cell</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="n">cell_text_field</span><span class="p">)</span>
+    <span class="k">end</span>
+
+
+    <span class="c1"># Set the title to Name</span>
+    <span class="n">cell</span><span class="o">.</span><span class="n">textLabel</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="s1">&#39;Name&#39;</span>
+
+    <span class="n">cell</span>
+  <span class="k">end</span>
+
+
+  <span class="c1"># UITextField Delegate</span>
+  <span class="k">def</span> <span class="nf">textFieldShouldReturn</span><span class="p">(</span><span class="n">textField</span><span class="p">)</span>
+
+    <span class="c1"># Resign the UITextField as first responder to hide</span>
+    <span class="c1"># the keyboard</span>
+    <span class="n">textField</span><span class="o">.</span><span class="n">resignFirstResponder</span>
+
+    <span class="kp">true</span>
+  <span class="k">end</span>
+
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>Great! The only thing left to do is present the <strong>add_director_view_controller.rb</strong> when the user select the <strong>Add Director..</strong> cell. For this we need to open our <strong>add_movie_view_controller.rb</strong> and edit the following:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="nv">$ </span>open add_movie_view_controller.rb
+</pre></div></div></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">loadView</span>
+
+  <span class="c1"># Set up the title for the View Controller</span>
+  <span class="nb">self</span><span class="o">.</span><span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;Add Movie&#39;</span>
+
+  <span class="c1"># Create a new Table View for showing the Text Fields</span>
+  <span class="n">table_view</span> <span class="o">=</span> <span class="no">UITableView</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithFrame</span><span class="p">(</span><span class="no">UIScreen</span><span class="o">.</span><span class="n">mainScreen</span><span class="o">.</span><span class="n">bounds</span><span class="p">,</span>
+                                               <span class="n">style</span><span class="ss">:UITableViewStyleGrouped</span><span class="p">)</span>
+
+  <span class="c1"># Set up the view controller as a Data Source</span>
+  <span class="c1"># of the table view</span>
+  <span class="n">table_view</span><span class="o">.</span><span class="n">dataSource</span> <span class="o">=</span> <span class="nb">self</span>
+
+<span class="hll">  <span class="c1"># Set up the view controller as a Delegate</span>
+</span><span class="hll">  <span class="c1"># of the table view</span>
+</span><span class="hll">  <span class="n">table_view</span><span class="o">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="nb">self</span>
+</span>
+  <span class="c1"># Add the table view as view of the view controller</span>
+  <span class="nb">self</span><span class="o">.</span><span class="n">view</span> <span class="o">=</span> <span class="n">table_view</span>
+<span class="k">end</span>
+
+
+<span class="c1"># UITableView Delegate</span>
+
+<span class="k">def</span> <span class="nf">tableView</span><span class="p">(</span><span class="n">tableView</span><span class="p">,</span> <span class="n">didSelectRowAtIndexPath</span><span class="p">:</span> <span class="n">indexPath</span><span class="p">)</span>
+
+  <span class="c1"># If the section is the Directors one</span>
+  <span class="k">if</span> <span class="n">indexPath</span><span class="o">.</span><span class="n">section</span> <span class="o">==</span> <span class="mi">1</span>
+
+    <span class="c1"># Create a new AddDirectorViewController</span>
+    <span class="n">add_director_view_controller</span> <span class="o">=</span> <span class="no">AddDirectorViewController</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">init</span>
+
+    <span class="c1"># We need to pass the Managed Object Context to the next controller</span>
+    <span class="c1"># so we can use it later for creating, fetching or deleting objects</span>
+    <span class="n">add_director_view_controller</span><span class="o">.</span><span class="n">managed_object_context</span> <span class="o">=</span> <span class="vi">@managed_object_context</span>
+
+    <span class="c1"># Push it using the Navigation Controller</span>
+    <span class="nb">self</span><span class="o">.</span><span class="n">navigationController</span><span class="o">.</span><span class="n">pushViewController</span><span class="p">(</span><span class="n">add_director_view_controller</span><span class="p">,</span>
+                                                 <span class="n">animated</span><span class="ss">:true</span><span class="p">)</span>
+  <span class="k">end</span>
+
+<span class="k">end</span>
+</pre></div></div></div>
+<div class="paragraph"><p>Now our <strong>AddDirectorViewController</strong> is visible:</p></div>
+<div class="paragraph"><p><strong>IMAGE</strong></p></div>
+</div>
+<div class="sect2">
+<h3 id="_new_objects">New Objects</h3>
+<div class="paragraph"><p>Lets create our first Core Data Object in this case <strong>Director</strong>, please open your <strong>add_director_view_controller.rb</strong>:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="nv">$ </span>open add_director_view_controller.rb
+</pre></div></div></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre>
+</pre></div></div></div>
+</div>
+</div>
+</div>
+</div>
+<div id="footnotes"><hr /></div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2012-12-11 21:39:49 CST
+</div>
+</div>
+</body>
+</html>
