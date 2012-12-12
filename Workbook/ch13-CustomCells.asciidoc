@@ -3,15 +3,15 @@ Chapter 13 - Custom Cells
 
 In the last chapter we build our News section using a *UITableView*. In this section we are going to improve that section using Custom Cells. Our Designer has send us an improved design to display our news. 
 
-We used a standard *UITableViewCell* to display the news item information, both when you need something more customizable, you must create a subclass of *UITableViewCell*. You will find when developing iOS apps that is a very common task. 
+We used a standard *UITableViewCell* to display the news item information, but when you need something more customizable, you should create a subclass of *UITableViewCell*. 
 
 
 Setting up the project
 ---------------------
 
-Unzip the file *ch13-custom_cells_resources*, run the app and you will see that we have the app as we leave it in last chapter.
+Open the 13-CustomCells/resources/code/Cocoaheads folder., run the app and you will see that we have the app as we leave it in last chapter.
 
-.Current Application
+
 image::Resources/ch13-CustomCells/ch13_01_app.png[Current Application]
 
 We will use it as a base for this workshop.
@@ -35,7 +35,7 @@ end
 
 We are creating a UITableViewCell subclass named *NewsTableViewCell* with three properties: title, subtitle, and image_name. Those are the data that our cell is going to display. We are also adding a constant to store the reuse identifier of the cell.
 
-If you remember, in the last chapter we were creating the cell in the NewsViewController, specifically in the *tableView:cellForRowAtIndexPath:* method. Now we are going to put that logic inside our cell. Thus, decoupling it from our View Controller. Add this method to the NewsTableViewCell:
+If you remember, in the last chapter we creatwd the cell in the NewsViewController, specifically in the *tableView:cellForRowAtIndexPath:* method. Now we are going to put that logic inside our cell. Thus, decoupling it from our View Controller. Add this class method to the NewsTableViewCell:
 
 
 [source, ruby]
@@ -52,7 +52,7 @@ end
 -----------------
 
 
-We are dequeuing our cell from the table view, in case there is no cell already queue we create it. And the we are extracting the news item information from the *news_item* object passed as argument and fill our cell with it.
+We are dequeuing our cell from the table view, if there is not a cached cell, we create it. Then, we are extracting the news item information from the *news_item* object passed as argument and filling our cell with that data.
 
 Now, in the *NewsViewController*, change the method *tableView:cellForRowAtIndexPath:* to this:
 
@@ -74,7 +74,7 @@ image::Resources/ch13-CustomCells/ch13_02_empty_cell.png[Empty Cell]
 Adding visual components
 -----------------------
 
-The table is empty. Why? Because we need to create the components of our cell to display the data. A UITableViewCell is an UIView. We have seen that we can create custom view and take advantage of the *drawRect:* method to draw visual components inside our view. Althought we can do the same inside a cell, is better to use composition of UIViews with the *addSubview* method, remember that a cell is reused for all rows in a table so we need to be able to refresh the components without the need of calling *setNeedDisplay*.
+The table is empty. Why? Because we need to create the components of our cell to display the data. A UITableViewCell is an UIView. We have seen that we can create custom views and take advantage of their *drawRect:* method to draw visual components inside our view. Although we can do the same inside a cell, is better to use composition of UIViews with the *addSubview* method, remember that a cell is reused for all rows in a table so we need to be able to refresh the components without the need of calling *setNeedDisplay*.
 
 UIView has a method called *layoutSubviews* that method can be used to create and layout its subviews. We are going to use it to display the news item information:
 
@@ -95,19 +95,18 @@ UIImageView.alloc.initWithImage(UIImage.imageNamed("bgNewsCell"))
 end  
 -------------------
 
-We are adding an image as a background. Notice that we are checking if the *@background_image* does not exist already. Why? Remember that there is only one instance of the cell in our table and we don't want to add N background images, is enough to add it once.
+We are adding an image as a background. Notice that we are checking if the *@background_image* does not exist. Why? Remember that there is only one instance of the cell in our table and we don't want to add N background images, is enough to add it once.
 
 Run the app.
 
 .Cell Background
 image::Resources/ch13-CustomCells/ch13_03_cell_background.png[Cell Background]
 
-It really looks bad. Our designer has gave us a background image with a height of 200px. And the default height of a Cell is of 44px. That is the reason that the images overlaps. Let's fix it. Open the NewsViewController and we are going to add another *UITableViewDelegate* method to define a new cell height:
+It really looks bad. Our designer has gave us a background image with a height of 200px. And the default height of a Cell is of 44px. That is the reason that the images overlap. Let's fix it. Open the NewsViewController and we are going to add another *UITableViewDelegate* method to define a new  height for the cells:
 
 [source, ruby]
 ------------------- 
 def tableView(tableView, heightForRowAtIndexPath:indexPath)
-
   200.0
 end  
 ------------------ 
@@ -118,7 +117,7 @@ Now you'll see all the cells with their correct background:
 image::Resources/ch13-CustomCells/ch13_04_cell_height.png[Cell Height]
 
 
-It's time to add more components. We are going to start with the title:
+It's time to add more components. We are going to start with the title, in our *NewsTableViewCell* class, change the layoutSubviews method to this:
 
 [source, ruby]
 --------------------

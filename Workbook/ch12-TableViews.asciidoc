@@ -5,7 +5,7 @@ During this workshop, we are going to work with table views and table views cont
 
 Setting up the project
 ----------------------
-Unzip the file *ch12_tableviews_resources.zip*, inside you will find our App from the previous chapter plus a new *News* model class that we will review later:
+Open the folder ch12-TableViews/resources/code/Cocoaheads, inside you will find our App from the previous chapter plus a new *News* model class that we will review later:
 
 image:Resources/ch12-TableViews/ch12_01_app.png[Chapter 12 app]
 
@@ -13,7 +13,7 @@ image:Resources/ch12-TableViews/ch12_01_app.png[Chapter 12 app]
 Implementing the News Screen
 ---------------------------
 
-During this exercise, we are going to create our News Screen. This screen will present the lates news of Cocoaheads in a list. This kind of interfaces are well suited for using a *UITableView*.
+During this exercise, we are going to create our News Screen. This screen will present the latest news of Cocoaheads in a list. This kind of interfaces are well suited for using a *UITableView*.
 
 The easiest way to use a *UITableView* is to use a *UITableViewController*, thus, we are going to do exactly that.
 
@@ -46,7 +46,7 @@ end
 
 We also removed the *loadView* method. A UITableViewController creates its own view as a UITableView so we don't need to create it anymore. Finally, we change our code to use the initializer named *initWithStyle:* This is the initializer method used to create instances of UITableViewController.
 
-Now let's call this initializer from the *app_delegate.rb* :
+Now let's call this initializer from the *app_delegate.rb* change the *appTabBarController* method to this:
 
 
 [source, ruby]
@@ -75,7 +75,7 @@ image:Resources/ch12-TableViews/ch12_02_empty_table.png[Chapter 12 empty table v
 
 Right now our table is empty, we need to fill it with the latest news.
 
-We have seen that is wise to update data in the *viewWillAppear* method, because that method will be called every time the view is shown. Thus, the user will see the updated news. We have implemented a model class named *News* with a class method called "news_mock". With these in mind we can implement our method to retrieve the news as:
+We have seen that is wise to update data in the *viewWillAppear* method, because that method will be called every time the view is shown. Thus, the user will see the updated news. We have implemented a model class named *News* with a class method called "news_mock". With these in mind we can implement our method to retrieve the news in out *NewsViewController* as:
 
 
 [source, ruby]
@@ -143,7 +143,7 @@ This is useful in tests. We can add or delete items to our table by just modifyi
 
 Implementing a Table View DataSource
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-How do we pass data to our empty table view? As we have seen in the slides, by implementing the methods of UITableViewDataSource. The first step is to tell how many rows should be in the Table View:
+How do we pass data to our empty table view? As we have seen in the course, by implementing the methods of the protocol *UITableViewDataSource*. The first step is to tell how many rows should be in the Table View. Add this method in the *NewsViewController*
 
 [source, ruby]
 ---------------------
@@ -153,7 +153,7 @@ def tableView(tableView, numberOfRowsInSection:section)
 end
 --------------------
 
-The content of the rows of a UITableView are called cells and should be subclasses of *UITableViewCell*. So what basically occurs is that the UITableView ask to its DataSource (our NewsViewController) how many rows we want in the table using the *tableView:numberOfRowsInSection:* method. Once we answer that questions, starts to ask us for the cell for each one of the row using this method:
+The content of the rows of a UITableView are called cells and should be subclasses of *UITableViewCell*. So what basically occurs is that the UITableView ask to its DataSource (our NewsViewController) how many rows we want in the table using the *tableView:numberOfRowsInSection:* method. Once we answer that question, starts to ask us for the cell for each one of the rows using this method:
 
 
 [source, ruby]
@@ -178,7 +178,7 @@ This method is called for each one of the rows in a Table View. Inside you shoul
 tableView.dequeueReusableCellWithIdentifier(NEWS_CELL_REUSE_ID)
 ------------------
 
-Only if the table view can find a cached cell with that identifier, we build it:
+Only if the table view can not find a cached cell with that identifier, we build it:
 
 [source, ruby]
 -------------------
@@ -235,7 +235,7 @@ end
 
 Using this *tableView:viewForHeaderInSection:* method, you can add any view as header. In this case we are adding an UIImageView with our header image, we are also setting the *userInteractionEnabled* to true because we will need that to add some buttons to that header later.
 
-To add a header is not enough we need to change the heigth of the header using this other method:
+To add a header is not enough we need to change the height of the header using this other method:
 
 
 [source, ruby]
@@ -339,7 +339,7 @@ def delete_selected_cell
 end
 ------------------------
 
-First, we are retrieving the indexPath of the current selected cell. If there is actually a selected cell, we are removing the associated news_item from the array. You should be very careful doing this, when you remove cell from a Table View, the Table will ask again for the *tableView:numberOfRowsInSection:* method and it should reflect that are a less number of rows than before the deletion.
+First, we are retrieving the indexPath of the current selected cell. If there is actually a selected cell, we are removing the associated news_item from the array. You should be very careful doing this, when you remove cell from a Table View, the Table will ask again for the *tableView:numberOfRowsInSection:* method and it should reflect that are less number of rows than before the deletion.
 
 Then we are deleting the cell with *deleteRowsAtIndexPaths:withRowAnimation*. This is to have a smoother effect. After we remove the element from the *@news* array we could simple refresh the Table View with 
 
@@ -350,7 +350,7 @@ Then we are deleting the cell with *deleteRowsAtIndexPaths:withRowAnimation*. Th
 
 And see the row gone, but we wouldn't have a nice animation. We are defining the animation to use with the constant *UITableViewRowAnimationMiddle* You can check the UITableView documentation to view more animations that you can use.
 
-Now run your app, select a cell and tap the *Delete* button to watch it dissapear.
+Now run your app, select a cell and tap the *Delete* button to watch it disappear.
 
 Finally, let's implement the add functionality:
 
@@ -367,7 +367,7 @@ def add_cell
 end  
 -----------------------
 
-First we are retrieving a randon news item from the original list. Then we are creating a NSIndexPath with the correct row of the new cell (we are adding it at the end of the table). We need to add the news item to our @news array. Remember that is importat to keep the consistency of our DataSource, the Table View will ask it again for the number of rows and for the cell.
+First we are retrieving a random news item from the original list. Then we are creating a NSIndexPath with the correct row of the new cell (we are adding it at the end of the table). We need to add the news item to our @news array. Remember that is importat to keep the consistency of our DataSource, the Table View will ask it again for the number of rows and for the cell.
 
 Finally, we insert the row with an animation. 
 

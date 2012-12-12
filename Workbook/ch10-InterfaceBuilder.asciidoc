@@ -2,7 +2,7 @@ Chapter 10 - Interface Builder
 ============================
 
 
-In this workshop, we are going to learn to use the Interface Builder, the tool to build User Interfaces without coding them. 
+In this workshop, you are going to learn how to use the Interface Builder, the tool to build User Interfaces without coding them from Apple. This tool is integrated in Xcode, the IDE to buils iOS apps using Objective-C. However, you can use it in your RubyMotion projects.  
 
 
 In previous chapter we have been programmatically creating our views, suchs as buttons or even maps. The Interface Builder will allow us to separate the task of building visual components to specialized files called *nib* files. 
@@ -12,8 +12,7 @@ Setting up the app
 -----------------
 
 
-Unzip the file *10-interfacebuilder_resources.zip* run the app using the *rake* command. You will notice that displays our old Next Event
-View:
+Open the folder *ch10-InterfaceBuilder/resources/code/Cocoaheads*. Inside it is the Cocoaheads app. Run the app using the *rake* command. You will notice that displays our old Next EventView:
 
 image:Resources/ch10-InterfaceBuilder/ch10_01_app.png[Chapter 10 app]
 
@@ -27,14 +26,14 @@ Setting up our Xcode project
 The Interface Builder is integrated into Xcode, the IDE for building iOS projects using Objective-C. Although is technically possible to just create a *Nib* file without a project, is easier to create it inside a project. And having your Nib files integrated into one project is helpful to keep them organized. 
 
 
-If you don't have Xcode installed, download it from the App Store in your Mac. Open it and you'll be prompted to create a new project. Choose in the side menu iOS > Application and the Single View Application template:
+If you don't have Xcode installed, download it from the Mac App Store. Open it and you'll be prompted to create a new project. Choose in the side menu iOS > Application and the Single View Application template:
 
 
 
 image:Resources/ch10-InterfaceBuilder/ch10_02_xcode_project.png[Chapter 10 xcode project]
 
 
-Next, enter this data in the project creation wizard. Notice that we are unselecting the "Use Storyboards" option.
+Next, enter this data in the project creation wizard. Notice that we are unselecting the *Use Storyboards* option.
 
 image:Resources/ch10-InterfaceBuilder/ch10_03_xcode_options.png[Chapter 10 xcode options]
 
@@ -116,7 +115,7 @@ Select the *Attributes* inspector (the fourth tab in the Inspectors panel) and e
 image:Resources/ch10-InterfaceBuilder/ch10_13_textfield_attributes.png[Chapter 10 text field attributes]
 
 
-Next, adjust the size and location of the textfield using your mouse. Another option is to select the  Text Field and in the *Inspector* section, in the Fifth tab (*Size*) you can type the absolut values for its Frame. For this field we'll enter x: 20, y: 130, width 289 and height 44. Don't worry if the Textfield is almost invisible, we'll add a background image programatically later.
+Next, adjust the size and location of the textfield using your mouse. Another option is to select the  Text Field and in the *Inspector* section, in the Fifth tab (*Size*) you can type the absolute values for its Frame. For this field we'll enter x: 20, y: 130, width 289 and height 44. Don't worry if the Textfield is almost invisible, we'll add a background image programmatically later.
 
 image:Resources/ch10-InterfaceBuilder/ch10_14_textfield_frame.png[Chapter 10 text field attributes]
 
@@ -533,7 +532,7 @@ The main difference is that we no longer need to access the background view, bec
 Challenge
 ~~~~~~~~
 
-In the *next_view_controller.rb* modify the *sign_up* method to show our SignUpViewController as a modal view, remember that should pass the name of the Xib file to use as the view.
+In the *next_view_controller.rb* modify the *sign_up* method to show our SignUpViewController as a modal view, remember that you should pass the name of the Xib file to use as the view in the *initWithNibName* method.
 
 Test it, you should see the SignUp screen:
 

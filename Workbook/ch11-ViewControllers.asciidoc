@@ -1,12 +1,13 @@
 Chapter 11 - View Controllers
 ============================
 
-In this chapter we are goint to review some basic concepts abouts the lifecycle of UIViewControllers and we will introduce to *UITabBarController* a special UIViewController that helps you to build Tab-based interfaces.
+In this chapter we are going to review some basic concepts about the lifecycle of UIViewControllers and we will introduce the *UITabBarController* a special UIViewController that helps you to build Tab-based interfaces.
+
 
 Setting up the project
 ---------------------
 
-Unzip the *ch11_viewcontrollers_resources.zip* file. It contains our Cocoaheads app that we will use a base for this exercise:
+Open the folder ch11-ViewControllers/resources/code/Cocoaheads. It contains our Cocoaheads app that we will use as a base for this exercise:
 
 
 image:Resources/ch11-ViewControllers/ch11_01_app.png[Chapter 11 app]
@@ -17,7 +18,7 @@ Creating our TabBarController
 
 Our first task is to create a *UITabBarController* This component creates a tabbar in the bottom of the application and is used to implement a Tab-based navigation in your apps. You can see it in action in the AppStore app or in the Twitter app.
 
-Tab-based navigation is very useful, it allows your users to have the main sections of your app always at a glance (at the bottom of the screen). But it has a constraint: it can only have up to 5 tabs. So if your app has more than 5 main sections, you should consider other alternatives.
+Tab-based navigation is very useful, it allows users to have the main sections of your app always at a glance (at the bottom of the screen). But it has a constraint: it can only have up to 5 tabs. So if your app has more than 5 main sections, you should consider other alternatives for the main menu.
 
 
 
@@ -25,7 +26,7 @@ Creating our missing sections
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-Our Cocoahead apps will have 3 main sections:
+Our Cocoaheads apps will have 3 main sections:
 
 - Calendar
 - Next Event
@@ -94,7 +95,7 @@ We need to change that and pass, instead, a Tab Bar Controller. Change that code
 @window.makeKeyAndVisible
 ------------------
 
-Now, implement the method:
+Now, implement the *appTabBarController* method:
 
 [source, ruby]
 ------------------
@@ -110,7 +111,7 @@ def appTabBarController
 end
 -----------------      
 
-A *UITabBarController* needs an array of UIViewControllers. Each one of them will became a Tab in the *UITabBar*. This Controller will render a *UITabBar* in the bottom of the screen of 44 pixels in heigth. For each UIViewController will put a tab, that is actually a *UITabBarItem*. The Tab Bar Controller will use the *title* property of the UIViewController as the name of the tab.
+A *UITabBarController* needs an array of UIViewControllers. Each one of them will became a Tab in the *UITabBar*. This controller will render a *UITabBar* in the bottom of the screen of 44 pixels of height. For each UIViewController it will put a tab, that is actually a *UITabBarItem*. The Tab Bar Controller will use the *title* property of the UIViewController as the name of the tab.
 
 Run the app, you will see 3 tabs each one labeled with the title of its UIViewController:
 
@@ -118,13 +119,13 @@ Run the app, you will see 3 tabs each one labeled with the title of its UIViewCo
 image:Resources/ch11-ViewControllers/ch11_02_basic_tabbar.png[Chapter 11 basic tab bar]
 
 
-This the most basic tab bar that you can build. But we will customize it to make it look better.
+This is the most basic tab bar that you can build. But we will customize it to make it look better.
 
 
 Customizing the UITabBar
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-Our designer has made a custom tab bar background, you can see it in the resources folder with the name *bgTabBar*. We are going to add it as a custom background for our TabBar:
+Our designer has made a custom tab bar background, you can see it in the resources folder with the name *bgTabBar.png*. We are going to add it as a custom background for our TabBar. Open the AppDelegate class and modify the *appTabBarController*:
 
 
 [source, ruby]
@@ -152,7 +153,7 @@ Customizing the UITabBarItems
 
 The designer has also made some cool icons for our tabs, we are going to add them to the tab bar.
 
-As we have said, the *tabs* are instance of *UITabBarItem*. Each UIViewController has a property called *tabBarItem*. We can easilly create our own. Let's try it with the Calendar View Controller.
+As we have said, the *tabs* are instance of *UITabBarItem*. Each UIViewController has a property called *tabBarItem*. We can easily create our own. Let's try it with the Calendar View Controller.
 
 Open the *calendar_view_controller.rb* file and add this code:
 
@@ -187,13 +188,13 @@ class CalendarViewController < UIViewController
 end  
 ----------------------
 
-In the *setupTabBarItem* we are creating a UITabVarItem and passing and empty title and a UIImage with our icon. Run the app:
+In the *setupTabBarItem* we are creating a UITabBarItem and passing and empty title and a UIImage with our icon. Run the app:
 
 image:Resources/ch11-ViewControllers/ch11_04_gray_tabitem.png[Chapter 11 gray tab bar item]
 
 What happened? The icon is blueish. The UITabBarItem, by default, will put all the images that you passed with a blue gradient, discarding the color information of the image and using the alpha channel (transparency) information to know where to apply the gradient. This is enough for basic apps but we want our shinny custom icons with its full color. 
 
-To do this, we should use a new method added in iOS5, type:
+To do this, we should use a new method added in iOS5, type in the *setupTabBarItem* method:
 
 
 [source, ruby]
@@ -207,7 +208,7 @@ def setupTabBarItem
 end       
 ---------------------
 
-As you can see, we are passing a nill image in the Initializer, but then we are setting the *FinishedSelectedImage* and the *FinishedUnselectedImage*. Run the app:
+As you can see, we are passing a *nil* image in the Initializer, but then we are setting the *FinishedSelectedImage* and the *FinishedUnselectedImage*. Run the app:
 
 image:Resources/ch11-ViewControllers/ch11_05_calendar_icon.png[Chapter 11 calendar icon]
 
@@ -280,7 +281,7 @@ image:Resources/ch11-ViewControllers/ch11_06_all_icons.png[Chapter 11 all icons]
 The UIViewController lifecycle
 ----------------------------
 
-We have reviewed the lifecycle of view controllers, but now lets watch it in action. We are going to use our CalendarViewController as a playground for this.
+We have reviewed the lifecycle of view controllers, but now lets watch it in action. We are going to use our *CalendarViewController* as a playground for this. Open that class.
 
 First, lets add a *UITextView*. This component allows to have multiline texts on your screen, moreover, it adds a Scroll to the text if the text goes beyond the bounds of the component.
 
@@ -306,7 +307,7 @@ We are setting the *editable* property to false, because by default this control
 
 image:Resources/ch11-ViewControllers/ch11_07_text_view.png[Chapter 11 text view]
 
-Now let's add some other methods:
+Now let's add some other methods on the same controller:
 
 [source, ruby]
 ------------------------
@@ -350,15 +351,15 @@ Now if you change the tab and then come back to the Calendar section, you should
 
 image:Resources/ch11-ViewControllers/ch11_09_after_tab_log.png[Chapter 11 initial log]
 
-As you can see the methods *viewWillDissapear* and *viewDidDissapear* were called when you change tge tab. When you return, the *viewWillAppear* and *viewDidAppear* methods were called again, but the *viewDidLoad* method was never called.
+As you can see the methods *viewWillDissapear* and *viewDidDissapear* were called when you change the tab. When you return, the *viewWillAppear* and *viewDidAppear* methods were called again, but the *viewDidLoad* method was never called.
 
 What can we learn from this?
 
-- The viewDidLoad method is only called once, after the view is loaded into memory. You can use this method to intialize elements that depend of the *view*, such as subviews.
+- The viewDidLoad method is only called once, after the view is loaded into memory. You can use this method to initialize elements that depend o the *view*, such as subviews.
 - the viewWillAppear method is called before the UIView is rendered, you can use this method to initialize values that need to be refreshed every time the view will be rendered, such as our "days left until next meeting" view that we have in the next event view controller.
 - the viewDidAppear method is called once the UIView was rendered. You can use this method to setup logic that required that the user is actually viewing the view, such as starting animations in that view.
-- the viewWillDissapear method is called just before the view dissapears from the screen. You can use it to do logic that require that view is rendered and make no sense to leave it running, such as stoping animations.
-- the viewDidDissapear method is called after the view dissapeared from the screen.
+- the viewWillDissapear method is called just before the view disappears from the screen. You can use it to do logic that require that view is rendered and make no sense to leave it running, such as stoping animations.
+- the viewDidDissapear method is called after the view disappeared from the screen.
 
 Challenge
 --------
