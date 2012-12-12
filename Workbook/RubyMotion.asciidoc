@@ -60,6 +60,8 @@ include::ch22-Settings.asciidoc[]
 
 include::ch23-WebServices.asciidoc[]
 
+include::ch24-CoreData.asciidoc[]
+
 include::ch25-ThirdPartyLibraries.asciidoc[]
 
 include::ch26-Concurrency.asciidoc[]
