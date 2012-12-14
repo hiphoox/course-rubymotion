@@ -5,6 +5,4 @@ require 'motion/project'
 Motion::Project::App.setup do |app|
   # Use `rake config' to see complete project settings.
   app.name = 'PhotoAlbum'
-  app.provisioning_profile = 'resources/D522C5E1-6575-496D-A8B6-92F4F34ACE2A.mobileprovision'
-  app.codesign_certificate = 'M7999THS8Q' 
 end

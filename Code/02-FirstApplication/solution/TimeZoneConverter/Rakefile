@@ -4,14 +4,5 @@ require 'motion/project'
 
 Motion::Project::App.setup do |app|
   # Use `rake config' to see complete project settings.
-
-  #xcode_dir = '/Applications/Xcode.app/Contents/Developer'
-
   app.name = 'TimeZoneConverter'
-
-  #app.codesign_certificate = 'iPhone Developer: Misael Pérez Chamorro (M7999THS8Q)'
-  
-  #app.provisioning_profile = 'app/ACB95B50-41E1-4FAD-ACA2-EA619012414F.mobileprovision'
-
-  
 end

@@ -6,6 +6,5 @@ Motion::Project::App.setup do |app|
   # Use `rake config' to see complete project settings.
   app.name = 'Cocoaheads'
   app.frameworks = ['CoreLocation', 'MapKit']
-  app.provisioning_profile = "/Users/ecamacho/Library/MobileDevice/Provisioning Profiles/1B0B3A8B-4C5A-4F96-8823-65F3D9AE21E0.mobileprovision"
 end
 
