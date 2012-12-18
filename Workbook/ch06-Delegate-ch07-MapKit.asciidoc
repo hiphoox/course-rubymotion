@@ -274,7 +274,6 @@ Open the *EventMapViewController* class and add this method that creates an inst
 [source, ruby]
 ---------------
 def annotationForEvent
-
   EventAnnotation.alloc.initWithCoordinate(@event.location, title:@event.name, andSubTitle:@event.address)
 end
 --------------
@@ -283,6 +282,7 @@ In the *viewDidLoad* method, add the annotation to the map:
 
 [source, ruby]
 --------------------
+annotation = annotationForEvent 
 @map_view_for_event.addAnnotation(annotation)
 -------------------
 
