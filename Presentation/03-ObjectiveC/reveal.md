@@ -289,10 +289,10 @@ In ***RubyMotion*** these constants are accesible with the first letter as upper
 In Objective-C
 
     // In Constants.h:
-    extern NSString const *kItemCode;
+    extern NSString *const kItemCode;
 
     // Elsewhere, but only one place (Constants.m perhaps):
-    NSString const *kItemCode = @"keyItemCode";
+    NSString *const kItemCode = @"keyItemCode";
 
 In Ruby
 
@@ -353,7 +353,7 @@ Make it work. Define methods. <b>implementation (.m)</b> file.
 <slide>
 ## Protocols
         
-A <b>protocol</b> is a contract. It is a promise to the compiler that a given class will implement an given <b>interface</b>. 
+A <b>protocol</b> is a contract. It is a promise to the compiler that a given class will implement a given <b>interface</b>. 
         
     @protocol EspressoMachineDelegate <NSObject>
     // This protocol inherits from NSObject. Delegate class

@@ -78,7 +78,7 @@ Any related headers or resources are put into a directory with the library (imag
 "Don't call us, we'll call you."
 <b>Callbacks</b> are methods or functions that are invoked when something happens.
 
-As RubyMotion programmer you will deal with three types of callbacks:
+As a RubyMotion programmer you will deal with three types of callbacks:
 
 + Target-action
 + Delegates 
@@ -209,16 +209,12 @@ Sometimes you will need to overwrite the Objective-C initializers from Ruby
 
     # This is now the designated initializer
     def initWithName(name)
-      if super.init     // You must call the superclass's designated initializer 
+      if init     # You must call the designated initializer 
         self.setName(name)
       end
-      self
+      self        # You must return self from an initializer
     end      
 
-    # Any other method must call the designated initializer 
-    def init
-      self.initWithName("Default Name")
-    end   
 
 </slide>
 

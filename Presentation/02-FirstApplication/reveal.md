@@ -59,8 +59,6 @@
 <slide>
 ## Running the App
 
-You can use: sessions and repl() methods to interact with objects
-
 ![Simulator](run.jpeg "Simulator") 
 
 </slide>
@@ -85,6 +83,14 @@ You can use: sessions and repl() methods to interact with objects
 ## Deploying an Application
 
 The rake task ***archive:distribution*** will create a binary ready for distribution
+
+What do you need?
+
+* Apple Certificate
+* Developer Certificate
+* App ID
+* Device ID
+* Profile
 
 </slide>
 
