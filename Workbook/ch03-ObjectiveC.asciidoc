@@ -354,6 +354,19 @@ This time, if we run the application you should see the following in your simula
 .Project View with Custom Segmented Controls
 image::resources/ch03-ObjectiveC/ProjectViewWithCustomSegmentedControls.png[Project View with Custom Segmented Controls]
 
+If you select the Number of Screens UITextField you will notice that the keyboard does not hide when the return button is touched. To make this happen we need resign the UITextField as the first responder:
+
+[source, ruby]
+--------------
+# UITextField delegate
+
+def textFieldShouldReturn(textfield) 
+  textfield.resignFirstResponder  
+  return trueend
+--------------
+
+The **textFieldShouldReturn** method is called when the user selects the **return** button in the keyboard. Now if you run the app the keyboard should disappear
+
 
 Project Model
 ~~~~~~~~~~~~~
