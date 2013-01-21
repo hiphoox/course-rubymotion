@@ -20,11 +20,11 @@ body {
 }
 
 a {
-  color: #880009;
+  color: #666666;
   text-decoration: underline;
 }
 a:visited {
-  color: fuchsia;
+  color: #880009;
 }
 
 em {
@@ -345,7 +345,7 @@ div.colist td img {
 }
 
 #toctitle {
-  color: #527bbd;
+  color: #880009;
   font-size: 1.1em;
   font-weight: bold;
   margin-top: 1.0em;

@@ -365,7 +365,7 @@ def textFieldShouldReturn(textfield) 
   return trueend
 --------------
 
-The **textFieldShouldReturn** method is called when the user selects the **return** button in the keyboard. Now if you run the app the keyboard should disappear
+The **textFieldShouldReturn** method is called when the user selects the **return** button in the keyboard. So if you run the app the keyboard should hide properly. 
 
 
 Project Model
@@ -873,11 +873,11 @@ def bind_project(project)
 
   #Using an NSString we set the text into the label, when we are using %@ we tell the object
   #to print it description as a string
-  @total_effort_value_label.text = NSString.stringWithFormat("%@", project.total_effort) 
+  @total_effort_value_label.text = "#{project.total_effort}" 
   
-  @variation_value_label.text = NSString.stringWithFormat("%@", project.variation)
+  @variation_value_label.text = "#{project.variation}"
 
-  @delivery_year_value_label.text = NSString.stringWithFormat("%@", project.delivery_year)
+  @delivery_year_value_label.text = "#{project.delivery_year}"
 end
 
 ---------------

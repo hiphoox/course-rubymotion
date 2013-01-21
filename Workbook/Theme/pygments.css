@@ -1,7 +1,7 @@
 /* 
   pygmentize filter
 */
-.highlight .hll { background-color: #8e908c; color:#ffd27e; font-family: Inconsolata; }
+.highlight .hll { border-left:solid 7px #880009; font-size:100%; font-family:Inconsolata; color:#4d4d4c; }
 .highlight  { background: #f4f4f4; font-family: Inconsolata; }
 .highlight .c { color: #8e908c; font-style: italic; font-family: Inconsolata; } /* Comment */
 .highlight .err { border: 1px solid #FF0000; font-family: Inconsolata; } /* Error */
