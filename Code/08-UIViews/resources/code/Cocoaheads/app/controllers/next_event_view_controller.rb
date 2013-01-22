@@ -88,7 +88,7 @@ class NextEventViewController < UIViewController
   def buttonToChangeDaysLeft
     change_days_left_button = UIButton.buttonWithType(UIButtonTypeCustom)    
     change_days_left_button.frame = [[15, 420], [295, 40]]
-    change_days_left_button.setTitle("Increase days left", forState:UIControlStateNormal)   
+    change_days_left_button.setTitle("Change days left", forState:UIControlStateNormal)   
     change_days_left_button.setBackgroundImage( UIImage.imageNamed("btnBrown"), forState:UIControlStateNormal) 
     change_days_left_button.addTarget(self, action:'change_days_left', forControlEvents:UIControlEventTouchUpInside)
     change_days_left_button

@@ -3,7 +3,7 @@ Chapter 06 - Delegate & Chapter 07 - MapKit
 
 The basis of many apps are the Location Services, that help to exploit the location capabilities of the devices and the ability to use maps. We will review in this chapter how to use these two features of CocoaTouch to improve our CocoaHeads app.
 
-Our app needs to show the location of the events in a map. We will add this feature on this chapter. We will also show you how to retrieve the current location of the device user a *CoreLocationManager*.
+Our app needs to show the location of the events in a map. We will add this feature on this chapter. We will also show you how to retrieve the current location of the device using a *CoreLocationManager*.
 
 
 Preparing the app
@@ -45,7 +45,8 @@ if (CLLocationManager.locationServicesEnabled)
   #Play with other possible values: KCLLocationAccuracyBest, KCLLocationAccuracyHundredMeters, etc.
   @location_manager.desiredAccuracy = KCLLocationAccuracyKilometer
   
-  #Set the current view controller as the delegate of the Location Manager, the location manager will notify of any changes in the location.
+  #Set the current view controller as the delegate of the Location Manager, 
+  #the location manager will notify of any changes in the location.
   @location_manager.delegate = self
 
   @location_manager.purpose = "To provide functionality based on user's current location" 
@@ -66,7 +67,7 @@ Then, we create our CLLocationManager. The first thing we set, is the *desiredAc
 @location_manager.desiredAccuracy = KCLLocationAccuracyKilometer
 ------------------------
 
-*CLLocationManager* supports a wide range of accuracies. This property specifies which method will be used to determine the current device location. By instance, an accuracy set to *KCLLocationAccuracyBest* will prompt iOS to use the GPS to determine the location and thus will spent more battery. Wheter an accuracy set to KCLLocationAccuracyKilometer will be more conservative in the use of the device's resourcers.
+*CLLocationManager* supports a wide range of accuracies. This property specifies which method will be used to determine the current device location. By instance, an accuracy set to *KCLLocationAccuracyBest* will prompt iOS to use the GPS to determine the location and thus will spent more battery. Wheter an accuracy set to KCLLocationAccuracyKilometer will be more conservative in the use of the device's resources.
 
 Remember that an iOS device can use up to 3 ways to determine its location:
 
@@ -74,7 +75,7 @@ Remember that an iOS device can use up to 3 ways to determine its location:
 - Cell towers triangulation. For devices with GSM/LTE.
 - WiFi hotspots.
 
-The accuracy goes from best to worse in that order. You should choose carefully the desired accuracy according to your app functionality. An *KCLLocationAccuracyBest* accuracy is best suited to navigation apps or running apps where you need the best possible value for the current location. In the other hand, an app such as the Cocoaheads apps can work with an accuracy of *KCLLocationAccuracyKilometer*. We only need to know if the user is close to the meeting venue.
+The accuracy goes from best to worse in that order. You should choose carefully the desired accuracy according to your app functionality. A *KCLLocationAccuracyBest* accuracy is best suited to navigation apps or running apps where you need the best possible value for the current location. On the other hand, an app such as the Cocoaheads apps can work with an accuracy of *KCLLocationAccuracyKilometer*. We only need to know if the user is close to the meeting venue.
 
 Next, we set the View Controller as a delegate to the location manager:
 
@@ -141,18 +142,25 @@ end
 ------------------------------------------------------
 
 
-As you can see, there is nothing special about creating a *MKMapView* You just used the old *initWithFrame*. The second line, though, is more interesting. In that we specify the type of map we want to render. *MKMapView* supports three types of maps:
+As you can see, there is nothing special about creating a *MKMapView* You just use the old *initWithFrame* initializer method. The second line, though, is more interesting. In that we specify the type of map we want to render. *MKMapView* supports three types of maps:
 
 - MKMapTypeStandard. Displays a street map that shows the position of all roads and some road names.
 - MKMapTypeSatellite. Displays satellite imagery of the area.
 - MKMapTypeHybrid. Displays a satellite image of the area with road and road name information layered on top.
 
-Finally, add the map view to the main view in the *viewDidLoad* method:
+Look at the *viewDidLoad* method of our *event_detail_view_controller* you will see that we are already calling the *mapViewForEvent* method and assigning the result in an instance variable:
 
 [source, ruby]
 ----------------------
-self.view.addSubview( mapViewForEvent )
-------------------
+@map_view_for_event = mapViewForEvent
+----------------------
+
+Now we need add the map view to the main view in the *viewDidLoad* method add this line:
+
+[source, ruby]
+----------------------
+self.view.addSubview( @map_view_for_event )
+----------------------
 
 Run your app, you should see a small map view in the middle
 
@@ -279,6 +287,14 @@ def annotationForEvent
   EventAnnotation.alloc.initWithCoordinate(@event.location, title:@event.name, andSubTitle:@event.address)
 end
 --------------
+
+
+
+
+
+
+
+
 
 In the *viewDidLoad* method, add the annotation to the map:
 

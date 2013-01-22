@@ -3,11 +3,11 @@ Chapter 09 - Testing
 
 Testing is a fundamental part of any application, and it is also a hard task for developers. However, RubyMotion provides us with one tool that will ease the task of testing our apps: *MacBacon*, a special flavour of the Ruby tool *Bacon* prepared to test iOS apps.
 
-In this chapter we will add automated tests to the Cocoaheads app. You will learn how to test isolated logic and how to automate UI tests.
+In this chapter we will add automated tests for the Cocoaheads app. You will learn how to test isolated logic and how to automate UI tests.
 
 App Setup
 ---------
-Before we being testing our app, we actually need an app. Open the folder 09-Testing/resources/code. We have placed a version of the CocoaHeads app ready to be tested.. Run the app with the command
+Before we begin testing our app, we actually need an app. Open the folder 09-Testing/resources/code. We have placed a version of the CocoaHeads app ready to be tested.. Run the app with the command
 
 [source, sh]
 ------------
@@ -25,20 +25,20 @@ We have added an extra functionality to the app, if you tap the *Book Event* but
 image::Resources/ch09-Testing/ch09_02_book_event.png[Book Event]
 
 
-Besides that, we have added a method to the *event.rb* model class. Open that file and locate the method called *days_left_until:* that gives you the number of dates until a future date. If the date is not a future date but is in the past, it will return a 0. This method will be used to paint the correct days left in our Custom View we did in the previous workshop.
+Besides that, we have added a method to the *event.rb* model class. Open that file and locate the method called *days_left_until:* that gives you the number of days until a future date. If the date is not a future date but is in the past, it will return a 0. This method will be used to paint the correct days left in our Custom View we did in the previous workshop.
 
-You can check how we are calculating the number of days between two dates in the *days_between:and:* method. We are using the *NSDateComponents* class. That class, is the one we used in CocoaTouch to make *NSDate* operations. Remember that the traditional Ruby class *Time* inherits from NSDate so we can use it in its place.
+You can check how we are calculating the number of days between two dates in the *days_between:and:* method. We are using the *NSDateComponents* class. That class is the one we used in CocoaTouch to make *NSDate* operations. Remember that the traditional Ruby class *Time* inherits from NSDate so we can use it in its place.
 
 
 Functional Testing
 ~~~~~~~~~~~~~~~~~~ 
-The first thing we are going to test is this *days_left_until:* method. We want to be sure that it works in these three cases:
+The first thing we are going to test is the *days_left_until:* method. We want to be sure that it works in these three cases:
 
 - When given a future date, it calculates accurately the number of days until that date.
 - When given the current date, it returns a 0.
-- When given a past date, it returns a 0 (we don't want negative number in our view).
+- When given a past date, it returns a 0 (we don't want negative numbers in our view).
 
-The first step is to create a *Spec* for our *Event* class. In the Cocoaheads folder, there is a *spec* folder, open it and create a folder named *models* and inside a file named *event_spec.rb*
+The first step is to create a *Spec* for our *Event* class. In the Cocoaheads folder, create a folder named *spec*. It should be placed at the same level of the *app* folder. Open it and create a folder named *models* and inside a file named *event_spec.rb*
 
 To define the Spec, write this lines:
 
@@ -49,7 +49,7 @@ describe "Event" do
 end
 --------------
 
-*"Event"* is the class that you want to test. Next, we'll create some constants of the values we are going to use for our tests, and to initialize our *Event* instance:
+*"Event"* is the class that you want to test. Next, we'll create some constants of the values we are going to use for our tests and to initialize our *Event* instance:
 
 [source, ruby]
 --------------
@@ -169,7 +169,7 @@ end
 
 We are creating our own *UIWindow* only if we are not testing the app, in that case MacBacon will handle that. 
 
-So, what do we want to test? Our *Book Event* button. Our first step is to actually verify that the button exists, our *event_detail_view_controller_spec.rb* file write the following spec:
+So, what do we want to test? The *Book Event* button. Our first step is to actually verify that the button exists, open the *event_detail_view_controller_spec.rb* file and write the following spec:
 
 
 [source, ruby]
@@ -212,7 +212,7 @@ end
 
 We are using the method *tap* to tap our button. MacBacon has methods to apply all the standard CocoaTouch gestures to UIViews, such as pinch, zoom, drag, etc. You can review how to use each of them in the http://www.rubymotion.com/developer-center/articles/testing/#_view_events[online documentation.] Then we evaluate the title and the *isEnabled* property to check if the state of the *UIButton* changed.
 
-Run your example and this time, because of the 2 seconds wait, you should see how the title changed in the button:
+Run your example and this time, because of the 2 seconds wait, you should see how the title changed in the button. You may be prompted to allow the Location services in this app the first time you run the test, in that case, select "Accept" and then run it again.
 
 .UI Spec Passed
 image::Resources/ch09-Testing/ch09_05_ui_running.png[UI spec passed]

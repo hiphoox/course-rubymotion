@@ -104,7 +104,7 @@ to test the application, you will see a white screen. And in the console you wil
 [source, sh]
 ------
 "Initializing NextEventViewController"
-"viewDidLoad"
+"loading view"
 (main)> 
 ------
 
@@ -268,7 +268,7 @@ class NextEventViewController < UIViewController
 -----------------
 
 
-When you keep *UIView*s in instance variables, it is recommended to set this variables to *nil* inside the *viewDidUnload* method. Prior to iOS 6, this method was invoked when the device was running out of memory. Then, we are freeing the memory allocated for the UILabels for low memory scenarios.
+When you keep *UIViews* in instance variables, it is recommended to set this variables to *nil* inside the *viewDidUnload* method. Prior to iOS 6, this method was invoked when the device was running out of memory. Then, we are freeing the memory allocated for the UILabels for low memory scenarios.
 
 Run your app and you should see that the labels appeared with the data for the next Cocoaheads event:
 
