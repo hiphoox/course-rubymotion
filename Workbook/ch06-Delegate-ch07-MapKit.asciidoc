@@ -9,7 +9,9 @@ Our app needs to show the location of the events in a map. We will add this feat
 Preparing the app
 -----------------
 
-Open the folder *07-MapKit/resources/code* you will find a folder named *Cocoaheads* with the app as we finished in the Chapter 05. From the command line, run it with the *rake* command. You will see the main screen with the details of an event:
+In the last chapter, you learnt the basics for building *UIViewControllers* and their related *UIViews* using RubyMotion. In this chapter we are going to focus in covering how to use the localization features of CocoaTouch as well as the Maps.
+
+We have started the project for you, building empty UIViewControllers to which we are going to add functionality. Open the folder *07-MapKit/resources/code* you will find a folder named *Cocoaheads* with the app. From the command line, run it with the *rake* command. You will see the main screen with the details of an event:
 
 image:Resources/ch06-Delegate-ch07-MapKit/ch07_01_app.png[Chapter 7 app]
 
