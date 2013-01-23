@@ -2,10 +2,10 @@ Chapter 10 - Interface Builder
 ============================
 
 
-In this workshop, you are going to learn how to use the Interface Builder, the tool to build User Interfaces without coding them from Apple. This tool is integrated in Xcode, the IDE to buils iOS apps using Objective-C. However, you can use it in your RubyMotion projects.  
+In this workshop, you are going to learn how to use the Interface Builder, the tool to build User Interfaces without coding them from Apple. This tool is integrated in Xcode, the IDE used to build iOS apps using Objective-C. However, you can use it in your RubyMotion projects.  
 
 
-In previous chapter we have been programmatically creating our views, suchs as buttons or even maps. The Interface Builder will allow us to separate the task of building visual components to specialized files called *nib* files. 
+In the previous chapters we have been programmatically creating our views, suchs as buttons or even maps. The Interface Builder will allow us to separate the task of building visual components to specialized files called *nib* files. 
 
 
 Setting up the app
@@ -56,10 +56,10 @@ In the right side panel we have two main sections:
 - Placeholders
 - Objects
 
-In the center panel, we have our view. In the left side panel we have on the top section the *Inspectors*
+In the center panel, we have our view. In the right side panel we have two main sections:
 
 - *Inspectors* We use them to modify the attributes of the view selected in the left panel's sections.
-- The Libraries. We use them to select CocoaTouch components, Objects, etc and drag them into our view.
+- *Libraries*. We use them to select CocoaTouch components, Objects, etc. and drag them into our view.
 
 image:Resources/ch10-InterfaceBuilder/ch10_05_xcode.png[Chapter 10 xcode]
 
@@ -69,11 +69,11 @@ image:Resources/ch10-InterfaceBuilder/ch10_06_identity.png[Chapter 10 identity]
 
 You will notice that this object is a *RBMViewController* a UIViewController subclass that Xcode has created for us. You already know that a UIViewController needs to create its own view, we've been doing this task in the *loadView* method. When you use InterfaceBuilder the view is created inside the Xib file and you link it to the *File's owner* that should be a UIViewController.
 
-Because this *Xib* was created by the Xcode template, it already has this links defined. Ctrl + click in the File's Owner object and you will see the its list of *Outlets*
+Because this *Xib* was created by the Xcode template, it already has this link defined. Ctrl + click in the File's Owner object and you will see the its list of *Outlets*
 
 image:Resources/ch10-InterfaceBuilder/ch10_07_outlets.png[Chapter 10 outlets]
 
-The outlets are the variables of an object that an be bound to a component created in the Interface Builder. Select the one named *view* and you will see that the UIView is highligthed. The UIViewController has bound its *view* variable to the UIView created in the Editor.
+The outlets are the variables of an object that can be bound to a component created in the Interface Builder. Select the one named *view* and you will see that the UIView is highligthed. The UIViewController has bound its *view* variable to the UIView created in the Editor.
 
 Let's start creating our Sign-in view. First, we are going to modify the size of the UIView. Select the View in the *Objects* panel. Now in the *Inspectors* panel select the *Attributes* inspector: the fourth tab. You will notice that Xcode set the size for the iPhone 5's 4" screen. Change it to a standard 3.5":
 
@@ -86,7 +86,7 @@ Now choose the first tab, the *Identity* tab and unselect the *Use AutoLayout* o
 image:Resources/ch10-InterfaceBuilder/ch10_09_autolayout.png[Chapter 10 autolayout]
 
 
-Lets start creating our view. As you may recall, the views of our Cocoaheads app has an header image with this Cocoa-like texture and below a red gradient background image. We are going to start by creating this objects.
+Lets start creating our view. As you may recall, the views of our Cocoaheads app have a header image with a Cocoa-like texture and below a red gradient background image. We are going to start by creating these objects.
 
 In the right panel, go to the bottom panel and select the *Objects* tab, the third one:
 
@@ -94,7 +94,7 @@ In the right panel, go to the bottom panel and select the *Objects* tab, the thi
 image:Resources/ch10-InterfaceBuilder/ch10_10_objects_panel.png[Chapter 10 objects panel]
 
 
-In the search field type type UIImageView, the objects will be filtered according to that criteria and only a UIImageView object will appear:
+In the search field type *UIImageView*, the objects will be filtered according to that criteria and only a UIImageView object will appear:
 
 image:Resources/ch10-InterfaceBuilder/ch10_11_imageview.png[Chapter 10 image view filter]
 
@@ -150,7 +150,7 @@ The next step is to add our Sign In button. Drag another Round Rect Button into 
 image:Resources/ch10-InterfaceBuilder/ch10_17_button_font.png[Chapter 10 button font]
 
 
-The frame of the button should be x:25, y:396 and the size should have width:270, height:44. Your UIView should look like
+The frame of the button should be x:25, y:396 and the size should have width:270, height:44. Your UIView should look like this:
 
 image:Resources/ch10-InterfaceBuilder/ch10_18_view_design.png[Chapter 10 view design]
 
@@ -167,7 +167,7 @@ Select the UIImageView in the *Objects* section and in the Inspectors select the
 image:Resources/ch10-InterfaceBuilder/ch10_19_tag.png[Chapter 10 tag attribute]
 
 
-Do the same for all objects with using these numbers as its tags:
+Do the same for all the other objects using these numbers as its tags:
 
 - Background Image View: 2
 - Close button: 3
@@ -277,7 +277,7 @@ The first thing you should notice is that we are using the method
 self.view.viewWithTag(EMAIL_TEXTFIELD_TAG)  
 ----------------------------------
 
-To retrieve a subview of self.view based on its tag. Next, we are doing some additional setup. For instance, we are setting the background image to our image view:
+To retrieve a subview from self.view based on its tag. Next, we are doing some additional setup. For instance, we are setting the background image to our image view:
 
 [source, ruby]
 -------------------------------
@@ -305,9 +305,9 @@ def sign_in(button)
 end
 --------------------------------
 
-We are creating the View Controller with an initializer called *initWithNibName:bundle* that receives as a parameter the new of the Nib file with the view of the View Controller. This initializer has the responsibility of instantiate the Nib file, and wire the View declared in there to the view property of the View Controller. Exactly what we used to do by hand in the *loadView* method.
+We are creating the View Controller with an initializer called *initWithNibName:bundle* that receives as a parameter the new of the Nib file that has the view of the View Controller. This initializer has the responsibility of instantiate the Nib file and wire the View declared there to the view property of the View Controller. Exactly what we used to do by hand in the *loadView* method.
 
-The *presentModalViewController* method shows the view of the controller passed as an arguments, as a modal view with an animation from the bottom of the screen. 
+The *presentModalViewController* method shows the view of the controller passed as an argument, as a modal view with an animation appearing from the bottom to the top of the screen. 
 
 Run the app and tap in the *Sign in* button.
 
@@ -369,7 +369,7 @@ dismissModalViewControllerAnimated:
 
 This method is used to close modal views, such as this sign in view.
 
-For the sign in, we are validating that the user input some data in both text fields. 
+For the sign in, we are validating that the user input some data in both text fields using the *isFormValid* method. 
 
 Another interesting method is *textFieldShouldReturn:* Before we explain what it does, run the example. Type an email and a password. As you can see, the keyboard is hiding the "Sign In" Button:
 
@@ -381,21 +381,21 @@ When you press the *Return* button in the keyboard, the keyboard is hidden. That
 Creating the Sign Up View
 ------------------------
 
-Now let's create our SignUp View. Back to the Xcode project select in the Main Menu: File -> New -> File. In the Template Dialog, choose iOS User Interface in the left panel and View in the Main Panel:
+Now let's create our SignUp View. Go back to the Xcode project. Select in the Main Menu: File -> New -> File. In the Template Dialog, choose iOS User Interface in the left panel and View in the Main Panel:
 
 image:Resources/ch10-InterfaceBuilder/ch10_22_new_file_dialog.png[Chapter 10 new file dialog]
 
-Type *SignUpView.xib* as the file name. In the Interface Builder, change the Size of the View in the *Attributes* Inspector tap to be 
+Type *SignUpView.xib* as the file name. In the Interface Builder, change the Size of the View in the *Attributes* Inspector tab to  
 *Retina 3.5 Full Screen* and in the *File* Inspector unselect the *Use AutoLayout* option.
 
 
 - Add an UIImageView for the header with a *tag* of 1 and a frame of x:0, y:0, width:320, height:64
-- Add an UIImageView to the view that cover the full screen with a *tag* of 2 and a frame of x:0, y:64, width:320, height:396
+- Add an UIImageView to the view with a *tag* of 2 and a frame of x:0, y:64, width:320, height:396
 - Add a Round Rect Button. Set its type to Custom and its title to blank. Set its frame to x:14, y:10, width:56, height:41. Set its *tag* to 3. 
-- Add a uitextfield with the placeholder set to *email*, its border set to No border. Its frame should be of x:20, y:94, width:289, height:44. Set its *tag* to 4 and its keyboard to *email adreess*.
-- Add a uitextfield with the placeholder set to *name*, its border set to No border. Its frame set to x:20, y:159, width:289, height:44. Set its *tag* to 5.
-- Add a uitextfield with the placeholder set to *password*, its border set to No border. Set its frame to x:20, y:224, width:289, height:44. Set its *Secure* attribute to true in the *Attributes* inspector. Set its *tag* to 6.
-- Add a Round Rect Button. Set its type to Custom, its title to *Register*, its font to Helvetica Neue Medium 18 and its text color to white. Its frame should be x:25, y:396, width:270 and height:44.Set its *tag* to 7.
+- Add a UITextField with the placeholder set to *email*, its border set to No border. Its frame should be of x:20, y:94, width:289, height:44. Set its *tag* to 4 and its keyboard to *email adreess*.
+- Add a UITextField with the placeholder set to *name*, its border set to No border. Its frame set to x:20, y:159, width:289, height:44. Set its *tag* to 5.
+- Add a UITextField with the placeholder set to *password*, its border set to No border. Set its frame to x:20, y:224, width:289, height:44. Set its *Secure* attribute to true in the *Attributes* inspector. Set its *tag* to 6.
+- Add a Round Rect Button. Set its type to Custom, its title to *Register*, its font to Helvetica Neue Medium 18 and its text color to white. Its frame should be x:25, y:396, width:270 and height:44. Assign it a *tag* with the number 7.
 
 Because we created this *Xib* file from the scratch, we have to set its *File's Owner*. Select the File's Owner in the left panel, then select the *Identity* tab in the Inspectors panel. In the Class field type *UIViewController*
 

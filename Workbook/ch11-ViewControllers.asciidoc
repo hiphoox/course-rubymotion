@@ -76,7 +76,7 @@ end
 Creating a basic Tab Bar Controller
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Now we can create our Tab Bar Controller. Open the *app_delegate.rb*, as you can see we are creating our NextEventViewController as assigning it to the *window* as its root controller:
+Now we can create our Tab Bar Controller. Open the *app_delegate.rb*, as you can see we are creating our NextEventViewController and assigning it to the *window* as its root controller:
 
 [source, ruby]
 -------------------
@@ -283,7 +283,7 @@ The UIViewController lifecycle
 
 We have reviewed the lifecycle of view controllers, but now lets watch it in action. We are going to use our *CalendarViewController* as a playground for this. Open that class.
 
-First, lets add a *UITextView*. This component allows to have multiline texts on your screen, moreover, it adds a Scroll to the text if the text goes beyond the bounds of the component.
+First, lets add a *UITextView*. This component allows you to have multiline texts on your screen, moreover, it adds a Scroll to the text if the text goes beyond the bounds of the component.
 
 [source, ruby]
 -------------------------

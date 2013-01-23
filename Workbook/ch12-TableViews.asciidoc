@@ -20,7 +20,7 @@ The easiest way to use a *UITableView* is to use a *UITableViewController*, thus
 Open the *news_view_controller.rb* file and the first thing we are going to do is to change the Parent class of the file:
 
 
-[source, ruby]
+["source","ruby", args="-O \"hl_lines=1\""]
 -----------------
 class NewsViewController < UITableViewController
 
@@ -46,10 +46,10 @@ end
 
 We also removed the *loadView* method. A UITableViewController creates its own view as a UITableView so we don't need to create it anymore. Finally, we change our code to use the initializer named *initWithStyle:* This is the initializer method used to create instances of UITableViewController.
 
-Now let's call this initializer from the *app_delegate.rb* change the *appTabBarController* method to this:
+Now let's call this initializer from the *app_delegate.rb*. Change the *appTabBarController* method to this:
 
 
-[source, ruby]
+["source","ruby", args="-O \"hl_lines=7\""]
 -------------------
 def appTabBarController
 
@@ -67,7 +67,7 @@ end
 UITableViews support two styles:
 
 - UITableViewStylePlain. A plain table view.
-- UITableViewStyleGrouped. A Table with sections in distinct group of rows. Like the ones you can find in the *Settings* app of an iPhone.
+- UITableViewStyleGrouped. A Table with sections in aggrouped in rows. Like the ones you can find in the *Settings* app of an iPhone.
 
 Run your app:
 
@@ -125,7 +125,7 @@ def self.news_mock_data
 end
 -----------------
 
-In the method *self.news_mock_data* we are loading a file called *news_mock.plist*. *plist* files, or Property list files, are are files that store serialized objects. Objective-C supports these files natively. Locate in the resources folder the news_mock.plist file, if you double click it to open it, you will see that the file is opened in Xcode. Xcode provides a UI to edit this kind of files:
+In the method *self.news_mock_data* we are loading a file called *news_mock.plist*. *plist* files, or Property list files, are are files that store serialized objects. Objective-C supports these files natively. Locate inside the resources folder the news_mock.plist file, if you double click it to open it, you will see that the file is opened in Xcode. Xcode provides a UI to edit this kind of files:
 
 image:Resources/ch12-TableViews/ch12_03_plist_editor.png[Chapter 12 plist editor]
 
@@ -153,7 +153,7 @@ def tableView(tableView, numberOfRowsInSection:section)
 end
 --------------------
 
-The content of the rows of a UITableView are called cells and should be subclasses of *UITableViewCell*. So what basically occurs is that the UITableView ask to its DataSource (our NewsViewController) how many rows we want in the table using the *tableView:numberOfRowsInSection:* method. Once we answer that question, starts to ask us for the cell for each one of the rows using this method:
+The content of the rows of a UITableView are called *cells* and should be subclasses of *UITableViewCell*. So what basically occurs is that the UITableView asks its DataSource (our NewsViewController) how many rows we want in the table using the *tableView:numberOfRowsInSection:* method. Once we answer that question, starts to ask us for the cell for each one of the rows using this method:
 
 
 [source, ruby]
@@ -235,7 +235,7 @@ end
 
 Using this *tableView:viewForHeaderInSection:* method, you can add any view as header. In this case we are adding an UIImageView with our header image, we are also setting the *userInteractionEnabled* to true because we will need that to add some buttons to that header later.
 
-To add a header is not enough we need to change the height of the header using this other method:
+To add a header is not enough, we need to change the height of the header implementing this other UITableViewDelegate method:
 
 
 [source, ruby]
@@ -300,7 +300,7 @@ end
 With this code we are creating our Delete and our Add buttons. Now lets add them to our header:
 
 
-[source, ruby]
+["source","ruby", args="-O \"hl_lines=6 7\""]
 ----------------------------
 def tableView(tableView, viewForHeaderInSection:section)
 
@@ -339,7 +339,7 @@ def delete_selected_cell
 end
 ------------------------
 
-First, we are retrieving the indexPath of the current selected cell. If there is actually a selected cell, we are removing the associated news_item from the array. You should be very careful doing this, when you remove cell from a Table View, the Table will ask again for the *tableView:numberOfRowsInSection:* method and it should reflect that are less number of rows than before the deletion.
+First, we are retrieving the indexPath of the current selected cell. If there is actually a selected cell, we remove the associated news_item from the array. You should be very careful doing this, when you remove cells from a Table View, the Table will ask again for the *tableView:numberOfRowsInSection:* method and it should reflect that are less number of rows than before the deletion.
 
 Then we are deleting the cell with *deleteRowsAtIndexPaths:withRowAnimation*. This is to have a smoother effect. After we remove the element from the *@news* array we could simple refresh the Table View with 
 
