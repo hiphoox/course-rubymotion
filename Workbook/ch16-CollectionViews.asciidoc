@@ -170,14 +170,6 @@ Form your Xcode select file>new>file select user interface and choose the empty 
 .Adding Custom Cell
 image::Resources/ch16-CollectionViews/image8.png[Adding Custom Cell]
 
-From Xcode we should set custom class to the UITableViewCell and Cell identifier, we can change this on the identity inspector, put the custom class as *MenuCell* finally in the attributes inspector set the reuse identifier as *MenuCellView*
-
-.Set Custom Class
-image::Resources/ch16-CollectionViews/customClass.png[Setting custom class]
-
-.Set Reusable Identifier
-image::Resources/ch16-CollectionViews/reuseID.png[Setting reuse identifier]
-
 Well now we need a class in ruby witch match the one that we set on the interface builder, inside your app folder create a file named *menu_cell.rb* and add the following code to it.
 
 [source, ruby]
@@ -225,6 +217,13 @@ Now it's time to add the missing elements, add an UIImageView that will serve as
 .Custom Cell
 image::Resources/ch16-CollectionViews/image11.png[Custom Cell]
 
+From Xcode we should set custom class to the UITableViewCell and Cell identifier, we can change this on the identity inspector, put the custom class as *MenuCell* finally in the attributes inspector set the reuse identifier as *MenuCellView*
+
+.Set Custom Class
+image::Resources/ch16-CollectionViews/customClass.png[Setting custom class]
+
+.Set Reusable Identifier
+image::Resources/ch16-CollectionViews/reuseID.png[Setting reuse identifier]
 
 Now we need to tell to the table view that use our custom cell instead of its own, for this propose we need to change the *tableView(tableView, cellForRowAtIndexPath:indexPath)* with the following code also we have to register this NIB file in the view load method
 
@@ -464,7 +463,8 @@ def loadView
 
   views = NSBundle.mainBundle.loadNibNamed "AlbumCollectionView", owner:self, options:nil
   #Assign the first View from the nib file
-  self.collectionView = views[0]                 
+  self.collectionView = views[0]
+  styleNavigationBar                 
 end
 
 
@@ -541,44 +541,6 @@ def loadFrameView
   #set the current section
   @selectedRows[0] = true
   @currentSection = 0
-end
-----------------------------------------------------------------
-
-Now modify the delegate method when a row is selected, for switch views
-
-[source, ruby]
-----------------------------------------------------------------
-def tableView tableView,didSelectRowAtIndexPath:indexPath  
-
-  #if we tap in the selected row do nothing
-  if @currentSection == indexPath.row
-
-    return
-  end
-
-  cell = tableView.cellForRowAtIndexPath indexPath
-  #customize selected cell
-  customizeSelectedCell(cell,indexPath)
-  
-#clean all previous cells
-  @selectedRows.each_key {|key| 
-    @selectedRows[key] = false 
-  }
-
-  if indexPath.row == 0
-
-    loadFrameView
-
-  elsif indexPath.row == 1
-
-    loadCollectionView 
-  end
-    
-  removePreviousLayer
-
-  #set selected cell
-  @selectedRows[indexPath.row] = true
-  tableView.reloadData
 end
 ----------------------------------------------------------------
 
@@ -677,22 +639,21 @@ Now we should continue with the data source methods
 #UICollectionView Datasource
 
 def collectionView(collectionView, numberOfItemsInSection:section)
-
   phothos.count
 end
 
 def numberOfSectionsInCollectionView(collectionView)
-
   1
+end
+
+def collectionView(collectionView, cellForItemAtIndexPath:indexPath)
+  cell = collectionView.dequeueReusableCellWithReuseIdentifier('PhotoCollectionCellView' ,forIndexPath:indexPath)
+  cell.customizeCollectionCell(phothos[indexPath.row])    
+  cell
 end
 ----------------------------------------------------------------
 
-Now run your application with the rake command, you should see four white cell's in the album section.
-
-.Collection View Cells
-image::Resources/ch16-CollectionViews/image16.png[Collection View Cells]
-
-Well we don't want that white cell's instead we want to show our photos, for this propose we can use a nib file, open your Xcode and in the menu select file>new>file select user interface and choose the empty template then click on next and chose iPhone family give the name "PhotoCollectionCellView" to the file and save it to your resources folder of your application. 
+We need a CollectionViewCell, for this propose we can use a nib file, open your Xcode and in the menu select file>new>file select user interface and choose the empty template then click on next and chose iPhone family give the name "PhotoCollectionCellView" to the file and save it to your resources folder of your application. 
 
 We should follow the same process as we did for UITableViewCell, set custom class to the UICollectionViewCell and Cell identifier, we can change this on the identity inspector, put the custom class as **CollectionViewCell** finally in the attributes inspector set the reuse identifier as **PhotoCollectionCellView** 
 
