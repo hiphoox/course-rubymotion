@@ -33,7 +33,7 @@ We have a directory in which store the preferences are saved, this directory is 
 tmp/
 ~~~~
 
-You have a directory where you can can store temporal dat during run time and you are responsible for erase it when you are done with it, also the operating system may purge dat when the application its not running. An important think to remember its that this information its not backed up, you get access to this directory using, the function *NSTemporaryDirectory*. 
+You have a directory where you can can store temporal data during run time and you are responsible for erase it when you are done with it, also the operating system may purge data when the application its not running. An important think to remember its that this information its not backed up, you get access to this directory using, the function *NSTemporaryDirectory*. 
 
 
 Documents/
@@ -144,6 +144,16 @@ def setSaveButton
   barButton = UIBarButtonItem.alloc.initWithCustomView(@savebuttonWithImage)
   
   self.navigationItem.rightBarButtonItem = barButton 
+end
+----------------------------------------------------------------
+
+Dont forget to call this method on your *viewDidLoad* method
+
+----------------------------------------------------------------
+def viewDidLoad
+  super()
+  self.view.backgroundColor = UIColor.colorWithPatternImage(UIImage.imageNamed("bgTile"))
+  setSaveButton
 end
 ----------------------------------------------------------------
 
