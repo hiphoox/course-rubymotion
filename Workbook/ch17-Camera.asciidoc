@@ -61,6 +61,18 @@ def bindGraphicElements
 end
 ----------------------------------------------------------------
 
+There is only one thing left, call the *bindGraphicElements* method at the end of your *loadView* method
+
+----------------------------------------------------------------
+def loadView
+  views = NSBundle.mainBundle.loadNibNamed "CameraView", owner:self, options:nil
+  #Assign the first View from the nib file
+  self.view = views[0]
+  styleNavigationBar
+  bindGraphicElements       
+end
+----------------------------------------------------------------
+ 
 Now run your application with the 'rake' command and if you are running the application on the simulator you will be able to take picture and see attached to the imageView.
 
 .Take Photo
