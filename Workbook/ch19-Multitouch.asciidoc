@@ -97,7 +97,7 @@ class KanjiViewController < UIViewController
     background_image_view = UIImageView.alloc.initWithFrame(self.view.bounds)
 
     # Set our background image into the UIImageView
-    background_image_view.image = UIImage.imageNamed("bgKanji.jpg")
+    background_image_view.image = UIImage.imageNamed("bgKanji")
 
     # Add the UIImageView instance into the view
     self.view.addSubview(background_image_view)
@@ -287,8 +287,8 @@ def drawRect(rect)
                          touch_point.CGPointValue.y)
     
     # Create a rect in which want to the ellipse be drawn
-    point_rect = CGRectMake(point.CGPointValue.x - 10, 
-                            point.CGPointValue.y - 10,
+    point_rect = CGRectMake(touch_point.CGPointValue.x - 10, 
+                            touch_point.CGPointValue.y - 10,
                             20,
                             20)
 
@@ -477,7 +477,7 @@ class KanjiTrace
 
   def initial_rectangle
 
-    GPointMake(starting_point.x - SURROUND_SIZE,
+    CGRectMake(starting_point.x - SURROUND_SIZE,
                starting_point.y - SURROUND_SIZE,
                SURROUND_SIZE * 2,
                SURROUND_SIZE * 2)
@@ -486,7 +486,7 @@ class KanjiTrace
 
   def final_rectangle
 
-    GPointMake(end_point.x - SURROUND_SIZE,
+    CGRectMake(end_point.x - SURROUND_SIZE,
                end_point.y - SURROUND_SIZE,
                SURROUND_SIZE * 2,
                SURROUND_SIZE * 2)
