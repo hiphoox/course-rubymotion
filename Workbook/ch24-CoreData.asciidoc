@@ -33,6 +33,8 @@ Please create a new project called **Remember the Movies**:
 ------------
 $ motion create "Remember the Movies"
 
+$ cd "Remember the Movies"
+
 $ cd app
 
 $ mkdir extensions
@@ -44,9 +46,6 @@ Now is time to code our model for the app, starting with the **Director** object
 
 [source, sh]
 ------------
-$ cd "Remember the Movies"
-
-$ cd app
 
 $ mkdir model
 
