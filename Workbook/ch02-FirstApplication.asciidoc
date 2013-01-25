@@ -4,10 +4,10 @@ Chapter 02 - First Application
 Time Zone Converter App
 -----------------------
 
-Time it's one of the most precious resources that we have, and for travelers around the world it's essential to keep synced between one place an another so they can accomplish goals and requirements on time.
-So we are going to build and application for them, so they can check local time and time in the place where they are traveling. The app should cover the next functionality:
+Time is one of the most precious resources that we have, and for travelers around the world it's essential to keep synced between one place and another so they can accomplish goals and requirements on time.
+So we are going to build and application for them, so they can check their localtime and the time in the place where they are traveling. The app should cover the following functionality:
 
-- Ability to select know Time Regions (local and remote)
+- Ability to select known Time Regions (local and remote)
 - Display UTC local and remote time
 
 Run the following command in your terminal:
@@ -45,17 +45,17 @@ If everything goes well, you will see an ugly black window.
 image::resources/ch02-FirstApplication/image1.png[Empty Application]
 
 [NOTE]
-Please add the assets to the resources folder of your project. You can find them under the resources folder and inside there is a folder images with the assets necessary for the chapter.  
+Please add the assets to the resources folder of your project. You can find them under the resources folder and inside there is an 'images' folder with the assets necessary for this chapter.  
 
 View Controller
 ~~~~~~~~~~~~~~~
 
-A view controller class provides a quite utile mechanism to manage views in iOS applications; it could coordinate efforts with the model and other view controllers in order to build an entire application.
+A view controller class provides a quite useful mechanism to manage views in iOS applications; it can coordinate efforts with the model and other view controllers in order to build an entire application.
 
 Adding a View Controller
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-Open your file *app_delegate.rb* in app folder. And add the following highlighted code:
+Open your file *app_delegate.rb* in app folder and add the following highlighted code:
 
 [WARNING]
 Adding code ahead. 
@@ -95,7 +95,7 @@ Save your file and run the rake command:
 $ rake
 --------------------------------------
 
-You should see a gray styled view, congratulations you have added your first View Controller, it wasn't really that hard, was it?
+You should see a gray styled view. Congratulations, you have added your first View Controller, it wasn't really that hard, was it?
 
 .View Controller Added
 image::resources/ch02-FirstApplication/image2.png[View Controller Added]
@@ -132,7 +132,7 @@ end
 
 def zone_picker (xPosition,yPosition)
   
-  picker =  UIPickerView.alloc.initWithFrame(CGRectMake(xPosition,yPosition, 320, 250))
+  picker = UIPickerView.alloc.initWithFrame(CGRectMake(xPosition,yPosition, 320, 250))
   picker.hidden = true 
   picker.showsSelectionIndicator = true 
   picker
@@ -160,7 +160,7 @@ class RootViewController < UIViewController
     formatter.setDateFormat('HH:mm')
     formatter.setTimeZone(defaultTimeZone) 
     dateFormat = formatter.stringFromDate(NSDate.date)
-    @defaultTimeLabel.text = "UTC "+(NSTimeZone.localTimeZone.secondsFromGMT/3600).to_s + "  "+dateFormat
+    @defaultTimeLabel.text = "UTC "+(defaultTimeZone.secondsFromGMT/3600).to_s + "  "+dateFormat
   end 
   	  	  
   def viewDidLoad  
@@ -183,7 +183,7 @@ Run your program and you should see two new labels added to the screen, the firs
 .Controls Added
 image::resources/ch02-FirstApplication/image3.png[Controls Added]
 
-Let stop one moment right here, to see the properties of the "UILabel" that we just added, without exit hold ‘command’ key and hover mouse on simulator screen. You can see a red-bordered box appears among the application elements, select the first Time Zone area, the interactive console should display the instance corresponding to that label.
+Let stop one moment right here, to see the properties of the "UILabel" that we just added. Without quitting the simulator, hold the ‘command’ key and hover the mouse on simulator screen. You can see a red-bordered box appears among the application elements, select the first Time Zone area, the interactive console should display the instance corresponding to that label.
 
 
 ---------------------------------------------------------------------------------
@@ -203,14 +203,14 @@ It should return a string
 => "America/Mexico_City"
 ---------------------------------------------------------------------------------
 
-Let's say that we are extreme curious and we want to know the class of the "text" property from UILabel
+Let's say that we are extremely curious and we want to know the class of the "text" property from UILabel:
 
 ---------------------------------------------------------------------------------
 (#<UILabel:0x9447e60>)> self.text.class
 => String
 ---------------------------------------------------------------------------------
 
-As we may expect its a String, but now what if we want to know the superclass of the "text" property from UILabel
+As we may expect its a String, but now what if we want to know the superclass of the "text" property from UILabel:
 
 ---------------------------------------------------------------------------------
 (#<UILabel:0x9447e60>)> self.text.superclass
@@ -223,19 +223,19 @@ Now what if we look for the "String" ancestors, type the following:
 (#<UILabel:0x9447e60>)> String.ancestors
 ---------------------------------------------------------------------------------
 
-What are those classes that appears? Yes you are right those are from the Cocoa Framework
+What are those classes that appears? Yes you are right those are from the Cocoa Framework.
 
 ---------------------------------------------------------------------------------
 => [String, NSMutableString, NSString, Comparable, NSObject, Kernel]
 ---------------------------------------------------------------------------------
 
-We also can see the available methods, type the following in your terminal
+We also can see the available methods, type the following in your terminal:
 
 ---------------------------------------------------------------------------------
 (#<UILabel:0x9447e60>)> methods
 ---------------------------------------------------------------------------------
 
-Well, you can see many of them, but yes we can use grep, to find something more specific
+Well, you can see many of them, but yes we can use grep, to find something more specific:
 
 ---------------------------------------------------------------------------------
 (#<UILabel:0x9447e60>)> methods.grep(/class/)
@@ -255,7 +255,7 @@ Type self, so you can be sure that you are in the main session:
 (main)> 
 ---------------------------------------------------------------------------------
 
-So far we have discovered some interesting things, also we can find the instance variables of our RootViewController
+So far we have discovered some interesting things, also we can find the instance variables of our RootViewController:
 
 ---------------------------------------------------------------------------------
 (main)> RootViewController.instance_variables
@@ -275,19 +275,19 @@ and then recursive elements:
 (main)> UIApplication.sharedApplication.keyWindow.recursiveDescription
 ---------------------------------------------------------------------------------
 
-You can use include of the arrays to ask if a method exists
+You can use 'include'? from Array to ask if a method exists:
 
 ---------------------------------------------------------------------------------
 [].methods.include? :[]
 ---------------------------------------------------------------------------------
 
-And also to ask for and Objetive-C Method
+And also to ask for an Objetive-C Method:
 
 ---------------------------------------------------------------------------------
 [].methods.include?(:'objectAtIndex:')
 ---------------------------------------------------------------------------------
 
-It’s time to add a control that let us select from different time zones, open the *root_view_controller.rb* and add the following highlighted code: 
+It’s time to add a control that lets us select from different time zones, open the *root_view_controller.rb* and add the following highlighted code: 
 
 [WARNING]
 Adding code ahead. 
@@ -309,7 +309,7 @@ class RootViewController < UIViewController
     formatter.setDateFormat('HH:mm')
     formatter.setTimeZone(defaultTimeZone) 
     dateFormat = formatter.stringFromDate(NSDate.date)
-    @defaultTimeLabel.text = "UTC "+(NSTimeZone.localTimeZone.secondsFromGMT/3600).to_s + "  "+dateFormat
+    @defaultTimeLabel.text = "UTC "+(defaultTimeZone.secondsFromGMT/3600).to_s + "  "+dateFormat
   end
  
   def present_local_zone_picker(sender) 
@@ -380,18 +380,18 @@ class RootViewController < UIViewController
 end
 -------------------
 
-Next compile your application; you should see a white big button, don’t hesitate and try it.
+Next compile your application; you should see a big white button, don’t hesitate and try it.
 
 .UIPicker Added
 image::resources/ch02-FirstApplication/image4.png[UIPicker Added]
 .UIPicker Added
 image::resources/ch02-FirstApplication/image5.png[UIPicker Selected]
 
-Go ahead and look for a region that you may like to be and see the local time on this area. 
+Go ahead and look for a region that you may like to be and see the local time in this area. 
 
-You ‘ll never wonder again what time is it on other side of the planet, but you may think that its not good enough to know the time in one region, two its always better than one. Lets add a second set of controls.
+You‘ll never wonder again what time it is on other side of the planet, but you may think that it's not good enough to know the time in one region, two is always better than one. Let's add a second set of controls.
 
-First at all open your *root_view_controller.rb* file and add the following highlighted code in the *loadView* method.
+First of all open your *root_view_controller.rb* file and add the following highlighted code in the *loadView* method.
 
 [WARNING]
 Adding code ahead. 
@@ -464,7 +464,7 @@ end
 Styling the App
 ~~~~~~~~~~~~~~~
 
-I think that the style of our application does not reflect the adventure spirit that should be; maybe with some little improvements we can change that.
+I think that the style of our application does not reflect the adventurous spirit that it should; maybe with some little improvements we can change that.
 
 Run the application with the rake command
 
@@ -482,7 +482,7 @@ Simulate ./build/iPhoneSimulator-6.0-Development/TimeZoneConverter.app
 (main)>
 ------------
 
-Now hold ‘command’ key and hover mouse on simulator screen. You can see a red-bordered box appears among the application elements, select the first Time Zone area, the interactive console should display the instance corresponding to that label
+Now hold ‘command’ key and hover mouse on simulator screen. You can see a red-bordered box appears among the application elements, select the first Time Zone area, the interactive console should display the instance corresponding to that label:
 
 [source, sh]
 ------------
@@ -491,7 +491,7 @@ Simulate ./build/iPhoneSimulator-6.0-Development/TimeZoneConverter.app
 (#<UILabel:0x956a650>)>
 ------------
 
-Now its time to add something fresh to our application as we see it running, yes you read right type the following scrip in you REPL:
+Now it's time to add something fresh to our application as we see it running, yes you read that right! Type the following scrip in you REPL:
 
 [source, ruby]
 --------------
@@ -501,16 +501,16 @@ self.font = UIFont.fontWithName("Noteworthy-Bold",size:18)
 .UIPicker Added
 image::resources/ch02-FirstApplication/image6.png[UIPicker Added]
 
-and hit enter, and Voila !! the font has changed, but you may not liked, so try with different fonts and sizes here there are some of them:
+and hit enter, and voila !! The font has changed, but you may not like it, so try with different fonts and sizes. Here there are some of them:
 
 * Georgia-Italic
 * MarkerFelt-Thin
 * HelveticaNeue-Medium
 
-Since the creation of the apple store the are many app to choose from, the app store it’s not the wild wild west that used to be, so we are going to give some personality to our app    
+Since the creation of the apple store the are many apps to choose from, the app store is not the wild West that it used to be, so we are going to give some personality to our app: 
 
 
-First, copy the assets from the chapter one directory, and put them into the Resources directory, and the in your *root_view_controller.rb* change the following line in your *viewDidLoad* method:
+First, copy the assets from the chapter two directory, and put them into the Resources directory, and the in your *root_view_controller.rb* change the following line in your *viewDidLoad* method:
 
 [source, ruby]
 --------------
@@ -544,12 +544,12 @@ end
 Challenge - Adding a title
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Adding title to the application, try adding a new method in your file *select_time_zone_Button* that return an UILabel and put it as title for the application.
+Adding a title to the application: try adding a new method in your file *select_time_zone_Button* that returns an UILabel and set it as title for the application.
 
 Challenge - Hours Between Zones
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Add a new label between time zones that indicates the diference between time zones
+Add a new label between the time zones that indicates the time difference between time zones.
 
 
 
