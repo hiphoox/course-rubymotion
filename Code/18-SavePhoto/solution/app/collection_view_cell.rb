@@ -4,7 +4,7 @@ class  CollectionViewCell < UICollectionViewCell
 
 	def customizeCollectionCell(photo)
     @photoImageView = self.viewWithTag(CELL_IMAGE_VIEW)
-    @photoImageView.image = photo    
+    @photoImageView.image = photo.photoImage    
  	end
 
 end

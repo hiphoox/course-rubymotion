@@ -9,8 +9,12 @@ class Photo
 	end
 
 	def initWithCoder(decoder)
+		super(decoder) 
+		
 		@photoName = decoder.decodeObjectForKey("photoName")
 		@photoImage = decoder.decodeObjectForKey("photoImage")
+		
+		self
 	end
 
 end

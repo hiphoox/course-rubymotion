@@ -68,9 +68,10 @@ class Photo
 
 
   def initWithCoder(decoder)
-
+    self.init
     @photoName = decoder.decodeObjectForKey("photoName")
     @photoImage = decoder.decodeObjectForKey("photoImage")
+    self
   end
 
 end
@@ -222,7 +223,7 @@ We should not forget to modify the custom cell to accept the object from the lib
 def customizeCollectionCell(photo)
 
   @photoImageView = self.viewWithTag(CELL_IMAGE_VIEW)
-  @photoImageView.image = photo    
+  @photoImageView.image = photo.photoImage   
 end
 ----------------------------------------------------------------
 
