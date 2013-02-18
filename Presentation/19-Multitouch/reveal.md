@@ -93,11 +93,6 @@ Processing touches
 </slide>
 
 <slide>
-## The Responder Chain
-
-</slide>
-
-<slide>
 ## Gesture Recognizers
 
     UITapGestureRecognizer
@@ -137,28 +132,6 @@ Processing touches
         elsif (state == UIGestureRecognizerStateCancelled)
         end
     end
-    
-</slide>
-
-<slide>
-## UIMenuController
-
-![](uimenucontroller.png "Multitouch") 
-
-</slide>
-
-<slide>
-## UIMenuController
-
-    menu = UIMenuController.sharedMenuController
-
-    mi = UIMenuItem.alloc.initWithTitle('Delete', action: :'delete:')
-                                                
-    menu.setMenuItems(NSArray.arrayWithObject(mi))
-    menu.setTargetRect(someRect, inView:view)
-
-    view.becomeFirstResponder
-    menu.setMenuVisible(true, animated:true)
     
 </slide>
     

@@ -43,7 +43,7 @@ A UITableViewCell object includes properties and methods for managing cell selec
 ## Register NIB
 
     def viewDidLoad
-      super.viewDidLoad
+      super
       nib = UINib.nibWithNibName("CocoaHeadsItemCell", bundle:nil)
       self.tableView.registerNib(nib, forCellReuseIdentifier:"CocoaHeadsItemCell")
     end

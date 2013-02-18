@@ -8,13 +8,6 @@
 </slide>
 
 <slide>
-## File System
-
-How do I save and load files from the disk on the iOS?
-
-</slide>
-
-<slide>
 ## Application Sandbox
 
 ![](sandbox.png "Sandbox") 
@@ -121,20 +114,6 @@ iOS has methods to save string or binary data:
         RBItemStore.store.save
 
     end
-
-</slide>
-
-<slide>
-## Simulating Memory Warnings
-
-![](simulator.png "Simulator") 
-
-</slide>
-
-<slide>
-## Application Life Cycle
-
-![](lifetime.png "Application Life Cycle") 
 
 </slide>
 

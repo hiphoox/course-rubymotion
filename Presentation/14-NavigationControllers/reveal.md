@@ -12,6 +12,11 @@
 
 Navigation Controllers allows us to animate a view controller on to the screen that shows us more detailed information about a selection on the previous screen and then allow the user to jump back to the previous one.
 
+</slide>
+
+<slide>
+## Navigation Controllers
+
 ![](navcontroller.png "Navigation Controllers") 
 
 </slide>
@@ -19,16 +24,10 @@ Navigation Controllers allows us to animate a view controller on to the screen t
 <slide>
 ## UINavigationController
 
-![](navcontrollerstack.pdf "Navigation Controllers Stack") 
+![](navcontrollerstack.png "Navigation Controllers Stack") 
 
 </slide>    
 
-<slide>
-## Example
-
-![](navcontrollerexample.pdf "Navigation Controllers Example") 
-
-</slide>    
 
 <slide>
 ## Creating a Navigation Controller
@@ -61,13 +60,6 @@ Navigation Controllers allows us to animate a view controller on to the screen t
 </slide>  
 
 <slide>
-## Passing Data
-
-![](datadrilldown.png "Passing Data") 
-
-</slide>   
-
-<slide>
 ## Contrast with UITabBarController
 UITabBarController
 
@@ -85,32 +77,6 @@ viewWillAppear/viewWillDisappear work the same
 
 </slide>
 
-<slide>
-## UINavigationBar
-
-![](navbar.pdf "Navigation Bar") 
-
-</slide> 
-
-<slide>
-## Creating Navigation Items
-
-In the subclass of your Navigation Controller
-
-    def initWithNibName(nibName, bundle:bundle)
-      self = super.initWithNibName("ContactsViewController", bundle:nil)
-      if (self)
-        item = self.navigationItem
-        item.setTitle("All Contacts")
-
-        plusButton = UIBarButtonItem.alloc.initWithSystemItem(UIBarButtonSystemItemAdd, target: self, action: :'addNewContact:')
-        item.setRightBarButtonItem(plusButton)
-      end
-
-      self
-    end
-
-</slide> 
 
 <slide>
 ## Navigation Controllers
