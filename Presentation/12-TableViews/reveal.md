@@ -61,10 +61,10 @@ In the AppDelegate:
 In your TableViewController subclass:
 
     def loadView
-        tv = UITableView.alloc.initWithStyle(UITableViewStylePlain)
-        tv.setDataSource(self)
-        tv.setDelegate(self)
-        self.setView(tv)
+      tv = UITableView.alloc.initWithStyle(UITableViewStylePlain)
+      tv.setDataSource(self)
+      tv.setDelegate(self)
+      self.setView(tv)
     end
 
     def tableView(tableView, numberOfRowsInSection:section)
@@ -83,13 +83,13 @@ In your TableViewController subclass:
     self.tableView.reloadData // When view first goes on screen        
         
     def tableView(tableView, numberOfRowsInSection:section)
-        bunchOfStrings.count
+      bunchOfStrings.size
     end
 
     def tableView(tableView, cellForRowAtIndexPath:indexPath)
       cell = UITableViewCell.alloc.initWithStyle(UITableViewCellStyleDefault, reuseIdentifier:"UITableViewCell")
 
-      int index = indexPath.row
+      index = indexPath.row
       someString = bunchOfStrings.objectAtIndex(index)
       cell.textLabel.setText(someString)
 
@@ -110,7 +110,7 @@ In your TableViewController subclass:
 
     def tableView(tableView, cellForRowAtIndexPath:indexPath) 
       cell = tableView.dequeueReusableCellWithIdentifier("UITableViewCell") 
-      if (cell == nil) 
+      if cell == nil
         cell= UITableViewCell.alloc.initWithStyle(UITableViewCellStyleDefault, reuseIdentifier:"UITableViewCell")
       end
 

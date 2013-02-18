@@ -45,7 +45,7 @@ Now add a constant at the beginning of the class with the URL of the web server.
 
 *NEWS_SERVICE_BASE_URL = "http://localhost:4567"*
 
-Then, in the *self.laters_news* method we are going to build first a NSURL instance that points to the service:
+Then, in the *self.latest_news* method we are going to build first a NSURL instance that points to the service:
 
 [source, ruby]
 ---------------

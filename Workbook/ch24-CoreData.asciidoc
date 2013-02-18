@@ -33,6 +33,8 @@ Please create a new project called **Remember the Movies**:
 ------------
 $ motion create "Remember the Movies"
 
+$ cd "Remember the Movies"
+
 $ cd app
 
 $ mkdir extensions
@@ -44,9 +46,6 @@ Now is time to code our model for the app, starting with the **Director** object
 
 [source, sh]
 ------------
-$ cd "Remember the Movies"
-
-$ cd app
 
 $ mkdir model
 
@@ -209,7 +208,7 @@ Continuing on the app lets open our **app_delegate.rb** and add the following:
 class AppDelegate
 
   # Lets keep all of our Core Data Objects in here
-  ManageObjectClases = [Director, Movie]
+  ManageObjectClasses = [Director, Movie]
 
   def application(application, didFinishLaunchingWithOptions:launchOptions)
     
@@ -226,7 +225,7 @@ class AppDelegate
     # these object as a reference of the objects for Core Data 
     # to use
     managed_object_model = NSManagedObjectModel.alloc.init
-    managed_object_model.entities = ManageObjectClases.collect { |c| c.entity }
+    managed_object_model.entities = ManageObjectClasses.collect { |c| c.entity }
     managed_object_model.entities.each { |entity| entity.wireRelationships }
 
     # The next object needed is the NSPersistentStoreCoordinator
