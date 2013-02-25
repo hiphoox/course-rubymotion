@@ -22,11 +22,9 @@
 <slide>
 ## Daily Schedule at Class
 
-* Class Begins -- 9:00 AM
-* Break        -- around 11:00 AM, 15 minutes
-* Lunch        -- 1:00 PM 				  1 Hour 30 minutes
-* Break        -- around 4:00 PM,  15 minutes
-* Class Ends   -- 5:00 PM
+* Class Begins -- 9:30 AM
+* Lunch        -- 1:00 PM (1 Hour)
+* Class Ends   -- 5:30 PM
 
 
 * Friday Class Ends 	-- 3 PM

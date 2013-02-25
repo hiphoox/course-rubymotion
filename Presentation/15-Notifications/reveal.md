@@ -10,7 +10,7 @@
 <slide>
 ## Notifications
 
-An interface that can be rotated to landscape mode/portrait mode?
+An interface can be rotated to landscape mode/portrait mode
 
 ![](ch15_PortraitPicture.png "Notifications") 
 ![](ch15_LandscapePicture.png "Notifications") 
@@ -66,13 +66,6 @@ Other Options
     UIInterfaceOrientationMaskLandscape
     UIInterfaceOrientationMaskAll
     UIInterfaceOrientationMaskAllButUpsideDown
-
-</slide>
-
-<slide>
-## Springs and Struts
-
-![](sizes.png "Masks") 
 
 </slide>
 

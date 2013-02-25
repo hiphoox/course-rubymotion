@@ -74,3 +74,16 @@ self.class.class_methods
 UIApplication.sharedApplication.keyWindow.resursiveDescription
 
 
+
+Explain the relatioship between objective-C init and Ruby initialize
+Move the explanation about protocols to the Cocoa Overview Chapter
+Fix typos
+Add some slides for the Testing Chapter and explain/run the Counter example
+I need to check about the images and resources directory when you use IB and Rubymotion
+Necesitamos agregar una explicacion en el capitulo 15 sobre el tema de las versiones en del sistema operativo, el target, el device, diferencias en el API
+Necesitamos explicar que lo de la bateria no funciona en el simulador.
+Necesitamos crear los slides del CollectionView
+A partir del capitulo 16 ya debemos escribir los proyectos usando mas ruby sintaxis en lugar de Objective-C sintaxis. Para que sirva como ejemplo de una aplicación completa bien hecha.
+
+
+

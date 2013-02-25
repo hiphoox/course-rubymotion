@@ -98,14 +98,14 @@ Every view controller has a ***view*** property.
 ## Configuring UITabBarItem
 
     def initWithNibName(nibName, bundle:bundleName)
-        self = super.initWithNibName(nibName, bundle:bund)
-        if (self) {
-            tbi = self.tabBarItem
-            tbi.setTitle("Keypad")
-            
-            i = UIImage.imageNamed("Keypad.png")
-            tbi.setImage(i)
-        }
+        super(nibName, bundle:bund)
+
+        tbi = self.tabBarItem
+        tbi.setTitle("Keypad")
+        
+        i = UIImage.imageNamed("Keypad.png")
+        tbi.setImage(i)
+
        self
     end
 

@@ -23,11 +23,9 @@
                          cachePolicy:NSURLRequestReturnCacheDataElseLoad,
                      timeoutInterval:30)
         
-    response = nil
-    error = nil;
     urlData = NSURLConnection.sendSynchronousRequest(urlRequest,
-                                    returningResponse:&response,
-                                                error:&error)
+                                    returningResponse:response,
+                                                error:error)
 
 ![](nsurl.png "NSURL")
 
@@ -35,7 +33,7 @@
 
 <slide>
 ## Asynchronous URL Fetch
-    url = NSURL.URLWithString('http://www.bignerdranch.com')
+    url = NSURL.URLWithString('http://www.rubymotion.com')
     request = 
         NSURLRequest.requestWithURL(url,
                          cachePolicy:NSURLRequestReloadIgnoringCacheData,
@@ -84,46 +82,7 @@ Only event-based parser on the iPhone, no tree-based parsers.
     parser.parse 
 
 </slide>
-<slide>
-## NSXMLParser Delegates
-File
-
-    <xml version="1.0" encoding="UTF-8">
-    <person>
-      <first>Larry</first>
-      <last>Furg</last>
-    </person>
-
-Code
-
-    parser(p, didStartElement:elementName, namespaceURI:uri, qualifiedName:qualifiedName, attributes:attributeDict)
-
-    parser(p, foundCharacters:string)
-
-    parser(p, didEndElement:elementName, namespaceURI:namespaceURI, qualifiedName:qName)
-
-</slide>
     
-<slide>
-## Parsing
-
-![](delegateFlowA.png "WebServices") 
-
-</slide>
-
-<slide>
-## Parsing
-
-![](delegateFlowB.png "WebServices") 
-
-</slide>
-
-<slide>
-## Parsing
-
-![](delegateFlowC.png "WebServices") 
-
-</slide>
 
 <slide>
 ## WebServices

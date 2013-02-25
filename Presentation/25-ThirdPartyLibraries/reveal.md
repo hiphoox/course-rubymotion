@@ -8,10 +8,34 @@
 </slide>
 
 <slide>
-## Third Party Libraries
+## Dependency Managers
+
+* Cocoapods (Objective-C)
+
+* Bundler	(Ruby)
+
+</slide>
+
+<slide>
+## Gems
+
+* Teacup
+* BubbleWrap
+* Formotion
+* Sugarcube
 
 </slide>
     
+
+<slide>
+## CocoaPods
+
+* AFNetworking
+* Cocos2D
+* CorePlot
+
+</slide>
+
 <slide>
 ## Third Party Libraries
 
