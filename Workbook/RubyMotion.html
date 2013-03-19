@@ -830,12 +830,12 @@ asciidoc.install(2);
 <div class="sect1">
 <h2 id="_time_zone_converter_app">Time Zone Converter App</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>Time it&#8217;s one of the most precious resources that we have, and for travelers around the world it&#8217;s essential to keep synced between one place an another so they can accomplish goals and requirements on time.
-So we are going to build and application for them, so they can check local time and time in the place where they are traveling. The app should cover the next functionality:</p></div>
+<div class="paragraph"><p>Time is one of the most precious resources that we have, and for travelers around the world it&#8217;s essential to keep synced between one place and another so they can accomplish goals and requirements on time.
+So we are going to build and application for them, so they can check their localtime and the time in the place where they are traveling. The app should cover the following functionality:</p></div>
 <div class="ulist"><ul>
 <li>
 <p>
-Ability to select know Time Regions (local and remote)
+Ability to select known Time Regions (local and remote)
 </p>
 </li>
 <li>
@@ -875,16 +875,16 @@ Display UTC local and remote time
 <td class="icon">
 <div class="title">Note</div>
 </td>
-<td class="content">Please add the assets to the resources folder of your project. You can find them under the resources folder and inside there is a folder images with the assets necessary for the chapter.</td>
+<td class="content">Please add the assets to the resources folder of your project. You can find them under the resources folder and inside there is an <em>images</em> folder with the assets necessary for this chapter.</td>
 </tr></table>
 </div>
 <div class="sect2">
 <h3 id="_view_controller">View Controller</h3>
-<div class="paragraph"><p>A view controller class provides a quite utile mechanism to manage views in iOS applications; it could coordinate efforts with the model and other view controllers in order to build an entire application.</p></div>
+<div class="paragraph"><p>A view controller class provides a quite useful mechanism to manage views in iOS applications; it can coordinate efforts with the model and other view controllers in order to build an entire application.</p></div>
 </div>
 <div class="sect2">
 <h3 id="_adding_a_view_controller">Adding a View Controller</h3>
-<div class="paragraph"><p>Open your file <strong>app_delegate.rb</strong> in app folder. And add the following highlighted code:</p></div>
+<div class="paragraph"><p>Open your file <strong>app_delegate.rb</strong> in app folder and add the following highlighted code:</p></div>
 <div class="admonitionblock">
 <table><tr>
 <td class="icon">
@@ -919,7 +919,7 @@ Display UTC local and remote time
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="nv">$ </span>rake
 </pre></div></div></div>
-<div class="paragraph"><p>You should see a gray styled view, congratulations you have added your first View Controller, it wasn&#8217;t really that hard, was it?</p></div>
+<div class="paragraph"><p>You should see a gray styled view. Congratulations, you have added your first View Controller, it wasn&#8217;t really that hard, was it?</p></div>
 <div class="imageblock">
 <div class="content">
 <img src="resources/ch02-FirstApplication/image2.png" alt="View Controller Added" />
@@ -956,7 +956,7 @@ Display UTC local and remote time
 
 <span class="k">def</span> <span class="nf">zone_picker</span> <span class="p">(</span><span class="n">xPosition</span><span class="p">,</span><span class="n">yPosition</span><span class="p">)</span>
 
-  <span class="n">picker</span> <span class="o">=</span>  <span class="no">UIPickerView</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithFrame</span><span class="p">(</span><span class="no">CGRectMake</span><span class="p">(</span><span class="n">xPosition</span><span class="p">,</span><span class="n">yPosition</span><span class="p">,</span> <span class="mi">320</span><span class="p">,</span> <span class="mi">250</span><span class="p">))</span>
+  <span class="n">picker</span> <span class="o">=</span> <span class="no">UIPickerView</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithFrame</span><span class="p">(</span><span class="no">CGRectMake</span><span class="p">(</span><span class="n">xPosition</span><span class="p">,</span><span class="n">yPosition</span><span class="p">,</span> <span class="mi">320</span><span class="p">,</span> <span class="mi">250</span><span class="p">))</span>
   <span class="n">picker</span><span class="o">.</span><span class="n">hidden</span> <span class="o">=</span> <span class="kp">true</span>
   <span class="n">picker</span><span class="o">.</span><span class="n">showsSelectionIndicator</span> <span class="o">=</span> <span class="kp">true</span>
   <span class="n">picker</span>
@@ -986,7 +986,7 @@ Display UTC local and remote time
 </span><span class="hll">    <span class="n">formatter</span><span class="o">.</span><span class="n">setDateFormat</span><span class="p">(</span><span class="s1">&#39;HH:mm&#39;</span><span class="p">)</span>
 </span><span class="hll">    <span class="n">formatter</span><span class="o">.</span><span class="n">setTimeZone</span><span class="p">(</span><span class="n">defaultTimeZone</span><span class="p">)</span>
 </span><span class="hll">    <span class="n">dateFormat</span> <span class="o">=</span> <span class="n">formatter</span><span class="o">.</span><span class="n">stringFromDate</span><span class="p">(</span><span class="no">NSDate</span><span class="o">.</span><span class="n">date</span><span class="p">)</span>
-</span><span class="hll">    <span class="vi">@defaultTimeLabel</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;UTC &quot;</span><span class="o">+</span><span class="p">(</span><span class="no">NSTimeZone</span><span class="o">.</span><span class="n">localTimeZone</span><span class="o">.</span><span class="n">secondsFromGMT</span><span class="o">/</span><span class="mi">3600</span><span class="p">)</span><span class="o">.</span><span class="n">to_s</span> <span class="o">+</span> <span class="s2">&quot;  &quot;</span><span class="o">+</span><span class="n">dateFormat</span>
+</span><span class="hll">    <span class="vi">@defaultTimeLabel</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;UTC &quot;</span><span class="o">+</span><span class="p">(</span><span class="n">defaultTimeZone</span><span class="o">.</span><span class="n">secondsFromGMT</span><span class="o">/</span><span class="mi">3600</span><span class="p">)</span><span class="o">.</span><span class="n">to_s</span> <span class="o">+</span> <span class="s2">&quot;  &quot;</span><span class="o">+</span><span class="n">dateFormat</span>
 </span><span class="hll">  <span class="k">end</span>
 </span>
   <span class="k">def</span> <span class="nf">viewDidLoad</span>
@@ -1010,7 +1010,7 @@ Display UTC local and remote time
 </div>
 <div class="title">Figure 3. Controls Added</div>
 </div>
-<div class="paragraph"><p>Let stop one moment right here, to see the properties of the "UILabel" that we just added, without exit hold ‘command’ key and hover mouse on simulator screen. You can see a red-bordered box appears among the application elements, select the first Time Zone area, the interactive console should display the instance corresponding to that label.</p></div>
+<div class="paragraph"><p>Let stop one moment right here, to see the properties of the "UILabel" that we just added. Without quitting the simulator, hold the ‘command’ key and hover the mouse on simulator screen. You can see a red-bordered box appears among the application elements, select the first Time Zone area, the interactive console should display the instance corresponding to that label.</p></div>
 <div class="listingblock">
 <div class="content">
 <pre><code>(#&lt;UILabel:0x9447e60&gt;)&gt;</code></pre>
@@ -1025,13 +1025,13 @@ Display UTC local and remote time
 <div class="content">
 <pre><code>=&gt; "America/Mexico_City"</code></pre>
 </div></div>
-<div class="paragraph"><p>Let&#8217;s say that we are extreme curious and we want to know the class of the "text" property from UILabel</p></div>
+<div class="paragraph"><p>Let&#8217;s say that we are extremely curious and we want to know the class of the "text" property from UILabel:</p></div>
 <div class="listingblock">
 <div class="content">
 <pre><code>(#&lt;UILabel:0x9447e60&gt;)&gt; self.text.class
 =&gt; String</code></pre>
 </div></div>
-<div class="paragraph"><p>As we may expect its a String, but now what if we want to know the superclass of the "text" property from UILabel</p></div>
+<div class="paragraph"><p>As we may expect its a String, but now what if we want to know the superclass of the "text" property from UILabel:</p></div>
 <div class="listingblock">
 <div class="content">
 <pre><code>(#&lt;UILabel:0x9447e60&gt;)&gt; self.text.superclass
@@ -1042,17 +1042,17 @@ Display UTC local and remote time
 <div class="content">
 <pre><code>(#&lt;UILabel:0x9447e60&gt;)&gt; String.ancestors</code></pre>
 </div></div>
-<div class="paragraph"><p>What are those classes that appears? Yes you are right those are from the Cocoa Framework</p></div>
+<div class="paragraph"><p>What are those classes that appears? Yes you are right those are from the Cocoa Framework.</p></div>
 <div class="listingblock">
 <div class="content">
 <pre><code>=&gt; [String, NSMutableString, NSString, Comparable, NSObject, Kernel]</code></pre>
 </div></div>
-<div class="paragraph"><p>We also can see the available methods, type the following in your terminal</p></div>
+<div class="paragraph"><p>We also can see the available methods, type the following in your terminal:</p></div>
 <div class="listingblock">
 <div class="content">
 <pre><code>(#&lt;UILabel:0x9447e60&gt;)&gt; methods</code></pre>
 </div></div>
-<div class="paragraph"><p>Well, you can see many of them, but yes we can use grep, to find something more specific</p></div>
+<div class="paragraph"><p>Well, you can see many of them, but yes we can use grep, to find something more specific:</p></div>
 <div class="listingblock">
 <div class="content">
 <pre><code>(#&lt;UILabel:0x9447e60&gt;)&gt; methods.grep(/class/)</code></pre>
@@ -1069,7 +1069,7 @@ Display UTC local and remote time
 =&gt; main
 (main)&gt;</code></pre>
 </div></div>
-<div class="paragraph"><p>So far we have discovered some interesting things, also we can find the instance variables of our RootViewController</p></div>
+<div class="paragraph"><p>So far we have discovered some interesting things, also we can find the instance variables of our RootViewController:</p></div>
 <div class="listingblock">
 <div class="content">
 <pre><code>(main)&gt; RootViewController.instance_variables
@@ -1086,17 +1086,17 @@ Display UTC local and remote time
 <div class="content">
 <pre><code>(main)&gt; UIApplication.sharedApplication.keyWindow.recursiveDescription</code></pre>
 </div></div>
-<div class="paragraph"><p>You can use include of the arrays to ask if a method exists</p></div>
+<div class="paragraph"><p>You can use <em>include</em>? from Array to ask if a method exists:</p></div>
 <div class="listingblock">
 <div class="content">
 <pre><code>[].methods.include? :[]</code></pre>
 </div></div>
-<div class="paragraph"><p>And also to ask for and Objetive-C Method</p></div>
+<div class="paragraph"><p>And also to ask for an Objetive-C Method:</p></div>
 <div class="listingblock">
 <div class="content">
 <pre><code>[].methods.include?(:'objectAtIndex:')</code></pre>
 </div></div>
-<div class="paragraph"><p>It’s time to add a control that let us select from different time zones, open the <strong>root_view_controller.rb</strong> and add the following highlighted code:</p></div>
+<div class="paragraph"><p>It’s time to add a control that lets us select from different time zones, open the <strong>root_view_controller.rb</strong> and add the following highlighted code:</p></div>
 <div class="admonitionblock">
 <table><tr>
 <td class="icon">
@@ -1121,7 +1121,7 @@ Display UTC local and remote time
     <span class="n">formatter</span><span class="o">.</span><span class="n">setDateFormat</span><span class="p">(</span><span class="s1">&#39;HH:mm&#39;</span><span class="p">)</span>
     <span class="n">formatter</span><span class="o">.</span><span class="n">setTimeZone</span><span class="p">(</span><span class="n">defaultTimeZone</span><span class="p">)</span>
     <span class="n">dateFormat</span> <span class="o">=</span> <span class="n">formatter</span><span class="o">.</span><span class="n">stringFromDate</span><span class="p">(</span><span class="no">NSDate</span><span class="o">.</span><span class="n">date</span><span class="p">)</span>
-    <span class="vi">@defaultTimeLabel</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;UTC &quot;</span><span class="o">+</span><span class="p">(</span><span class="no">NSTimeZone</span><span class="o">.</span><span class="n">localTimeZone</span><span class="o">.</span><span class="n">secondsFromGMT</span><span class="o">/</span><span class="mi">3600</span><span class="p">)</span><span class="o">.</span><span class="n">to_s</span> <span class="o">+</span> <span class="s2">&quot;  &quot;</span><span class="o">+</span><span class="n">dateFormat</span>
+    <span class="vi">@defaultTimeLabel</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;UTC &quot;</span><span class="o">+</span><span class="p">(</span><span class="n">defaultTimeZone</span><span class="o">.</span><span class="n">secondsFromGMT</span><span class="o">/</span><span class="mi">3600</span><span class="p">)</span><span class="o">.</span><span class="n">to_s</span> <span class="o">+</span> <span class="s2">&quot;  &quot;</span><span class="o">+</span><span class="n">dateFormat</span>
   <span class="k">end</span>
 
 <span class="hll">  <span class="k">def</span> <span class="nf">present_local_zone_picker</span><span class="p">(</span><span class="n">sender</span><span class="p">)</span>
@@ -1191,7 +1191,7 @@ Display UTC local and remote time
   <span class="k">end</span>
 <span class="k">end</span>
 </pre></div></div></div>
-<div class="paragraph"><p>Next compile your application; you should see a white big button, don’t hesitate and try it.</p></div>
+<div class="paragraph"><p>Next compile your application; you should see a big white button, don’t hesitate and try it.</p></div>
 <div class="imageblock">
 <div class="content">
 <img src="resources/ch02-FirstApplication/image4.png" alt="UIPicker Added" />
@@ -1204,9 +1204,9 @@ Display UTC local and remote time
 </div>
 <div class="title">Figure 5. UIPicker Added</div>
 </div>
-<div class="paragraph"><p>Go ahead and look for a region that you may like to be and see the local time on this area.</p></div>
-<div class="paragraph"><p>You ‘ll never wonder again what time is it on other side of the planet, but you may think that its not good enough to know the time in one region, two its always better than one. Lets add a second set of controls.</p></div>
-<div class="paragraph"><p>First at all open your <strong>root_view_controller.rb</strong> file and add the following highlighted code in the <strong>loadView</strong> method.</p></div>
+<div class="paragraph"><p>Go ahead and look for a region that you may like to be and see the local time in this area.</p></div>
+<div class="paragraph"><p>You‘ll never wonder again what time it is on other side of the planet, but you may think that it&#8217;s not good enough to know the time in one region, two is always better than one. Let&#8217;s add a second set of controls.</p></div>
+<div class="paragraph"><p>First of all open your <strong>root_view_controller.rb</strong> file and add the following highlighted code in the <strong>loadView</strong> method.</p></div>
 <div class="admonitionblock">
 <table><tr>
 <td class="icon">
@@ -1278,7 +1278,7 @@ Display UTC local and remote time
 </div>
 <div class="sect2">
 <h3 id="_styling_the_app">Styling the App</h3>
-<div class="paragraph"><p>I think that the style of our application does not reflect the adventure spirit that should be; maybe with some little improvements we can change that.</p></div>
+<div class="paragraph"><p>I think that the style of our application does not reflect the adventurous spirit that it should; maybe with some little improvements we can change that.</p></div>
 <div class="paragraph"><p>Run the application with the rake command</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="nv">$ </span>rake
@@ -1289,13 +1289,13 @@ Display UTC local and remote time
 Simulate ./build/iPhoneSimulator-6.0-Development/TimeZoneConverter.app
 <span class="o">(</span>main<span class="o">)</span>&gt;
 </pre></div></div></div>
-<div class="paragraph"><p>Now hold ‘command’ key and hover mouse on simulator screen. You can see a red-bordered box appears among the application elements, select the first Time Zone area, the interactive console should display the instance corresponding to that label</p></div>
+<div class="paragraph"><p>Now hold ‘command’ key and hover mouse on simulator screen. You can see a red-bordered box appears among the application elements, select the first Time Zone area, the interactive console should display the instance corresponding to that label:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre>Build ./build/iPhoneSimulator-6.0-Development
 Simulate ./build/iPhoneSimulator-6.0-Development/TimeZoneConverter.app
 <span class="o">(</span><span class="c">#&lt;UILabel:0x956a650&gt;)&gt;</span>
 </pre></div></div></div>
-<div class="paragraph"><p>Now its time to add something fresh to our application as we see it running, yes you read right type the following scrip in you REPL:</p></div>
+<div class="paragraph"><p>Now it&#8217;s time to add something fresh to our application as we see it running, yes you read that right! Type the following scrip in you REPL:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="nb">self</span><span class="o">.</span><span class="n">font</span> <span class="o">=</span> <span class="no">UIFont</span><span class="o">.</span><span class="n">fontWithName</span><span class="p">(</span><span class="s2">&quot;Noteworthy-Bold&quot;</span><span class="p">,</span><span class="ss">size</span><span class="p">:</span><span class="mi">18</span><span class="p">)</span>
 </pre></div></div></div>
@@ -1305,7 +1305,7 @@ Simulate ./build/iPhoneSimulator-6.0-Development/TimeZoneConverter.app
 </div>
 <div class="title">Figure 6. UIPicker Added</div>
 </div>
-<div class="paragraph"><p>and hit enter, and Voila !! the font has changed, but you may not liked, so try with different fonts and sizes here there are some of them:</p></div>
+<div class="paragraph"><p>and hit enter, and voila !! The font has changed, but you may not like it, so try with different fonts and sizes. Here there are some of them:</p></div>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -1323,8 +1323,8 @@ HelveticaNeue-Medium
 </p>
 </li>
 </ul></div>
-<div class="paragraph"><p>Since the creation of the apple store the are many app to choose from, the app store it’s not the wild wild west that used to be, so we are going to give some personality to our app</p></div>
-<div class="paragraph"><p>First, copy the assets from the chapter one directory, and put them into the Resources directory, and the in your <strong>root_view_controller.rb</strong> change the following line in your <strong>viewDidLoad</strong> method:</p></div>
+<div class="paragraph"><p>Since the creation of the apple store the are many apps to choose from, the app store is not the wild West that it used to be, so we are going to give some personality to our app:</p></div>
+<div class="paragraph"><p>First, copy the assets from the chapter two directory, and put them into the Resources directory, and the in your <strong>root_view_controller.rb</strong> change the following line in your <strong>viewDidLoad</strong> method:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="n">view</span><span class="o">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">scrollViewTexturedBackgroundColor</span>
 </pre></div></div></div>
@@ -1352,11 +1352,11 @@ HelveticaNeue-Medium
 </div>
 <div class="sect2">
 <h3 id="_challenge_adding_a_title">Challenge - Adding a title</h3>
-<div class="paragraph"><p>Adding title to the application, try adding a new method in your file <strong>select_time_zone_Button</strong> that return an UILabel and put it as title for the application.</p></div>
+<div class="paragraph"><p>Adding a title to the application: try adding a new method in your file <strong>select_time_zone_Button</strong> that returns an UILabel and set it as title for the application.</p></div>
 </div>
 <div class="sect2">
 <h3 id="_challenge_hours_between_zones">Challenge - Hours Between Zones</h3>
-<div class="paragraph"><p>Add a new label between time zones that indicates the diference between time zones</p></div>
+<div class="paragraph"><p>Add a new label between the time zones that indicates the time difference between time zones.</p></div>
 </div>
 </div>
 </div>
@@ -6197,6 +6197,17 @@ UILabel (label)
   <span class="vi">@imageView</span> <span class="o">=</span> <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">viewWithTag</span><span class="p">(</span><span class="no">IMAGE_VIEW_TAG</span><span class="p">)</span>
 <span class="k">end</span>
 </pre></div></div></div>
+<div class="paragraph"><p>There is only one thing left, call the <strong>bindGraphicElements</strong> method at the end of your <strong>loadView</strong> method</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>def loadView
+  views = NSBundle.mainBundle.loadNibNamed "CameraView", owner:self, options:nil
+  #Assign the first View from the nib file
+  self.view = views[0]
+  styleNavigationBar
+  bindGraphicElements
+end</code></pre>
+</div></div>
 <div class="paragraph"><p>Now run your application with the <em>rake</em> command and if you are running the application on the simulator you will be able to take picture and see attached to the imageView.</p></div>
 <div class="imageblock">
 <div class="content">
@@ -9172,7 +9183,7 @@ object with key <strong>loggedUser</strong> from the User Defaults and set as a 
 <div class="paragraph"><p>The method will receive a block in which it will respond the result of the web service invocation.</p></div>
 <div class="paragraph"><p>Now add a constant at the beginning of the class with the URL of the web server. The instructor should give you this URL. In this example we will consume a local service:</p></div>
 <div class="paragraph"><p><strong>NEWS_SERVICE_BASE_URL = "http://localhost:4567"</strong></p></div>
-<div class="paragraph"><p>Then, in the <strong>self.laters_news</strong> method we are going to build first a NSURL instance that points to the service:</p></div>
+<div class="paragraph"><p>Then, in the <strong>self.latest_news</strong> method we are going to build first a NSURL instance that points to the service:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">latest_news</span><span class="p">(</span><span class="n">completion_block</span><span class="p">)</span>
 
@@ -9494,6 +9505,8 @@ The data integrity and relationships are managed in the database by using featur
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="nv">$ </span>motion create <span class="s2">&quot;Remember the Movies&quot;</span>
 
+<span class="nv">$ </span><span class="nb">cd</span> <span class="s2">&quot;Remember the Movies&quot;</span>
+
 <span class="nv">$ </span><span class="nb">cd </span>app
 
 <span class="nv">$ </span>mkdir extensions
@@ -9501,11 +9514,7 @@ The data integrity and relationships are managed in the database by using featur
 <div class="paragraph"><p>Before we can start coding our project is needed for us to copy some Core Data Object extensions, these extensions are designed to make our Core Data implementation more easy and simple. Please copy all the files from <strong>resources/extensions</strong> to our <strong>extensions folder</strong></p></div>
 <div class="paragraph"><p>Now is time to code our model for the app, starting with the <strong>Director</strong> object:</p></div>
 <div class="listingblock">
-<div class="content"><div class="highlight"><pre><span class="nv">$ </span><span class="nb">cd</span> <span class="s2">&quot;Remember the Movies&quot;</span>
-
-<span class="nv">$ </span><span class="nb">cd </span>app
-
-<span class="nv">$ </span>mkdir model
+<div class="content"><div class="highlight"><pre><span class="nv">$ </span>mkdir model
 
 <span class="nv">$ </span><span class="nb">cd </span>model
 
@@ -9675,7 +9684,7 @@ NSBinaryDataAttributeType
 <div class="content"><div class="highlight"><pre><span class="k">class</span> <span class="nc">AppDelegate</span>
 
   <span class="c1"># Lets keep all of our Core Data Objects in here</span>
-  <span class="no">ManageObjectClases</span> <span class="o">=</span> <span class="o">[</span><span class="no">Director</span><span class="p">,</span> <span class="no">Movie</span><span class="o">]</span>
+  <span class="no">ManageObjectClasses</span> <span class="o">=</span> <span class="o">[</span><span class="no">Director</span><span class="p">,</span> <span class="no">Movie</span><span class="o">]</span>
 
   <span class="k">def</span> <span class="nf">application</span><span class="p">(</span><span class="n">application</span><span class="p">,</span> <span class="ss">didFinishLaunchingWithOptions</span><span class="p">:</span><span class="n">launchOptions</span><span class="p">)</span>
 
@@ -9692,7 +9701,7 @@ NSBinaryDataAttributeType
     <span class="c1"># these object as a reference of the objects for Core Data</span>
     <span class="c1"># to use</span>
     <span class="n">managed_object_model</span> <span class="o">=</span> <span class="no">NSManagedObjectModel</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">init</span>
-    <span class="n">managed_object_model</span><span class="o">.</span><span class="n">entities</span> <span class="o">=</span> <span class="no">ManageObjectClases</span><span class="o">.</span><span class="n">collect</span> <span class="p">{</span> <span class="o">|</span><span class="n">c</span><span class="o">|</span> <span class="n">c</span><span class="o">.</span><span class="n">entity</span> <span class="p">}</span>
+    <span class="n">managed_object_model</span><span class="o">.</span><span class="n">entities</span> <span class="o">=</span> <span class="no">ManageObjectClasses</span><span class="o">.</span><span class="n">collect</span> <span class="p">{</span> <span class="o">|</span><span class="n">c</span><span class="o">|</span> <span class="n">c</span><span class="o">.</span><span class="n">entity</span> <span class="p">}</span>
     <span class="n">managed_object_model</span><span class="o">.</span><span class="n">entities</span><span class="o">.</span><span class="n">each</span> <span class="p">{</span> <span class="o">|</span><span class="n">entity</span><span class="o">|</span> <span class="n">entity</span><span class="o">.</span><span class="n">wireRelationships</span> <span class="p">}</span>
 
     <span class="c1"># The next object needed is the NSPersistentStoreCoordinator</span>
