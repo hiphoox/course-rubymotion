@@ -424,7 +424,7 @@ Simulate ./build/iPhoneSimulator-6.0-Development/TimeZoneConverter.app
 (main)>
 ------------
 
-Now hold ‘command’ key and hover mouse on simulator screen. You can see a red-bordered box appears among the application elements, select the first Time Zone area, the interactive console should display the instance corresponding to that label:
+Now hold ‘command’ key and hover mouse on simulator screen. You can see a red-bordered box appears among the application elements, select the current date label the interactive console should display the instance corresponding to that label:
 
 [source, sh]
 ------------
@@ -465,23 +465,50 @@ for this one:
 view.backgroundColor = UIColor.colorWithPatternImage(UIImage.imageNamed("bgApp.png"))
 --------------
 
-.Stylish App
-image::resources/ch02-FirstApplication/image7.png[Stylish App]
+[WARNING]
+Replace code ahead.
 
-We should add some personality to our buttons, open your file *root_view_uitilities.rb* and replace the following method *select_time_zone_Button*: 
+We should add some personality to our buttons, open your file *root_view_uitilities.rb* and replace the following methods *time_label* and *ui_stepper*: 
 
 [source, ruby]
 --------------
-def select_time_zone_Button (xPosition,yPosition)
- 
-  button = UIButton.buttonWithType(UIButtonTypeCustom)
-  button.frame = CGRectMake(xPosition,yPosition,85,73)
-  button.setBackgroundImage (UIImage.imageNamed("btnSelect.png"),forState:UIControlStateNormal)
-  button.setTitle("Select",forState:UIControlStateNormal)
-  button
+def time_label(xPosition,yPosition)
+  label = UILabel.alloc.initWithFrame(CGRectMake(xPosition,yPosition,200,50))
+  label.backgroundColor = UIColor.clearColor;
+  label.text = "UTC offset"
+  label.textColor = UIColor.whiteColor;
+  label.font = UIFont.fontWithName("Noteworthy-Bold",size:18)
+  label
+end
+
+def ui_stepper (xPosition,yPosition)
+
+  stepper = UIStepper.alloc.initWithFrame (CGRectMake(xPosition,yPosition, 30, 30))
+    
+  minusUnSelected = UIImage.imageNamed("btnMinusUnselected.png")
+  minusSelected = UIImage.imageNamed("btnMinusSelected.png")
+  plusUnSelected  = UIImage.imageNamed("btnPlusUnselected.png")
+  plusSelected  = UIImage.imageNamed("btnPlusSelected.png")
+  divider = UIImage.imageNamed("bgDivider.png")
+
+  stepper.setBackgroundColor(UIColor.clearColor)
+  stepper.setDecrementImage(minusUnSelected, forState:UIControlStateNormal)
+  stepper.setDecrementImage(minusSelected, forState:UIControlStateHighlighted)
+
+  stepper.setIncrementImage(plusUnSelected, forState:UIControlStateNormal)
+  stepper.setIncrementImage(plusSelected, forState:UIControlStateHighlighted)
+
+  stepper.setDividerImage(divider, forLeftSegmentState:UIControlStateNormal, rightSegmentState:UIControlStateNormal)
+
+  stepper.addTarget(self ,action: :'stepperPressed:', forControlEvents:UIControlEventValueChanged)
+
+  stepper
+
 end
 -------------
 
+.Stylish App
+image::resources/ch02-FirstApplication/image7.png[Stylish App]
 
 Challenge - Dismiss KeyBoard
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~

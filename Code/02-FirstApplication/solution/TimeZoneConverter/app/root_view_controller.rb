@@ -72,7 +72,7 @@ class RootViewController < UIViewController
     @remoteTimeZoneTextField.delegate = self
     @remoteTimeLabel =  time_label(25,210)
 
-    chooseconvertButton = select_time_zone_Button(220,160)
+    chooseconvertButton = select_time_zone_Button(220,175)
     chooseconvertButton.addTarget(self, action: :'set_remote_time', forControlEvents:UIControlEventTouchUpInside)
 
     view.addSubview(@currentTimeLabel)
