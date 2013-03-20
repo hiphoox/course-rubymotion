@@ -48,8 +48,19 @@ class RootViewController < UIViewController
     @stepper.value = components.minute
     @currentTimeLabel.text = month_year_string(@offsetDate)
   end
-  	  	  
+
+  def textFieldShouldReturn (textField)
+    @remoteTimeZoneTextField.resignFirstResponder
+  end
+
+  def handleSingleTap
+    @remoteTimeZoneTextField.resignFirstResponder
+  end
+
   def viewDidLoad  
+
+    singleTap = UITapGestureRecognizer.alloc.initWithTarget(self, action: :'handleSingleTap')
+    self.view.addGestureRecognizer(singleTap)
 
     @currentTimeLabel =  time_label(25,65)
     @stepper = ui_stepper (220,75)

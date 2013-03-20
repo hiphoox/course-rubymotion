@@ -5,7 +5,7 @@ Time Zone Converter App
 -----------------------
 
 Time is one of the most precious resources that we have, and for travelers around the world it's essential to keep synced between one place and another so they can accomplish goals and requirements on time.
-So we are going to build and application for them, so they can check their localtime and the time in the place where they are traveling. The app should cover the following functionality:
+So we are going to build and application for them, so they can check their local time and the time in the place where they are traveling. The app should cover the following functionality:
 
 - Display local time zone
 - Know time zone against any other time zone
@@ -103,14 +103,14 @@ You should see a gray styled view. Congratulations, you have added your first Vi
 .View Controller Added
 image::resources/ch02-FirstApplication/image2.png[View Controller Added]
 
-It’s time to take a look to the file named *root_view_uitilities.rb* wich contains the following UI elements:
+It's time to take a look to the file named *root_view_uitilities.rb* which contains the following UI elements:
 
 - UILabel 
 - UIButton
 - UITextField
 - UIStepper
 
-Each method recive the position where the UIControl should be display and return the UIcontrol.
+Each method receive the position where the UIControl should be display and return the UIcontrol.
 
 [source, ruby]
 --------------
@@ -477,15 +477,29 @@ end
 -------------
 
 
-Challenge - Adding a title
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+Challenge - Dismiss KeyBoard
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Adding a title to the application: try adding a new method in your file *select_time_zone_Button* that returns an UILabel and set it as title for the application.
+Well, I bet that you have tried to press the "Done" button on the keyboard, and well nothing happens, well you should blame apple for this, but don't worry
+apple want you to take care of it so they provides us a delegate method when "DONE" button A.K.A (Return key) it's pressed, so you only have to add the following method
+to your *root_view_controller.rb* file.
 
-Challenge - Hours Between Zones
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[source, ruby]
+--------------
+def textFieldShouldReturn (textField)
+  @remoteTimeZoneTextField.resignFirstResponder
+end
+--------------
 
-Add a new label between the time zones that indicates the time difference between time zones.
+Challenge - Dismiss on touch
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+How does that fancy app's dismiss the keyboard when other area it's touched ?, well as you may guess it not automatic, so you should add a "Tap Gesture Recognizer" 
+to sense when other area of the screen it's touched, add the following lines which add a tap gesture to the RootViewController view to the *viewDidLoad* method
 
+--------------
+singleTap = UITapGestureRecognizer.alloc.initWithTarget(self, action: :'handleSingleTap')
+self.view.addGestureRecognizer(singleTap)
+--------------
 
+So it's up to you to implement the *handleSingleTap* method to dismiss the keyboard when the screen its touched.
