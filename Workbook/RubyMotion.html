@@ -1208,43 +1208,42 @@ Pacific/Fiji
     <span class="vi">@remoteTimeZoneTextField</span><span class="o">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="nb">self</span>
     <span class="vi">@remoteTimeLabel</span> <span class="o">=</span>  <span class="n">time_label</span><span class="p">(</span><span class="mi">25</span><span class="p">,</span><span class="mi">210</span><span class="p">)</span>
 
-    <span class="n">chooseconvertButton</span> <span class="o">=</span> <span class="n">select_time_zone_Button</span><span class="p">(</span><span class="mi">220</span><span class="p">,</span><span class="mi">120</span><span class="p">)</span>
-    <span class="n">chooseconvertButton</span><span class="o">.</span><span class="n">addTarget</span><span class="p">(</span><span class="nb">self</span><span class="p">,</span> <span class="ss">action</span><span class="p">:</span> <span class="ss">:&#39;set_remote_time&#39;</span><span class="p">,</span> <span class="ss">forControlEvents</span><span class="p">:</span><span class="no">UIControlEventTouchUpInside</span><span class="p">)</span>
-
+<span class="hll">    <span class="n">chooseconvertButton</span> <span class="o">=</span> <span class="n">select_time_zone_Button</span><span class="p">(</span><span class="mi">220</span><span class="p">,</span><span class="mi">120</span><span class="p">)</span>
+</span><span class="hll">    <span class="n">chooseconvertButton</span><span class="o">.</span><span class="n">addTarget</span><span class="p">(</span><span class="nb">self</span><span class="p">,</span> <span class="ss">action</span><span class="p">:</span> <span class="ss">:&#39;set_remote_time&#39;</span><span class="p">,</span> <span class="ss">forControlEvents</span><span class="p">:</span><span class="no">UIControlEventTouchUpInside</span><span class="p">)</span>
+</span>
     <span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="vi">@currentTimeLabel</span><span class="p">)</span>
     <span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="vi">@remoteTimeZoneTextField</span><span class="p">)</span>
     <span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="vi">@remoteTimeLabel</span><span class="p">)</span>
     <span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="vi">@stepper</span><span class="p">)</span>
-    <span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="n">chooseconvertButton</span><span class="p">)</span>
+<span class="hll">    <span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="n">chooseconvertButton</span><span class="p">)</span>
+</span>
+    <span class="n">set_current_time</span>
+    <span class="n">set_remote_time_zone</span>
 
-<span class="hll">    <span class="n">set_current_time</span>
-</span><span class="hll">    <span class="n">set_remote_time_zone</span>
-</span><span class="hll">
-</span><span class="hll">    <span class="n">view</span><span class="o">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">scrollViewTexturedBackgroundColor</span>
-</span><span class="hll">
-</span><span class="hll"><span class="k">end</span>
-</span></pre></div></div></div>
+    <span class="n">view</span><span class="o">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">scrollViewTexturedBackgroundColor</span>
+
+<span class="k">end</span>
+</pre></div></div></div>
 <div class="paragraph"><p>Now add the following method to your <strong>root_view_controller.rb</strong> file</p></div>
 <div class="listingblock">
-<div class="content">
-<pre><code>def stepperPressed (sender)
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">stepperPressed</span> <span class="p">(</span><span class="n">sender</span><span class="p">)</span>
 
-  calendar = NSCalendar.alloc.initWithCalendarIdentifier(NSGregorianCalendar)
+  <span class="n">calendar</span> <span class="o">=</span> <span class="no">NSCalendar</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithCalendarIdentifier</span><span class="p">(</span><span class="no">NSGregorianCalendar</span><span class="p">)</span>
 
-  components = calendar.components (NSMinuteCalendarUnit,fromDate:@offsetDate)
-  minute = components.minute
+  <span class="n">components</span> <span class="o">=</span> <span class="n">calendar</span><span class="o">.</span><span class="n">components</span> <span class="p">(</span><span class="no">NSMinuteCalendarUnit</span><span class="p">,</span><span class="ss">fromDate</span><span class="p">:</span><span class="vi">@offsetDate</span><span class="p">)</span>
+  <span class="n">minute</span> <span class="o">=</span> <span class="n">components</span><span class="o">.</span><span class="n">minute</span>
 
-  if minute &gt; @stepper.value
-    @offsetDate = NSDate.alloc.initWithTimeInterval(-60,sinceDate:@offsetDate)
-  else
-    @offsetDate = NSDate.alloc.initWithTimeInterval(60,sinceDate:@offsetDate)
-  end
+  <span class="k">if</span> <span class="n">minute</span> <span class="o">&gt;</span> <span class="vi">@stepper</span><span class="o">.</span><span class="n">value</span>
+    <span class="vi">@offsetDate</span> <span class="o">=</span> <span class="no">NSDate</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithTimeInterval</span><span class="p">(</span><span class="o">-</span><span class="mi">60</span><span class="p">,</span><span class="ss">sinceDate</span><span class="p">:</span><span class="vi">@offsetDate</span><span class="p">)</span>
+  <span class="k">else</span>
+    <span class="vi">@offsetDate</span> <span class="o">=</span> <span class="no">NSDate</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithTimeInterval</span><span class="p">(</span><span class="mi">60</span><span class="p">,</span><span class="ss">sinceDate</span><span class="p">:</span><span class="vi">@offsetDate</span><span class="p">)</span>
+  <span class="k">end</span>
 
-  components = calendar.components (NSMinuteCalendarUnit,fromDate:@offsetDate)
-  @stepper.value = components.minute
-  @currentTimeLabel.text = month_year_string(@offsetDate)
-end</code></pre>
-</div></div>
+  <span class="n">components</span> <span class="o">=</span> <span class="n">calendar</span><span class="o">.</span><span class="n">components</span> <span class="p">(</span><span class="no">NSMinuteCalendarUnit</span><span class="p">,</span><span class="ss">fromDate</span><span class="p">:</span><span class="vi">@offsetDate</span><span class="p">)</span>
+  <span class="vi">@stepper</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">components</span><span class="o">.</span><span class="n">minute</span>
+  <span class="vi">@currentTimeLabel</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">month_year_string</span><span class="p">(</span><span class="vi">@offsetDate</span><span class="p">)</span>
+<span class="k">end</span>
+</pre></div></div></div>
 <div class="paragraph"><p>Next compile your application; you should see a big black button, don’t hesitate and try it.</p></div>
 <div class="imageblock">
 <div class="content">
