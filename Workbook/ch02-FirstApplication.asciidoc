@@ -114,57 +114,64 @@ Each method receive the position where the UIControl should be display and retur
 
 [source, ruby]
 --------------
-def time_label(xPosition,yPosition)
+module UI_Elements 
 
-  label = UILabel.alloc.initWithFrame(CGRectMake(xPosition,yPosition,200,50))
-  label.backgroundColor = UIColor.clearColor;
-  label.text = "UTC offset"
-  label.textColor = UIColor.whiteColor;
-  label
+  def time_label(xPosition,yPosition)
 
-end
+    label = UILabel.alloc.initWithFrame(CGRectMake(xPosition,yPosition,200,50))
+    label.backgroundColor = UIColor.clearColor;
+    label.text = "UTC offset"
+    label.textColor = UIColor.whiteColor;
+    label
 
-def select_time_zone_Button (xPosition,yPosition)
-  
-  button = UIButton.buttonWithType(UIButtonTypeCustom)
-  button.frame = CGRectMake(xPosition,yPosition,85,73)
-  button.setBackgroundImage (UIImage.imageNamed("btnSelect.png"),forState:UIControlStateNormal)
-  button.setTitle("Convert",forState:UIControlStateNormal)
-  button
+  end
 
-end
+  def select_time_zone_Button (xPosition,yPosition)
+    
+    button = UIButton.buttonWithType(UIButtonTypeCustom)
+    button.frame = CGRectMake(xPosition,yPosition,85,73)
+    button.setBackgroundImage (UIImage.imageNamed("btnSelect.png"),forState:UIControlStateNormal)
+    button.setTitle("Convert",forState:UIControlStateNormal)
+    button
+
+  end
 
 
-def time_zone_text_field (xPosition,yPosition)
+  def time_zone_text_field (xPosition,yPosition)
 
-  textField = UITextField.alloc.initWithFrame(CGRectMake(xPosition,yPosition, 170, 30))
-  textField.borderStyle = UITextBorderStyleRoundedRect
-  textField.font = UIFont.systemFontOfSize(15)
-  #textField.setUserInteractionEnabled (false)
+    textField = UITextField.alloc.initWithFrame(CGRectMake(xPosition,yPosition, 170, 30))
+    textField.borderStyle = UITextBorderStyleRoundedRect
+    textField.font = UIFont.systemFontOfSize(15)
+    #textField.setUserInteractionEnabled (false)
 
-  textField
+    textField
 
-end
+  end
 
-def ui_stepper (xPosition,yPosition)
+  def ui_stepper (xPosition,yPosition)
 
-  stepper = UIStepper.alloc.initWithFrame (CGRectMake(xPosition,yPosition, 30, 30))
-  stepper.addTarget(self ,action: :'stepperPressed:', forControlEvents:UIControlEventValueChanged)
+    stepper = UIStepper.alloc.initWithFrame (CGRectMake(xPosition,yPosition, 30, 30))
+    stepper.addTarget(self ,action: :'stepperPressed:', forControlEvents:UIControlEventValueChanged)
 
-  stepper
+    stepper
+
+  end
 
 end
 --------------
 
-Save your file and compile the project to see if everything goes well, and then open the file *root_view_controller.rb* We are going to add our controls, then add the following highlighted code: 
+Save your file and compile the project to see if everything goes well, and then open file *root_view_controller.rb*. We need to add our controls, please replace all content with the following
 
 [WARNING]
-Adding code ahead. 
+Replace code ahead. 
 
-["source","ruby", args="-O \"hl_lines=3 4 5 6 7 8 9 10 11 12 13 14 15 16 19 20 21 22 23 24 25 26\""]
+[source, ruby]
 --------------
 class RootViewController < UIViewController
   
+  include UI_Elements
+  include TimeOffset
+
   def set_current_time
 
     calendar = NSCalendar.alloc.initWithCalendarIdentifier(NSGregorianCalendar)
@@ -221,7 +228,7 @@ class RootViewController < UIViewController
 end
 --------------
 
-Run your program and you should see at the top an UILabel with your current time zone also an UIStepper which will be useful to change this date, and at least and UITextField indicating the remote Time Zone in this case Zurich, feel free to put any other of the following know time zones
+Run your program and you should see at the top an UILabel with your current time zone also an UIStepper which will be useful to change this date, and finally and UITextField indicating the remote Time Zone in this case Zurich, feel free to put any other of the following know time zones
 
 - America/Cancun
 - Asia/Tokyo
