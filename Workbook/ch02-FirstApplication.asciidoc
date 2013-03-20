@@ -468,7 +468,7 @@ view.backgroundColor = UIColor.colorWithPatternImage(UIImage.imageNamed("bgApp.p
 [WARNING]
 Replace code ahead.
 
-We should add some personality to our buttons, open your file *root_view_uitilities.rb* and replace the following methods *time_label* and *ui_stepper*: 
+We should add some personality to our buttons, open your file *root_view_uitilities.rb* and replace the *time_label* method: 
 
 [source, ruby]
 --------------
@@ -479,31 +479,6 @@ def time_label(xPosition,yPosition)
   label.textColor = UIColor.whiteColor;
   label.font = UIFont.fontWithName("Noteworthy-Bold",size:18)
   label
-end
-
-def ui_stepper (xPosition,yPosition)
-
-  stepper = UIStepper.alloc.initWithFrame (CGRectMake(xPosition,yPosition, 30, 30))
-    
-  minusUnSelected = UIImage.imageNamed("btnMinusUnselected.png")
-  minusSelected = UIImage.imageNamed("btnMinusSelected.png")
-  plusUnSelected  = UIImage.imageNamed("btnPlusUnselected.png")
-  plusSelected  = UIImage.imageNamed("btnPlusSelected.png")
-  divider = UIImage.imageNamed("bgDivider.png")
-
-  stepper.setBackgroundColor(UIColor.clearColor)
-  stepper.setDecrementImage(minusUnSelected, forState:UIControlStateNormal)
-  stepper.setDecrementImage(minusSelected, forState:UIControlStateHighlighted)
-
-  stepper.setIncrementImage(plusUnSelected, forState:UIControlStateNormal)
-  stepper.setIncrementImage(plusSelected, forState:UIControlStateHighlighted)
-
-  stepper.setDividerImage(divider, forLeftSegmentState:UIControlStateNormal, rightSegmentState:UIControlStateNormal)
-
-  stepper.addTarget(self ,action: :'stepperPressed:', forControlEvents:UIControlEventValueChanged)
-
-  stepper
-
 end
 -------------
 
