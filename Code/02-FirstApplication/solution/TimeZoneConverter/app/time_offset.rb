@@ -1,3 +1,5 @@
+module TimeOffset
+
   def month_year_string (date)
 
     format = NSDateFormatter.alloc.init
@@ -22,3 +24,5 @@
 
     dateString
   end
+  
+end 

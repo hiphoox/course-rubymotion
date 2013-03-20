@@ -1,5 +1,8 @@
 class RootViewController < UIViewController
   
+  include UI_Elements
+  include TimeOffset
+
 	def set_current_time
     calendar = NSCalendar.alloc.initWithCalendarIdentifier(NSGregorianCalendar)
     @offsetDate = NSDate.date
@@ -81,8 +84,8 @@ class RootViewController < UIViewController
 
     set_current_time
     set_remote_time_zone
-
-    view.backgroundColor = UIColor.scrollViewTexturedBackgroundColor
+  
+    view.backgroundColor = UIColor.alloc.initWithPatternImage(UIImage.imageNamed("bgApp.png"))
 
   end  
 
