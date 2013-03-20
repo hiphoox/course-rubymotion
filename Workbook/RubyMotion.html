@@ -831,20 +831,20 @@ asciidoc.install(2);
 <h2 id="_time_zone_converter_app">Time Zone Converter App</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>Time is one of the most precious resources that we have, and for travelers around the world it&#8217;s essential to keep synced between one place and another so they can accomplish goals and requirements on time.
-So we are going to build and application for them, so they can check their localtime and the time in the place where they are traveling. The app should cover the following functionality:</p></div>
+So we are going to build and application for them, so they can check their local time and the time in the place where they are traveling. The app should cover the following functionality:</p></div>
 <div class="ulist"><ul>
 <li>
 <p>
-Ability to select known Time Regions (local and remote)
+Display local time zone
 </p>
 </li>
 <li>
 <p>
-Display UTC local and remote time
+Know time zone against any other time zone
 </p>
 </li>
 </ul></div>
-<div class="paragraph"><p>Run the following command in your terminal:</p></div>
+<div class="paragraph"><p>First at all we need to create our application with ruby motion so let&#8217;s run the following command in your terminal:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="nv">$ </span>motion create TimeZoneConverter
 </pre></div></div></div>
@@ -875,7 +875,15 @@ Display UTC local and remote time
 <td class="icon">
 <div class="title">Note</div>
 </td>
-<td class="content">Please add the assets to the resources folder of your project. You can find them under the resources folder and inside there is an <em>images</em> folder with the assets necessary for this chapter.</td>
+<td class="content">Please add assets to the resources folder of your project. You can find them on resources folder, there is an <em>images</em> folder with the assets necessary for this chapter.</td>
+</tr></table>
+</div>
+<div class="admonitionblock">
+<table><tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">Please add the following ruby files to the app folder: root_view_utilities.rb and time_offset.rb which help us in this chapter.</td>
 </tr></table>
 </div>
 <div class="sect2">
@@ -926,84 +934,169 @@ Display UTC local and remote time
 </div>
 <div class="title">Figure 2. View Controller Added</div>
 </div>
-<div class="paragraph"><p>It’s time to create our human interface controls, create a new file named <strong>root_view_uitilities.rb</strong> and add the following code:</p></div>
+<div class="paragraph"><p>It&#8217;s time to take a look to the file named <strong>root_view_uitilities.rb</strong> which contains the following UI elements:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+UILabel
+</p>
+</li>
+<li>
+<p>
+UIButton
+</p>
+</li>
+<li>
+<p>
+UITextField
+</p>
+</li>
+<li>
+<p>
+UIStepper
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Each method receive the position where the UIControl should be display and return the UIcontrol.</p></div>
 <div class="listingblock">
-<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">location_label</span><span class="p">(</span><span class="n">xPosition</span><span class="p">,</span><span class="n">yPosition</span><span class="p">)</span>
+<div class="content"><div class="highlight"><pre><span class="k">module</span> <span class="nn">UI_Elements</span>
 
-  <span class="n">label</span> <span class="o">=</span> <span class="no">UILabel</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithFrame</span><span class="p">(</span><span class="no">CGRectMake</span><span class="p">(</span><span class="n">xPosition</span><span class="p">,</span><span class="n">yPosition</span><span class="p">,</span><span class="mi">200</span><span class="p">,</span><span class="mi">50</span><span class="p">))</span>
-  <span class="n">label</span><span class="o">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">clearColor</span>
-  <span class="n">label</span><span class="o">.</span><span class="n">font</span> <span class="o">=</span> <span class="no">UIFont</span><span class="o">.</span><span class="n">fontWithName</span><span class="p">(</span><span class="s2">&quot;HelveticaNeue-CondensedBold&quot;</span><span class="p">,</span><span class="ss">size</span><span class="p">:</span><span class="mi">18</span><span class="p">)</span>
-  <span class="n">label</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;Time Zone&quot;</span>
-  <span class="n">label</span>
-<span class="k">end</span>
+  <span class="k">def</span> <span class="nf">time_label</span><span class="p">(</span><span class="n">xPosition</span><span class="p">,</span><span class="n">yPosition</span><span class="p">)</span>
 
-<span class="k">def</span> <span class="nf">time_label</span><span class="p">(</span><span class="n">xPosition</span><span class="p">,</span><span class="n">yPosition</span><span class="p">)</span>
+    <span class="n">label</span> <span class="o">=</span> <span class="no">UILabel</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithFrame</span><span class="p">(</span><span class="no">CGRectMake</span><span class="p">(</span><span class="n">xPosition</span><span class="p">,</span><span class="n">yPosition</span><span class="p">,</span><span class="mi">200</span><span class="p">,</span><span class="mi">50</span><span class="p">))</span>
+    <span class="n">label</span><span class="o">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">clearColor</span><span class="p">;</span>
+    <span class="n">label</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;UTC offset&quot;</span>
+    <span class="n">label</span><span class="o">.</span><span class="n">textColor</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">whiteColor</span><span class="p">;</span>
+    <span class="n">label</span>
 
-  <span class="n">label</span> <span class="o">=</span> <span class="no">UILabel</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithFrame</span><span class="p">(</span><span class="no">CGRectMake</span><span class="p">(</span><span class="n">xPosition</span><span class="p">,</span><span class="n">yPosition</span><span class="p">,</span><span class="mi">200</span><span class="p">,</span><span class="mi">50</span><span class="p">))</span>
-  <span class="n">label</span><span class="o">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">clearColor</span>
-  <span class="n">label</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;Time&quot;</span>
-  <span class="n">label</span><span class="o">.</span><span class="n">textColor</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">whiteColor</span>
-  <span class="n">label</span>
-<span class="k">end</span>
+  <span class="k">end</span>
 
-<span class="k">def</span> <span class="nf">select_time_zone_Button</span> <span class="p">(</span><span class="n">xPosition</span><span class="p">,</span><span class="n">yPosition</span><span class="p">)</span>
+  <span class="k">def</span> <span class="nf">select_time_zone_Button</span> <span class="p">(</span><span class="n">xPosition</span><span class="p">,</span><span class="n">yPosition</span><span class="p">)</span>
 
-  <span class="n">button</span> <span class="o">=</span> <span class="no">UIButton</span><span class="o">.</span><span class="n">buttonWithType</span><span class="p">(</span><span class="no">UIButtonTypeRoundedRect</span><span class="p">)</span>
-  <span class="n">button</span><span class="o">.</span><span class="n">frame</span> <span class="o">=</span> <span class="no">CGRectMake</span><span class="p">(</span><span class="n">xPosition</span><span class="p">,</span><span class="n">yPosition</span><span class="p">,</span><span class="mi">90</span><span class="p">,</span><span class="mi">90</span><span class="p">)</span>
-  <span class="n">button</span><span class="o">.</span><span class="n">setTitle</span><span class="p">(</span><span class="s2">&quot;Select&quot;</span><span class="p">,</span><span class="ss">forState</span><span class="p">:</span><span class="no">UIControlStateNormal</span><span class="p">)</span>
-  <span class="n">button</span>
-<span class="k">end</span>
+    <span class="n">button</span> <span class="o">=</span> <span class="no">UIButton</span><span class="o">.</span><span class="n">buttonWithType</span><span class="p">(</span><span class="no">UIButtonTypeCustom</span><span class="p">)</span>
+    <span class="n">button</span><span class="o">.</span><span class="n">frame</span> <span class="o">=</span> <span class="no">CGRectMake</span><span class="p">(</span><span class="n">xPosition</span><span class="p">,</span><span class="n">yPosition</span><span class="p">,</span><span class="mi">85</span><span class="p">,</span><span class="mi">73</span><span class="p">)</span>
+    <span class="n">button</span><span class="o">.</span><span class="n">setBackgroundImage</span> <span class="p">(</span><span class="no">UIImage</span><span class="o">.</span><span class="n">imageNamed</span><span class="p">(</span><span class="s2">&quot;btnSelect.png&quot;</span><span class="p">),</span><span class="ss">forState</span><span class="p">:</span><span class="no">UIControlStateNormal</span><span class="p">)</span>
+    <span class="n">button</span><span class="o">.</span><span class="n">setTitle</span><span class="p">(</span><span class="s2">&quot;Convert&quot;</span><span class="p">,</span><span class="ss">forState</span><span class="p">:</span><span class="no">UIControlStateNormal</span><span class="p">)</span>
+    <span class="n">button</span>
 
-<span class="k">def</span> <span class="nf">zone_picker</span> <span class="p">(</span><span class="n">xPosition</span><span class="p">,</span><span class="n">yPosition</span><span class="p">)</span>
+  <span class="k">end</span>
 
-  <span class="n">picker</span> <span class="o">=</span> <span class="no">UIPickerView</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithFrame</span><span class="p">(</span><span class="no">CGRectMake</span><span class="p">(</span><span class="n">xPosition</span><span class="p">,</span><span class="n">yPosition</span><span class="p">,</span> <span class="mi">320</span><span class="p">,</span> <span class="mi">250</span><span class="p">))</span>
-  <span class="n">picker</span><span class="o">.</span><span class="n">hidden</span> <span class="o">=</span> <span class="kp">true</span>
-  <span class="n">picker</span><span class="o">.</span><span class="n">showsSelectionIndicator</span> <span class="o">=</span> <span class="kp">true</span>
-  <span class="n">picker</span>
+
+  <span class="k">def</span> <span class="nf">time_zone_text_field</span> <span class="p">(</span><span class="n">xPosition</span><span class="p">,</span><span class="n">yPosition</span><span class="p">)</span>
+
+    <span class="n">textField</span> <span class="o">=</span> <span class="no">UITextField</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithFrame</span><span class="p">(</span><span class="no">CGRectMake</span><span class="p">(</span><span class="n">xPosition</span><span class="p">,</span><span class="n">yPosition</span><span class="p">,</span> <span class="mi">170</span><span class="p">,</span> <span class="mi">30</span><span class="p">))</span>
+    <span class="n">textField</span><span class="o">.</span><span class="n">borderStyle</span> <span class="o">=</span> <span class="no">UITextBorderStyleRoundedRect</span>
+    <span class="n">textField</span><span class="o">.</span><span class="n">font</span> <span class="o">=</span> <span class="no">UIFont</span><span class="o">.</span><span class="n">systemFontOfSize</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span>
+    <span class="c1">#textField.setUserInteractionEnabled (false)</span>
+
+    <span class="n">textField</span>
+
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">ui_stepper</span> <span class="p">(</span><span class="n">xPosition</span><span class="p">,</span><span class="n">yPosition</span><span class="p">)</span>
+
+    <span class="n">stepper</span> <span class="o">=</span> <span class="no">UIStepper</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithFrame</span> <span class="p">(</span><span class="no">CGRectMake</span><span class="p">(</span><span class="n">xPosition</span><span class="p">,</span><span class="n">yPosition</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">30</span><span class="p">))</span>
+    <span class="n">stepper</span><span class="o">.</span><span class="n">addTarget</span><span class="p">(</span><span class="nb">self</span> <span class="p">,</span><span class="ss">action</span><span class="p">:</span> <span class="ss">:&#39;stepperPressed:&#39;</span><span class="p">,</span> <span class="ss">forControlEvents</span><span class="p">:</span><span class="no">UIControlEventValueChanged</span><span class="p">)</span>
+
+    <span class="n">stepper</span>
+
+  <span class="k">end</span>
+
 <span class="k">end</span>
 </pre></div></div></div>
-<div class="paragraph"><p>Save your file and compile the project to see if everything goes well, and then open the file <strong>root_view_controller.rb</strong> We are going to add our controls, and add the following highlighted code:</p></div>
+<div class="paragraph"><p>Save your file and compile the project to see if everything goes well, and then open file <strong>root_view_controller.rb</strong>. We need to add our controls, please replace all content with the following</p></div>
 <div class="admonitionblock">
 <table><tr>
 <td class="icon">
 <div class="title">Warning</div>
 </td>
-<td class="content">Adding code ahead.</td>
+<td class="content">Replace code ahead.</td>
 </tr></table>
 </div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="k">class</span> <span class="nc">RootViewController</span> <span class="o">&lt;</span> <span class="no">UIViewController</span>
 
-<span class="hll">  <span class="k">def</span> <span class="nf">set_default_time_zone</span>
-</span><span class="hll">
-</span><span class="hll">    <span class="vi">@defaultTimeZoneLabel</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span>  <span class="no">NSTimeZone</span><span class="o">.</span><span class="n">localTimeZone</span><span class="o">.</span><span class="n">name</span>
-</span><span class="hll">  <span class="k">end</span>
-</span><span class="hll">
-</span><span class="hll">  <span class="k">def</span> <span class="nf">set_default_time</span>
-</span><span class="hll">
-</span><span class="hll">    <span class="n">defaultTimeZone</span> <span class="o">=</span> <span class="no">NSTimeZone</span><span class="o">.</span><span class="n">timeZoneWithName</span><span class="p">(</span><span class="vi">@defaultTimeZoneLabel</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
-</span><span class="hll">    <span class="n">formatter</span> <span class="o">=</span> <span class="no">NSDateFormatter</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">init</span>
-</span><span class="hll">    <span class="n">formatter</span><span class="o">.</span><span class="n">setDateFormat</span><span class="p">(</span><span class="s1">&#39;HH:mm&#39;</span><span class="p">)</span>
-</span><span class="hll">    <span class="n">formatter</span><span class="o">.</span><span class="n">setTimeZone</span><span class="p">(</span><span class="n">defaultTimeZone</span><span class="p">)</span>
-</span><span class="hll">    <span class="n">dateFormat</span> <span class="o">=</span> <span class="n">formatter</span><span class="o">.</span><span class="n">stringFromDate</span><span class="p">(</span><span class="no">NSDate</span><span class="o">.</span><span class="n">date</span><span class="p">)</span>
-</span><span class="hll">    <span class="vi">@defaultTimeLabel</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;UTC &quot;</span><span class="o">+</span><span class="p">(</span><span class="n">defaultTimeZone</span><span class="o">.</span><span class="n">secondsFromGMT</span><span class="o">/</span><span class="mi">3600</span><span class="p">)</span><span class="o">.</span><span class="n">to_s</span> <span class="o">+</span> <span class="s2">&quot;  &quot;</span><span class="o">+</span><span class="n">dateFormat</span>
-</span><span class="hll">  <span class="k">end</span>
-</span>
+  <span class="kp">include</span> <span class="no">UI_Elements</span>
+  <span class="kp">include</span> <span class="no">TimeOffset</span>
+
+  <span class="k">def</span> <span class="nf">set_current_time</span>
+
+    <span class="n">calendar</span> <span class="o">=</span> <span class="no">NSCalendar</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithCalendarIdentifier</span><span class="p">(</span><span class="no">NSGregorianCalendar</span><span class="p">)</span>
+    <span class="vi">@offsetDate</span> <span class="o">=</span> <span class="no">NSDate</span><span class="o">.</span><span class="n">date</span>
+    <span class="n">components</span> <span class="o">=</span> <span class="n">calendar</span><span class="o">.</span><span class="n">components</span> <span class="p">(</span><span class="no">NSMinuteCalendarUnit</span><span class="p">,</span><span class="ss">fromDate</span><span class="p">:</span><span class="vi">@offsetDate</span><span class="p">)</span>
+
+    <span class="vi">@stepper</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">components</span><span class="o">.</span><span class="n">minute</span>
+    <span class="vi">@currentTimeLabel</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">month_year_string</span><span class="p">(</span><span class="vi">@offsetDate</span><span class="p">)</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">set_remote_time_zone</span>
+
+    <span class="vi">@remoteTimeZoneTextField</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;Europe/Zurich&quot;</span>
+    <span class="vi">@remoteTimeZoneTextField</span><span class="o">.</span><span class="n">returnKeyType</span> <span class="o">=</span> <span class="no">UIReturnKeyDone</span>
+
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">set_remote_time</span>
+
+    <span class="n">convertZone</span> <span class="o">=</span> <span class="no">NSTimeZone</span><span class="o">.</span><span class="n">timeZoneWithName</span><span class="p">(</span><span class="vi">@remoteTimeZoneTextField</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+
+    <span class="n">formatter</span> <span class="o">=</span> <span class="no">NSDateFormatter</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">init</span>
+    <span class="n">formatter</span><span class="o">.</span><span class="n">setDateFormat</span><span class="p">(</span><span class="s1">&#39;HH:mm&#39;</span><span class="p">)</span>
+    <span class="n">formatter</span><span class="o">.</span><span class="n">setTimeZone</span><span class="p">(</span><span class="n">convertZone</span><span class="p">)</span>
+
+    <span class="n">dateFormat</span> <span class="o">=</span> <span class="n">formatter</span><span class="o">.</span><span class="n">stringFromDate</span><span class="p">(</span><span class="vi">@offsetDate</span><span class="p">)</span>
+
+    <span class="vi">@convertDate</span> <span class="o">=</span> <span class="n">formatter</span><span class="o">.</span><span class="n">dateFromString</span><span class="p">(</span><span class="n">dateFormat</span><span class="p">)</span>
+    <span class="vi">@remoteTimeLabel</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;UTC &quot;</span><span class="o">+</span><span class="p">(</span><span class="n">convertZone</span><span class="o">.</span><span class="n">secondsFromGMT</span><span class="o">/</span><span class="mi">3600</span><span class="p">)</span><span class="o">.</span><span class="n">to_s</span> <span class="o">+</span> <span class="s2">&quot;  &quot;</span><span class="o">+</span> <span class="n">dateFormat</span>
+
+  <span class="k">end</span>
+
   <span class="k">def</span> <span class="nf">viewDidLoad</span>
-<span class="hll">    <span class="vi">@defaultTimeZoneLabel</span> <span class="o">=</span> <span class="n">location_label</span><span class="p">(</span><span class="mi">25</span><span class="p">,</span><span class="mi">120</span><span class="p">)</span>
-</span><span class="hll">    <span class="vi">@defaultTimeLabel</span> <span class="o">=</span> <span class="n">time_label</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span><span class="mi">150</span><span class="p">)</span>
-</span><span class="hll">
-</span><span class="hll">    <span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="vi">@defaultTimeZoneLabel</span><span class="p">)</span>
-</span><span class="hll">    <span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="vi">@defaultTimeLabel</span><span class="p">)</span>
-</span><span class="hll">
-</span><span class="hll">    <span class="n">set_default_time_zone</span>
-</span><span class="hll">    <span class="n">set_default_time</span>
-</span>    <span class="n">view</span><span class="o">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">scrollViewTexturedBackgroundColor</span>
+
+    <span class="vi">@currentTimeLabel</span> <span class="o">=</span>  <span class="n">time_label</span><span class="p">(</span><span class="mi">25</span><span class="p">,</span><span class="mi">65</span><span class="p">)</span>
+    <span class="vi">@stepper</span> <span class="o">=</span> <span class="n">ui_stepper</span> <span class="p">(</span><span class="mi">220</span><span class="p">,</span><span class="mi">75</span><span class="p">)</span>
+
+    <span class="vi">@remoteTimeZoneTextField</span> <span class="o">=</span> <span class="n">time_zone_text_field</span><span class="p">(</span><span class="mi">25</span><span class="p">,</span><span class="mi">185</span><span class="p">)</span>
+    <span class="vi">@remoteTimeZoneTextField</span><span class="o">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="nb">self</span>
+    <span class="vi">@remoteTimeLabel</span> <span class="o">=</span>  <span class="n">time_label</span><span class="p">(</span><span class="mi">25</span><span class="p">,</span><span class="mi">210</span><span class="p">)</span>
+
+    <span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="vi">@currentTimeLabel</span><span class="p">)</span>
+    <span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="vi">@remoteTimeZoneTextField</span><span class="p">)</span>
+    <span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="vi">@remoteTimeLabel</span><span class="p">)</span>
+    <span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="vi">@stepper</span><span class="p">)</span>
+
+    <span class="n">set_current_time</span>
+    <span class="n">set_remote_time_zone</span>
+
+    <span class="n">view</span><span class="o">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">scrollViewTexturedBackgroundColor</span>
+
   <span class="k">end</span>
 
 <span class="k">end</span>
 </pre></div></div></div>
-<div class="paragraph"><p>Run your program and you should see two new labels added to the screen, the first one indicates the current timezone name, and the second one the current time.</p></div>
+<div class="paragraph"><p>Run your program and you should see at the top an UILabel with your current time zone also an UIStepper which will be useful to change this date, and finally and UITextField indicating the remote Time Zone in this case Zurich, feel free to put any other of the following know time zones</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+America/Cancun
+</p>
+</li>
+<li>
+<p>
+Asia/Tokyo
+</p>
+</li>
+<li>
+<p>
+Europe/Rome
+</p>
+</li>
+<li>
+<p>
+Pacific/Fiji
+</p>
+</li>
+</ul></div>
 <div class="imageblock">
 <div class="content">
 <img src="resources/ch02-FirstApplication/image3.png" alt="Controls Added" />
@@ -1096,117 +1189,7 @@ Display UTC local and remote time
 <div class="content">
 <pre><code>[].methods.include?(:'objectAtIndex:')</code></pre>
 </div></div>
-<div class="paragraph"><p>It’s time to add a control that lets us select from different time zones, open the <strong>root_view_controller.rb</strong> and add the following highlighted code:</p></div>
-<div class="admonitionblock">
-<table><tr>
-<td class="icon">
-<div class="title">Warning</div>
-</td>
-<td class="content">Adding code ahead.</td>
-</tr></table>
-</div>
-<div class="listingblock">
-<div class="content"><div class="highlight"><pre><span class="k">class</span> <span class="nc">RootViewController</span> <span class="o">&lt;</span> <span class="no">UIViewController</span>
-
-  <span class="k">def</span> <span class="nf">set_default_time_zone</span>
-
-    <span class="vi">@defaultTimeZoneLabel</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span>  <span class="no">NSTimeZone</span><span class="o">.</span><span class="n">localTimeZone</span><span class="o">.</span><span class="n">name</span>
-  <span class="k">end</span>
-
-
-  <span class="k">def</span> <span class="nf">set_default_time</span>
-
-    <span class="n">defaultTimeZone</span> <span class="o">=</span> <span class="no">NSTimeZone</span><span class="o">.</span><span class="n">timeZoneWithName</span><span class="p">(</span><span class="vi">@defaultTimeZoneLabel</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
-    <span class="n">formatter</span> <span class="o">=</span> <span class="no">NSDateFormatter</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">init</span>
-    <span class="n">formatter</span><span class="o">.</span><span class="n">setDateFormat</span><span class="p">(</span><span class="s1">&#39;HH:mm&#39;</span><span class="p">)</span>
-    <span class="n">formatter</span><span class="o">.</span><span class="n">setTimeZone</span><span class="p">(</span><span class="n">defaultTimeZone</span><span class="p">)</span>
-    <span class="n">dateFormat</span> <span class="o">=</span> <span class="n">formatter</span><span class="o">.</span><span class="n">stringFromDate</span><span class="p">(</span><span class="no">NSDate</span><span class="o">.</span><span class="n">date</span><span class="p">)</span>
-    <span class="vi">@defaultTimeLabel</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;UTC &quot;</span><span class="o">+</span><span class="p">(</span><span class="n">defaultTimeZone</span><span class="o">.</span><span class="n">secondsFromGMT</span><span class="o">/</span><span class="mi">3600</span><span class="p">)</span><span class="o">.</span><span class="n">to_s</span> <span class="o">+</span> <span class="s2">&quot;  &quot;</span><span class="o">+</span><span class="n">dateFormat</span>
-  <span class="k">end</span>
-
-<span class="hll">  <span class="k">def</span> <span class="nf">present_local_zone_picker</span><span class="p">(</span><span class="n">sender</span><span class="p">)</span>
-</span><span class="hll">
-</span><span class="hll">    <span class="n">button</span> <span class="o">=</span> <span class="n">sender</span>
-</span><span class="hll">    <span class="vi">@zonePicker</span><span class="o">.</span><span class="n">frame</span> <span class="o">=</span> <span class="no">CGRectMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">244</span><span class="p">,</span> <span class="mi">320</span><span class="p">,</span> <span class="mi">216</span><span class="p">)</span>
-</span><span class="hll">    <span class="vi">@currentZoneLabel</span> <span class="o">=</span> <span class="vi">@defaultTimeZoneLabel</span>
-</span><span class="hll">
-</span><span class="hll">    <span class="k">if</span> <span class="vi">@zonePicker</span><span class="o">.</span><span class="n">isHidden</span>
-</span><span class="hll">      <span class="vi">@zonePicker</span><span class="o">.</span><span class="n">hidden</span> <span class="o">=</span> <span class="kp">false</span>
-</span><span class="hll">      <span class="n">button</span><span class="o">.</span><span class="n">setTitle</span><span class="p">(</span><span class="s2">&quot;Choose&quot;</span><span class="p">,</span><span class="ss">forState</span><span class="p">:</span><span class="no">UIControlStateNormal</span><span class="p">)</span>
-</span><span class="hll">    <span class="k">else</span>
-</span><span class="hll">      <span class="vi">@zonePicker</span><span class="o">.</span><span class="n">hidden</span> <span class="o">=</span> <span class="kp">true</span>
-</span><span class="hll">      <span class="n">button</span><span class="o">.</span><span class="n">setTitle</span><span class="p">(</span><span class="s2">&quot;Select&quot;</span><span class="p">,</span><span class="ss">forState</span><span class="p">:</span><span class="no">UIControlStateNormal</span><span class="p">)</span>
-</span><span class="hll">      <span class="n">set_default_time</span>
-</span><span class="hll">    <span class="k">end</span>
-</span><span class="hll">  <span class="k">end</span>
-</span><span class="hll">
-</span><span class="hll">
-</span><span class="hll"><span class="c1"># UIPicker View Controller DataSource</span>
-</span><span class="hll">
-</span><span class="hll">  <span class="k">def</span> <span class="nf">numberOfComponentsInPickerView</span><span class="p">(</span><span class="n">pickerView</span><span class="p">)</span>
-</span><span class="hll">
-</span><span class="hll">    <span class="mi">1</span>
-</span><span class="hll">  <span class="k">end</span>
-</span><span class="hll">
-</span><span class="hll">
-</span><span class="hll">  <span class="k">def</span> <span class="nf">pickerView</span><span class="p">(</span><span class="n">pickerView</span><span class="p">,</span><span class="ss">numberOfRowsInComponent</span><span class="p">:</span><span class="n">component</span><span class="p">)</span>
-</span><span class="hll">
-</span><span class="hll">    <span class="no">NSTimeZone</span><span class="o">.</span><span class="n">knownTimeZoneNames</span><span class="o">.</span><span class="n">count</span>
-</span><span class="hll">  <span class="k">end</span>
-</span><span class="hll">
-</span><span class="hll">
-</span><span class="hll"><span class="c1"># UIPicker View Controller Delegate</span>
-</span><span class="hll">
-</span><span class="hll">  <span class="k">def</span> <span class="nf">pickerView</span><span class="p">(</span><span class="n">pickerView</span><span class="p">,</span> <span class="ss">titleForRow</span><span class="p">:</span><span class="n">row</span><span class="p">,</span><span class="ss">forComponent</span><span class="p">:</span><span class="n">component</span><span class="p">)</span>
-</span><span class="hll">
-</span><span class="hll">    <span class="no">NSTimeZone</span><span class="o">.</span><span class="n">knownTimeZoneNames</span><span class="o">[</span><span class="n">row</span><span class="o">]</span>
-</span><span class="hll">  <span class="k">end</span>
-</span><span class="hll">
-</span><span class="hll">
-</span><span class="hll">  <span class="k">def</span> <span class="nf">pickerView</span><span class="p">(</span><span class="n">pickerView</span><span class="p">,</span> <span class="ss">didSelectRow</span><span class="p">:</span><span class="n">row</span><span class="p">,</span> <span class="ss">inComponent</span><span class="p">:</span><span class="n">component</span><span class="p">)</span>
-</span><span class="hll">
-</span><span class="hll">    <span class="vi">@currentZoneLabel</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="no">NSTimeZone</span><span class="o">.</span><span class="n">knownTimeZoneNames</span><span class="o">[</span><span class="n">row</span><span class="o">]</span>
-</span><span class="hll">  <span class="k">end</span>
-</span><span class="hll">
-</span>
-  <span class="k">def</span> <span class="nf">viewDidLoad</span>
-
-    <span class="vi">@defaultTimeZoneLabel</span> <span class="o">=</span> <span class="n">location_label</span><span class="p">(</span><span class="mi">25</span><span class="p">,</span><span class="mi">120</span><span class="p">)</span>
-    <span class="vi">@defaultTimeLabel</span> <span class="o">=</span> <span class="n">time_label</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span><span class="mi">150</span><span class="p">)</span>
-<span class="hll">    <span class="n">chooseLocalButton</span> <span class="o">=</span> <span class="n">select_time_zone_Button</span><span class="p">(</span><span class="mi">220</span><span class="p">,</span><span class="mi">115</span><span class="p">)</span>
-</span><span class="hll">    <span class="n">chooseLocalButton</span><span class="o">.</span><span class="n">addTarget</span><span class="p">(</span><span class="nb">self</span><span class="p">,</span>
-</span><span class="hll">                                  <span class="ss">action</span><span class="p">:</span> <span class="ss">:&#39;present_local_zone_picker:&#39;</span><span class="p">,</span>
-</span><span class="hll">                                  <span class="ss">forControlEvents</span><span class="p">:</span><span class="no">UIControlEventTouchUpInside</span><span class="p">)</span>
-</span><span class="hll">
-</span><span class="hll">    <span class="vi">@zonePicker</span> <span class="o">=</span> <span class="n">zone_picker</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">244</span><span class="p">)</span>
-</span><span class="hll">    <span class="vi">@zonePicker</span><span class="o">.</span><span class="n">dataSource</span> <span class="o">=</span> <span class="nb">self</span>
-</span><span class="hll">    <span class="vi">@zonePicker</span><span class="o">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="nb">self</span>
-</span>    <span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="vi">@defaultTimeZoneLabel</span><span class="p">)</span>
-    <span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="vi">@defaultTimeLabel</span><span class="p">)</span>
-<span class="hll">    <span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="n">chooseLocalButton</span><span class="p">)</span>
-</span><span class="hll">    <span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="vi">@zonePicker</span><span class="p">)</span>
-</span>    <span class="n">set_default_time_zone</span>
-    <span class="n">set_default_time</span>
-    <span class="n">view</span><span class="o">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">scrollViewTexturedBackgroundColor</span>
-  <span class="k">end</span>
-<span class="k">end</span>
-</pre></div></div></div>
-<div class="paragraph"><p>Next compile your application; you should see a big white button, don’t hesitate and try it.</p></div>
-<div class="imageblock">
-<div class="content">
-<img src="resources/ch02-FirstApplication/image4.png" alt="UIPicker Added" />
-</div>
-<div class="title">Figure 4. UIPicker Added</div>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="resources/ch02-FirstApplication/image5.png" alt="UIPicker Selected" />
-</div>
-<div class="title">Figure 5. UIPicker Added</div>
-</div>
-<div class="paragraph"><p>Go ahead and look for a region that you may like to be and see the local time in this area.</p></div>
-<div class="paragraph"><p>You‘ll never wonder again what time it is on other side of the planet, but you may think that it&#8217;s not good enough to know the time in one region, two is always better than one. Let&#8217;s add a second set of controls.</p></div>
-<div class="paragraph"><p>First of all open your <strong>root_view_controller.rb</strong> file and add the following highlighted code in the <strong>loadView</strong> method.</p></div>
+<div class="paragraph"><p>It’s time to add a button that shows time for remote time zone, open the <strong>root_view_controller.rb</strong> and add the following highlighted code on your <strong>viewDidLoadMethod</strong>:</p></div>
 <div class="admonitionblock">
 <table><tr>
 <td class="icon">
@@ -1218,63 +1201,57 @@ Display UTC local and remote time
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">viewDidLoad</span>
 
-  <span class="vi">@defaultTimeZoneLabel</span> <span class="o">=</span> <span class="n">location_label</span><span class="p">(</span><span class="mi">25</span><span class="p">,</span><span class="mi">120</span><span class="p">)</span>
-  <span class="vi">@defaultTimeLabel</span> <span class="o">=</span> <span class="n">time_label</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span><span class="mi">150</span><span class="p">)</span>
-  <span class="n">chooseLocalButton</span> <span class="o">=</span> <span class="n">select_time_zone_Button</span><span class="p">(</span><span class="mi">220</span><span class="p">,</span><span class="mi">115</span><span class="p">)</span>
-  <span class="n">chooseLocalButton</span><span class="o">.</span><span class="n">addTarget</span><span class="p">(</span><span class="nb">self</span><span class="p">,</span> <span class="ss">action</span><span class="p">:</span> <span class="ss">:&#39;present_local_zone_picker:&#39;</span><span class="p">,</span> <span class="ss">forControlEvents</span><span class="p">:</span><span class="no">UIControlEventTouchUpInside</span><span class="p">)</span>
-<span class="hll">  <span class="vi">@converTimeZoneLabel</span> <span class="o">=</span>  <span class="n">location_label</span><span class="p">(</span><span class="mi">25</span><span class="p">,</span><span class="mi">290</span><span class="p">)</span>
-</span><span class="hll">  <span class="vi">@convertTimeLabel</span> <span class="o">=</span> <span class="n">time_label</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span><span class="mi">320</span><span class="p">)</span>
-</span><span class="hll">  <span class="n">chooseconvertButton</span> <span class="o">=</span> <span class="n">select_time_zone_Button</span><span class="p">(</span><span class="mi">220</span><span class="p">,</span><span class="mi">300</span><span class="p">)</span>
-</span><span class="hll">  <span class="n">chooseconvertButton</span><span class="o">.</span><span class="n">addTarget</span><span class="p">(</span><span class="nb">self</span><span class="p">,</span> <span class="ss">action</span><span class="p">:</span> <span class="ss">:&#39;present_convert_zone_picker:&#39;</span><span class="p">,</span><span class="ss">forControlEvents</span><span class="p">:</span><span class="no">UIControlEventTouchUpInside</span><span class="p">)</span>
-</span><span class="hll">  <span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="vi">@converTimeZoneLabel</span><span class="p">)</span>
-</span><span class="hll">  <span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="vi">@convertTimeLabel</span><span class="p">)</span>
-</span><span class="hll">  <span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="n">chooseconvertButton</span><span class="p">)</span>
-</span>  <span class="vi">@zonePicker</span> <span class="o">=</span> <span class="n">zone_picker</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">244</span><span class="p">)</span>
-  <span class="vi">@zonePicker</span><span class="o">.</span><span class="n">dataSource</span> <span class="o">=</span> <span class="nb">self</span>
-  <span class="vi">@zonePicker</span><span class="o">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="nb">self</span>
-  <span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="vi">@defaultTimeZoneLabel</span><span class="p">)</span>
-  <span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="vi">@defaultTimeLabel</span><span class="p">)</span>
-  <span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="n">chooseLocalButton</span><span class="p">)</span>
-  <span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="vi">@zonePicker</span><span class="p">)</span>
-  <span class="n">set_default_time_zone</span>
-  <span class="n">set_default_time</span>
-  <span class="n">view</span><span class="o">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">scrollViewTexturedBackgroundColor</span>
+    <span class="vi">@currentTimeLabel</span> <span class="o">=</span>  <span class="n">time_label</span><span class="p">(</span><span class="mi">25</span><span class="p">,</span><span class="mi">65</span><span class="p">)</span>
+    <span class="vi">@stepper</span> <span class="o">=</span> <span class="n">ui_stepper</span> <span class="p">(</span><span class="mi">220</span><span class="p">,</span><span class="mi">75</span><span class="p">)</span>
 
-<span class="k">end</span>
-</pre></div></div></div>
-<div class="paragraph"><p>Don’t forget to add the following method in the same file:</p></div>
+    <span class="vi">@remoteTimeZoneTextField</span> <span class="o">=</span> <span class="n">time_zone_text_field</span><span class="p">(</span><span class="mi">25</span><span class="p">,</span><span class="mi">185</span><span class="p">)</span>
+    <span class="vi">@remoteTimeZoneTextField</span><span class="o">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="nb">self</span>
+    <span class="vi">@remoteTimeLabel</span> <span class="o">=</span>  <span class="n">time_label</span><span class="p">(</span><span class="mi">25</span><span class="p">,</span><span class="mi">210</span><span class="p">)</span>
+
+    <span class="n">chooseconvertButton</span> <span class="o">=</span> <span class="n">select_time_zone_Button</span><span class="p">(</span><span class="mi">220</span><span class="p">,</span><span class="mi">120</span><span class="p">)</span>
+    <span class="n">chooseconvertButton</span><span class="o">.</span><span class="n">addTarget</span><span class="p">(</span><span class="nb">self</span><span class="p">,</span> <span class="ss">action</span><span class="p">:</span> <span class="ss">:&#39;set_remote_time&#39;</span><span class="p">,</span> <span class="ss">forControlEvents</span><span class="p">:</span><span class="no">UIControlEventTouchUpInside</span><span class="p">)</span>
+
+    <span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="vi">@currentTimeLabel</span><span class="p">)</span>
+    <span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="vi">@remoteTimeZoneTextField</span><span class="p">)</span>
+    <span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="vi">@remoteTimeLabel</span><span class="p">)</span>
+    <span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="vi">@stepper</span><span class="p">)</span>
+    <span class="n">view</span><span class="o">.</span><span class="n">addSubview</span><span class="p">(</span><span class="n">chooseconvertButton</span><span class="p">)</span>
+
+<span class="hll">    <span class="n">set_current_time</span>
+</span><span class="hll">    <span class="n">set_remote_time_zone</span>
+</span><span class="hll">
+</span><span class="hll">    <span class="n">view</span><span class="o">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">scrollViewTexturedBackgroundColor</span>
+</span><span class="hll">
+</span><span class="hll"><span class="k">end</span>
+</span></pre></div></div></div>
+<div class="paragraph"><p>Now add the following method to your <strong>root_view_controller.rb</strong> file</p></div>
 <div class="listingblock">
-<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">present_convert_zone_picker</span><span class="p">(</span><span class="n">sender</span><span class="p">)</span>
+<div class="content">
+<pre><code>def stepperPressed (sender)
 
-  <span class="n">button</span> <span class="o">=</span> <span class="n">sender</span>
-  <span class="vi">@zonePicker</span><span class="o">.</span><span class="n">frame</span> <span class="o">=</span> <span class="no">CGRectMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span> <span class="mi">320</span><span class="p">,</span> <span class="mi">216</span><span class="p">)</span>
-  <span class="vi">@currentZoneLabel</span> <span class="o">=</span> <span class="vi">@converTimeZoneLabel</span>
+  calendar = NSCalendar.alloc.initWithCalendarIdentifier(NSGregorianCalendar)
 
-  <span class="k">if</span> <span class="vi">@zonePicker</span><span class="o">.</span><span class="n">isHidden</span>
+  components = calendar.components (NSMinuteCalendarUnit,fromDate:@offsetDate)
+  minute = components.minute
 
-    <span class="vi">@zonePicker</span><span class="o">.</span><span class="n">hidden</span> <span class="o">=</span> <span class="kp">false</span>
-    <span class="n">button</span><span class="o">.</span><span class="n">setTitle</span><span class="p">(</span><span class="s2">&quot;Choose&quot;</span><span class="p">,</span><span class="ss">forState</span><span class="p">:</span><span class="no">UIControlStateNormal</span><span class="p">)</span>
+  if minute &gt; @stepper.value
+    @offsetDate = NSDate.alloc.initWithTimeInterval(-60,sinceDate:@offsetDate)
+  else
+    @offsetDate = NSDate.alloc.initWithTimeInterval(60,sinceDate:@offsetDate)
+  end
 
-  <span class="k">else</span>
-
-    <span class="vi">@zonePicker</span><span class="o">.</span><span class="n">hidden</span> <span class="o">=</span> <span class="kp">true</span>
-    <span class="n">button</span><span class="o">.</span><span class="n">setTitle</span><span class="p">(</span><span class="s2">&quot;Select&quot;</span><span class="p">,</span><span class="ss">forState</span><span class="p">:</span><span class="no">UIControlStateNormal</span><span class="p">)</span>
-    <span class="n">set_Convert_Time</span>
-
-  <span class="k">end</span>
-
-<span class="k">end</span>
-
-<span class="k">def</span> <span class="nf">set_Convert_Time</span>
-  <span class="n">convertZone</span> <span class="o">=</span> <span class="no">NSTimeZone</span><span class="o">.</span><span class="n">timeZoneWithName</span><span class="p">(</span><span class="vi">@converTimeZoneLabel</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
-  <span class="n">formatter</span> <span class="o">=</span> <span class="no">NSDateFormatter</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">init</span>
-  <span class="n">formatter</span><span class="o">.</span><span class="n">setDateFormat</span><span class="p">(</span><span class="s1">&#39;HH:mm&#39;</span><span class="p">)</span>
-  <span class="n">formatter</span><span class="o">.</span><span class="n">setTimeZone</span><span class="p">(</span><span class="n">convertZone</span><span class="p">)</span>
-  <span class="n">dateFormat</span> <span class="o">=</span> <span class="n">formatter</span><span class="o">.</span><span class="n">stringFromDate</span><span class="p">(</span><span class="no">NSDate</span><span class="o">.</span><span class="n">date</span><span class="p">)</span>
-  <span class="vi">@convertDate</span> <span class="o">=</span> <span class="n">formatter</span><span class="o">.</span><span class="n">dateFromString</span><span class="p">(</span><span class="n">dateFormat</span><span class="p">)</span>
-  <span class="vi">@convertTimeLabel</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;UTC &quot;</span><span class="o">+</span><span class="p">(</span><span class="n">convertZone</span><span class="o">.</span><span class="n">secondsFromGMT</span><span class="o">/</span><span class="mi">3600</span><span class="p">)</span><span class="o">.</span><span class="n">to_s</span> <span class="o">+</span> <span class="s2">&quot;  &quot;</span><span class="o">+</span> <span class="n">dateFormat</span>
-<span class="k">end</span>
-</pre></div></div></div>
+  components = calendar.components (NSMinuteCalendarUnit,fromDate:@offsetDate)
+  @stepper.value = components.minute
+  @currentTimeLabel.text = month_year_string(@offsetDate)
+end</code></pre>
+</div></div>
+<div class="paragraph"><p>Next compile your application; you should see a big black button, don’t hesitate and try it.</p></div>
+<div class="imageblock">
+<div class="content">
+<img src="resources/ch02-FirstApplication/image4.png" alt="UIPicker Added" />
+</div>
+<div class="title">Figure 4. UIPicker Added</div>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_styling_the_app">Styling the App</h3>
@@ -1303,7 +1280,7 @@ Simulate ./build/iPhoneSimulator-6.0-Development/TimeZoneConverter.app
 <div class="content">
 <img src="resources/ch02-FirstApplication/image6.png" alt="UIPicker Added" />
 </div>
-<div class="title">Figure 6. UIPicker Added</div>
+<div class="title">Figure 5. UIPicker Added</div>
 </div>
 <div class="paragraph"><p>and hit enter, and voila !! The font has changed, but you may not like it, so try with different fonts and sizes. Here there are some of them:</p></div>
 <div class="ulist"><ul>
@@ -1336,7 +1313,7 @@ HelveticaNeue-Medium
 <div class="content">
 <img src="resources/ch02-FirstApplication/image7.png" alt="Stylish App" />
 </div>
-<div class="title">Figure 7. Stylish App</div>
+<div class="title">Figure 6. Stylish App</div>
 </div>
 <div class="paragraph"><p>We should add some personality to our buttons, open your file <strong>root_view_uitilities.rb</strong> and replace the following method <strong>select_time_zone_Button</strong>:</p></div>
 <div class="listingblock">
@@ -1351,12 +1328,26 @@ HelveticaNeue-Medium
 </pre></div></div></div>
 </div>
 <div class="sect2">
-<h3 id="_challenge_adding_a_title">Challenge - Adding a title</h3>
-<div class="paragraph"><p>Adding a title to the application: try adding a new method in your file <strong>select_time_zone_Button</strong> that returns an UILabel and set it as title for the application.</p></div>
+<h3 id="_challenge_dismiss_keyboard">Challenge - Dismiss KeyBoard</h3>
+<div class="paragraph"><p>Well, I bet that you have tried to press the "Done" button on the keyboard, and well nothing happens, well you should blame apple for this, but don&#8217;t worry
+apple want you to take care of it so they provides us a delegate method when "DONE" button A.K.A (Return key) it&#8217;s pressed, so you only have to add the following method
+to your <strong>root_view_controller.rb</strong> file.</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">textFieldShouldReturn</span> <span class="p">(</span><span class="n">textField</span><span class="p">)</span>
+  <span class="vi">@remoteTimeZoneTextField</span><span class="o">.</span><span class="n">resignFirstResponder</span>
+<span class="k">end</span>
+</pre></div></div></div>
 </div>
 <div class="sect2">
-<h3 id="_challenge_hours_between_zones">Challenge - Hours Between Zones</h3>
-<div class="paragraph"><p>Add a new label between the time zones that indicates the time difference between time zones.</p></div>
+<h3 id="_challenge_dismiss_on_touch">Challenge - Dismiss on touch</h3>
+<div class="paragraph"><p>How does that fancy app&#8217;s dismiss the keyboard when other area it&#8217;s touched ?, well as you may guess it not automatic, so you should add a "Tap Gesture Recognizer"
+to sense when other area of the screen it&#8217;s touched, add the following lines which add a tap gesture to the RootViewController view to the <strong>viewDidLoad</strong> method</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>singleTap = UITapGestureRecognizer.alloc.initWithTarget(self, action: :'handleSingleTap')
+self.view.addGestureRecognizer(singleTap)</code></pre>
+</div></div>
+<div class="paragraph"><p>So it&#8217;s up to you to implement the <strong>handleSingleTap</strong> method to dismiss the keyboard when the screen its touched.</p></div>
 </div>
 </div>
 </div>
@@ -1387,7 +1378,7 @@ HelveticaNeue-Medium
 <div class="content">
 <img src="resources/ch03-ObjectiveC/FirstRun.png" alt="First Run" />
 </div>
-<div class="title">Figure 8. First Run</div>
+<div class="title">Figure 7. First Run</div>
 </div>
 </div>
 <div class="sect2">
@@ -1450,7 +1441,7 @@ HelveticaNeue-Medium
 <div class="content">
 <img src="resources/ch03-ObjectiveC/ProjectViewController.png" alt="Project View Controller" />
 </div>
-<div class="title">Figure 9. Project View Controller</div>
+<div class="title">Figure 8. Project View Controller</div>
 </div>
 </div>
 <div class="sect2">
@@ -1591,7 +1582,7 @@ HelveticaNeue-Medium
 <div class="content">
 <img src="resources/ch03-ObjectiveC/ProjectView.png" alt="Project View" />
 </div>
-<div class="title">Figure 10. Project View</div>
+<div class="title">Figure 9. Project View</div>
 </div>
 <div class="paragraph"><p>The segmented controls does not look that pretty right?, lets customize their apperance adding the following method to the project_view_controller.rb file:</p></div>
 <div class="listingblock">
@@ -1672,7 +1663,7 @@ HelveticaNeue-Medium
 <div class="content">
 <img src="resources/ch03-ObjectiveC/ProjectViewWithCustomSegmentedControls.png" alt="Project View with Custom Segmented Controls" />
 </div>
-<div class="title">Figure 11. Project View with Custom Segmented Controls</div>
+<div class="title">Figure 10. Project View with Custom Segmented Controls</div>
 </div>
 <div class="paragraph"><p>If you select the Number of Screens UITextField you will notice that the keyboard does not hide when the return button is touched. To make this happen we need resign the UITextField as the first responder:</p></div>
 <div class="listingblock">
@@ -2195,13 +2186,13 @@ HelveticaNeue-Medium
 <div class="content">
 <img src="resources/ch03-ObjectiveC/FinishedProjectViewController.png" alt="Finished Project View Controller" />
 </div>
-<div class="title">Figure 12. Finished Project View Controller</div>
+<div class="title">Figure 11. Finished Project View Controller</div>
 </div>
 <div class="imageblock">
 <div class="content">
 <img src="resources/ch03-ObjectiveC/FinishedEstimationViewController.png" alt="Finished Estimation View Controller" />
 </div>
-<div class="title">Figure 13. Finished Estimation View Controller</div>
+<div class="title">Figure 12. Finished Estimation View Controller</div>
 </div>
 </div>
 <div class="sect2">
@@ -3074,14 +3065,14 @@ subtitle. Optional, returns an NSString with the subtitle of the annotation.
 <div class="content">
 <img src="Resources/ch09-Testing/ch09_01_app.png" alt="Chapter 7 app" />
 </div>
-<div class="title">Figure 14. Chapter 7 app</div>
+<div class="title">Figure 13. Chapter 7 app</div>
 </div>
 <div class="paragraph"><p>We have added an extra functionality to the app, if you tap the <strong>Book Event</strong> button the title of the button changes to <strong>Event Booked</strong> and is disabled:</p></div>
 <div class="imageblock">
 <div class="content">
 <img src="Resources/ch09-Testing/ch09_02_book_event.png" alt="Book Event" />
 </div>
-<div class="title">Figure 15. Book Event</div>
+<div class="title">Figure 14. Book Event</div>
 </div>
 <div class="paragraph"><p>Besides that, we have added a method to the <strong>event.rb</strong> model class. Open that file and locate the method called <strong>days_left_until:</strong> that gives you the number of days until a future date. If the date is not a future date but is in the past, it will return a 0. This method will be used to paint the correct days left in our Custom View we did in the previous workshop.</p></div>
 <div class="paragraph"><p>You can check how we are calculating the number of days between two dates in the <strong>days_between:and:</strong> method. We are using the <strong>NSDateComponents</strong> class. That class is the one we used in CocoaTouch to make <strong>NSDate</strong> operations. Remember that the traditional Ruby class <strong>Time</strong> inherits from NSDate so we can use it in its place.</p></div>
@@ -3233,7 +3224,7 @@ When given a past date, it returns a 0 (we don&#8217;t want negative numbers in 
 <div class="content">
 <img src="Resources/ch09-Testing/ch09_05_ui_running.png" alt="UI spec passed" />
 </div>
-<div class="title">Figure 16. UI Spec Passed</div>
+<div class="title">Figure 15. UI Spec Passed</div>
 </div>
 </div>
 <div class="sect2">
@@ -4503,7 +4494,7 @@ UITableViewStyleGrouped. A Table with sections in aggrouped in rows. Like the on
 <div class="content">
 <img src="Resources/ch13-CustomCells/ch13_02_empty_cell.png" alt="Empty Cell" />
 </div>
-<div class="title">Figure 17. Empty Cell</div>
+<div class="title">Figure 16. Empty Cell</div>
 </div>
 </div>
 </div>
@@ -4533,7 +4524,7 @@ UITableViewStyleGrouped. A Table with sections in aggrouped in rows. Like the on
 <div class="content">
 <img src="Resources/ch13-CustomCells/ch13_03_cell_background.png" alt="Cell Background" />
 </div>
-<div class="title">Figure 18. Cell Background</div>
+<div class="title">Figure 17. Cell Background</div>
 </div>
 <div class="paragraph"><p>It really looks bad. Our designer has gave us a background image with a height of 200px. And the default height of a Cell is of 44px. That is the reason that the images overlap. Let&#8217;s fix it. Open the NewsViewController and we are going to add another <strong>UITableViewDelegate</strong> method to define a new  height for the cells:</p></div>
 <div class="listingblock">
@@ -4546,7 +4537,7 @@ UITableViewStyleGrouped. A Table with sections in aggrouped in rows. Like the on
 <div class="content">
 <img src="Resources/ch13-CustomCells/ch13_04_cell_height.png" alt="Cell Height" />
 </div>
-<div class="title">Figure 19. Cell Height</div>
+<div class="title">Figure 18. Cell Height</div>
 </div>
 <div class="paragraph"><p>It&#8217;s time to add more components. We are going to start with the title, in our <strong>NewsTableViewCell</strong> class, change the layoutSubviews method to this:</p></div>
 <div class="listingblock">
@@ -4577,7 +4568,7 @@ UITableViewStyleGrouped. A Table with sections in aggrouped in rows. Like the on
 <div class="content">
 <img src="Resources/ch13-CustomCells/ch13_05_cell_title.png" alt="Cell Title" />
 </div>
-<div class="title">Figure 20. Cell Title</div>
+<div class="title">Figure 19. Cell Title</div>
 </div>
 <div class="paragraph"><p>Wow, the titles are all messed up. Again, there is only one instance of the cell and if you just add views to it, you will end with a lot of subviews. We can do two thing to fix this:
 - Do not create a UILabel every time, just once and modify it later for each news title.
@@ -4612,7 +4603,7 @@ UITableViewStyleGrouped. A Table with sections in aggrouped in rows. Like the on
 <div class="content">
 <img src="Resources/ch13-CustomCells/ch13_06_cell_title_right.png" alt="Cell Titles" />
 </div>
-<div class="title">Figure 21. Cell Titles</div>
+<div class="title">Figure 20. Cell Titles</div>
 </div>
 <div class="paragraph"><p>Now we can add the other data: the subtitle and the image (if any) on the news item:</p></div>
 <div class="listingblock">
@@ -4686,7 +4677,7 @@ UITableViewStyleGrouped. A Table with sections in aggrouped in rows. Like the on
 <div class="content">
 <img src="Resources/ch13-CustomCells/ch13_07_final_app.png" alt="Custom Cell Completed" />
 </div>
-<div class="title">Figure 22. Custom Cell Completed</div>
+<div class="title">Figure 21. Custom Cell Completed</div>
 </div>
 </div>
 </div>
@@ -4701,7 +4692,7 @@ UITableViewStyleGrouped. A Table with sections in aggrouped in rows. Like the on
 <div class="content">
 <img src="Resources/ch14-NavigationController/ch14_01_app.png" alt="Current Application" />
 </div>
-<div class="title">Figure 23. Current Application</div>
+<div class="title">Figure 22. Current Application</div>
 </div>
 </div>
 </div>
@@ -4728,7 +4719,7 @@ UITableViewStyleGrouped. A Table with sections in aggrouped in rows. Like the on
 <div class="content">
 <img src="Resources/ch14-NavigationController/ch14_02_navcontrol.png" alt="Navigation Controller" />
 </div>
-<div class="title">Figure 24. Navigation Controller</div>
+<div class="title">Figure 23. Navigation Controller</div>
 </div>
 </div>
 </div>
@@ -4785,7 +4776,7 @@ UIBarMetricsLandscapePhone. Landscape mode, the image must have 480px. of width.
 <div class="content">
 <img src="Resources/ch14-NavigationController/ch14_03_navbar.png" alt="Navigation Bar" />
 </div>
-<div class="title">Figure 25. Navigation Bar</div>
+<div class="title">Figure 24. Navigation Bar</div>
 </div>
 <div class="paragraph"><p>Our final step is to add the Add and Delete buttons to the bar. A Navigation Bar can only have two buttons, one to the left and one to right. Moreover, the buttons should be instances of <strong>UIBarButtonItem</strong> not of UIButton. If you remember, we have the methods deleteButton and  addButton to build UIButtons. We can use these buttons as a base to generate our Bar Button Items. <strong>Modify</strong> the setupNavigationBar method to add the buttons to the navigation bar:</p></div>
 <div class="listingblock">
@@ -4804,7 +4795,7 @@ UIBarMetricsLandscapePhone. Landscape mode, the image must have 480px. of width.
 <div class="content">
 <img src="Resources/ch14-NavigationController/ch14_04_barbuttons.png" alt="Navigation Bar Button Items" />
 </div>
-<div class="title">Figure 26. Navigation Bar Button Items</div>
+<div class="title">Figure 25. Navigation Bar Button Items</div>
 </div>
 </div>
 </div>
@@ -4817,7 +4808,7 @@ UIBarMetricsLandscapePhone. Landscape mode, the image must have 480px. of width.
 <div class="content">
 <img src="Resources/ch14-NavigationController/ch14_05_view_creation.png" alt="View Creation" />
 </div>
-<div class="title">Figure 27. View Creation</div>
+<div class="title">Figure 26. View Creation</div>
 </div>
 <div class="paragraph"><p>Setup the view in the Interface Builder as usual:</p></div>
 <div class="ulist"><ul>
@@ -4854,7 +4845,7 @@ Drag a UITextView and in the <strong>Attributes</strong> inspector unselect the 
 <div class="content">
 <img src="Resources/ch14-NavigationController/ch14_06_interface_builder.png" alt="Interface Builder" />
 </div>
-<div class="title">Figure 28. Interface Builder</div>
+<div class="title">Figure 27. Interface Builder</div>
 </div>
 <div class="paragraph"><p>Our View is ready. Copy the NewsItemDetailView.xib file into the <strong>resources</strong> folder of the RubyMotion project.</p></div>
 <div class="paragraph"><p>Back in our RubyMotion Project, create a file in the <strong>controllers</strong> folder named <strong>news_item_view_controller.rb</strong>. This controller is very simple: it receives a news item and displays it:</p></div>
@@ -4929,7 +4920,7 @@ Drag a UITextView and in the <strong>Attributes</strong> inspector unselect the 
 <div class="content">
 <img src="Resources/ch14-NavigationController/ch14_07_detail.png" alt="Detail Controller" />
 </div>
-<div class="title">Figure 29. Detail Controller</div>
+<div class="title">Figure 28. Detail Controller</div>
 </div>
 <div class="paragraph"><p>As you can see, the navigation controller adds a smooth transition to navigate and a a back button to go back to return to the previous view controller.</p></div>
 </div>
@@ -4943,7 +4934,7 @@ Drag a UITextView and in the <strong>Attributes</strong> inspector unselect the 
 <div class="content">
 <img src="Resources/ch14-NavigationController/ch14_08_detail.png" alt="Back Button" />
 </div>
-<div class="title">Figure 30. Back Button</div>
+<div class="title">Figure 29. Back Button</div>
 </div>
 </div>
 </div>
@@ -5023,14 +5014,14 @@ For this chapter we are going to build the main screen the "photo frame", but in
 <div class="content">
 <img src="resources/ch15-Notifications/ch15_PictureFrame.png" alt="Picture Frame" />
 </div>
-<div class="title">Figure 31. Picture Frame</div>
+<div class="title">Figure 30. Picture Frame</div>
 </div>
 <div class="paragraph"><p>Now Rotate the simulator or the device.</p></div>
 <div class="imageblock">
 <div class="content">
 <img src="resources/ch15-Notifications/ch15_LandscapeFrame.png" alt="Landscape Frame" />
 </div>
-<div class="title">Figure 32. Landscape Frame</div>
+<div class="title">Figure 31. Landscape Frame</div>
 </div>
 <div class="paragraph"><p>What just happened here? Everything indicates that the image did not adjust accordingly to the orientation.
 It may be useful if the device can tell us when it rotates so we can act in response; guess what actually it tell us, we just have to listen carefully or in this case subscribe our view controller to this notification.</p></div>
@@ -5101,7 +5092,7 @@ end</code></pre>
 <div class="content">
 <img src="resources/ch15-Notifications/ch15_LandscapePicture.png" alt="Landscape Picture" />
 </div>
-<div class="title">Figure 33. Landscape Picture</div>
+<div class="title">Figure 32. Landscape Picture</div>
 </div>
 </div>
 <div class="sect2">
@@ -5193,7 +5184,7 @@ UIViewAutoresizingFlexibleBottomMargin
 <div class="content">
 <img src="resources/ch15-Notifications/ch15_PhotoFrameApp.png" alt="Photo Frame App" />
 </div>
-<div class="title">Figure 34. Photo Frame App</div>
+<div class="title">Figure 33. Photo Frame App</div>
 </div>
 </div>
 <div class="sect2">
@@ -5263,21 +5254,21 @@ Add a label that indicates the level of the battery, green when its above 10% an
 <div class="content">
 <img src="Resources/ch16-CollectionViews/image1.png" alt="AlbumView Nib file" />
 </div>
-<div class="title">Figure 35. Create xib file</div>
+<div class="title">Figure 34. Create xib file</div>
 </div>
 <div class="paragraph"><p>Now in your xib editor select a UIView from the right bottom list and drag it to the grid.</p></div>
 <div class="imageblock">
 <div class="content">
 <img src="Resources/ch16-CollectionViews/image2.png" alt="Adding UIView" />
 </div>
-<div class="title">Figure 36. Adding UIView</div>
+<div class="title">Figure 35. Adding UIView</div>
 </div>
 <div class="paragraph"><p>Now select the view an in the attributes inspector set size to retina 3.5 full screen and save the file</p></div>
 <div class="imageblock">
 <div class="content">
 <img src="Resources/ch16-CollectionViews/image3.png" alt="Adding UIView" />
 </div>
-<div class="title">Figure 37. Adding UIView</div>
+<div class="title">Figure 36. Adding UIView</div>
 </div>
 <div class="paragraph"><p>But of course we need to set the nib file to the view controller, modify the loadView method as follow:</p></div>
 <div class="listingblock">
@@ -5293,20 +5284,20 @@ Add a label that indicates the level of the battery, green when its above 10% an
 <div class="content">
 <img src="Resources/ch16-CollectionViews/image4.png" alt="Change color from nib" />
 </div>
-<div class="title">Figure 38. Change color</div>
+<div class="title">Figure 37. Change color</div>
 </div>
 <div class="imageblock">
 <div class="content">
 <img src="Resources/ch16-CollectionViews/image5.png" alt="UIView from xib" />
 </div>
-<div class="title">Figure 39. Change color</div>
+<div class="title">Figure 38. Change color</div>
 </div>
 <div class="paragraph"><p>Now its a good idea to add a menu bar, so we can choose from "photo frame" and "gallery frame" please return the background color to white, and add an UITableView to the view that will serve as a menu.</p></div>
 <div class="imageblock">
 <div class="content">
 <img src="Resources/ch16-CollectionViews/image6.png" alt="UITableView" />
 </div>
-<div class="title">Figure 40. Adding UITableView</div>
+<div class="title">Figure 39. Adding UITableView</div>
 </div>
 <div class="paragraph"><p>Once you added the UITableView, you need to set it&#8217;s tag number to "1" in the inspector view so we can a have reference to that view.</p></div>
 <div class="paragraph"><p>Open the file <strong>album_view_controller.rb</strong> and add reference to the tableView also its' delegate and dataSource.</p></div>
@@ -5368,7 +5359,7 @@ Add a label that indicates the level of the battery, green when its above 10% an
 <div class="content">
 <img src="Resources/ch16-CollectionViews/image7.png" alt="Application menu" />
 </div>
-<div class="title">Figure 41. Application menu</div>
+<div class="title">Figure 40. Application menu</div>
 </div>
 <div class="paragraph"><p>We definitely need to change the appearance of the menu&#8217;s cell, we can use a NIB File for this purpose, the elements that we are going to use are the following:</p></div>
 <div class="ulist"><ul>
@@ -5398,7 +5389,7 @@ CellSeparator (UIImageView)
 <div class="content">
 <img src="Resources/ch16-CollectionViews/image8.png" alt="Adding Custom Cell" />
 </div>
-<div class="title">Figure 42. Adding Custom Cell</div>
+<div class="title">Figure 41. Adding Custom Cell</div>
 </div>
 <div class="paragraph"><p>Well now we need a class in ruby witch match the one that we set on the interface builder, inside your app folder create a file named <strong>menu_cell.rb</strong> and add the following code to it.</p></div>
 <div class="listingblock">
@@ -5433,34 +5424,34 @@ CellSeparator (UIImageView)
 <div class="content">
 <img src="Resources/ch16-CollectionViews/image9.png" alt="Adding UIView" />
 </div>
-<div class="title">Figure 43. Adding UIView</div>
+<div class="title">Figure 42. Adding UIView</div>
 </div>
 <div class="paragraph"><p>But how the cell possibly know that the previous inserted view its it own backgroundView, it couldn&#8217;t. But don&#8217;t worry not everything it&#8217;s lost, select the UITableViewCell element and open the connections inspector, and connect the backgroundView property to the UIView</p></div>
 <div class="imageblock">
 <div class="content">
 <img src="Resources/ch16-CollectionViews/image10.png" alt="Connecting Background Property" />
 </div>
-<div class="title">Figure 44. Connecting Background</div>
+<div class="title">Figure 43. Connecting Background</div>
 </div>
 <div class="paragraph"><p>Now it&#8217;s time to add the missing elements, add an UIImageView that will serve as icon and set its tag to number 3, also we need and UILabel for the section name set its tag to 4 at last add another UIImageView that will serve as tableDivider set its tag to 5</p></div>
 <div class="imageblock">
 <div class="content">
 <img src="Resources/ch16-CollectionViews/image11.png" alt="Custom Cell" />
 </div>
-<div class="title">Figure 45. Custom Cell</div>
+<div class="title">Figure 44. Custom Cell</div>
 </div>
 <div class="paragraph"><p>From Xcode we should set custom class to the UITableViewCell and Cell identifier, we can change this on the identity inspector, put the custom class as <strong>MenuCell</strong> finally in the attributes inspector set the reuse identifier as <strong>MenuCellView</strong></p></div>
 <div class="imageblock">
 <div class="content">
 <img src="Resources/ch16-CollectionViews/customClass.png" alt="Setting custom class" />
 </div>
-<div class="title">Figure 46. Set Custom Class</div>
+<div class="title">Figure 45. Set Custom Class</div>
 </div>
 <div class="imageblock">
 <div class="content">
 <img src="Resources/ch16-CollectionViews/reuseID.png" alt="Setting reuse identifier" />
 </div>
-<div class="title">Figure 47. Set Reusable Identifier</div>
+<div class="title">Figure 46. Set Reusable Identifier</div>
 </div>
 <div class="paragraph"><p>Now we need to tell to the table view that use our custom cell instead of its own, for this propose we need to change the <strong>tableView(tableView, cellForRowAtIndexPath:indexPath)</strong> with the following code also we have to register this NIB file in the view load method</p></div>
 <div class="listingblock">
@@ -5578,7 +5569,7 @@ Notice that in the <strong>viewDidLoad</strong> method we set segment that we wa
 <div class="content">
 <img src="Resources/ch16-CollectionViews/image12.png" alt="Navigation Bar" />
 </div>
-<div class="title">Figure 48. Navigation Bar</div>
+<div class="title">Figure 47. Navigation Bar</div>
 </div>
 <div class="paragraph"><p>But where did our menu go? , don&#8217;t worry it&#8217;s still there but we need a mechanism to show them again, now open your  <strong>photo_frame_view_controller.rb</strong> and add the following code</p></div>
 <div class="listingblock">
@@ -5644,13 +5635,13 @@ Notice that in the <strong>viewDidLoad</strong> method we set segment that we wa
 <div class="content">
 <img src="Resources/ch16-CollectionViews/image13.png" alt="Hide Menu" />
 </div>
-<div class="title">Figure 49. Hide Menu</div>
+<div class="title">Figure 48. Hide Menu</div>
 </div>
 <div class="imageblock">
 <div class="content">
 <img src="Resources/ch16-CollectionViews/image14.png" alt="Show Menu" />
 </div>
-<div class="title">Figure 50. Show Menu</div>
+<div class="title">Figure 49. Show Menu</div>
 </div>
 </div>
 <div class="sect2">
@@ -5671,7 +5662,7 @@ Notice that in the <strong>viewDidLoad</strong> method we set segment that we wa
 <div class="content">
 <img src="Resources/ch16-CollectionViews/image15.png" alt="Adding a collection view" />
 </div>
-<div class="title">Figure 51. Adding a collection view</div>
+<div class="title">Figure 50. Adding a collection view</div>
 </div>
 <div class="paragraph"><p>Now we are going to tell to our UICollectionViewController that its collection view comes from an nib file, add the following code to the <strong>loadView</strong> method also add the methods that customize the Navigation Bar</p></div>
 <div class="listingblock">
@@ -5856,13 +5847,13 @@ It uses a set delegates methods to position every single cell on the collectionV
 <div class="content">
 <img src="Resources/ch16-CollectionViews/collectionCustomClass.png" alt="Collection View Custom Class" />
 </div>
-<div class="title">Figure 52. Collection View Custom Class</div>
+<div class="title">Figure 51. Collection View Custom Class</div>
 </div>
 <div class="imageblock">
 <div class="content">
 <img src="Resources/ch16-CollectionViews/image17.png" alt="Collection View Cells Reuse Identifier" />
 </div>
-<div class="title">Figure 53. Collection View Cells Reuse Identifier</div>
+<div class="title">Figure 52. Collection View Cells Reuse Identifier</div>
 </div>
 <div class="paragraph"><p>Now we have to add the image component to the xib file, add an UIImageView that will be our component for display the photo.</p></div>
 <div class="paragraph"><p>It&#8217;s time to see our album photo come to live, run the app with rake command:</p></div>
@@ -5870,7 +5861,7 @@ It uses a set delegates methods to position every single cell on the collectionV
 <div class="content">
 <img src="Resources/ch16-CollectionViews/image18.png" alt="Plain Collection View" />
 </div>
-<div class="title">Figure 54. Plain Collection View</div>
+<div class="title">Figure 53. Plain Collection View</div>
 </div>
 <div class="paragraph"><p>I know I know it looks awful we still need add the delegate layout methods in your <strong>album_collection_view_controller.rb</strong> add the following code, also in the <strong>viewDidLoad</strong> method change the background color.</p></div>
 <div class="listingblock">
@@ -5902,7 +5893,7 @@ It uses a set delegates methods to position every single cell on the collectionV
 <div class="content">
 <img src="Resources/ch16-CollectionViews/image19.png" alt="Collection View" />
 </div>
-<div class="title">Figure 55. Collection View</div>
+<div class="title">Figure 54. Collection View</div>
 </div>
 </div>
 <div class="sect2">
@@ -5931,21 +5922,21 @@ It uses a set delegates methods to position every single cell on the collectionV
 <div class="content">
 <img src="Resources/ch16-CollectionViews/image20.png" alt="AutoLayout" />
 </div>
-<div class="title">Figure 56. AutoLayout</div>
+<div class="title">Figure 55. AutoLayout</div>
 </div>
 <div class="paragraph"><p>We must agree that it&#8217;s good idea to have the same width for the buttons, we ca use autoLayout for this propose and Interface Builder has a shortcut menu in the bottom-right corner:</p></div>
 <div class="imageblock">
 <div class="content">
 <img src="Resources/ch16-CollectionViews/image21.png" alt="Interface Builder menu" />
 </div>
-<div class="title">Figure 57. Interface Builder menu</div>
+<div class="title">Figure 56. Interface Builder menu</div>
 </div>
 <div class="paragraph"><p>Now if we want buttons have same width, we first should select both buttons by holding the <em>command</em> key and select the center item of the interface builder menu and select equals width, a new constrain it&#8217;s added to buttons.</p></div>
 <div class="imageblock">
 <div class="content">
 <img src="Resources/ch16-CollectionViews/image22.png" alt="Width" />
 </div>
-<div class="title">Figure 58. Equal Width</div>
+<div class="title">Figure 57. Equal Width</div>
 </div>
 <div class="paragraph"><p>I&#8217;m sure that you want to see this in action, wait no more and open <strong>album_view_controller.rb</strong> file and add the following method that will load our Camera View</p></div>
 <div class="listingblock">
@@ -6066,13 +6057,13 @@ It uses a set delegates methods to position every single cell on the collectionV
 <div class="content">
 <img src="Resources/ch16-CollectionViews/image23.png" alt="Camera Portrait" />
 </div>
-<div class="title">Figure 59. Camera Portrait</div>
+<div class="title">Figure 58. Camera Portrait</div>
 </div>
 <div class="imageblock">
 <div class="content">
 <img src="Resources/ch16-CollectionViews/image24.png" alt="Camera Landscape" />
 </div>
-<div class="title">Figure 60. Camera Landscape</div>
+<div class="title">Figure 59. Camera Landscape</div>
 </div>
 <div class="paragraph"><p>Now we have our buttons in the same with even if we rotate the device, but we need to add more visual elements to the camera section:</p></div>
 <div class="ulist"><ul>
@@ -6097,28 +6088,28 @@ UILabel (label)
 <div class="content">
 <img src="Resources/ch16-CollectionViews/image25.png" alt="Camera Portrait" />
 </div>
-<div class="title">Figure 61. Left Edges</div>
+<div class="title">Figure 60. Left Edges</div>
 </div>
 <div class="paragraph"><p>Save your changes and run application with the rake command, take a very especial look to the landscape orientation</p></div>
 <div class="imageblock">
 <div class="content">
 <img src="Resources/ch16-CollectionViews/image26.png" alt="UIImageView" />
 </div>
-<div class="title">Figure 62. UIImageView</div>
+<div class="title">Figure 61. UIImageView</div>
 </div>
 <div class="paragraph"><p>What went wrong for this part? actually nothing, UIImageView are just following orders, we can change this by selecting the UIImageView and make it bigger, but this of course its not enough, while the UIImageView its selected choose the center button of the Interface Builder Menu and select <strong>Top Space to SuperView</strong> and <strong>Bottom Space to SuperView</strong></p></div>
 <div class="imageblock">
 <div class="content">
 <img src="Resources/ch16-CollectionViews/image27.png" alt="Top Space" />
 </div>
-<div class="title">Figure 63. Top Space</div>
+<div class="title">Figure 62. Top Space</div>
 </div>
 <div class="paragraph"><p>Now the UIImageView are going to resize depending on the size of the its super view, doing so we have a unwanted constrain "UIImageView Vertical Size" as we may know one can no be serve two masters, for this reason we have to eliminate one, on the left section under UIIMageView remove  <strong>Height constrain</strong> <em>Height (423) - Image View</em>, save your changes an run the app.</p></div>
 <div class="imageblock">
 <div class="content">
 <img src="Resources/ch16-CollectionViews/image28.png" alt="Remove Constrain" />
 </div>
-<div class="title">Figure 64. Remove Constrain</div>
+<div class="title">Figure 63. Remove Constrain</div>
 </div>
 </div>
 <div class="sect2">
@@ -6132,7 +6123,7 @@ UILabel (label)
 <div class="content">
 <img src="Resources/ch16-CollectionViews/image29.png" alt="Constrains landscape" />
 </div>
-<div class="title">Figure 65. Constrains landscape</div>
+<div class="title">Figure 64. Constrains landscape</div>
 </div>
 </div>
 </div>
@@ -6213,7 +6204,7 @@ end</code></pre>
 <div class="content">
 <img src="Resources/ch17-Camera/image1.png" alt="Take Photo" />
 </div>
-<div class="title">Figure 66. Take Photo</div>
+<div class="title">Figure 65. Take Photo</div>
 </div>
 </div>
 <div class="sect2">
@@ -6330,9 +6321,10 @@ self.dismissViewControllerAnimated(true,completion:nil)
 
 
   <span class="k">def</span> <span class="nf">initWithCoder</span><span class="p">(</span><span class="n">decoder</span><span class="p">)</span>
-
+    <span class="nb">self</span><span class="o">.</span><span class="n">init</span>
     <span class="vi">@photoName</span> <span class="o">=</span> <span class="n">decoder</span><span class="o">.</span><span class="n">decodeObjectForKey</span><span class="p">(</span><span class="s2">&quot;photoName&quot;</span><span class="p">)</span>
     <span class="vi">@photoImage</span> <span class="o">=</span> <span class="n">decoder</span><span class="o">.</span><span class="n">decodeObjectForKey</span><span class="p">(</span><span class="s2">&quot;photoImage&quot;</span><span class="p">)</span>
+    <span class="nb">self</span>
   <span class="k">end</span>
 
 <span class="k">end</span>
@@ -6464,7 +6456,7 @@ end</code></pre>
 <div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">customizeCollectionCell</span><span class="p">(</span><span class="n">photo</span><span class="p">)</span>
 
   <span class="vi">@photoImageView</span> <span class="o">=</span> <span class="nb">self</span><span class="o">.</span><span class="n">viewWithTag</span><span class="p">(</span><span class="no">CELL_IMAGE_VIEW</span><span class="p">)</span>
-  <span class="vi">@photoImageView</span><span class="o">.</span><span class="n">image</span> <span class="o">=</span> <span class="n">photo</span>
+  <span class="vi">@photoImageView</span><span class="o">.</span><span class="n">image</span> <span class="o">=</span> <span class="n">photo</span><span class="o">.</span><span class="n">photoImage</span>
 <span class="k">end</span>
 </pre></div></div></div>
 <div class="paragraph"><p>At last we need to modify the <strong>album_view_controller.rb</strong> file for reload the collection view</p></div>
@@ -6492,13 +6484,13 @@ end</code></pre>
 <div class="content">
 <img src="Resources/ch18-Sandbox/image1.png" alt="Save Photo" />
 </div>
-<div class="title">Figure 67. Save Photo</div>
+<div class="title">Figure 66. Save Photo</div>
 </div>
 <div class="imageblock">
 <div class="content">
 <img src="Resources/ch18-Sandbox/image2.png" alt="Photo Added" />
 </div>
-<div class="title">Figure 68. Photo Added</div>
+<div class="title">Figure 67. Photo Added</div>
 </div>
 <div class="sect2">
 <h3 id="_challenge_set_photo_frame">Challenge - Set Photo Frame</h3>
@@ -6521,7 +6513,7 @@ end</code></pre>
 <div class="content">
 <img src="resources/ch19-Multitouch/ch19_Kanji.png" alt="Kanji" />
 </div>
-<div class="title">Figure 69. Kanji</div>
+<div class="title">Figure 68. Kanji</div>
 </div>
 <div class="sect2">
 <h3 id="_preparing_the_canvas">Preparing the Canvas</h3>
@@ -6637,7 +6629,7 @@ end</code></pre>
 <div class="content">
 <img src="resources/ch19-Multitouch/ch19_InitialApplication.png" alt="Initial Application" />
 </div>
-<div class="title">Figure 70. Initial Application</div>
+<div class="title">Figure 69. Initial Application</div>
 </div>
 </div>
 <div class="sect2">
@@ -6817,7 +6809,7 @@ The drawing on a UIView using Core Graphics its not additive, what this means is
 <div class="content">
 <img src="resources/ch19-Multitouch/ch19_InitialTouches.png" alt="Initial Touches" />
 </div>
-<div class="title">Figure 71. Initial Touches</div>
+<div class="title">Figure 70. Initial Touches</div>
 </div>
 <div class="paragraph"><p>Great! Now we are really seeing where the user touches began, lets continue adding the touch movements:</p></div>
 <div class="admonitionblock">
@@ -6851,7 +6843,7 @@ The drawing on a UIView using Core Graphics its not additive, what this means is
 <div class="content">
 <img src="resources/ch19-Multitouch/ch19_InitialLines.png" alt="Initial Lines" />
 </div>
-<div class="title">Figure 72. Initial Lines</div>
+<div class="title">Figure 71. Initial Lines</div>
 </div>
 <div class="paragraph"><p>Now we are drawing the initial touches and the movement in the screen, it looks like a line but if we move the finger faster will become more like a dotted line right? No problem we will fix that later</p></div>
 </div>
@@ -6863,7 +6855,7 @@ The drawing on a UIView using Core Graphics its not additive, what this means is
 <div class="content">
 <img src="resources/ch19-Multitouch/ch19_StartingPoints.png" alt="Starting Points" />
 </div>
-<div class="title">Figure 73. Starting Points</div>
+<div class="title">Figure 72. Starting Points</div>
 </div>
 <div class="paragraph"><p>The first thing we can do is to have an array of the trace starting coordinates, that will enable us to evaluate if the touch was on the beginning. Lets do a little experiment to test this part:</p></div>
 <div class="listingblock">
@@ -7065,7 +7057,7 @@ The drawing on a UIView using Core Graphics its not additive, what this means is
 <div class="content">
 <img src="resources/ch19-Multitouch/ch19_StartTrace3.png" alt="Start Trace #3" />
 </div>
-<div class="title">Figure 74. Start Trace #3</div>
+<div class="title">Figure 73. Start Trace #3</div>
 </div>
 <div class="paragraph"><p>Is working now! Is more easy for the user to touch the start of the trace, so lets continue adding the all the Kanji Traces:</p></div>
 <div class="listingblock">
@@ -7174,7 +7166,7 @@ The drawing on a UIView using Core Graphics its not additive, what this means is
 <div class="content">
 <img src="resources/ch19-Multitouch/ch19_AllStartingTraces.png" alt="All Starting Traces" />
 </div>
-<div class="title">Figure 75. All Starting Traces</div>
+<div class="title">Figure 74. All Starting Traces</div>
 </div>
 <div class="paragraph"><p>Yes! We can start painting on any trace now, so lets continue adding a method to our <strong>KanjiTrace</strong> for evaluate if the user is following the line and assigning a score for the drawing:</p></div>
 <div class="listingblock">
@@ -7255,7 +7247,7 @@ The drawing on a UIView using Core Graphics its not additive, what this means is
 <div class="content">
 <img src="resources/ch19-Multitouch/ch19_PaintedTrace.png" alt="Painted Trace" />
 </div>
-<div class="title">Figure 76. Painted Trace</div>
+<div class="title">Figure 75. Painted Trace</div>
 </div>
 </div>
 <div class="sect2">
@@ -7319,7 +7311,7 @@ The drawing on a UIView using Core Graphics its not additive, what this means is
 <div class="content">
 <img src="resources/ch19-Multitouch/ch19_ScoreBoard.png" alt="Score Board" />
 </div>
-<div class="title">Figure 77. Score Board</div>
+<div class="title">Figure 76. Score Board</div>
 </div>
 <div class="paragraph"><p>The last part of the exercise consist of analyzing the score of all the traces and according to that change the images of the cups. Making a little scoreboard!</p></div>
 <div class="listingblock">
@@ -7389,7 +7381,7 @@ The drawing on a UIView using Core Graphics its not additive, what this means is
 <div class="content">
 <img src="resources/ch19-Multitouch/ch19_HighScore.png" alt="High Score" />
 </div>
-<div class="title">Figure 78. High Score</div>
+<div class="title">Figure 77. High Score</div>
 </div>
 <div class="paragraph"><p>Now is finished! It looks like it will need some animations for the cups to look amazing, in the next chapters we will see how to make animations</p></div>
 </div>
@@ -7526,7 +7518,7 @@ The current implementation is drawing every point into the view, the challenge i
 <div class="content">
 <img src="resources/ch20-CALayers/ch20_REPL1.png" alt="Initial Run" />
 </div>
-<div class="title">Figure 79. Initial Run</div>
+<div class="title">Figure 78. Initial Run</div>
 </div>
 </div>
 <div class="sect2">
@@ -7552,7 +7544,7 @@ The current implementation is drawing every point into the view, the challenge i
 <div class="content">
 <img src="resources/ch20-CALayers/ch20_REPL2.png" alt="Yellow Square" />
 </div>
-<div class="title">Figure 80. Yellow Square</div>
+<div class="title">Figure 79. Yellow Square</div>
 </div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="o">(</span><span class="c">#&lt;UIView:0x000000)&gt; layer.position = CGPointMake(100, 100)</span>
@@ -7561,7 +7553,7 @@ The current implementation is drawing every point into the view, the challenge i
 <div class="content">
 <img src="resources/ch20-CALayers/ch20_REPL3.png" alt="Yellow Square in a Different Position" />
 </div>
-<div class="title">Figure 81. Yellow Square in a Different Position</div>
+<div class="title">Figure 80. Yellow Square in a Different Position</div>
 </div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="o">(</span><span class="c">#&lt;UIView:0x000000)&gt; layer.cornerRadius = 20</span>
@@ -7570,7 +7562,7 @@ The current implementation is drawing every point into the view, the challenge i
 <div class="content">
 <img src="resources/ch20-CALayers/ch20_REPL4.png" alt="Yellow Square with Rounded Corners" />
 </div>
-<div class="title">Figure 82. Yellow Square with Rounded Corners</div>
+<div class="title">Figure 81. Yellow Square with Rounded Corners</div>
 </div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="o">(</span><span class="c">#&lt;UIView:0x000000)&gt; layer.borderWidth = 10</span>
@@ -7580,7 +7572,7 @@ The current implementation is drawing every point into the view, the challenge i
 <div class="content">
 <img src="resources/ch20-CALayers/ch20_REPL5.png" alt="Yellow Square with Border" />
 </div>
-<div class="title">Figure 83. Yellow Square with Border</div>
+<div class="title">Figure 82. Yellow Square with Border</div>
 </div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="o">(</span><span class="c">#&lt;UIView:0x000000)&gt; layer.shadowRadius = 5.0</span>
@@ -7591,7 +7583,7 @@ The current implementation is drawing every point into the view, the challenge i
 <div class="content">
 <img src="resources/ch20-CALayers/ch20_REPL6.png" alt="Yellow Square with Shadow" />
 </div>
-<div class="title">Figure 84. Yellow Square with Shadow</div>
+<div class="title">Figure 83. Yellow Square with Shadow</div>
 </div>
 <div class="paragraph"><p>They are two things important in this part, the first is that you can manipulate the appearance in more ways using a CALayer than a UIView like the Rounded Corners, Shadows, etc. Also if you look closely you must see that when you change some properties of the layer it animates it self, we will look into more deeply later on.</p></div>
 </div>
@@ -7645,7 +7637,7 @@ The current implementation is drawing every point into the view, the challenge i
 <div class="content">
 <img src="resources/ch20-CALayers/ch20_GradientBackground.png" alt="Background with Gradient" />
 </div>
-<div class="title">Figure 85. Background with Gradient</div>
+<div class="title">Figure 84. Background with Gradient</div>
 </div>
 <div class="paragraph"><p>Easy right? We create a nice background for our app using a gradient. Lets continue adding some grass into the composition:</p></div>
 <div class="paragraph"><p>Please copy the grass images from the <strong>resources/images</strong> folder into our app resources folder, after that add the following method to our <strong>LayerViewController</strong> class</p></div>
@@ -7678,7 +7670,7 @@ The current implementation is drawing every point into the view, the challenge i
 <div class="content">
 <img src="resources/ch20-CALayers/ch20_GrassLayer.png" alt="Grass Layer" />
 </div>
-<div class="title">Figure 86. Grass Layer</div>
+<div class="title">Figure 85. Grass Layer</div>
 </div>
 <div class="paragraph"><p>Great! Now you see that we are compositing two layers together and learn that you can also include an Image as a content. But how about drawing custom figures? Add the following to the <strong>LayerViewController</strong> class:</p></div>
 <div class="listingblock">
@@ -7809,7 +7801,7 @@ The current implementation is drawing every point into the view, the challenge i
 <div class="content">
 <img src="resources/ch20-CALayers/ch20_SunLayer.png" alt="Sun Layer" />
 </div>
-<div class="title">Figure 87. Sun Layer</div>
+<div class="title">Figure 86. Sun Layer</div>
 </div>
 </div>
 <div class="sect2">
@@ -7936,7 +7928,7 @@ Then the resulting matrix property values and times is executed, giving the effe
 <div class="content">
 <img src="resources/ch20-CALayers/ch20_AnimatedLayer.png" alt="Sun Layer" />
 </div>
-<div class="title">Figure 88. Animated Layer</div>
+<div class="title">Figure 87. Animated Layer</div>
 </div>
 </div>
 <div class="sect2">
@@ -8041,7 +8033,7 @@ Repeat the animation indefinitely
 <div class="content">
 <img src="resources/ch21-CoreAnimation/ch21_AnimationBlinkToStart.png" alt="Animation Blinking to Start" />
 </div>
-<div class="title">Figure 89. Animation Blinking to Start</div>
+<div class="title">Figure 88. Animation Blinking to Start</div>
 </div>
 <div class="paragraph"><p>Uh? What happen? The sun move to the position we touch, but at the end of the animation it return to its initial value. This happens because the animation is independent of the layer that is running into, it will move the layer to the touch position but at the end if you don&#8217;t change the layer property it will return to the initial state.</p></div>
 <div class="paragraph"><p>Try the following:</p></div>
@@ -8079,7 +8071,7 @@ Repeat the animation indefinitely
 <div class="content">
 <img src="resources/ch21-CoreAnimation/ch21_AnimationComplete.png" alt="Animation Complete" />
 </div>
-<div class="title">Figure 90. Animation Complete</div>
+<div class="title">Figure 89. Animation Complete</div>
 </div>
 <div class="paragraph"><p>Now it works as expected! The animation is pretty slow because we set to it 1 second, try changing it for more fun.</p></div>
 <div class="admonitionblock">
@@ -8126,7 +8118,7 @@ Repeat the animation indefinitely
 <div class="content">
 <img src="resources/ch21-CoreAnimation/ch21_AnimationReturningToStartingPoint.png" alt="Animation Returning to Starting Point" />
 </div>
-<div class="title">Figure 91. Animation Returning to Starting Point</div>
+<div class="title">Figure 90. Animation Returning to Starting Point</div>
 </div>
 <div class="paragraph"><p>If we want to make that cycle of moving and returning happen 100 times?</p></div>
 <div class="listingblock">
@@ -8164,7 +8156,7 @@ Repeat the animation indefinitely
 <div class="content">
 <img src="resources/ch21-CoreAnimation/ch21_AnimationLoop.png" alt="Animation Loop" />
 </div>
-<div class="title">Figure 92. Animation Loop</div>
+<div class="title">Figure 91. Animation Loop</div>
 </div>
 <div class="paragraph"><p>What about combining two animations: a spinning one with the moving one</p></div>
 <div class="listingblock">
@@ -8217,7 +8209,7 @@ Repeat the animation indefinitely
 <div class="content">
 <img src="resources/ch21-CoreAnimation/ch21_AnimationSpinning.png" alt="Animation Spinning and Moving" />
 </div>
-<div class="title">Figure 93. Animation Spinning and Moving</div>
+<div class="title">Figure 92. Animation Spinning and Moving</div>
 </div>
 </div>
 </div>
@@ -8278,7 +8270,7 @@ Repeat the animation indefinitely
 <div class="content">
 <img src="resources/ch21-CoreAnimation/ch21_SunAndClouds.png" alt="Sun & Clouds" />
 </div>
-<div class="title">Figure 94. Sun &amp; Clouds</div>
+<div class="title">Figure 93. Sun &amp; Clouds</div>
 </div>
 <div class="paragraph"><p>Pretty but not amazing!, Now lets add some animation to the clouds:</p></div>
 <div class="listingblock">
@@ -8363,7 +8355,7 @@ Repeat the animation indefinitely
 <div class="content">
 <img src="resources/ch21-CoreAnimation/ch21_AnimationClouds.png" alt="Cloud Animation" />
 </div>
-<div class="title">Figure 95. Cloud Animation</div>
+<div class="title">Figure 94. Cloud Animation</div>
 </div>
 <div class="paragraph"><p>Yes, it looks kind of good. But the animation is too linear the clouds does not look like the real life, what we can do is adding some easing with a timing function. The objective is when the cloud appear on the screen go faster and then it decelerate until its finished. This kind of easing is called EasyOut:</p></div>
 <div class="paragraph"><p>Lets apply it to the code:</p></div>
@@ -8448,7 +8440,7 @@ Repeat the animation indefinitely
 <div class="content">
 <img src="resources/ch21-CoreAnimation/ch21_AnimationCloudsWithEasing.png" alt="Cloud Animation with Easing" />
 </div>
-<div class="title">Figure 96. Cloud Animation with Easing</div>
+<div class="title">Figure 95. Cloud Animation with Easing</div>
 </div>
 <div class="paragraph"><p>Subtle right? Thats the idea! It now looks more that the wind blows stronger at the first and then it slows down. But what is really happening?</p></div>
 <div class="paragraph"><p>Do you remember the part of the interpolation? We were saying in that moment that it is the calculus between the initial value and the final every millisecond of the sequence. It means that if we move 3 points during 3 seconds, it will move one point per second right?</p></div>
@@ -8458,7 +8450,7 @@ Repeat the animation indefinitely
 <div class="content">
 <img src="resources/ch21-CoreAnimation/ch21_Easings.png" alt="iOS Easings" />
 </div>
-<div class="title">Figure 97. iOS Easings</div>
+<div class="title">Figure 96. iOS Easings</div>
 </div>
 <div class="paragraph"><p>Also if you don&#8217;t like anyone, you can implement your custom timing function.</p></div>
 </div>
@@ -8520,7 +8512,7 @@ Repeat the animation indefinitely
 <div class="content">
 <img src="resources/ch21-CoreAnimation/ch21_SunStraightAnimation.png" alt="Sun Straight Animation" />
 </div>
-<div class="title">Figure 98. Sun Straight Animation</div>
+<div class="title">Figure 97. Sun Straight Animation</div>
 </div>
 <div class="paragraph"><p>We are improving! But the sun does not move in a straight line, so lets change does points into an arc:</p></div>
 <div class="listingblock">
@@ -8559,7 +8551,7 @@ Repeat the animation indefinitely
 <div class="content">
 <img src="resources/ch21-CoreAnimation/ch21_SunArcAnimation.png" alt="Sun Arc Animation" />
 </div>
-<div class="title">Figure 99. Sun Arc Animation</div>
+<div class="title">Figure 98. Sun Arc Animation</div>
 </div>
 <div class="paragraph"><p>Great! Now this is working, but how about combining the translation animation with a spinning one? (CABasicAnimation &amp; CAKeyframeAnimation):</p></div>
 <div class="listingblock">
@@ -8723,7 +8715,7 @@ Repeat the animation indefinitely
 <div class="content">
 <img src="resources/ch21-CoreAnimation/ch21_SunSunsetAnimation.png" alt="Sun Sunset Animation" />
 </div>
-<div class="title">Figure 100. Sun Sunset Animation</div>
+<div class="title">Figure 99. Sun Sunset Animation</div>
 </div>
 <div class="paragraph"><p>It looks pretty good! But we are missing the night part right? Thats the next part of the exercise</p></div>
 </div>
@@ -8997,7 +8989,7 @@ Repeat the animation indefinitely
 <div class="content">
 <img src="resources/ch21-CoreAnimation/ch21_SunAndMoonAnimation.png" alt="Sun & Moon Animation" />
 </div>
-<div class="title">Figure 101. Sun &amp; Moon Animation</div>
+<div class="title">Figure 100. Sun &amp; Moon Animation</div>
 </div>
 </div>
 </div>
@@ -9029,7 +9021,7 @@ Change the past animation to look like shooting stars, enter and leaving the scr
 <div class="content">
 <img src="Resources/ch22-Settings/ch22_01_app.png" alt="Current Application" />
 </div>
-<div class="title">Figure 102. Current Application</div>
+<div class="title">Figure 101. Current Application</div>
 </div>
 </div>
 </div>
@@ -9140,7 +9132,7 @@ Change the past animation to look like shooting stars, enter and leaving the scr
 <div class="content">
 <img src="Resources/ch22-Settings/ch22_02_logout.png" alt="Application Logout" />
 </div>
-<div class="title">Figure 103. Application Logout</div>
+<div class="title">Figure 102. Application Logout</div>
 </div>
 </div>
 </div>
@@ -9164,7 +9156,7 @@ object with key <strong>loggedUser</strong> from the User Defaults and set as a 
 <div class="content">
 <img src="Resources/ch23-WebServices/ch23_01_app.png" alt="Current Application" />
 </div>
-<div class="title">Figure 104. Current Application</div>
+<div class="title">Figure 103. Current Application</div>
 </div>
 </div>
 </div>
@@ -9370,7 +9362,7 @@ If there was an error, we return an error message.
 <div class="content">
 <img src="Resources/ch23-WebServices/ch23_02_activityindicator.png" alt="Activity Indicator" />
 </div>
-<div class="title">Figure 105. Activity Indicator</div>
+<div class="title">Figure 104. Activity Indicator</div>
 </div>
 <div class="paragraph"><p>You will see the Activity Indicator and if you touch the screen, you&#8217;ll see that the Table is refreshed with the latest news from the service. Why is the table view not refreshed automatically? Because we are running this operation in a background task. And the UI should be updated only in the Main thread. We are going to fix this, <strong>modify</strong> the method <strong>load_latest_news</strong>:</p></div>
 <div class="listingblock">
@@ -9397,7 +9389,7 @@ If there was an error, we return an error message.
 <div class="content">
 <img src="Resources/ch23-WebServices/ch23_03_table.png" alt="News Table View" />
 </div>
-<div class="title">Figure 106. News Table View</div>
+<div class="title">Figure 105. News Table View</div>
 </div>
 <div class="paragraph"><p>We are done with this task, if you have time you could do the challenges.</p></div>
 </div>
@@ -9412,14 +9404,14 @@ If there was an error, we return an error message.
 <div class="content">
 <img src="Resources/ch23-WebServices/ch23_04_error.png" alt="Error Message" />
 </div>
-<div class="title">Figure 107. Error Message</div>
+<div class="title">Figure 106. Error Message</div>
 </div>
 <div class="paragraph"><p>As you can see, if there are no news or if there is an error, the UIActivityIndicator remains on the screen until you touch it. Why? because we are not calling the  <strong>stopAnimating</strong> method from the Main Thread, correct this.</p></div>
 <div class="imageblock">
 <div class="content">
 <img src="Resources/ch23-WebServices/ch23_05_activitystopped.png" alt="Activity Indicator Stopped" />
 </div>
-<div class="title">Figure 108. Activity Indicator Stopped</div>
+<div class="title">Figure 107. Activity Indicator Stopped</div>
 </div>
 </div>
 </div>
@@ -9772,7 +9764,7 @@ NSBinaryDataAttributeType
 <div class="content">
 <img src="resources/ch24-CoreData/ch24_InitialCoreData.png" alt="Initial Core Data Set Up" />
 </div>
-<div class="title">Figure 109. Initial Core Data Set Up</div>
+<div class="title">Figure 108. Initial Core Data Set Up</div>
 </div>
 <div class="admonitionblock">
 <table><tr>
@@ -9850,7 +9842,7 @@ NSBinaryDataAttributeType
 <div class="content">
 <img src="resources/ch24-CoreData/ch24_InitialMoviesViewController.png" alt="Initial Movies View Controller" />
 </div>
-<div class="title">Figure 110. Initial Movies View Controller</div>
+<div class="title">Figure 109. Initial Movies View Controller</div>
 </div>
 <div class="paragraph"><p>Awesome! The next step is to create a new view controller called <strong>Add Movie View Controller</strong>:</p></div>
 <div class="listingblock">
@@ -10071,7 +10063,7 @@ NSBinaryDataAttributeType
 <div class="content">
 <img src="resources/ch24-CoreData/ch24_InitialAddMovieViewController.png" alt="Initial Add Movie View Controller" />
 </div>
-<div class="title">Figure 111. Initial Add Movie View Controller</div>
+<div class="title">Figure 110. Initial Add Movie View Controller</div>
 </div>
 <div class="paragraph"><p>Before we can start adding movies is required to add a Director first, so lets create a view controller called <strong>add_director_view_controller.rb</strong> for this task:</p></div>
 <div class="listingblock">
@@ -10216,7 +10208,7 @@ NSBinaryDataAttributeType
 <div class="content">
 <img src="resources/ch24-CoreData/ch24_InitialAddDirectorViewController.png" alt="Initial Add Director View Controller" />
 </div>
-<div class="title">Figure 112. Initial Add Director View Controller</div>
+<div class="title">Figure 111. Initial Add Director View Controller</div>
 </div>
 </div>
 <div class="sect2">
@@ -10308,7 +10300,7 @@ NSBinaryDataAttributeType
 <div class="content">
 <img src="resources/ch24-CoreData/ch24_SaveANewDirector.png" alt="Save a new Director" />
 </div>
-<div class="title">Figure 113. Save a new Director</div>
+<div class="title">Figure 112. Save a new Director</div>
 </div>
 <div class="paragraph"><p>At least on theory right? If we select the save button we return to the previous screen but we are not seeing any directors added yet. Lets implement these part in our <strong>add_movie_view_controller.rb</strong>:</p></div>
 <div class="listingblock">
@@ -10505,7 +10497,7 @@ NSBinaryDataAttributeType
 <div class="content">
 <img src="resources/ch24-CoreData/ch24_LoadedDirectors.png" alt="Loaded Directors" />
 </div>
-<div class="title">Figure 114. Loaded Directors</div>
+<div class="title">Figure 113. Loaded Directors</div>
 </div>
 <div class="paragraph"><p>Finally in these part it will be creating the new movie on our <strong>add_movie_view_controller.rb</strong>, please open it:</p></div>
 <div class="listingblock">
@@ -10651,7 +10643,7 @@ NSBinaryDataAttributeType
 <div class="content">
 <img src="resources/ch24-CoreData/ch24_SaveANewMovie.png" alt="Save a new Movie" />
 </div>
-<div class="title">Figure 115. Save a new Movie</div>
+<div class="title">Figure 114. Save a new Movie</div>
 </div>
 </div>
 <div class="sect2">
@@ -10790,7 +10782,7 @@ NSBinaryDataAttributeType
 <div class="content">
 <img src="resources/ch24-CoreData/ch24_LoadedMovies.png" alt="Loaded Movies" />
 </div>
-<div class="title">Figure 116. Loaded Movies</div>
+<div class="title">Figure 115. Loaded Movies</div>
 </div>
 <div class="paragraph"><p>Now is time to add some search functionality:</p></div>
 <div class="listingblock">
@@ -10880,7 +10872,7 @@ NSBinaryDataAttributeType
 <div class="content">
 <img src="resources/ch24-CoreData/ch24_SearchMovies.png" alt="Search Movies" />
 </div>
-<div class="title">Figure 117. Search Movies</div>
+<div class="title">Figure 116. Search Movies</div>
 </div>
 <div class="paragraph"><p>The only feature left is the delete one, lets implement it adding the following methods to our <strong>movies_view_controller.rb</strong> file:</p></div>
 <div class="listingblock">
@@ -10928,7 +10920,7 @@ NSBinaryDataAttributeType
 <div class="content">
 <img src="resources/ch24-CoreData/ch24_DeleteMovies.png" alt="Delete Movies" />
 </div>
-<div class="title">Figure 118. Delete Movies</div>
+<div class="title">Figure 117. Delete Movies</div>
 </div>
 <div class="paragraph"><p>Now is finish! In the exercise we look on how to add Model Objects into Core Data, also how to create, fetch and delete instances of them.</p></div>
 </div>
@@ -11115,7 +11107,7 @@ Add a new attribute to the <strong>Director</strong> object so the user can add 
 <div class="content">
 <img src="Resources/ch25-ThirdPartyLibraries/ch25_Cocos2DInitialApplication.png" alt="Initial Cocos 2D Application" />
 </div>
-<div class="title">Figure 119. Initial Cocos 2D Application</div>
+<div class="title">Figure 118. Initial Cocos 2D Application</div>
 </div>
 <div class="paragraph"><p>If you look closely in the bottom left part of the screen are a bunch of numbers, they are the FPS of our game. The general idea is that our game have consistently 60.0 but you will look as we advance in the exercise that some times it drops, this is normal.</p></div>
 </div>
@@ -11298,7 +11290,7 @@ Add a new attribute to the <strong>Director</strong> object so the user can add 
 <div class="content">
 <img src="Resources/ch25-ThirdPartyLibraries/ch25_Cocos2DLayer.png" alt="Cocos 2D Layer" />
 </div>
-<div class="title">Figure 120. Cocos 2D Layer</div>
+<div class="title">Figure 119. Cocos 2D Layer</div>
 </div>
 <div class="paragraph"><p>Now we have all the necessary structure to make the game run: A director, scene and a layer! Its time to change the label into a space background:</p></div>
 <div class="listingblock">
@@ -11335,7 +11327,7 @@ Add a new attribute to the <strong>Director</strong> object so the user can add 
 <div class="content">
 <img src="Resources/ch25-ThirdPartyLibraries/ch25_BackgroundLayer.png" alt="Background Layer" />
 </div>
-<div class="title">Figure 121. Background Layer</div>
+<div class="title">Figure 120. Background Layer</div>
 </div>
 <div class="paragraph"><p>We have a background for the game! Lets do something more fun: adding the space ship into the scene, for this we need to create a new layer called <strong>game_play_layer.rb</strong>:</p></div>
 <div class="listingblock">
@@ -11405,7 +11397,7 @@ Add a new attribute to the <strong>Director</strong> object so the user can add 
 <div class="content">
 <img src="Resources/ch25-ThirdPartyLibraries/ch25_StaticSpaceShip.png" alt="Static Space Ship" />
 </div>
-<div class="title">Figure 122. Static Space Ship</div>
+<div class="title">Figure 121. Static Space Ship</div>
 </div>
 <div class="paragraph"><p>Awesome! The next step is to allow the user to move the space ship with his touches on the screen. Lets open again our <strong>game_play_layer.rb</strong> and add the following method:</p></div>
 <div class="listingblock">
@@ -11436,7 +11428,7 @@ Add a new attribute to the <strong>Director</strong> object so the user can add 
 <div class="content">
 <img src="Resources/ch25-ThirdPartyLibraries/ch25_JumpingSpaceShip.png" alt="Jumping Space Ship" />
 </div>
-<div class="title">Figure 123. Jumping Space Ship</div>
+<div class="title">Figure 122. Jumping Space Ship</div>
 </div>
 <div class="paragraph"><p>Yes it moves! But it does without animation, this is because the sprites does not have implicit animations like a CALayer.</p></div>
 </div>
@@ -11476,7 +11468,7 @@ Add a new attribute to the <strong>Director</strong> object so the user can add 
 <div class="content">
 <img src="Resources/ch25-ThirdPartyLibraries/ch25_SpaceShipOutsideScreen.png" alt="Space Ship Outside Screen" />
 </div>
-<div class="title">Figure 124. Space Ship Outside Screen</div>
+<div class="title">Figure 123. Space Ship Outside Screen</div>
 </div>
 <div class="paragraph"><p>Upps! What when wrong? The problem is the actions must receive the number of points of movement in a direction, not a exact position! You can try it! Just assign a <strong>CGPoint(100, 100)</strong> to the position parameter of the action.</p></div>
 <div class="paragraph"><p>The fix is the following:</p></div>
@@ -11512,7 +11504,7 @@ Add a new attribute to the <strong>Director</strong> object so the user can add 
 <div class="content">
 <img src="Resources/ch25-ThirdPartyLibraries/ch25_MovingSpaceShip.png" alt="Moving Space Ship" />
 </div>
-<div class="title">Figure 125. Moving Space Ship</div>
+<div class="title">Figure 124. Moving Space Ship</div>
 </div>
 <div class="paragraph"><p>Now is working! We are done with the space ship, the next is to add some asteroids flying into the scene.</p></div>
 </div>
@@ -11593,7 +11585,7 @@ Add a new attribute to the <strong>Director</strong> object so the user can add 
 <div class="content">
 <img src="Resources/ch25-ThirdPartyLibraries/ch25_BigAsteroid.png" alt="Big Asteroid" />
 </div>
-<div class="title">Figure 126. Big Asteroid</div>
+<div class="title">Figure 125. Big Asteroid</div>
 </div>
 <div class="paragraph"><p>Easy right? But we have a problem the asteroid is too big: Imagine five of them flying into the screen, impossible to dodge!</p></div>
 <div class="paragraph"><p>So lets create something more complex, the idea is to have asteroids of different sizes moving across the screen. So lets use some randoms for determinate the size of the asteroid:</p></div>
@@ -11640,7 +11632,7 @@ Add a new attribute to the <strong>Director</strong> object so the user can add 
 <div class="content">
 <img src="Resources/ch25-ThirdPartyLibraries/ch25_RandomSizeAsteroid.png" alt="Random Size Asteroid" />
 </div>
-<div class="title">Figure 127. Random Size Asteroid</div>
+<div class="title">Figure 126. Random Size Asteroid</div>
 </div>
 <div class="paragraph"><p>Great! Now the size of the asteroid is completely random, to test it run the app multiple times!</p></div>
 <div class="paragraph"><p>For make the illusion that the asteroids are coming from the space we need to set the initial position of it outside the screen and then move it across the screen. Again some randoms we will help us, lets add the following method to our file:</p></div>
@@ -11737,7 +11729,7 @@ Add a new attribute to the <strong>Director</strong> object so the user can add 
 <div class="content">
 <img src="Resources/ch25-ThirdPartyLibraries/ch25_FlyingAsteroid.png" alt="Flying Asteroid" />
 </div>
-<div class="title">Figure 128. Flying Asteroid</div>
+<div class="title">Figure 127. Flying Asteroid</div>
 </div>
 <div class="paragraph"><p>You should see the asteroid fly across the screen! If you don&#8217;t please run it a couple of times remember we are using randoms! (The asteroid can fly too fast or in the edges of the screen, this is part of the magic ;)</p></div>
 <div class="paragraph"><p>But the asteroids does not move like that! They rotate:</p></div>
@@ -11793,7 +11785,7 @@ Add a new attribute to the <strong>Director</strong> object so the user can add 
 <div class="content">
 <img src="Resources/ch25-ThirdPartyLibraries/ch25_SpinningAsteroid.png" alt="Spinning Asteroid" />
 </div>
-<div class="title">Figure 129. Spinning Asteroid</div>
+<div class="title">Figure 128. Spinning Asteroid</div>
 </div>
 <div class="paragraph"><p>Last part! We need to change the status of the sprite to <strong>:ended</strong> when the movement action ends:</p></div>
 <div class="listingblock">
@@ -11964,7 +11956,7 @@ Add a new attribute to the <strong>Director</strong> object so the user can add 
 <div class="content">
 <img src="Resources/ch25-ThirdPartyLibraries/ch25_MultipleAsteroids.png" alt="Multiple Asteroids" />
 </div>
-<div class="title">Figure 130. Multiple Asteroids</div>
+<div class="title">Figure 129. Multiple Asteroids</div>
 </div>
 <div class="paragraph"><p>Awesome! Now the scene is complete, but is something missing right? Detect when the ship crashes with an asteroid!</p></div>
 </div>
@@ -12008,7 +12000,7 @@ Add a new attribute to the <strong>Director</strong> object so the user can add 
 <div class="content">
 <img src="Resources/ch25-ThirdPartyLibraries/ch25_PleaseDontCrash.png" alt="Please Don't Crash" />
 </div>
-<div class="title">Figure 131. Please Don&#8217;t Crash</div>
+<div class="title">Figure 130. Please Don&#8217;t Crash</div>
 </div>
 <div class="paragraph"><p>Great! Now our little game is complete, if the user crashes into an asteroid the space ship explodes and the game is ended</p></div>
 <div class="admonitionblock">
@@ -12148,7 +12140,7 @@ Some Cocoa Frameworks and 3rd Party are not multi-thread
 <div class="content">
 <img src="Resources/ch26-Concurrency/ch26_ImagePicker.png" alt="Image Picker" />
 </div>
-<div class="title">Figure 132. Image Picker</div>
+<div class="title">Figure 131. Image Picker</div>
 </div>
 <div class="admonitionblock">
 <table><tr>
@@ -12163,7 +12155,7 @@ Some Cocoa Frameworks and 3rd Party are not multi-thread
 <div class="content">
 <img src="Resources/ch26-Concurrency/ch26_InitialAnimation.png" alt="Initial Application" />
 </div>
-<div class="title">Figure 133. Initial Application</div>
+<div class="title">Figure 132. Initial Application</div>
 </div>
 <div class="paragraph"><p>The next step will be adding the user selected image to the controller&#8217;s view, please add the following lines to the <strong>photo_view_controller.rb</strong> file:</p></div>
 <div class="listingblock">
@@ -12229,7 +12221,7 @@ Some Cocoa Frameworks and 3rd Party are not multi-thread
 <div class="content">
 <img src="Resources/ch26-Concurrency/ch26_PhotoView.png" alt="Photo View" />
 </div>
-<div class="title">Figure 134. Photo View</div>
+<div class="title">Figure 133. Photo View</div>
 </div>
 <div class="paragraph"><p>The last part of our initial project is to add some buttons for the user to select the photo filters, please add the following to our <strong>PhotoViewController</strong>:</p></div>
 <div class="listingblock">
@@ -12291,7 +12283,7 @@ Some Cocoa Frameworks and 3rd Party are not multi-thread
 <div class="content">
 <img src="Resources/ch26-Concurrency/ch26_FilterButtons.png" alt="Filter Buttons" />
 </div>
-<div class="title">Figure 135. Filter Buttons</div>
+<div class="title">Figure 134. Filter Buttons</div>
 </div>
 </div>
 <div class="sect2">
@@ -12561,7 +12553,7 @@ Some Cocoa Frameworks and 3rd Party are not multi-thread
 <div class="content">
 <img src="Resources/ch26-Concurrency/ch26_FirstFilter.png" alt="First Filter" />
 </div>
-<div class="title">Figure 136. First Filter</div>
+<div class="title">Figure 135. First Filter</div>
 </div>
 <div class="paragraph"><p>The filters are working but it takes some time to change filters right? It will be better if we show the user a <strong>UIActivityView</strong> indicating that we are working on the new filter, to add it please insert the following into the <strong>photo_view_controller.rb</strong> class:</p></div>
 <div class="admonitionblock">
@@ -12685,7 +12677,7 @@ Some Cocoa Frameworks and 3rd Party are not multi-thread
 <div class="content">
 <img src="Resources/ch26-Concurrency/ch26_FilteringActivityIndicator.png" alt="Filter with Activity Indicator" />
 </div>
-<div class="title">Figure 137. Filter with Activity Indicator</div>
+<div class="title">Figure 136. Filter with Activity Indicator</div>
 </div>
 <div class="paragraph"><p>If we run this on the device it will be more easy to distinguish  that the activity indicator is also getting freeze at the time we select a new filter to apply. We are hanging the main thread right now and the app feels a little unresponsive!</p></div>
 </div>
@@ -12904,7 +12896,7 @@ Some Cocoa Frameworks and 3rd Party are not multi-thread
 <div class="content">
 <img src="Resources/ch26-Concurrency/ch26_FilteringGCD.png" alt="Filter with Gran Central Dispatch" />
 </div>
-<div class="title">Figure 138. Filter with Gran Central Dispatch</div>
+<div class="title">Figure 137. Filter with Gran Central Dispatch</div>
 </div>
 <div class="paragraph"><p>Now all of them are working using GCD! But something is missing… how about control the intensity of the filters?, thats the next part of our exercise</p></div>
 <div class="admonitionblock">
@@ -13037,7 +13029,7 @@ Some Cocoa Frameworks and 3rd Party are not multi-thread
 <div class="content">
 <img src="Resources/ch26-Concurrency/ch26_FilterIntensity.png" alt="Filter Intensity" />
 </div>
-<div class="title">Figure 139. Filter Intensity</div>
+<div class="title">Figure 138. Filter Intensity</div>
 </div>
 <div class="paragraph"><p>Great! If you run the app and you drag your fingers up and down on the screen the intensity of the filter will increase or decrease accordingly. But the same as before we are hanging the main thread and the activity indicator view is not appearing on the screen.</p></div>
 </div>
@@ -13166,7 +13158,7 @@ Some Cocoa Frameworks and 3rd Party are not multi-thread
 <div class="content">
 <img src="Resources/ch26-Concurrency/ch26_FilterIntensityNSOperation.png" alt="Filter Intensity with NSOperation" />
 </div>
-<div class="title">Figure 140. Filter Intensity with NSOperation</div>
+<div class="title">Figure 139. Filter Intensity with NSOperation</div>
 </div>
 <div class="paragraph"><p>Awesome! Now we add concurrent operations using NSOperation and also fix the activity indicator view.</p></div>
 <div class="paragraph"><p>Our Image Filtering application is now complete!</p></div>
