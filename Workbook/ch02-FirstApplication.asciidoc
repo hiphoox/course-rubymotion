@@ -347,9 +347,8 @@ It’s time to add a button that shows time for remote time zone, open the *root
 [WARNING]
 Adding code ahead. 
 
-["source","ruby", args="-O \"hl_lines=19 20 21 22 23 24 25\""]
+["source","ruby", args="-O \"hl_lines=10 11 17\""]
 --------------
-
 def viewDidLoad  
 
     @currentTimeLabel =  time_label(25,65)
@@ -374,11 +373,11 @@ def viewDidLoad
     view.backgroundColor = UIColor.scrollViewTexturedBackgroundColor
 
 end  
-
 --------------
 
 Now add the following method to your *root_view_controller.rb* file
 
+[source, ruby]
 --------------
 def stepperPressed (sender)
 
