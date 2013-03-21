@@ -1265,7 +1265,7 @@ Pacific/Fiji
 Simulate ./build/iPhoneSimulator-6.0-Development/TimeZoneConverter.app
 <span class="o">(</span>main<span class="o">)</span>&gt;
 </pre></div></div></div>
-<div class="paragraph"><p>Now hold ‘command’ key and hover mouse on simulator screen. You can see a red-bordered box appears among the application elements, select the first Time Zone area, the interactive console should display the instance corresponding to that label:</p></div>
+<div class="paragraph"><p>Now hold ‘command’ key and hover mouse on simulator screen. You can see a red-bordered box appears among the application elements, select the current date label the interactive console should display the instance corresponding to that label:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre>Build ./build/iPhoneSimulator-6.0-Development
 Simulate ./build/iPhoneSimulator-6.0-Development/TimeZoneConverter.app
@@ -1308,23 +1308,31 @@ HelveticaNeue-Medium
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span class="n">view</span><span class="o">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">colorWithPatternImage</span><span class="p">(</span><span class="no">UIImage</span><span class="o">.</span><span class="n">imageNamed</span><span class="p">(</span><span class="s2">&quot;bgApp.png&quot;</span><span class="p">))</span>
 </pre></div></div></div>
+<div class="admonitionblock">
+<table><tr>
+<td class="icon">
+<div class="title">Warning</div>
+</td>
+<td class="content">Replace code ahead.</td>
+</tr></table>
+</div>
+<div class="paragraph"><p>We should add some personality to our buttons, open your file <strong>root_view_uitilities.rb</strong> and replace the <strong>time_label</strong> method:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">time_label</span><span class="p">(</span><span class="n">xPosition</span><span class="p">,</span><span class="n">yPosition</span><span class="p">)</span>
+  <span class="n">label</span> <span class="o">=</span> <span class="no">UILabel</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithFrame</span><span class="p">(</span><span class="no">CGRectMake</span><span class="p">(</span><span class="n">xPosition</span><span class="p">,</span><span class="n">yPosition</span><span class="p">,</span><span class="mi">200</span><span class="p">,</span><span class="mi">50</span><span class="p">))</span>
+  <span class="n">label</span><span class="o">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">clearColor</span><span class="p">;</span>
+  <span class="n">label</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;UTC offset&quot;</span>
+  <span class="n">label</span><span class="o">.</span><span class="n">textColor</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">whiteColor</span><span class="p">;</span>
+  <span class="n">label</span><span class="o">.</span><span class="n">font</span> <span class="o">=</span> <span class="no">UIFont</span><span class="o">.</span><span class="n">fontWithName</span><span class="p">(</span><span class="s2">&quot;Noteworthy-Bold&quot;</span><span class="p">,</span><span class="ss">size</span><span class="p">:</span><span class="mi">18</span><span class="p">)</span>
+  <span class="n">label</span>
+<span class="k">end</span>
+</pre></div></div></div>
 <div class="imageblock">
 <div class="content">
 <img src="resources/ch02-FirstApplication/image7.png" alt="Stylish App" />
 </div>
 <div class="title">Figure 6. Stylish App</div>
 </div>
-<div class="paragraph"><p>We should add some personality to our buttons, open your file <strong>root_view_uitilities.rb</strong> and replace the following method <strong>select_time_zone_Button</strong>:</p></div>
-<div class="listingblock">
-<div class="content"><div class="highlight"><pre><span class="k">def</span> <span class="nf">select_time_zone_Button</span> <span class="p">(</span><span class="n">xPosition</span><span class="p">,</span><span class="n">yPosition</span><span class="p">)</span>
-
-  <span class="n">button</span> <span class="o">=</span> <span class="no">UIButton</span><span class="o">.</span><span class="n">buttonWithType</span><span class="p">(</span><span class="no">UIButtonTypeCustom</span><span class="p">)</span>
-  <span class="n">button</span><span class="o">.</span><span class="n">frame</span> <span class="o">=</span> <span class="no">CGRectMake</span><span class="p">(</span><span class="n">xPosition</span><span class="p">,</span><span class="n">yPosition</span><span class="p">,</span><span class="mi">85</span><span class="p">,</span><span class="mi">73</span><span class="p">)</span>
-  <span class="n">button</span><span class="o">.</span><span class="n">setBackgroundImage</span> <span class="p">(</span><span class="no">UIImage</span><span class="o">.</span><span class="n">imageNamed</span><span class="p">(</span><span class="s2">&quot;btnSelect.png&quot;</span><span class="p">),</span><span class="ss">forState</span><span class="p">:</span><span class="no">UIControlStateNormal</span><span class="p">)</span>
-  <span class="n">button</span><span class="o">.</span><span class="n">setTitle</span><span class="p">(</span><span class="s2">&quot;Select&quot;</span><span class="p">,</span><span class="ss">forState</span><span class="p">:</span><span class="no">UIControlStateNormal</span><span class="p">)</span>
-  <span class="n">button</span>
-<span class="k">end</span>
-</pre></div></div></div>
 </div>
 <div class="sect2">
 <h3 id="_challenge_dismiss_keyboard">Challenge - Dismiss KeyBoard</h3>
