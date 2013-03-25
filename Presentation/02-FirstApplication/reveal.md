@@ -15,6 +15,17 @@
 </slide>
 
 <slide>
+## Tools
+
+1. motion
+2. REPL (simulator)
+3. rake
+4. gdb	(simulator & device)
+5. Instruments (out of scope for this class)
+
+</slide>
+
+<slide>
 ## Motion command
 
 ![Motion Commands](motion.jpeg "Motion commands") 
@@ -91,13 +102,6 @@ What do you need?
 * App ID
 * Device ID
 * Profile
-
-</slide>
-
-<slide>
-## Object Diagram
-
-![Object Diagram](objectdiagram.png "Object Diagram") 
 
 </slide>
 
