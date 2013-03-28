@@ -7,7 +7,7 @@ One of the best features of the iPhone or iPad is the touch screen, in this chap
 Kanji Master
 ------------
 
-One of the most difficult languages to learn is Japanese because they use one symbol (Kanji) to express full concepts. This is different than most of the languages, because they use words (Multiple symbols: letters) for the same purpose. 
+One of the most difficult languages to learn is Japanese because they use one symbol (Kanji) to express full concepts. This is different than most of the languages, because they use words (Multiple symbols: letters) for the same purpose.
 
 In this exercise we will create a app that will teach the user how to draw a Kanji, allowing him to paint the shape with his fingers on the screen.
 
@@ -105,7 +105,7 @@ class KanjiViewController < UIViewController
     # Load our custom UIView (KanjiView)
     kanjiView = KanjiView.alloc.initWithFrame(self.view.bounds)
 
-    # Add it to our view controller's view 
+    # Add it to our view controller's view
     self.view.addSubview(kanjiView)
   end
 
@@ -126,7 +126,7 @@ $ open app_delegate.rb
 class AppDelegate
 
   def application(application, didFinishLaunchingWithOptions:launchOptions)
-    
+
     #Create an instance of Kanji View Controller
     kanji_view_controller = KanjiViewController.alloc.init
 
@@ -155,7 +155,7 @@ image::resources/ch19-Multitouch/ch19_InitialApplication.png[Initial Application
 
 The Responder Chain
 ~~~~~~~~~~~~~~~~~~~
-If you look closely on the project that we just create, we have to implement a custom view called **KanjiView**. The purpose of this is that we can catch the touch events on it. But why on a UIView? 
+If you look closely on the project that we just create, we have to implement a custom view called **KanjiView**. The purpose of this is that we can catch the touch events on it. But why on a UIView?
 
 When the user touch the screen a new event is created and send as a message to the first responder (The most foremost view in the hierarchy), if it cannot handle the message, is forwarded to the "next responder" and so on. This linked series is called **Responder Chain**
 
@@ -163,7 +163,7 @@ In iOS (not as same as Mac) both UIViews and UIViewControllers are part of the *
 
 According to the above we need a object that can become first responder and be in the responder chain so it can handle the touch events, this object generally is a UIView
 
-IMPORTANT: If you need by any reason to handle the touch events on your controller, you can override the method **canBecomeFirstResponder** to allow it to become first responder 
+IMPORTANT: If you need by any reason to handle the touch events on your controller, you can override the method **canBecomeFirstResponder** to allow it to become first responder
 
 
 Handling the Touches
@@ -186,7 +186,7 @@ For testing proposes lets implement it on our **KanjiView** the following way:
 
 [source, ruby]
 --------------
-# This method is called when the finger (or fingers) 
+# This method is called when the finger (or fingers)
 # touch the screen for the first time
 def touchesBegan(touches, withEvent: event)
 
@@ -203,7 +203,7 @@ def touchesBegan(touches, withEvent: event)
 
 end
 
-# This method is called when the finger (or fingers) 
+# This method is called when the finger (or fingers)
 # are moving without leaving the screen
 def touchesMoved(touches, withEvent: event)
 
@@ -215,12 +215,12 @@ def touchesMoved(touches, withEvent: event)
     # to the current view
     pointInView = touch.locationInView(self)
 
-    NSLog("Touch %@ moving to %@", index + 1, NSStringFromCGPoint(pointInView))   
+    NSLog("Touch %@ moving to %@", index + 1, NSStringFromCGPoint(pointInView))
   }
 
 end
 
-# This method is called when the finger (or fingers) 
+# This method is called when the finger (or fingers)
 # leave the screen
 def touchesEnded(touches, withEvent:event)
 
@@ -254,7 +254,7 @@ If we run the application we should see the following when we touch the screen:
 > Touch 2 ended at {198, 119}
 ------------
 
-IMPORTANT: Are you using the iOS Simulator? No problem! You can also simulate multiple touches pressing **alt** and if you need to move the multiple touches together press **alt + shift** 
+IMPORTANT: Are you using the iOS Simulator? No problem! You can also simulate multiple touches pressing **alt** and if you need to move the multiple touches together press **alt + shift**
 
 
 Painting the Touches
@@ -274,7 +274,7 @@ def drawRect(rect)
 
   # Get the Core Graphics current context
   context = UIGraphicsGetCurrentContext()
-  
+
   # Set a color for drawing the touch points
   UIColor.colorWithRed(0.988, green:0.612, blue:0.157, alpha:1.0).set
 
@@ -282,25 +282,25 @@ def drawRect(rect)
   @touch_points.each { | touch_point |
 
     # Move the context to the touch point
-    CGContextMoveToPoint(context, 
-                         touch_point.CGPointValue.x, 
+    CGContextMoveToPoint(context,
+                         touch_point.CGPointValue.x,
                          touch_point.CGPointValue.y)
-    
+
     # Create a rect in which want to the ellipse be drawn
-    point_rect = CGRectMake(touch_point.CGPointValue.x - 10, 
+    point_rect = CGRectMake(touch_point.CGPointValue.x - 10,
                             touch_point.CGPointValue.y - 10,
                             20,
                             20)
 
     # Add the ellipse using the rect into the context
     CGContextAddEllipseInRect(context, point_rect)
-  
+
     # Draw the context into the view
     CGContextFillPath(context)
   }
 end
 
-# This method is called when the finger (or fingers) 
+# This method is called when the finger (or fingers)
 # touch the screen for the first time
 def touchesBegan(touches, withEvent: event)
 
@@ -332,7 +332,7 @@ IMPORTANT: If you are using a simulator probably you will notice that the dot is
 
 ["source","ruby", args="-O \"hl_lines=13 16\""]
 --------------
-# This method is called when the finger (or fingers) 
+# This method is called when the finger (or fingers)
 # are moving without leaving the screen
 def touchesMoved(touches, withEvent: event)
 
@@ -344,7 +344,7 @@ def touchesMoved(touches, withEvent: event)
     # to the current view
     pointInView = touch.locationInView(self)
 
-    @touch_points.addObject(NSValue.valueWithCGPoint(pointInView))  
+    @touch_points.addObject(NSValue.valueWithCGPoint(pointInView))
   }
 
   self.setNeedsDisplay
@@ -395,7 +395,7 @@ def load_kanji_traces
   # Create an array to store our Kanji Paths
   @kanji_traces = NSMutableArray.alloc.init
 
-  # As a experiment lets add only the starting point of 
+  # As a experiment lets add only the starting point of
   # the trace number three
   kanji_starting_trace_three = CGPointMake(150, 260)
 
@@ -406,7 +406,7 @@ end
 
 
 
-# This method is called when the finger (or fingers) 
+# This method is called when the finger (or fingers)
 # touch the screen for the first time
 def touchesBegan(touches, withEvent: event)
 
@@ -423,7 +423,7 @@ def touchesBegan(touches, withEvent: event)
     # If the touched point is equal to any Kanji Trace starting
     # point
     if CGPointEqualToPoint(kanji_trace.CGPointValue, pointInView)
-      
+
       touch_at_beginning = true
     end
   }
@@ -467,7 +467,7 @@ $ open kanji_trace.rb
 
 [source, ruby]
 --------------
-class KanjiTrace 
+class KanjiTrace
 
   SURROUND_SIZE = 40
 
@@ -506,8 +506,8 @@ $ cd controllers
 
 $ open kanji_view.rb
 ------------
- 
-["source","ruby", args="-O \"hl_lines=7 8 9 10 11 12 13 14 37 38 39 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60\""]
+
+["source","ruby", args="-O \"hl_lines=7 8 9 10 11 12 13 14 33 34 35 36 37 38 39 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60\""]
 --------------
 def load_kanji_traces
 
@@ -527,7 +527,7 @@ end
 
 
 
-# This method is called when the finger (or fingers) 
+# This method is called when the finger (or fingers)
 # touch the screen for the first time
 def touchesBegan(touches, withEvent: event)
 
@@ -541,10 +541,10 @@ def touchesBegan(touches, withEvent: event)
   # Iterate through all the Kanji Paths available
   @kanji_traces.each { | kanji_trace |
 
-    # If the touched point is equal to any Kanji Trace starting
-    # point
+    # If the touched point exists in the Kanji Trace
+    # rectangle
     if CGRectContainsPoint(kanji_trace.initial_rectangle, pointInView)
-   
+
       # Assign the trace that the user is currently
       # drawing
       @current_trace = kanji_trace
@@ -605,7 +605,7 @@ def load_kanji_traces
   trace_three = KanjiTrace.new
   trace_three.starting_point = CGPointMake(150, 260)
   trace_three.end_point = CGPointMake(152, 367)
-   
+
   # Add the point to the Kanji Paths array
   @kanji_traces.addObject(trace_three)
 
@@ -651,7 +651,7 @@ def load_kanji_traces
 
   @kanji_traces.addObject(trace_nine)
 
-  
+
   trace_ten = KanjiTrace.new
   trace_ten.starting_point = CGPointMake(190, 171)
   trace_ten.end_point = CGPointMake(186, 241)
@@ -698,7 +698,7 @@ $ open "kanji_trace.rb"
 
 [source, ruby]
 --------------
-attr_reader :accurate_points 
+attr_reader :accurate_points
 
 def evaluate_point(point)
 
@@ -709,9 +709,9 @@ def evaluate_point(point)
 
   # The next step is creating a surrounding rectangle for the
   # trace, make it more easy for the user to touch
-  trace_rect = CGRectMake([starting_point.x, end_point.x].min - SURROUND_SIZE, 
-                          [starting_point.y, end_point.y].min - SURROUND_SIZE, 
-                          (starting_point.x - end_point.x).abs + SURROUND_SIZE * 2, 
+  trace_rect = CGRectMake([starting_point.x, end_point.x].min - SURROUND_SIZE,
+                          [starting_point.y, end_point.y].min - SURROUND_SIZE,
+                          (starting_point.x - end_point.x).abs + SURROUND_SIZE * 2,
                           (starting_point.y - end_point.y).abs + SURROUND_SIZE * 2)
 
 
@@ -743,7 +743,7 @@ $ open kanji_view.rb
 
 ["source","ruby", args="-O \"hl_lines=10 11 12 13 14 15 16 17 18 19 20 21 22 23\""]
 --------------
-# This method is called when the finger (or fingers) 
+# This method is called when the finger (or fingers)
 # are moving without leaving the screen
 def touchesMoved(touches, withEvent: event)
 
@@ -825,13 +825,13 @@ def layout_cups
   self.addSubview(@second_cup_image_view)
 
 
-  thrid_cup_frame = CGRectMake(215, 29, 50, 50)
+  third_cup_frame = CGRectMake(215, 29, 50, 50)
 
-  @thrid_cup_image_view = UIImageView.alloc.initWithFrame(thrid_cup_frame)
+  @third_cup_image_view = UIImageView.alloc.initWithFrame(third_cup_frame)
 
-  @thrid_cup_image_view.image = UIImage.imageNamed('bgRakuOff3.png')
+  @third_cup_image_view.image = UIImage.imageNamed('bgRakuOff3.png')
 
-  self.addSubview(@thrid_cup_image_view)
+  self.addSubview(@third_cup_image_view)
 
 end
 --------------
@@ -846,7 +846,7 @@ The last part of the exercise consist of analyzing the score of all the traces a
 # Method where we need to do the Core Graphics drawing
 def drawRect(rect)
 
-  update_score_board 
+  update_score_board
 
   # Get the Core Graphics current context
   context = UIGraphicsGetCurrentContext()
@@ -858,12 +858,12 @@ def drawRect(rect)
   @touch_points.each { | touch_point |
 
     # Move the context to the touch point
-    CGContextMoveToPoint(context, 
-                         touch_point.CGPointValue.x, 
+    CGContextMoveToPoint(context,
+                         touch_point.CGPointValue.x,
                          touch_point.CGPointValue.y)
 
   # Create a rect in which want to the ellipse be drawen
-  point_rect = CGRectMake(touch_point.CGPointValue.x - 10, 
+  point_rect = CGRectMake(touch_point.CGPointValue.x - 10,
                           touch_point.CGPointValue.y - 10,
                           20,
                           20)
@@ -886,7 +886,7 @@ def update_score_board
       unless kanji_trace.accurate_points.nil?
 
         total_accurate_points += kanji_trace.accurate_points
-      end      
+      end
   }
 
   if total_accurate_points >= 100
@@ -901,7 +901,7 @@ def update_score_board
 
   if total_accurate_points >= 500
 
-    @thrid_cup_image_view.image = UIImage.imageNamed('bgRakuOn3.png')
+    @third_cup_image_view.image = UIImage.imageNamed('bgRakuOn3.png')
   end
 end
 --------------
