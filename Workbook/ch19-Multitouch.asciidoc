@@ -1,13 +1,13 @@
 Chapter 19 - Multitouch
 =======================
 
-One of the best features of the iPhone or iPad is the touch screen, in this chapter we will use it to make a app for drawing on the screen
+One of the best features of the iPhone or iPad is the touch screen. In this chapter we will use it to make an app for drawing on the screen.
 
 
 Kanji Master
 ------------
 
-One of the most difficult languages to learn is Japanese because they use one symbol (Kanji) to express full concepts. This is different than most of the languages, because they use words (Multiple symbols: letters) for the same purpose.
+One of the most difficult languages to learn is Japanese because they use one symbol (Kanji) to express full concepts. This is different than most languages because they use words (Multiple symbols: letters) for the same purpose.
 
 In this exercise we will create a app that will teach the user how to draw a Kanji, allowing him to paint the shape with his fingers on the screen.
 
@@ -18,14 +18,14 @@ image::resources/ch19-Multitouch/ch19_Kanji.png[Kanji]
 Preparing the Canvas
 ~~~~~~~~~~~~~~~~~~~~
 
-Lets start creating a new project called **KanjiMaster**:
+Let's start creating a new project called **KanjiMaster**:
 
 [source, sh]
 ------------
 $ motion create KanjiMaster
 ------------
 
-Please copy the resources from **resources/images** folder into the project resources folder, after that create the following file:
+Please copy the resources from **resources/images** folder into the project resources folder; after that create the following file:
 
 [source, sh]
 ------------
@@ -48,7 +48,7 @@ class KanjiView < UIView
 
     if super
 
-      # In order to does not hide the background image on
+      # In order to not hide the background image on
       # the controllers view, we need to set the background color on
       # this view as transparent
       self.backgroundColor = UIColor.clearColor
@@ -57,7 +57,7 @@ class KanjiView < UIView
       # more than one finger touching the screen
       self.multipleTouchEnabled = true
 
-      # Instance an Array for storing the user touches
+      # Create an Array instance for storing the user touches
       @touch_points = NSMutableArray.alloc.init
     end
 
@@ -68,7 +68,7 @@ class KanjiView < UIView
 end
 --------------
 
-Lets create a controller for our new view with the name **KanjiViewController**:
+Let's create a controller for our new view with the name **KanjiViewController**:
 
 [source, sh]
 ------------
@@ -96,7 +96,7 @@ class KanjiViewController < UIViewController
     # Create a new UIImageView to draw our background image
     background_image_view = UIImageView.alloc.initWithFrame(self.view.bounds)
 
-    # Set our background image into the UIImageView
+    # Set our background image in the UIImageView
     background_image_view.image = UIImage.imageNamed("bgKanji")
 
     # Add the UIImageView instance into the view
@@ -112,7 +112,7 @@ class KanjiViewController < UIViewController
 end
 ------------
 
-Finally lets open our **app_delegate.rb** and add the following:
+Finally let's open our **app_delegate.rb** and add the following:
 
 [source, sh]
 ------------
@@ -155,20 +155,20 @@ image::resources/ch19-Multitouch/ch19_InitialApplication.png[Initial Application
 
 The Responder Chain
 ~~~~~~~~~~~~~~~~~~~
-If you look closely on the project that we just create, we have to implement a custom view called **KanjiView**. The purpose of this is that we can catch the touch events on it. But why on a UIView?
+If you look closely on the project that we just created, we have to implement a custom view called **KanjiView**. The purpose of this is that we can catch the touch events on it. But why on a UIView?
 
-When the user touch the screen a new event is created and send as a message to the first responder (The most foremost view in the hierarchy), if it cannot handle the message, is forwarded to the "next responder" and so on. This linked series is called **Responder Chain**
+When the user touches the screen, a new event is created and sent as a message to the first responder (the most foremost view in the hierarchy). If it cannot handle the message, it is forwarded to the "next responder" and so on. This linked series is called **Responder Chain**
 
-In iOS (not as same as Mac) both UIViews and UIViewControllers are part of the **Responder Chain**, but typically just the Views can handle the touch events, this happens because by default the UIViewControllers can not become fist responders
+In iOS (not as same as Mac) both UIViews and UIViewControllers are part of the **Responder Chain**, but typically just the Views can handle the touch events. This happens because by default the UIViewControllers cannot become first responders.
 
-According to the above we need a object that can become first responder and be in the responder chain so it can handle the touch events, this object generally is a UIView
+According to the above, we need an object that can become the first responder and be in the responder chain so it can handle the touch events. This object is generally a UIView.
 
-IMPORTANT: If you need by any reason to handle the touch events on your controller, you can override the method **canBecomeFirstResponder** to allow it to become first responder
+IMPORTANT: If you need by any reason to handle the touch events on your controller, you can override the method **canBecomeFirstResponder** to allow it to become first responder.
 
 
 Handling the Touches
 ~~~~~~~~~~~~~~~~~~~~
-Now that we understand the Responder Chain, How to handle the touches? The response is implementing the following methods on our view:
+Now that we understand the Responder Chain, how to handle the touches? The response is implementing the following methods on our view:
 
 [source, ruby]
 --------------
@@ -182,7 +182,7 @@ def touchesMoved(touches, withEvent: event)
 def touchesEnded(touches, withEvent:event)
 --------------
 
-For testing proposes lets implement it on our **KanjiView** the following way:
+For testing proposes let's implement it on our **KanjiView** the following way:
 
 [source, ruby]
 --------------
@@ -190,11 +190,11 @@ For testing proposes lets implement it on our **KanjiView** the following way:
 # touch the screen for the first time
 def touchesBegan(touches, withEvent: event)
 
-  #  Touches is an set of UITouch, each of them
-  #  represent a diferent finger on the screen
+  #  Touches is a set of UITouch, each of them
+  #  representing a diferent finger on the screen
   touches.allObjects.each_with_index { | touch, index |
 
-    # We need to ask the touch for his location according
+    # We need to ask the touch for its location according
     # to the current view
     pointInView = touch.locationInView(self)
 
@@ -211,7 +211,7 @@ def touchesMoved(touches, withEvent: event)
   #  represent a diferent finger on the screen
   touches.allObjects.each_with_index { | touch, index |
 
-    # We need to ask the touch for his location according
+    # We need to ask the touch for its location according
     # to the current view
     pointInView = touch.locationInView(self)
 
@@ -224,11 +224,11 @@ end
 # leave the screen
 def touchesEnded(touches, withEvent:event)
 
-  #  Touches is an set of UITouch, each of them
-  #  represent a diferent finger on the screen
+  #  Touches is a set of UITouch, each of them
+  #  representing a different finger on the screen
   touches.allObjects.each_with_index { | touch, index |
 
-    # We need to ask the touch for his location according
+    # We need to ask the touch for its location according
     # to the current view
     pointInView = touch.locationInView(self)
 
@@ -254,18 +254,18 @@ If we run the application we should see the following when we touch the screen:
 > Touch 2 ended at {198, 119}
 ------------
 
-IMPORTANT: Are you using the iOS Simulator? No problem! You can also simulate multiple touches pressing **alt** and if you need to move the multiple touches together press **alt + shift**
+IMPORTANT: Are you using the iOS Simulator? No problem! You can also simulate multiple touches by pressing **alt**. If you need to move the multiple touches together press **alt + shift**
 
 
 Painting the Touches
 ~~~~~~~~~~~~~~~~~~~~
-Now that we have detected the touches, its time to paint them on the screen. For that we will use a technology called CoreGraphics, but before we use it we need to understand some key concepts:
+Now that we have detected the touches, it's time to paint them on the screen. For that we will use a technology called CoreGraphics, but before we use it we need to understand some key concepts:
 
-* If we want to draw on a UIView using CoreGraphics we need to do it in a method called **drawRect**, its a override and you shouldn't implemented unless your will draw something (It affects performance when its not drawing)
+* If we want to draw on a UIView using CoreGraphics we need to do it in a method called **drawRect**, it's an override and shouldn't be implemented unless you will draw something (it affects performance when it's not drawing).
 
-* The drawing on a UIView using Core Graphics its not additive, what this means is that I can't draw a line and then later when the user touches the screen draw another (I can't  call **drawRect** manually). For that purpose we need to store which lines will be painted and then call **setNeedsDisplay**, this method will clear the entire view and then call **drawRect** again, forcing repainting everything again.
+* The drawing on a UIView using Core Graphics is not additive. What this means is that I can't draw a line and then later when the user touches the screen draw another (I can't  call **drawRect** manually). For this reason, we need to store which lines will be painted and then call **setNeedsDisplay**. This method will clear the entire view and then call **drawRect** again, forcing repainting of everything again.
 
-Using the above information lets implement the user touches on the screen:
+Using the above information let's implement the user touches on the screen:
 
 ["source","ruby", args="-O \"hl_lines=46 49 50\""]
 --------------
@@ -304,15 +304,15 @@ end
 # touch the screen for the first time
 def touchesBegan(touches, withEvent: event)
 
-  #  Touches is an set of UITouch, each of them
-  #  represent a diferent finger on the screen
+  #  Touches is a set of UITouch, each of them
+  #  representing a diferent finger on the screen
   touches.allObjects.each_with_index { | touch, index |
 
-    # We need to ask the touch for his location according
+    # We need to ask the touch for its location according
     # to the current view
     pointInView = touch.locationInView(self)
 
-    # Add the point to our array, but because is a structure (CGPoint)
+    # Add the point to our array. As the point is a structure (CGPoint),
     # we need to store it on a NSValue
     @touch_points.addObject(NSValue.valueWithCGPoint(pointInView))
   }
@@ -326,9 +326,9 @@ end
 .Initial Touches
 image::resources/ch19-Multitouch/ch19_InitialTouches.png[Initial Touches]
 
-Great! Now we are really seeing where the user touches began, lets continue adding the touch movements:
+Great! Now we are really seeing where the user touches began, let's continue adding the touch movements:
 
-IMPORTANT: If you are using a simulator probably you will notice that the dot is painted down right of the cursor. This is normal because iOS handle the mouse click as the top left corner of a finger
+IMPORTANT: If you are using a simulator probably you will notice that the dot is painted down right of the cursor. This is normal because iOS handles the mouse click as the top left corner of a finger.
 
 ["source","ruby", args="-O \"hl_lines=13 16\""]
 --------------
@@ -340,7 +340,7 @@ def touchesMoved(touches, withEvent: event)
   #  represent a diferent finger on the screen
   touches.allObjects.each_with_index { | touch, index |
 
-    # We need to ask the touch for his location according
+    # We need to ask the touch for its location according
     # to the current view
     pointInView = touch.locationInView(self)
 
@@ -359,15 +359,15 @@ Now we are drawing the initial touches and the movement in the screen, it looks 
 
 Kanji Drawing
 ~~~~~~~~~~~~~
-We just play a bit with the touches and drawing for us to feel comfortable about how it works, lets do something more challenging:
+We just played a bit with the touches and drawing for us to feel comfortable about how it works. Now let's do something more challenging:
 
-If we look on our background picture, we have a Kanji with traces marked with numbers. The objective is create a little game for the user to draw the Kanji, so our first task is to determinate if the user is following the traces or not
+If we look at our background picture, we have a Kanji with traces marked with numbers. The objective is create a little game for the user to draw the Kanji.  Our first task is to determine if the user is following the traces or not.
 
 .Starting Points
 image::resources/ch19-Multitouch/ch19_StartingPoints.png[Starting Points]
 
 
-The first thing we can do is to have an array of the trace starting coordinates, that will enable us to evaluate if the touch was on the beginning. Lets do a little experiment to test this part:
+The first thing we can do is to have an array of the trace starting coordinates, that will enable us to evaluate if the touch was on the beginning. let's do a little experiment to test this part:
 
 ["source","ruby", args="-O \"hl_lines=13 45 46 47 48 49 50 51 52 53 54 55 56 59 60 61 62 63 64 65 66 67 68\""]
 --------------
@@ -375,12 +375,12 @@ def initWithFrame(frame)
 
   if super
 
-    # In order to does not hide the background image on
+    # In order to not hide the background image on
     # the controllers view, we need to set the background color on
     # this view as transparent
     self.backgroundColor = UIColor.clearColor
 
-    # Instance an Array for storing the user touches
+    # Create an Array instance for storing the user touches
     @touch_points = NSMutableArray.alloc.init
 
     load_kanji_traces
@@ -395,7 +395,7 @@ def load_kanji_traces
   # Create an array to store our Kanji Paths
   @kanji_traces = NSMutableArray.alloc.init
 
-  # As a experiment lets add only the starting point of
+  # As a experiment let's add only the starting point of
   # the trace number three
   kanji_starting_trace_three = CGPointMake(150, 260)
 
@@ -410,7 +410,7 @@ end
 # touch the screen for the first time
 def touchesBegan(touches, withEvent: event)
 
-  # We need to ask the touch for his location according
+  # We need to ask the touch for its location according
   # to the current view
   pointInView = touches.anyObject.locationInView(self)
 
@@ -421,7 +421,7 @@ def touchesBegan(touches, withEvent: event)
   @kanji_traces.each { | kanji_trace |
 
     # If the touched point is equal to any Kanji Trace starting
-    # point
+    # point, set touch_at_beginning to true
     if CGPointEqualToPoint(kanji_trace.CGPointValue, pointInView)
 
       touch_at_beginning = true
@@ -430,9 +430,9 @@ def touchesBegan(touches, withEvent: event)
 
 
   # If the touch was at the beginning of any Kanji Trace
-  unless touch_at_beginning
+  if touch_at_beginning
 
-    # Add the point to our array, but because is a structure (CGPoint)
+    # Add the point to our array. As the point is a structure (CGPoint),
     # we need to store it on a NSValue
     @touch_points.addObject(NSValue.valueWithCGPoint(pointInView))
 
@@ -443,13 +443,13 @@ def touchesBegan(touches, withEvent: event)
 end
 --------------
 
-Impossible do it with the first touch (Without moving the touch), right? This is because we are comparing a small point in the screen with a wide of a finger, making it difficult to touch with precision. The solution to this is creating a rectangle surrounding the starting trace point, so it will be more easy to hit it with the finger.
+Impossible do it with the first touch (Without moving the touch), right? This is because we are comparing a small point in the screen with the width of a finger, making it difficult to touch with precision. The solution is to create a rectangle surrounding the starting trace point, making it easier to hit it with the finger.
 
-Actually also we need to evaluate if the user is following the trace, and if it the trace ended where it should, for this we will use rectangles as well. In the light of this is better to create a object for all this variables.
+Also we need to evaluate if the user is following the trace and if the trace ended where it should. For this we will use rectangles as well. In the light of this, it is better to create a object for all these variables.
 
-IMPORTANT: Remember it does not matter if it is a point, rectangle or a button, it needs to be bigger enough for the user to touch
+IMPORTANT: Remember it does not matter if it is a point, rectangle or a button, it needs to be big enough for the user to touch.
 
-Lets create our new class **KanjiTrace**:
+Let's create our new class **KanjiTrace**:
 
 [source, sh]
 ------------
@@ -496,7 +496,7 @@ class KanjiTrace
 end
 --------------
 
-Great! Now we have a object containing the trace start and end points and it return the surrounding rectangles. Lets implement the **KanjiTrace** class into our **kanji_view.rb**:
+Great! Now we have a object containing the trace start and end points and it returns the surrounding rectangles. Let's implement the **KanjiTrace** class into our **kanji_view.rb**:
 
 [source, sh]
 ------------
@@ -531,7 +531,7 @@ end
 # touch the screen for the first time
 def touchesBegan(touches, withEvent: event)
 
-  # We need to ask the touch for his location according
+  # We need to ask the touch for its location according
   # to the current view
   pointInView = touches.anyObject.locationInView(self)
 
@@ -556,7 +556,7 @@ def touchesBegan(touches, withEvent: event)
   # If the touch was at the beginning of any Kanji Trace
   if touch_at_beginning
 
-    # Add the point to our array, but because is a structure (CGPoint)
+    # Add the point to our array. As the point is a structure (CGPoint),
     # we need to store it on a NSValue
     @touch_points.addObject(NSValue.valueWithCGPoint(pointInView))
 
@@ -576,7 +576,8 @@ end
 .Start Trace #3
 image::resources/ch19-Multitouch/ch19_StartTrace3.png[Start Trace #3]
 
-Is working now! Is more easy for the user to touch the start of the trace, so lets continue adding the all the Kanji Traces:
+It's working now! It's easier for the user to touch the start of the trace, so let's continue adding the all the Kanji Traces:
+Be sure to update or remove trace_three!
 
 [source, ruby]
 --------------
@@ -592,23 +593,17 @@ def load_kanji_traces
 
   @kanji_traces.addObject(trace_one)
 
-
   trace_two = KanjiTrace.new
   trace_two.starting_point = CGPointMake(155, 285)
   trace_two.end_point = CGPointMake(289, 366)
 
   @kanji_traces.addObject(trace_two)
 
-
-  # Continuing the experiment create only a Kanji Trace
-  # for the trace number three
   trace_three = KanjiTrace.new
   trace_three.starting_point = CGPointMake(150, 260)
   trace_three.end_point = CGPointMake(152, 367)
 
-  # Add the point to the Kanji Paths array
   @kanji_traces.addObject(trace_three)
-
 
   trace_four = KanjiTrace.new
   trace_four.starting_point = CGPointMake(31, 366)
@@ -616,13 +611,11 @@ def load_kanji_traces
 
   @kanji_traces.addObject(trace_four)
 
-
   trace_five = KanjiTrace.new
   trace_five.starting_point = CGPointMake(225, 175)
   trace_five.end_point = CGPointMake(226, 140)
 
   @kanji_traces.addObject(trace_five)
-
 
   trace_six = KanjiTrace.new
   trace_six.starting_point = CGPointMake(219, 202)
@@ -630,13 +623,11 @@ def load_kanji_traces
 
   @kanji_traces.addObject(trace_six)
 
-
   trace_seven = KanjiTrace.new
   trace_seven.starting_point = CGPointMake(69, 191)
   trace_seven.end_point = CGPointMake(33, 160)
 
   @kanji_traces.addObject(trace_seven)
-
 
   trace_eight = KanjiTrace.new
   trace_eight.starting_point = CGPointMake(85, 211)
@@ -644,13 +635,11 @@ def load_kanji_traces
 
   @kanji_traces.addObject(trace_eight)
 
-
   trace_nine = KanjiTrace.new
   trace_nine.starting_point = CGPointMake(109, 171)
   trace_nine.end_point = CGPointMake(185, 159)
 
   @kanji_traces.addObject(trace_nine)
-
 
   trace_ten = KanjiTrace.new
   trace_ten.starting_point = CGPointMake(190, 171)
@@ -658,20 +647,17 @@ def load_kanji_traces
 
   @kanji_traces.addObject(trace_ten)
 
-
   trace_eleven = KanjiTrace.new
   trace_eleven.starting_point = CGPointMake(175, 227)
   trace_eleven.end_point = CGPointMake(114, 235)
 
   @kanji_traces.addObject(trace_eleven)
 
-
   trace_twelve = KanjiTrace.new
   trace_twelve.starting_point = CGPointMake(112, 223)
   trace_twelve.end_point = CGPointMake(112, 181)
 
   @kanji_traces.addObject(trace_twelve)
-
 
   trace_thirteen = KanjiTrace.new
   trace_thirteen.starting_point = CGPointMake(114, 161)
@@ -685,7 +671,7 @@ end
 .All Starting Traces
 image::resources/ch19-Multitouch/ch19_AllStartingTraces.png[All Starting Traces]
 
-Yes! We can start painting on any trace now, so lets continue adding a method to our **KanjiTrace** for evaluate if the user is following the line and assigning a score for the drawing:
+Yes! We can start painting on any trace now. Let's continue adding a method to our **KanjiTrace** for evaluate if the user is following the line and assigning a score for the drawing:
 
 [source, sh]
 ------------
@@ -702,7 +688,7 @@ attr_reader :accurate_points
 
 def evaluate_point(point)
 
-  # Lets create properties to store the accurate touches of
+  # let's create properties to store the accurate touches of
   # the user and the missing ones
   @accurate_points ||= 0
   @missing_points ||= 0
@@ -747,7 +733,7 @@ $ open kanji_view.rb
 # are moving without leaving the screen
 def touchesMoved(touches, withEvent: event)
 
-  # We need to ask the touch for his location according
+  # We need to ask the touch for its location according
   # to the current view
   pointInView = touches.anyObject.locationInView(self)
 
@@ -759,7 +745,7 @@ def touchesMoved(touches, withEvent: event)
     # drawing later
     @touch_points.addObject(NSValue.valueWithCGPoint(pointInView))
 
-    # Evaluate how accurate is the touch in relationship
+    # Evaluate how accurate the touch is in relationship
     # to the trace
     @current_trace.evaluate_point(pointInView)
 
@@ -770,16 +756,16 @@ def touchesMoved(touches, withEvent: event)
 end
 --------------
 
-Yeah now we are keeping a score about how accurate is the user drawing, but we are not doing nothing with it! Our next step is just about that!
+Now we are keeping a score about how accurate is the user drawing, but we are not doing nothing with it! Our next step is just about that!
 
 .Painted Trace
 image::resources/ch19-Multitouch/ch19_PaintedTrace.png[Painted Trace]
 
 High Score!
 ~~~~~~~~~~~
-So as the Kanji description tell us is that is a technique for building cups of tea, so what about adding some disable cups on the top of the app to symbolize the score of the user (3 disable cups mean 0 right?)
+So as the Kanji description tell us there is a technique for building cups of tea, so what about adding some disable cups on the top of the app to symbolize the score of the user (3 disable cups mean 0 right?)
 
-So the first thing will be copy the images in **resources/images** folder into our app resource's folder, next add the follow to the **kanji_view.rb**:
+So the first thing will be to copy the images in **resources/images** folder into our app resource's folder. Next add the follow to the **kanji_view.rb**:
 
 ["source","ruby", args="-O \"hl_lines=13\""]
 --------------
@@ -787,12 +773,12 @@ def initWithFrame(frame)
 
   if super
 
-    # In order to does not hide the background image on
+    # In order to not hide the background image on
     # the controllers view, we need to set the background color on
     # this view as transparent
     self.backgroundColor = UIColor.clearColor
 
-    # Instance an Array for storing the user touches
+    # Create an Array instance for storing the user touches
     @touch_points = NSMutableArray.alloc.init
 
     layout_cups
@@ -839,7 +825,7 @@ end
 .Score Board
 image::resources/ch19-Multitouch/ch19_ScoreBoard.png[Score Board]
 
-The last part of the exercise consist of analyzing the score of all the traces and according to that change the images of the cups. Making a little scoreboard!
+The last part of the exercise consist of analyzing the score of all the traces and according to that, change the images of the cups. Making a little scoreboard!
 
 ["source","ruby", args="-O \"hl_lines=4\""]
 --------------
@@ -862,7 +848,7 @@ def drawRect(rect)
                          touch_point.CGPointValue.x,
                          touch_point.CGPointValue.y)
 
-  # Create a rect in which want to the ellipse be drawen
+  # Create a rect in which want to the ellipse be drawn
   point_rect = CGRectMake(touch_point.CGPointValue.x - 10,
                           touch_point.CGPointValue.y - 10,
                           20,
@@ -878,29 +864,23 @@ end
 
 
 def update_score_board
-
   total_accurate_points = 0
 
   @kanji_traces.each { | kanji_trace |
-
-      unless kanji_trace.accurate_points.nil?
-
-        total_accurate_points += kanji_trace.accurate_points
-      end
+    unless kanji_trace.accurate_points.nil?
+      total_accurate_points += kanji_trace.accurate_points
+    end
   }
 
   if total_accurate_points >= 100
-
     @first_cup_image_view.image = UIImage.imageNamed('bgRakuOn1.png')
   end
 
   if total_accurate_points >= 300
-
     @second_cup_image_view.image = UIImage.imageNamed('bgRakuOn2.png')
   end
 
   if total_accurate_points >= 500
-
     @third_cup_image_view.image = UIImage.imageNamed('bgRakuOn3.png')
   end
 end
@@ -909,13 +889,13 @@ end
 .High Score
 image::resources/ch19-Multitouch/ch19_HighScore.png[High Score]
 
-Now is finished! It looks like it will need some animations for the cups to look amazing, in the next chapters we will see how to make animations
+Now it's finished! It looks like it will need some animations for the cups to look amazing, in the next chapters we will see how to make animations.
 
 Challenges
 ~~~~~~~~~~
 . Restart the game when the user double tap the screen (Hint: tapCount)
 
-. Implement a point subtraction of the trace score, when the user draws outside the trace, but without loosing the ability to  get the maximum score
+. Implement a point subtraction of the trace score for when the user draws outside the trace, but without losing the ability to get the maximum score.
 
 . The current implementation is drawing every point into the view, the challenge is change that into drawing just one line starting in the first touch and ending when the user removes the finger (Hint: CGContextAddLineToPoint)
 
