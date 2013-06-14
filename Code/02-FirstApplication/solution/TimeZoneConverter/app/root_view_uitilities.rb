@@ -37,6 +37,9 @@ module UI_Elements
 
     stepper = UIStepper.alloc.initWithFrame (CGRectMake(xPosition,yPosition, 30, 30))
     stepper.addTarget(self ,action: :'stepperPressed:', forControlEvents:UIControlEventValueChanged)
+    stepper.minimumValue = -10000000000
+    stepper.maximumValue = 10000000000
+    stepper.value = 0
 
     stepper
 
