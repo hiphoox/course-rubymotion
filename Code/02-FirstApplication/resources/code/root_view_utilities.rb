@@ -6,7 +6,6 @@ module UI_Elements
     label.backgroundColor = UIColor.clearColor;
     label.text = "UTC offset"
     label.textColor = UIColor.whiteColor;
-    label.font = UIFont.fontWithName("Noteworthy-Bold",size:18)
     label
 
   end

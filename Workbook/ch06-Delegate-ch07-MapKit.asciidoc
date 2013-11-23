@@ -54,7 +54,7 @@ if (CLLocationManager.locationServicesEnabled)
 
 else
 
-  showAlertWithTitle('Location Error', 'Please enable the Location Services for this app in Settings.')  
+  showAlertWithTitle('Location Error', andMessage: 'Please enable the Location Services for this app in Settings.')  
 end    
 ---------------------------------------------------    
 

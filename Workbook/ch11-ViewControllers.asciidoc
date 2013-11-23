@@ -250,7 +250,7 @@ class NewsViewController < UIViewController
   
     super    
     self.title = "News"
-    setupTabBarITem
+    setupTabBarItem
     self
   end
 
@@ -262,7 +262,7 @@ class NewsViewController < UIViewController
   end  
 
 
-  def setupTabBarITem  
+  def setupTabBarItem  
 
     tab_bar_item = UITabBarItem.alloc.initWithTitle("", 
       image:nil, tag:1)

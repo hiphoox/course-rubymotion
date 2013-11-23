@@ -80,7 +80,7 @@ We have seen that is wise to update data in the *viewWillAppear* method, because
 
 [source, ruby]
 ------------------
-def viewWillAppear
+def viewWillAppear(animated)
 
   load_latest_news    
 end

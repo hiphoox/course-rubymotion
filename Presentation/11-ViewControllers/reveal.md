@@ -98,7 +98,7 @@ Every view controller has a ***view*** property.
 ## Configuring UITabBarItem
 
     def initWithNibName(nibName, bundle:bundleName)
-        super(nibName, bundle:bund)
+        super
 
         tbi = self.tabBarItem
         tbi.setTitle("Keypad")

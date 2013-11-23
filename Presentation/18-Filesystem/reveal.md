@@ -33,7 +33,7 @@ iOS has methods to save string or binary data:
 
 <b>NSData</b>
 
-      writeToFile(path, atomically:flag
+      writeToFile(path, atomically:flag)
 
       initWithContentsOfFile(path)
 
@@ -48,6 +48,10 @@ iOS has methods to save string or binary data:
 <slide>
 ## Property Lists
 <b>NSData, NSString, NSDate, NSNumber, NSArray, NSDictionary</b> are all <i>property list serializable</i>. Can read/write populated <b>NSArray</b> or <b>NSDictionary</b> to disk and read them back in, as long as they only contain plist objects.
+
+</slide>
+
+<slide>
 
     allGroups = NSMutableArray.array
     workGroup = NSMutableDictionary.dictionary

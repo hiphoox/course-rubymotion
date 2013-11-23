@@ -9,7 +9,7 @@ class NewsViewController < UITableViewController
     self
   end  
 
-  def viewWillAppear( animated )
+  def viewWillAppear
     super
     load_latest_news    
   end  

@@ -360,9 +360,13 @@ If you select the Number of Screens UITextField you will notice that the keyboar
 --------------
 # UITextField delegate
 
-def textFieldShouldReturn(textfield) 
-  textfield.resignFirstResponder  
-  return trueend
+def textFieldShouldReturn(textfield)
+ 
+  textfield.resignFirstResponder
+  
+  return true
+
+end
 --------------
 
 The **textFieldShouldReturn** method is called when the user selects the **return** button in the keyboard. So if you run the app the keyboard should hide properly. 
@@ -493,7 +497,8 @@ def load_historical_estimates
   error_pointer = Pointer.new(:object)
 
   # Lets load the file into a NSData
-  historical_data = NSData.alloc.initWithContentsOfFile(historical_data_file,	                                      				options:NSDataReadingUncached,
+  historical_data = NSData.alloc.initWithContentsOfFile(historical_data_file,	                                      				
+                                          options:NSDataReadingUncached,
                                          	error:error_pointer)
 
   unless historical_data

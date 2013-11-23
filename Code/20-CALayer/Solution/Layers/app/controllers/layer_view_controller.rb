@@ -42,8 +42,7 @@ class LayerViewController < UIViewController
     # Set the colors in the layer using an array
     background_layer.colors = NSArray.arrayWithObjects(top_background_color,
                                                        middle_background_color,
-                                                       bottom_background_color,
-                                                       nil)
+                                                       bottom_background_color, nil)
 
     # Set the colors locations into the array, this means where it will start painting
     # the color, if you look closely we are telling the layer to paint the top color in
