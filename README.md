@@ -85,5 +85,11 @@ Necesitamos explicar que lo de la bateria no funciona en el simulador.
 Necesitamos crear los slides del CollectionView
 A partir del capitulo 16 ya debemos escribir los proyectos usando mas ruby sintaxis en lugar de Objective-C sintaxis. Para que sirva como ejemplo de una aplicación completa bien hecha.
 
+We need to change the 
+Please add the following ruby files to the app folder: root_view_utilities.rb and time_offset.rb which help us in this chapter.
+to 
+Please copy the following ruby files from the resources directory to the app folder: root_view_utilities.rb and time_offset.rb which help us in this chapter
 
+In the UI_Elements module of the workbook we need to add a line of code in the time_label method
 
+We need to simplify the examples. Explain more about the topics. Start at the exact time. 
